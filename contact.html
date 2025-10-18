@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Elliot Wardill - Mobile Music Lessons</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config for Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark-bg': '#1a1a2e', // Deep dark blue
+                        'brand-accent-light': '#00d084', // Vibrant green/aqua
+                        'brand-accent-dark': '#00a36e', // Darker green/aqua
+                        'brand-text-light': '#e0e0e0', // Light grey for text
+                        'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
+                        'brand-highlight': '#ffb703', // Vibrant golden yellow
+                        'card-bg': '#252538', // Slightly lighter dark background for containers
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'], 
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; 
+            color: #e0e0e0; 
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+        }
+        .main-hero-shadow {
+            text-shadow: 0 0 10px rgba(0, 208, 132, 0.5);
+        }
+        .card-glow {
+             box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+        }
+        /* Custom styling for form inputs */
+        .input-style {
+            background-color: #1a1a2e;
+            border-color: #44445c; 
+            color: #e0e0e0;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: #00d084;
+            box-shadow: 0 0 0 2px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Modal backdrop for confirmation */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+        }
+    </style>
+    <!-- Load Lucide Icons -->
+    <script type="module">
+        import { createIcons, Mail, Phone, MapPin, CheckCircle, X } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X } });
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigation Bar (Reused) -->
+    <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Brand Name -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-xl font-extrabold tracking-wider text-brand-highlight hover:text-white transition duration-200">
+                        ELLIOT'S MOBILE MUSIC
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">HOME</a>
+                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">PRICING & FEES</a>
+                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">AVAILABILITY</a>
+                    <a href="contact.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 text-sm font-medium transition duration-200">CONTACT</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1 px-2">
+                <a href="index.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">HOME</a>
+                <a href="pricing.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">PRICING & FEES</a>
+                <a href="availability.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">AVAILABILITY</a>
+                <a href="contact.html" class="bg-brand-accent-dark text-white block rounded-md px-3 py-2 text-base font-medium">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow">
+
+        <header class="text-center mb-10">
+            <h1 class="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight main-hero-shadow text-brand-highlight">
+                Get in Touch
+            </h1>
+            <p class="text-lg text-brand-text-mid mt-2">
+                Use the form below to send Elliot a direct message about booking a lesson.
+            </p>
+        </header>
+        
+        <!-- Contact Grid: Details and Form -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            
+            <!-- Contact Details Card (2/5 width) -->
+            <div class="lg:col-span-2 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light h-full">
+                <h2 class="text-xl font-bold text-brand-text-light mb-4">Direct Contact Information</h2>
+                <p class="text-brand-text-mid mb-6 text-sm">
+                    Prefer to speak directly? Here's how you can reach Elliot.
+                </p>
+
+                <div class="space-y-4">
+                    <!-- Phone -->
+                    <div class="flex items-start">
+                        <i data-lucide="phone" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
+                        <div class="ml-3">
+                            <h3 class="font-semibold text-brand-text-light">Call or Text</h3>
+                            <a href="tel:07368975144" class="text-brand-highlight hover:text-white transition duration-200">07368 975144</a>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="flex items-start">
+                        <i data-lucide="mail" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
+                        <div class="ml-3">
+                            <h3 class="font-semibold text-brand-text-light">Email Address</h3>
+                            <a href="mailto:elliotmobilemusic@gmail.com" class="text-brand-highlight hover:text-white transition duration-200">elliotmobilemusic@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Service Area -->
+                    <div class="pt-4 border-t border-brand-accent-dark/30">
+                        <div class="flex items-start">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-brand-text-light">Mobile Service Area</h3>
+                                <p class="text-brand-text-mid text-sm">Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.</p>
+                                <p class="text-xs text-brand-text-mid/70 mt-1">Travel fees may apply outside Pudsey.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form (3/5 width) -->
+            <div class="lg:col-span-3 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-highlight">
+                <h2 class="text-xl font-bold text-brand-text-light mb-4">Send a Message</h2>
+                
+                <!-- 
+                    FORM SUBMISSION INTEGRATION:
+                    This form uses the FormSubmit service to securely send the form data to the specified email address 
+                    (elliotmobilemusic@gmail.com) without needing a custom server-side script.
+                    The hidden fields are required for the service to function correctly.
+                -->
+                <form 
+                    action="https://formsubmit.co/elliotmobilemusic@gmail.com" 
+                    method="POST" 
+                    id="contact-form" 
+                    class="space-y-4"
+                >
+                    <!-- REQUIRED FOR FORMSUBMIT: Recipient Email -->
+                    <input type="hidden" name="_recipient" value="elliotmobilemusic@gmail.com">
+                    
+                    <!-- REQUIRED FOR FORMSUBMIT: Spam prevention (Honeypot) -->
+                    <input type="text" name="_gotcha" style="display:none">
+                    
+                    <!-- Full Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-brand-text-light mb-1">Your Full Name *</label>
+                        <input type="text" id="name" name="Name" required class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="Jane Smith">
+                    </div>
+
+                    <!-- Email and Phone Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-brand-text-light mb-1">Your Email *</label>
+                            <!-- Note: FormSubmit uses the email field with name="Email" for the Reply-To header -->
+                            <input type="email" id="email" name="Email" required class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="jane@example.com">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-brand-text-light mb-1">Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="Phone" class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="07XXXXXXXXX">
+                        </div>
+                    </div>
+
+                    <!-- Subject/Inquiry Type -->
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-brand-text-light mb-1">Inquiry Type *</label>
+                        <select id="subject" name="Inquiry Type" required class="input-style w-full p-3 rounded-lg border focus:ring-0 appearance-none">
+                            <option value="" disabled selected>Select an option...</option>
+                            <option value="Piano Lesson Inquiry">Piano Lesson Inquiry</option>
+                            <option value="Singing Lesson Inquiry">Singing Lesson Inquiry</option>
+                            <option value="Check Availability">Check Availability</option>
+                            <option value="Question about Fees/Policy">Question about Fees/Policy</option>
+                            <option value="General / Other">General / Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-brand-text-light mb-1">Your Message *</label>
+                        <textarea id="message" name="Message" rows="4" required class="input-style w-full p-3 rounded-lg border focus:ring-0 resize-none" placeholder="Tell me about the student (age, experience) and what you are hoping to achieve."></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button type="submit" class="w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-bold rounded-lg text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 transform hover:scale-[1.01] shadow-lg shadow-brand-accent-light/30">
+                            <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer (Reused) -->
+    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+            <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+            <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
+        </div>
+    </footer>
+
+    <!-- Submission Confirmation Modal (Reverted to Website Confirmation) -->
+    <div id="success-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+        <div class="bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-brand-accent-light relative">
+            <button id="close-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
+                 <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <i data-lucide="check-circle" class="w-16 h-16 text-brand-accent-light mx-auto mb-4"></i>
+            <h3 id="modal-title" class="text-2xl font-bold text-brand-text-light mb-2">Message Sent!</h3>
+            <p class="text-brand-text-mid mb-6">
+                Thank you for your inquiry. Your message has been sent successfully. Elliot aims to respond within **24 hours**.
+            </p>
+            <button onclick="hideModal()" class="w-full px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-brand-highlight hover:bg-brand-highlight/90 transition duration-200">
+                Acknowledge & Continue
+            </button>
+        </div>
+    </div>
+    
+    <!-- JavaScript for Mobile Menu and Form Handling -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        const contactForm = document.getElementById('contact-form');
+        const successModal = document.getElementById('success-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+
+        // Function to show the modal
+        function showModal() {
+            successModal.classList.remove('hidden');
+            setTimeout(() => successModal.classList.remove('opacity-0'), 10); // Start transition
+        }
+
+        // Function to hide the modal
+        function hideModal() {
+            successModal.classList.add('opacity-0');
+            setTimeout(() => successModal.classList.add('hidden'), 300); // Wait for transition before hiding
+        }
+        
+        // Hide modal on button click
+        closeModalButton.addEventListener('click', hideModal);
+
+        // Hide modal if user clicks outside of it (on the backdrop)
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                hideModal();
+            }
+        });
+
+        // The form submission is now handled automatically by the 'action' attribute, 
+        // which sends the user to a FormSubmit 'thank you' page by default. 
+        // We use JavaScript here to override that default behavior via a fetch request 
+        // to keep the user on the same page and show our custom modal.
+        
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop the default browser submission
+            
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Disable button and show loading state
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
+
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    // Set Accept header to application/json to prevent redirection
+                    'Accept': 'application/json' 
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    showModal();
+                    form.reset();
+                } else {
+                    // Handle server errors (e.g., FormSubmit issues)
+                    console.error('Form submission failed:', response);
+                    alert('There was an error sending your message. Please try again or email Elliot directly.'); 
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                console.error('Network error:', error);
+                alert('A network error occurred. Please check your connection or email Elliot directly.');
+            })
+            .finally(() => {
+                // Restore button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i data-lucide="mail" class="w-5 h-5 mr-2"></i> Send Message';
+
+                // Re-initialize Lucide icons to fix the restored button's icon
+                if (typeof createIcons !== 'undefined') {
+                    import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
+                        .then(({ createIcons, Mail }) => {
+                            createIcons({ icons: { Mail } });
+                        });
+                }
+            });
+        });
+
+        // Initialize Lucide icons on load (necessary for modal icon)
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof createIcons !== 'undefined') {
+                 // Ensure icons are rendered
+                 import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
+                    .then(({ createIcons, Mail, Phone, MapPin, CheckCircle, X }) => {
+                        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X } });
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
