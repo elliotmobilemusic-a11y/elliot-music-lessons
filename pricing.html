@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elliot Wardill Mobile Music Lessons - Fees & Policies</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config for Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark-bg': '#1a1a2e', // Deep dark blue
+                        'brand-accent-light': '#00d084', // Vibrant green/aqua
+                        'brand-accent-dark': '#00a36e', // Darker green/aqua
+                        'brand-text-light': '#e0e0e0', // Light grey for text
+                        'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
+                        'brand-highlight': '#ffb703', // Vibrant golden yellow
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'], 
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; 
+            color: #e0e0e0; 
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+        }
+        .card-glow {
+             box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+        }
+        /* Custom table styling for contrast */
+        .policy-table th {
+            background-color: #00a36e; /* brand-accent-dark */
+            color: #1a1a2e; /* brand-dark-bg */
+            font-weight: 700;
+        }
+        .policy-table td {
+            background-color: #252538;
+            border-bottom: 1px solid #333355;
+        }
+        .policy-table tr:hover td {
+            background-color: #333355;
+        }
+        /* Full Policy Text Styling */
+        .policy-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #a0a0a0;
+        }
+        .policy-content h4 {
+            font-weight: bold;
+            color: #e0e0e0;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffb703; /* brand-highlight */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Brand Name -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-xl font-extrabold tracking-wider text-brand-highlight hover:text-white transition duration-200">
+                        ELLIOT'S MOBILE MUSIC
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">HOME</a>
+                    <a href="pricing.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 text-sm font-medium transition duration-200">PRICING & FEES</a>
+                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">AVAILABILITY</a>
+                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">CONTACT</a>
+                </div>
+
+                <!-- Mobile Menu Button (Placeholder for JS) -->
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
+                        <!-- Icon SVG -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1 px-2">
+                <a href="index.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">HOME</a>
+                <a href="pricing.html" class="bg-brand-accent-dark text-white block rounded-md px-3 py-2 text-base font-medium">PRICING & FEES</a>
+                <a href="availability.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">AVAILABILITY</a>
+                <a href="contact.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-20 flex-grow">
+
+        <h1 class="font-heading text-5xl font-extrabold text-brand-highlight mb-4 text-center">
+            Lesson Fees & Policy
+        </h1>
+        <p class="text-xl text-brand-text-mid mb-12 text-center">
+            Transparent pricing and essential details for a smooth lesson experience.
+        </p>
+
+        <!-- Travel Fee Checker - MAXIMUM ABILITY -->
+        <section class="mb-16 p-6 bg-[#252538] rounded-xl card-glow border-2 border-brand-accent-light">
+            <h2 class="font-heading text-3xl font-bold text-brand-highlight mb-4">
+                Calculate Your Total Lesson Cost
+            </h2>
+            <p class="text-brand-text-mid mb-4">
+                Enter your **Outward Postcode** (e.g., LS28) and select your duration. We estimate the **road distance** from **Pudsey** to provide your final, all-inclusive price.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <select id="lesson-duration" class="p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark text-white focus:border-brand-highlight focus:ring-brand-highlight w-full">
+                    <option value="30">30 Minutes (£15.00)</option>
+                    <option value="60" selected>60 Minutes (£30.00)</option>
+                    <option value="90">90 Minutes (£50.00)</option>
+                </select>
+                <input type="text" id="postcode-input" placeholder="Enter Postcode (e.g., LS28)" class="col-span-1 md:col-span-2 p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark text-white focus:border-brand-highlight focus:ring-brand-highlight uppercase">
+            </div>
+
+            <button id="check-fee-button" class="w-full px-6 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white font-bold transition duration-300 transform hover:scale-[1.02] flex items-center justify-center">
+                <span id="button-text">Calculate Final Price</span>
+                <span id="loading-spinner" class="spinner ml-3 hidden"></span>
+            </button>
+            
+            <!-- Result Display -->
+            <div id="fee-result" class="mt-6 p-4 rounded-xl text-center font-bold hidden border border-brand-highlight/50">
+                <!-- Result content will be inserted here by JavaScript -->
+            </div>
+            <p class="text-sm text-brand-highlight/70 mt-3 text-center">
+                *The distance is a road-distance simulation based on geo-location from Pudsey. The fee is final.*
+            </p>
+        </section>
+
+        <!-- Lesson Rates Table -->
+        <section class="mb-16 p-6 bg-[#252538] rounded-xl card-glow">
+            <h2 class="font-heading text-3xl font-bold text-brand-accent-light mb-6 border-b border-brand-accent-dark pb-3">Standard Lesson Rates</h2>
+            
+            <div class="overflow-x-auto rounded-lg">
+                <table class="w-full text-left policy-table text-brand-text-light">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3">Lesson Duration</th>
+                            <th class="px-6 py-3">Fee (Base)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">Introductory Offer (First Lesson)</td>
+                            <td class="px-6 py-4 text-brand-highlight font-extrabold">£10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">30 Minutes</td>
+                            <td class="px-6 py-4">£15.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">60 Minutes</td>
+                            <td class="px-6 py-4">£30.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">90 Minutes</td>
+                            <td class="px-6 py-4">£50.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-4 text-brand-text-mid text-sm">Payment can be made in cash at the lesson or via bank transfer in advance.</p>
+        </section>
+
+        <!-- Travel & Cancellation Section -->
+        <section class="grid md:grid-cols-2 gap-8 mb-16">
+            
+            <!-- Travel Fees -->
+            <div class="p-6 bg-[#252538] rounded-xl card-glow border-l-4 border-brand-highlight">
+                <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-4 flex items-center">
+                    <span class="text-brand-highlight mr-2 text-xl">🚗</span> Travel Fee Bands
+                </h3>
+                <p class="text-brand-text-mid mb-4">Lessons are based in **Pudsey**. Travel fees are applied based on the calculated road distance.</p>
+                
+                <table class="w-full text-left policy-table text-brand-text-light text-sm">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Road Distance Estimate</th>
+                            <th class="px-4 py-2">Additional Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="px-4 py-2">Under 5 Miles</td><td class="px-4 py-2">£0.00</td></tr>
+                        <tr><td class="px-4 py-2">5 - 10 Miles</td><td class="px-4 py-2">£5.00</td></tr>
+                        <tr><td class="px-4 py-2">10 - 15 Miles</td><td class="px-4 py-2">£10.00</td></tr>
+                        <tr><td class="px-4 py-2">15 Miles +</td><td class="px-4 py-2">£20.00 (Flat Rate)</td></tr>
+                    </tbody>
+                </table>
+                <p class="mt-3 text-sm text-brand-highlight/70">
+                    The calculator above uses these bands to determine your exact fee.
+                </p>
+            </div>
+
+            <!-- Cancellation Policy -->
+            <div class="p-6 bg-[#252538] rounded-xl card-glow border-l-4 border-brand-highlight">
+                <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-4 flex items-center">
+                    <span class="text-brand-highlight mr-2 text-xl">❌</span> Cancellation Policy
+                </h3>
+                <ul class="list-disc ml-5 space-y-3 text-brand-text-mid">
+                    <li>**24 Hours Notice Required:** Please provide at least 24 hours' notice for any cancellation or rescheduling.</li>
+                    <li>**Late Fee:** Cancellations with **less than 24 hours' notice** may be charged 50% of the standard lesson fee.</li>
+                    <li>**Instructor Cancellation:** If Elliot cancels, the lesson will be rescheduled at no extra cost to you.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Full Policy Disclosure -->
+        <section class="bg-brand-dark-bg p-6 rounded-xl card-glow">
+            <button id="toggle-policy" class="w-full text-left p-4 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white font-bold text-lg transition duration-300 flex justify-between items-center">
+                View Full Music Lesson Policy Document
+                <span id="toggle-icon">▼</span>
+            </button>
+            
+            <div id="full-policy-text" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg max-h-96 overflow-y-auto">
+                <h3 class="font-heading text-2xl font-bold text-brand-highlight mb-4">Elliot Wardill Music Lesson Policy</h3>
+                
+                <p>Hello, thank you for booking music lessons! I am Elliot Wardill, a musician and educator based in Pudsey. I have been playing piano and singing for several years and currently work within the education sector. This policy outlines key terms to ensure a clear and smooth lesson experience for everyone.</p>
+                <p>I bring all the necessary equipment (including a keyboard) to your home, so there is no need to travel or provide your own instrument. Lessons are designed to be fun, safe, inspiring, and tailored to each student's goals.</p>
+
+                <h4>1. Safety and Safeguarding</h4>
+                <p>I hold a valid **DBS check** for working with children, ensuring a safe learning environment. Parents/guardians are welcome to sit in on lessons.</p>
+                <p>If your child is enrolled at Stanningley Primary School, any information or incidents disclosed to me during lesson times will be reported directly to the school authorities in line with safeguarding procedures.</p>
+
+                <h4>2. Lesson Fees and Payment</h4>
+                <p><strong>First Lesson:</strong> £10 (introductory offer).</p>
+                <p><strong>Standard Lessons:</strong> 30 minutes: £15 / 60 minutes: £30 / 90 minutes: £50.</p>
+                <p>The total price, including the travel fee, is calculated by the tool above.</p>
+
+                <h4>3. Cancellations and Rescheduling</h4>
+                <p><strong>Notice Required:</strong> Please give at least 24 hours' notice if you need to cancel or reschedule a lesson.</p>
+                <p><strong>Late Cancellation Fee:</strong> Cancellations with less than 24 hours' notice may be charged 50% of the lesson fee.</p>
+                <p><strong>Instructor Cancellation:</strong> If I ever need to cancel, I will reschedule the lesson at no extra cost to you.</p>
+
+                <h4>4. Lesson Structure and Approach</h4>
+                <p>Lessons are tailored to each student's age, goals, and interests. For beginners, we will start with fun, simple songs. We will gradually build skills in musicality, rhythm, and performance confidence.</p>
+
+                <h4>5. Travel and Location (Road Distance-based)</h4>
+                <p>Lessons are available in the wider Leeds and Bradford areas. Travel fees apply outside the immediate Pudsey area. The fee is calculated based on the **estimated road distance** from Pudsey to your postcode area's center point (e.g., LS28) and is added to the standard lesson cost:</p>
+                <ul class="list-disc ml-5 text-brand-text-mid">
+                    <li>Under 5 Miles: **£0.00**</li>
+                    <li>5 - 10 Miles: **£5.00**</li>
+                    <li>10 - 15 Miles: **£10.00**</li>
+                    <li>15+ Miles: **£20.00** (Max Flat Rate)</li>
+                </ul>
+
+                <h4>6. Availability</h4>
+                <p>My current standard evening availability is: Tuesday, Wednesday, and Thursday (6pm - 9pm). Saturday & Sunday are available upon request. Monday & Friday have no available slots.</p>
+                <p>Note: All availability is subject to change, particularly during term time.</p>
+
+                <h4>Contact Information</h4>
+                <p>Phone: 07368 975144<br>Email: elliotmobilemusic@gmail.com</p>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-12 flex-shrink-0">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+            <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+            <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy details are provided above.</p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Maximum Functionality -->
+    <script>
+        // --- MAXIMUM ABILITY GEO-DISTANCE SYSTEM ---
+        
+        // Configuration Constants
+        const PUDSEY_CENTER = { lat: 53.8116, lng: -1.6706 }; // Center of Pudsey
+        const EARTH_RADIUS_MILES = 3958.8; // Radius of the Earth in miles
+        const ROAD_DISTANCE_FACTOR = 1.3; // Multiplier to simulate road distance (1.3x straight-line distance)
+        const LESSON_RATES = {
+            30: 15.00,
+            60: 30.00,
+            90: 50.00
+        };
+
+        // Simulated Postcode-to-Coordinate Database (Approximate center of outward code area)
+        const postcodeCoords = {
+            // Leeds (LS)
+            "LS28": { lat: 53.8116, lng: -1.6706 }, 
+            "LS13": { lat: 53.8120, lng: -1.6150 }, 
+            "LS19": { lat: 53.8640, lng: -1.7140 }, 
+            "LS20": { lat: 53.8810, lng: -1.7220 }, 
+            "LS21": { lat: 53.9030, lng: -1.6880 }, 
+            "LS6": { lat: 53.8290, lng: -1.5800 },  
+            "LS18": { lat: 53.8340, lng: -1.6240 }, 
+            "LS12": { lat: 53.7930, lng: -1.5970 }, 
+            "LS5": { lat: 53.8280, lng: -1.6030 },  
+            "LS16": { lat: 53.8580, lng: -1.6060 }, 
+            "LS4": { lat: 53.8050, lng: -1.5790 },  
+            "LS15": { lat: 53.8050, lng: -1.4550 }, 
+            "LS14": { lat: 53.8210, lng: -1.4560 }, 
+            "LS1": { lat: 53.7990, lng: -1.5470 },  
+            "LS2": { lat: 53.8040, lng: -1.5430 }, 
+            "LS25": { lat: 53.7840, lng: -1.3850 },
+            
+            // Bradford (BD)
+            "BD10": { lat: 53.8490, lng: -1.7770 }, 
+            "BD17": { lat: 53.8650, lng: -1.7760 }, 
+            "BD18": { lat: 53.8480, lng: -1.7480 }, 
+            "BD1": { lat: 53.7950, lng: -1.7580 },  
+            "BD2": { lat: 53.8220, lng: -1.7760 },  
+            "BD3": { lat: 53.8080, lng: -1.7160 },  
+            "BD5": { lat: 53.7740, lng: -1.7650 }, 
+
+            // Wakefield (WF) & Halifax (HX)
+            "WF3": { lat: 53.7540, lng: -1.5790 },  
+            "WF17": { lat: 53.7150, lng: -1.6090 }, 
+            "HD6": { lat: 53.7020, lng: -1.7850 },  
+            "HX1": { lat: 53.7250, lng: -1.8600 },  
+        };
+
+        // Haversine Formula (calculates great-circle distance)
+        function calculateStraightDistance(lat1, lon1, lat2, lon2) {
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return EARTH_RADIUS_MILES * c; 
+        }
+
+        // Fee Assignment Logic based on ROAD distance
+        function getFee(roadDistanceMiles) {
+            let fee = 0.00;
+            let range = "Under 5 Miles";
+            let color = "text-brand-accent-light";
+
+            if (roadDistanceMiles >= 5 && roadDistanceMiles < 10) {
+                fee = 5.00;
+                range = "5 - 10 Miles";
+                color = "text-brand-highlight";
+            } else if (roadDistanceMiles >= 10 && roadDistanceMiles < 15) {
+                fee = 10.00;
+                range = "10 - 15 Miles";
+                color = "text-brand-highlight";
+            } else if (roadDistanceMiles >= 15) {
+                fee = 20.00; // Max Flat Rate
+                range = "15+ Miles (Max Rate)";
+                color = "text-red-400";
+            }
+            // If the code is not found in the database, still apply max fee as a safeguard
+            if (roadDistanceMiles > 50) { 
+                 fee = 20.00;
+                 range = "Remote Area (Max Rate)";
+                 color = "text-red-400";
+            }
+
+            return { fee, range, color };
+        }
+        
+        // Function to clean and extract the outward code (e.g., LS28)
+        function getOutwardCode(postcode) {
+            if (!postcode) return null;
+            const cleaned = postcode.replace(/\s+/g, '').toUpperCase();
+            
+            // Matches outward code (LS28, BD1, etc.)
+            const match = cleaned.match(/^([A-Z]{1,2}[0-9][A-Z0-9]?)\s*.*$/);
+            if (match && match[1]) {
+                return match[1];
+            }
+            const outwardMatch = cleaned.match(/^[A-Z]{1,2}[0-9][A-Z0-9]?$/);
+            if (outwardMatch) {
+                return outwardMatch[0];
+            }
+            return null;
+        }
+
+        function checkTravelFee() {
+            const inputElement = document.getElementById('postcode-input');
+            const resultElement = document.getElementById('fee-result');
+            const durationElement = document.getElementById('lesson-duration');
+            const buttonText = document.getElementById('button-text');
+            const spinner = document.getElementById('loading-spinner');
+            
+            // Show loading state immediately
+            buttonText.textContent = 'Calculating...';
+            spinner.classList.remove('hidden');
+            resultElement.classList.add('hidden'); // Hide result while calculating
+
+            const postcode = inputElement.value;
+            const outwardCode = getOutwardCode(postcode);
+            const lessonDuration = durationElement.value;
+            const baseLessonFee = LESSON_RATES[lessonDuration];
+
+            // Use a timeout to simulate a short network delay for better UX
+            setTimeout(() => {
+                
+                resultElement.classList.remove('hidden', 'bg-red-900/50', 'bg-green-900/50');
+                
+                if (!outwardCode) {
+                    resultElement.innerHTML = '❌ Please enter a valid UK postcode or outward code (e.g., LS28).';
+                    resultElement.classList.add('bg-red-900/50');
+                    buttonText.textContent = 'Calculate Final Price';
+                    spinner.classList.add('hidden');
+                    return;
+                }
+
+                const destinationCoords = postcodeCoords[outwardCode];
+
+                if (destinationCoords) {
+                    const straightDistance = calculateStraightDistance(
+                        PUDSEY_CENTER.lat, PUDSEY_CENTER.lng,
+                        destinationCoords.lat, destinationCoords.lng
+                    );
+                    
+                    // Apply correction factor for simulated road distance
+                    const roadDistance = straightDistance * ROAD_DISTANCE_FACTOR;
+
+                    const result = getFee(roadDistance);
+                    const totalCost = baseLessonFee + result.fee;
+                    
+                    const distanceText = roadDistance.toFixed(1);
+                    const feeText = result.fee === 0.00 
+                        ? `<span class="${result.color} text-2xl">£0.00</span>`
+                        : `<span class="${result.color} text-2xl">£${result.fee.toFixed(2)}</span>`;
+                    
+                    resultElement.innerHTML = `
+                        <div class="md:flex justify-between items-center space-y-3 md:space-y-0 text-left">
+                            <div>
+                                <p class="text-sm text-brand-text-mid">Postcode Area: **${outwardCode}**</p>
+                                <p class="text-sm text-brand-text-mid">Estimated Road Distance: **${distanceText} miles** (${result.range} band)</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-brand-text-light text-lg">Lesson Fee (${lessonDuration} min): £${baseLessonFee.toFixed(2)}</p>
+                                <p class="text-brand-text-light text-lg">Travel Fee: ${feeText}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-brand-accent-light/50">
+                            <p class="text-brand-highlight text-3xl font-extrabold">
+                                Total Estimated Cost: £${totalCost.toFixed(2)}
+                            </p>
+                        </div>
+                    `;
+                    resultElement.classList.add('bg-green-900/50');
+
+                } else {
+                    // Postcode area is not in the database (too far, usually 50+ miles)
+                    const maxFeeResult = getFee(100); // Trigger max fee logic
+                    const totalCost = baseLessonFee + maxFeeResult.fee;
+
+                    resultElement.innerHTML = `
+                        <p class="text-red-400 text-xl font-extrabold mb-2">
+                            ⚠️ Postcode **${outwardCode}** is outside the main coverage area.
+                        </p>
+                        <p class="text-brand-text-light text-lg">Max Travel Fee Applied: £${maxFeeResult.fee.toFixed(2)}</p>
+                        <p class="text-brand-highlight text-3xl font-extrabold mt-2">
+                            Total Estimated Cost: £${totalCost.toFixed(2)}
+                        </p>
+                        <p class="text-sm text-brand-text-mid mt-2">
+                            Please contact Elliot to confirm this long-distance booking.
+                        </p>
+                    `;
+                    resultElement.classList.add('bg-red-900/50');
+                }
+                
+                // Hide loading state
+                buttonText.textContent = 'Calculate Final Price';
+                spinner.classList.add('hidden');
+
+            }, 500); // 500ms delay for simulation
+        }
+
+        // --- Event Listeners and UI Toggles ---
+        
+        // Postcode Checker
+        document.getElementById('check-fee-button').addEventListener('click', checkTravelFee);
+        document.getElementById('postcode-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkTravelFee();
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Policy Collapse Toggle
+        document.getElementById('toggle-policy').addEventListener('click', function() {
+            const policyText = document.getElementById('full-policy-text');
+            const icon = document.getElementById('toggle-icon');
+
+            if (policyText.classList.contains('hidden')) {
+                policyText.classList.remove('hidden');
+                icon.textContent = '▲';
+            } else {
+                policyText.classList.add('hidden');
+                icon.textContent = '▼';
+            }
+        });
+    </script>
+
+</body>
+</html>
