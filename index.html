@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elliot Wardill Mobile Music Lessons - Home</title>
+    <title>Elliot Wardill - Mobile Music Lessons</title>
     
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,6 +20,7 @@
                         'brand-text-light': '#e0e0e0', // Light grey for text
                         'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
                         'brand-highlight': '#ffb703', // Vibrant golden yellow
+                        'card-bg': '#252538', // Slightly lighter dark background for containers
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -30,37 +31,31 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e; 
             color: #e0e0e0; 
-            /* Subtle texture/gradient for depth */
+            /* Subtle radial gradient for depth */
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
         }
-        .shadow-glow {
-            box-shadow: 0 0px 20px rgba(0, 208, 132, 0.3);
+        .main-hero-shadow {
+            text-shadow: 0 0 10px rgba(0, 208, 132, 0.5);
         }
         .card-glow {
              box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
         }
-        .loading-spinner {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #00d084; /* Brand Accent Light */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .tts-loading {
-            border-color: transparent;
-            border-top-color: #ffb703; /* Highlight color */
+        /* Style the chat input and button for better integration */
+        #chat-input:focus {
+            border-color: #00d084;
+            box-shadow: 0 0 0 3px rgba(0, 208, 132, 0.5);
         }
     </style>
+    <!-- Load Lucide Icons -->
+    <script type="module">
+        import { createIcons, Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History } });
+    </script>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -104,470 +99,307 @@
             </div>
         </div>
     </nav>
-    
-    <!-- Header / Hero Section (Image removed, using gradient background) -->
-    <header class="relative bg-gradient-to-br from-brand-dark-bg to-[#2a2a4a] text-white pt-20 pb-32 sm:pt-24 sm:pb-40 text-center flex-shrink-0 overflow-hidden">
-        
-        <!-- Hero Content (Text - Final Version) -->
-        <div class="hero-content max-w-5xl mx-auto px-4 z-20 relative">
-            <h1 class="font-heading text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 leading-tight text-white">
-                Mobile Music Lessons in the <span class="text-brand-highlight">Leeds Area</span>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto px-4 py-8 sm:py-12 flex-grow">
+
+        <!-- Hero Section -->
+        <header class="text-center mb-10">
+            <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-3 main-hero-shadow">
+                <span class="text-brand-accent-light">Elliot Wardill</span>
+                <br class="hidden sm:inline"> Mobile Music Lessons
             </h1>
-            <p class="text-xl sm:text-2xl font-light text-brand-text-light mb-10">
-                Expert, personalized Piano and Singing tuition delivered right to your home.
+            <p class="text-lg sm:text-xl text-brand-text-mid max-w-3xl mx-auto">
+                Piano and Singing Lessons brought right to your home in **Pudsey**, **Leeds**, and surrounding areas.
             </p>
-            <a href="pricing.html" class="inline-block bg-brand-accent-light text-brand-dark-bg font-extrabold py-4 px-10 rounded-full text-lg sm:text-xl hover:bg-brand-accent-dark transition duration-300 shadow-glow uppercase tracking-wide">
-                View Lessons & Book Your Intro Offer
-            </a>
-        </div>
-    </header>
-
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto px-4 py-12 sm:py-20 flex-grow">
-
-        <!-- About Section -->
-        <section class="mb-16">
-            <h2 class="font-heading text-4xl font-extrabold text-brand-accent-light mb-10 border-b-2 border-brand-accent-dark pb-4 text-center">
-                Why Choose Mobile Music Lessons?
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8 text-lg">
-                <!-- Convenience Card -->
-                <div class="bg-brand-dark-bg p-6 rounded-xl card-glow border border-brand-accent-dark hover:border-brand-accent-light transition duration-300">
-                    <div class="text-brand-highlight mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                    </div>
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Ultimate Convenience</h3>
-                    <div id="convenience-text" class="text-brand-text-mid flex justify-between items-start">
-                        <p class="pr-2">I bring all the necessary equipment (including a keyboard if needed) straight to your door—no stressful travel or packing required.</p>
-                        <button id="tts-convenience-btn" class="flex-shrink-0 text-brand-highlight hover:text-white transition duration-200" title="Listen to this section">
-                            <div id="tts-spinner-1" class="loading-spinner tts-loading hidden w-6 h-6"></div>
-                            <svg id="tts-icon-1" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707a1 1 0 011.707.707v10.586a1 1 0 01-1.707.707L5.586 15z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <!-- Safety Card -->
-                <div class="bg-brand-dark-bg p-6 rounded-xl card-glow border border-brand-accent-dark hover:border-brand-accent-light transition duration-300">
-                    <div class="text-brand-highlight mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 002 15.496v3.438a2 2 0 001.106 1.79l.061.033 1.05.51a3.032 3.032 0 002.57 0l1.05-.51.06-.033A2 2 0 009 18.934v-3.438a12.001 12.001 0 0010.618-10.452z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Safety and Trust</h3>
-                    <p class="text-brand-text-mid">I hold a valid **DBS check** for working with children, ensuring a safe, professional, and trusted learning environment.</p>
-                </div>
-                <!-- Personalized Card -->
-                <div class="bg-brand-dark-bg p-6 rounded-xl card-glow border border-brand-accent-dark hover:border-brand-accent-light transition duration-300">
-                    <div class="text-brand-highlight mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6 1.758l-.678 1.416M20.957 12H19.043L17 17m-5-10v8m-6-8l.678 1.416M3.043 12H5.043L7 17m10-5a5 5 0 11-10 0 5 5 0 0110 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Personalized Approach</h3>
-                    <p class="text-brand-text-mid">Lessons are designed around your favorite music and specific goals, helping you build confidence and musicality efficiently.</p>
-                </div>
+            <div class="mt-6 flex justify-center space-x-4">
+                <a href="availability.html" class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-base font-medium rounded-lg text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 transform hover:scale-[1.03] shadow-lg shadow-brand-accent-light/30">
+                    <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Check Availability
+                </a>
+                <a href="contact.html" class="inline-flex items-center justify-center px-5 py-2.5 border border-brand-highlight text-base font-medium rounded-lg text-brand-highlight hover:bg-brand-highlight/10 transition duration-300 transform hover:scale-[1.03]">
+                    <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Book a Lesson
+                </a>
             </div>
-        </section>
-        
-        <!-- Policy Q&A Assistant (Existing Gemini Feature - Now centered) -->
-        <section class="mb-16">
-            <h2 class="font-heading text-4xl font-extrabold text-brand-highlight mb-10 border-b-2 border-brand-highlight/50 pb-4 text-center">
-                ✨ Policy Q&A Assistant
-            </h2>
-            <div class="max-w-3xl mx-auto bg-[#252538] p-8 rounded-xl shadow-2xl border border-brand-accent-dark/50">
-                <p class="text-brand-text-mid mb-4 text-center">
-                    Instantly find answers to common questions about lesson fees, cancellation policies, and availability by asking the AI directly.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="text" id="policy-query" placeholder="e.g., How much is a 60-minute lesson?" class="flex-grow p-3 rounded-lg bg-brand-dark-bg text-brand-text-light border border-brand-accent-dark focus:ring-brand-accent-light focus:border-brand-accent-light">
-                    <button id="query-button" class="flex-shrink-0 bg-brand-accent-light text-brand-dark-bg font-bold py-3 px-6 rounded-lg hover:bg-brand-accent-dark hover:text-white transition duration-200 flex items-center justify-center disabled:opacity-50">
-                        <span id="button-text">Ask Policy ✨</span>
-                        <div id="loading-indicator" class="loading-spinner hidden ml-2"></div>
-                    </button>
-                </div>
+        </header>
+
+        <!-- Key Features Section -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
-                <div id="policy-response-area" class="mt-6 p-4 rounded-lg bg-brand-dark-bg border border-brand-text-mid/30 min-h-[5rem]">
-                    <p id="policy-output" class="text-brand-text-light italic">Your answer will appear here, grounded in the official Music Lesson Policy.</p>
+                <!-- Feature 1: Expertise -->
+                <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-accent-light hover:border-brand-highlight transition duration-300">
+                    <i data-lucide="book-open" class="w-7 h-7 text-brand-accent-light mb-2"></i>
+                    <h3 class="text-lg font-semibold text-brand-text-light mb-1">Tailored Learning</h3>
+                    <p class="text-brand-text-mid text-xs">Lessons are customized to your age, goals, and interests, focusing on musicality, rhythm, and performance confidence.</p>
+                </div>
+
+                <!-- Feature 2: Convenience -->
+                <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-accent-light hover:border-brand-highlight transition duration-300">
+                    <i data-lucide="map-pin" class="w-7 h-7 text-brand-highlight mb-2"></i>
+                    <h3 class="text-lg font-semibold text-brand-text-light mb-1">We Come To You</h3>
+                    <p class="text-brand-text-mid text-xs">Enjoy lessons in the comfort of your own home. All necessary equipment, including a keyboard, is provided.</p>
+                </div>
+
+                <!-- Feature 3: Safety -->
+                <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-accent-light hover:border-brand-highlight transition duration-300">
+                    <i data-lucide="zap" class="w-7 h-7 text-brand-accent-light mb-2"></i>
+                    <h3 class="text-lg font-semibold text-brand-text-light mb-1">Fully Vetted</h3>
+                    <p class="text-brand-text-mid text-xs">I hold a valid **DBS check** for working with children, ensuring a safe and inspiring learning environment.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Next Steps Callouts -->
-        <section class="mt-16 pt-8 border-t border-brand-accent-dark">
-            <h2 class="font-heading text-4xl font-extrabold text-brand-accent-light mb-10 text-center">
-                Ready to Discover More?
+        <!-- LLM Q&A Chat Section -->
+        <section class="bg-card-bg p-5 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
+            <h2 class="font-heading text-2xl font-bold text-brand-highlight mb-5 text-center border-b border-brand-accent-dark pb-3">
+                Quick Q&A Assistant
             </h2>
-            <div class="grid md:grid-cols-3 gap-6 text-center">
-                
-                <a href="pricing.html" class="block p-6 bg-brand-dark-bg rounded-xl card-glow border-t-4 border-brand-highlight hover:bg-[#2a2a4a] transition duration-300">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Lesson Fees & Travel Costs</h3>
-                    <p class="text-brand-text-mid">See the full breakdown of prices and the transparent travel policy.</p>
-                </a>
-
-                <a href="availability.html" class="block p-6 bg-brand-dark-bg rounded-xl card-glow border-t-4 border-brand-highlight hover:bg-[#2a2a4a] transition duration-300">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Check My Schedule</h3>
-                    <p class="text-brand-text-mid">View my typical availability for the Leeds area.</p>
-                </a>
-                
-                <a href="contact.html" class="block p-6 bg-brand-dark-bg rounded-xl card-glow border-t-4 border-brand-highlight hover:bg-[#2a2a4a] transition duration-300">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Get in Touch</h3>
-                    <p class="text-brand-text-mid">Send an inquiry via email or WhatsApp to book your first lesson.</p>
-                </a>
+            <!-- Chat Box with A11Y improvement: aria-live region -->
+            <div id="chat-box" class="h-72 overflow-y-auto p-4 mb-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite" aria-atomic="false">
+                <!-- Initial Bot Message -->
+                <div class="flex justify-start">
+                    <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
+                        Hello! I'm your assistant. Ask me anything about Elliot's lessons, policies, or availability!
+                    </div>
+                </div>
+                <!-- Chat messages will be appended here -->
+                <div id="loading-indicator" class="hidden flex justify-start">
+                    <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center">
+                        <i data-lucide="loader-2" class="w-4 h-4 mr-2 animate-spin"></i> Thinking...
+                    </div>
+                </div>
             </div>
+
+            <form id="chat-form" class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="e.g., What is the cost for a 60-minute lesson?" class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light transition duration-200 text-sm" required>
+                <button type="submit" id="send-button" class="bg-brand-highlight text-brand-dark-bg p-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition duration-200 flex items-center justify-center w-10 h-10" aria-label="Send message">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+            </form>
+            <p id="error-message" class="text-xs text-red-400 mt-2 hidden" role="alert"></p>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-12 flex-shrink-0">
+    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
         <div class="max-w-6xl mx-auto px-4 text-center text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
             <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
         </div>
     </footer>
     
-    <!-- JavaScript for Mobile Menu Toggle and Gemini API -->
-    <script type="module">
-        // Firebase Imports (Used for Auth to enable API access)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <!-- JavaScript for Mobile Menu and Advanced API Interaction with History -->
+    <script>
+        // IIFE for scope management and advanced logic
+        (function() {
+            // Mobile Menu Toggle
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                var menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
 
-        // Global variables provided by the environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            // --- LLM Q&A Chat Logic ---
+            const CHAT_HISTORY_KEY = 'elliot_music_chat_history';
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const errorMessage = document.getElementById('error-message');
+            const sendButton = document.getElementById('send-button');
 
-        let db, auth;
-        let audioContext = null;
-        let currentAudioSource = null;
+            // Global chat history array used for session management and persistence
+            let chatHistory = []; 
 
-        // --- 1. Firebase Initialization and Authentication ---
-        if (firebaseConfig) {
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
+            const apiKey = "" 
+            const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
             
-            async function authenticate() {
+            // System instruction remains the same, but it's now wrapped for clarity in the JS module
+            const systemPrompt = `You are a helpful and friendly Q&A assistant for Elliot Wardill's Mobile Music Lessons. 
+            Your goal is to answer user questions concisely and clearly, based *only* on the provided context.
+            
+            **Context:**
+            - **Instructor:** Elliot Wardill.
+            - **Services:** Piano and Singing Lessons.
+            - **Delivery:** Lessons are mobile (at the student's home). Elliot brings necessary equipment (including a keyboard).
+            - **Areas Served:** Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.
+            - **Travel Fees:** 5 Miles +: £5; 10 Miles +: £10; 15 Miles +: £20-£30.
+            - **Fees (Standard Lessons):** 30 minutes: £15; 60 minutes: £30; 90 minutes: £50. First lesson introductory offer: £10.
+            - **Payment:** Cash at the lesson or bank transfer in advance.
+            - **Cancellation Policy:** At least 24 hours' notice required. Less than 24 hours' notice may be charged 50% of the lesson fee.
+            - **Availability:** Tuesday (6pm-9pm), Wednesday (6pm-9pm), Thursday (6pm-9pm). Saturday & Sunday are available upon request. Monday & Friday have no available slots.
+            - **Safety:** Instructor holds a valid DBS check. Parents/guardians are welcome to sit in.
+            - **Safeguarding (Stanningley Primary School):** Any information disclosed by a child enrolled there will be reported directly to school authorities.
+
+            Keep responses brief and directly answer the user's query using the details above.`;
+
+            // Helper function to append message to chat box UI
+            function appendMessageToUI(sender, text) {
+                const messageContainer = document.createElement('div');
+                messageContainer.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
+
+                const bubble = document.createElement('div');
+                bubble.classList.add(
+                    'max-w-[75%]', 'p-3', 'rounded-xl', 'text-sm', 'shadow'
+                );
+
+                if (sender === 'user') {
+                    bubble.classList.add('bg-brand-highlight', 'text-brand-dark-bg', 'rounded-tr-none');
+                } else {
+                    bubble.classList.add('bg-brand-accent-light/20', 'text-brand-text-light', 'rounded-tl-none');
+                }
+
+                bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Simple markdown bolding
+
+                // Add the message *before* the loading indicator
+                chatBox.insertBefore(messageContainer, loadingIndicator);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            // Function to save chat history to localStorage
+            function saveChatHistory() {
                 try {
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
+                    // Only save the user/model parts of the history, not the initial system prompt
+                    const serializableHistory = chatHistory.filter(msg => msg.role !== 'system');
+                    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(serializableHistory));
+                } catch (e) {
+                    console.error("Could not save chat history to localStorage:", e);
+                }
+            }
+
+            // Function to load and display chat history from localStorage
+            function loadChatHistory() {
+                try {
+                    const savedHistory = localStorage.getItem(CHAT_HISTORY_KEY);
+                    if (savedHistory) {
+                        const parsedHistory = JSON.parse(savedHistory);
+                        chatHistory = parsedHistory; // Restore history array
+                        
+                        // Display restored history in UI
+                        parsedHistory.forEach(message => {
+                            if (message.role === 'user') {
+                                appendMessageToUI('user', message.parts[0].text);
+                            } else if (message.role === 'model') {
+                                appendMessageToUI('bot', message.parts[0].text);
+                            }
+                        });
+
+                        // Add a history-loaded indicator message
+                        const historyMessage = document.createElement('div');
+                        historyMessage.classList.add('text-center', 'text-brand-text-mid', 'text-xs', 'py-1');
+                        historyMessage.innerHTML = '<i data-lucide="history" class="w-3 h-3 inline-block mr-1 align-sub"></i> Conversation loaded from history.';
+                        chatBox.insertBefore(historyMessage, loadingIndicator);
+
+                    }
+                } catch (e) {
+                    console.error("Could not load chat history from localStorage:", e);
+                    // Clear corrupted history if parsing fails
+                    localStorage.removeItem(CHAT_HISTORY_KEY);
+                }
+            }
+
+
+            // Fetch data from Gemini API with exponential backoff (improved)
+            async function fetchWithBackoff(url, options, retries = 3) {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(url, options);
+                        if (response.status === 403) {
+                            throw new Error(`API Error: Forbidden (Status 403). Permissions issue.`);
+                        }
+                        if (!response.ok) {
+                            throw new Error(`API request failed with status ${response.status}`);
+                        }
+                        return response;
+                    } catch (error) {
+                        if (i === retries - 1) {
+                            throw error; // Throw final error
+                        }
+                        // Exponential backoff delay
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+
+
+            async function handleQuery(query) {
+                sendButton.disabled = true;
+                loadingIndicator.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // 1. Add user message to history
+                const userMessage = { role: "user", parts: [{ text: query }] };
+                chatHistory.push(userMessage);
+
+                // 2. Build contents array including all history
+                const contents = [
+                    // System instructions must be added to the request payload, NOT the chat history array
+                    { parts: [{ text: systemPrompt }], role: "system" }, 
+                    ...chatHistory.filter(msg => msg.role !== 'system') // Filter out the initial system part from the array
+                ];
+
+                const payload = {
+                    contents: contents,
+                    // tools property is outside contents array
+                    tools: [{ "google_search": {} }], 
+                };
+
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                };
+
+                try {
+                    const urlWithKey = `${API_URL}?key=${apiKey}`;
+                    const response = await fetchWithBackoff(urlWithKey, options);
+                    const result = await response.json();
+
+                    const botCandidate = result.candidates?.[0];
+                    const text = botCandidate?.content?.parts?.[0]?.text;
+
+                    if (text) {
+                        // 3. Add model response to history and UI
+                        const modelMessage = { role: "model", parts: [{ text: text }] };
+                        chatHistory.push(modelMessage);
+                        appendMessageToUI('bot', text);
+                        saveChatHistory(); // Save after successful response
                     } else {
-                        await signInAnonymously(auth);
+                        // Handle cases where response is OK but content is missing
+                        appendMessageToUI('bot', "I couldn't generate a response for that. Please try a different question.");
                     }
-                    console.log('Firebase Auth Ready.');
+
                 } catch (error) {
-                    console.error('Firebase Auth Error:', error);
+                    console.error("Gemini API Error:", error);
+                    errorMessage.textContent = `Error: The Q&A service failed. Please try again.`;
+                    errorMessage.classList.remove('hidden');
+                    // Remove the last user message from history if the API call failed
+                    chatHistory.pop(); 
+                    appendMessageToUI('bot', "I apologize, but I'm currently unable to connect to the Q&A service.");
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    sendButton.disabled = false;
                 }
             }
-            authenticate();
-        } else {
-            console.error('Firebase config is missing. Database and LLM features will not work.');
-        }
 
-        // --- 2. Mobile Menu Toggle ---
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            var menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-
-
-        // --- 3. TTS Helper Functions (WAV Conversion) ---
-        function base64ToArrayBuffer(base64) {
-            const binaryString = atob(base64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return bytes.buffer;
-        }
-
-        function writeString(view, offset, string) {
-            for (let i = 0; i < string.length; i++) {
-                view.setUint8(offset + i, string.charCodeAt(i));
-            }
-        }
-
-        function pcmToWav(pcmData, sampleRate) {
-            const numChannels = 1;
-            const bytesPerSample = 2; // 16-bit PCM
-            const dataLength = pcmData.length * bytesPerSample;
-            const buffer = new ArrayBuffer(44 + dataLength);
-            const view = new DataView(buffer);
-
-            // RIFF chunk
-            writeString(view, 0, 'RIFF');
-            view.setUint32(4, 36 + dataLength, true);
-            writeString(view, 8, 'WAVE');
-
-            // fmt chunk
-            writeString(view, 12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true); // PCM format (1=LPCM)
-            view.setUint16(22, numChannels, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * numChannels * bytesPerSample, true); // Byte rate
-            view.setUint16(32, numChannels * bytesPerSample, true); // Block align
-            view.setUint16(34, 8 * bytesPerSample, true); // Bits per sample (16)
-
-            // data chunk
-            writeString(view, 36, 'data');
-            view.setUint32(40, dataLength, true);
-
-            // Write PCM data
-            let offset = 44;
-            for (let i = 0; i < pcmData.length; i++, offset += bytesPerSample) {
-                view.setInt16(offset, pcmData[i], true);
-            }
-
-            return new Blob([view], { type: 'audio/wav' });
-        }
-
-
-        // --- 4. Core API Call Functions ---
-        const apiKey = ""; // API Key provided by Canvas
-
-        async function makeApiCallWithRetry(apiUrl, payload, maxRetries = 3) {
-            let currentRetry = 0;
-            while (currentRetry < maxRetries) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 429 && currentRetry < maxRetries - 1) {
-                            const delay = Math.pow(2, currentRetry) * 1000;
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                            currentRetry++;
-                            continue; // Retry
-                        }
-                        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    console.error("Fetch/API Error:", error);
-                    if (currentRetry === maxRetries - 1) throw error; // Re-throw on final failure
-                    const delay = Math.pow(2, currentRetry) * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    currentRetry++;
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = chatInput.value.trim();
+                if (query) {
+                    appendMessageToUI('user', query);
+                    handleQuery(query);
+                    chatInput.value = '';
                 }
-            }
-            throw new Error("Failed to fetch from API after multiple retries.");
-        }
+            });
 
+            // Initialize on Load
+            document.addEventListener('DOMContentLoaded', () => {
+                loadChatHistory();
+            });
 
-        // --- 5. Policy Q&A Logic (Existing Feature) ---
-        const queryInput = document.getElementById('policy-query');
-        const queryButton = document.getElementById('query-button');
-        const outputArea = document.getElementById('policy-output');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const buttonText = document.getElementById('button-text');
-        
-        function getGroundingParts() {
-            // Content copied from "Music Lesson Policy.pdf"
-            const pdfContent = `
-                --- POLICY DOCUMENT START ---
-                Music Lesson Policy - Elliot Wardill
-
-                1. Safety and Safeguarding
-                • I hold a valid DBS check for working with children, ensuring a safe learning environment. Parents/guardians are welcome to sit in on lessons.
-                Stanningley Primary School: If enrolled at Stanningley Primary School, any information or incidents disclosed during lesson times will be reported directly to the school authorities in line with safeguarding procedures.
-
-                2. Lesson Fees and Payment
-                First Lesson: £10 (introductory offer).
-                Standard Lessons:
-                30 minutes: £15
-                60 minutes: £30
-                90 minutes: £50
-                • Payment: Can be made in cash at the lesson or via bank transfer in advance.
-
-                3. Cancellations and Rescheduling
-                • Notice Required: Please give at least 24 hours' notice if you need to cancel or reschedule a lesson.
-                • Late Cancellation Fee: Cancellations with less than 24 hours' notice may be charged 50% of the lesson fee.
-                Instructor Cancellation: If I ever need to cancel (which is rare), I will reschedule the lesson at no extra cost to you.
-
-                4. Travel and Location
-                Lessons are available in: Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.
-                Travel fees may apply for locations outside Pudsey. These fees are added to the lesson cost:
-                Distance | Fee
-                5 Miles + | £5
-                10 Miles + | £10
-                15 Miles + | £20-£30
-
-                5. Availability
-                • Tuesday: 6pm - 9pm
-                • Wednesday: 6pm - 9pm
-                • Thursday: 6pm - 9pm
-                Saturday & Sunday: Available upon request.
-                • Monday & Friday: No available slots.
-                • Note: All availability is subject to change, particularly during term time.
-                --- POLICY DOCUMENT END ---
-            `;
-
-            return [{ text: pdfContent }];
-        }
-
-        async function queryPolicy() {
-            const userQuery = queryInput.value.trim();
-
-            if (!userQuery) {
-                outputArea.innerHTML = '<p class="text-brand-highlight">Please enter a question about the policy, fees, or availability.</p>';
-                return;
-            }
-
-            // UI State: Loading
-            queryButton.disabled = true;
-            buttonText.textContent = 'Searching...';
-            loadingIndicator.classList.remove('hidden');
-            outputArea.innerHTML = `<p class="text-brand-text-mid italic">Searching policy for an answer...</p>`;
-
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const systemPrompt = "You are an official, concise, and helpful Policy Assistant for Elliot's Mobile Music Lessons. Your task is to answer the user's question ONLY using the provided policy document. If the information is not in the document, politely state that you cannot find the answer in the policy. Be brief and professional.";
-            
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                tools: [{
-                    groundingMetadata: {
-                        groundingChunks: getGroundingParts()
-                    }
-                }]
-            };
-
-            let responseText = "I apologize, an error occurred while processing your request. Please try again or contact Elliot directly.";
-
-            try {
-                const result = await makeApiCallWithRetry(apiUrl, payload);
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    responseText = candidate.content.parts[0].text;
-                } else {
-                    responseText = "I received a response, but it didn't contain an answer. Please rephrase your question.";
-                }
-            } catch (error) {
-                responseText = `An unexpected error occurred: ${error.message}`;
-            }
-
-            // UI State: Response Ready
-            queryButton.disabled = false;
-            buttonText.textContent = 'Ask Policy ✨';
-            loadingIndicator.classList.add('hidden');
-            
-            outputArea.innerHTML = `<p class="text-brand-text-light">${responseText}</p>`;
-        }
-
-        queryButton.addEventListener('click', queryPolicy);
-        queryInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                queryPolicy();
-            }
-        });
-
-
-        // --- 6. Text-to-Speech Logic (Existing Feature) ---
-
-        const ttsButton = document.getElementById('tts-convenience-btn');
-        const ttsIcon = document.getElementById('tts-icon-1');
-        const ttsSpinner = document.getElementById('tts-spinner-1');
-        const ttsText = document.querySelector('#convenience-text p').textContent.trim();
-        let isPlaying = false;
-
-        async function speakText(text) {
-            if (isPlaying) {
-                // Stop current playback
-                if (currentAudioSource) {
-                    currentAudioSource.stop(0);
-                    currentAudioSource = null;
-                }
-                isPlaying = false;
-                ttsIcon.style.display = 'block';
-                ttsSpinner.classList.add('hidden');
-                return;
-            }
-
-            // Start playback
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
-            // UI State: Loading
-            isPlaying = true;
-            ttsIcon.style.display = 'none';
-            ttsSpinner.classList.remove('hidden');
-
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{
-                    parts: [{ text: `Say in a professional and friendly tone: ${text}` }]
-                }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: {
-                        voiceConfig: {
-                            prebuiltVoiceConfig: { voiceName: "Kore" }
-                        }
-                    }
-                },
-            };
-
-            try {
-                const result = await makeApiCallWithRetry(apiUrl, payload);
-                const part = result?.candidates?.[0]?.content?.parts?.[0];
-                const audioData = part?.inlineData?.data;
-                const mimeType = part?.inlineData?.mimeType;
-
-                if (audioData && mimeType && mimeType.startsWith("audio/L16")) {
-                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
-                    if (!sampleRateMatch) throw new Error("Could not determine sample rate from MIME type.");
-
-                    const sampleRate = parseInt(sampleRateMatch[1], 10);
-                    const pcmData = base64ToArrayBuffer(audioData);
-                    // API returns signed PCM16 audio data.
-                    const pcm16 = new Int16Array(pcmData);
-                    
-                    const wavBlob = pcmToWav(pcm16, sampleRate);
-                    const audioUrl = URL.createObjectURL(wavBlob);
-
-                    // Create and play audio element
-                    const audio = new Audio(audioUrl);
-                    currentAudioSource = audio; // Keep track of the current audio source
-                    
-                    audio.onplaying = () => {
-                         ttsIcon.style.display = 'none';
-                         ttsSpinner.classList.remove('hidden');
-                    };
-                    
-                    audio.onended = () => {
-                        isPlaying = false;
-                        ttsIcon.style.display = 'block';
-                        ttsSpinner.classList.add('hidden');
-                        currentAudioSource = null;
-                    };
-                    audio.play();
-
-                } else {
-                    throw new Error("Invalid audio data received from API.");
-                }
-
-            } catch (error) {
-                console.error("TTS Generation Error:", error);
-                // Reset UI on failure
-                isPlaying = false;
-                ttsIcon.style.display = 'block';
-                ttsSpinner.classList.add('hidden');
-                alert("Sorry, Text-to-Speech failed. Please check the console for errors.");
-            }
-        }
-
-        ttsButton.addEventListener('click', () => speakText(ttsText));
+        })(); // End of IIFE
     </script>
 </body>
 </html>
