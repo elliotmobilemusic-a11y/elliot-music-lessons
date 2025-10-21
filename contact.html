@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Elliot Wardill - Mobile Music Lessons</title>
-    
+
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Custom Tailwind Config for Theme -->
     <script>
         tailwind.config = {
@@ -18,36 +18,37 @@
                         'brand-accent-light': '#00d084', // Vibrant green/aqua
                         'brand-accent-dark': '#00a36e', // Darker green/aqua
                         'brand-text-light': '#e0e0e0', // Light grey for text
-                        'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
+                        'brand-text-mid': '#a0e0e0', // Mid grey for secondary text
                         'brand-highlight': '#ffb703', // Vibrant golden yellow
                         'card-bg': '#252538', // Slightly lighter dark background for containers
+                        'error-red': '#f87171', // Red for errors (Tailwind red-400)
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'], 
+                        heading: ['Montserrat', 'sans-serif'],
                     },
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e; 
-            color: #e0e0e0; 
+            background-color: #1a1a2e;
+            color: #e0e0e0;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
         }
         .main-hero-shadow {
             text-shadow: 0 0 10px rgba(0, 208, 132, 0.5);
         }
         .card-glow {
-             box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
         }
         /* Custom styling for form inputs */
         .input-style {
             background-color: #1a1a2e;
-            border-color: #44445c; 
+            border-color: #44445c;
             color: #e0e0e0;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
@@ -55,6 +56,12 @@
             outline: none;
             border-color: #00d084;
             box-shadow: 0 0 0 2px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Visual indication for invalid state (used for live validation) */
+        .input-error {
+            border-color: #f87171; /* Error Red */
+            box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.5);
         }
 
         /* Modal backdrop for confirmation */
@@ -66,12 +73,11 @@
     </style>
     <!-- Load Lucide Icons -->
     <script type="module">
-        import { createIcons, Mail, Phone, MapPin, CheckCircle, X } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X } });
+        import { createIcons, Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } });
     </script>
 </head>
 <body class="min-h-screen flex flex-col">
-
     <!-- Navigation Bar (Reused) -->
     <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,10 +130,10 @@
                 Use the form below to send Elliot a direct message about booking a lesson.
             </p>
         </header>
-        
+
         <!-- Contact Grid: Details and Form -->
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            
+
             <!-- Contact Details Card (2/5 width) -->
             <div class="lg:col-span-2 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light h-full">
                 <h2 class="text-xl font-bold text-brand-text-light mb-4">Direct Contact Information</h2>
@@ -154,14 +160,20 @@
                         </div>
                     </div>
 
-                    <!-- Service Area -->
+                    <!-- Enhanced Service Area Display -->
                     <div class="pt-4 border-t border-brand-accent-dark/30">
                         <div class="flex items-start">
-                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
+                            <i data-lucide="car" class="w-5 h-5 text-brand-highlight mt-1 flex-shrink-0"></i>
                             <div class="ml-3">
                                 <h3 class="font-semibold text-brand-text-light">Mobile Service Area</h3>
-                                <p class="text-brand-text-mid text-sm">Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.</p>
-                                <p class="text-xs text-brand-text-mid/70 mt-1">Travel fees may apply outside Pudsey.</p>
+                                <p class="text-brand-text-mid text-sm font-bold">Primary Locations:</p>
+                                <p class="text-brand-text-mid text-sm">Pudsey, Farsley, Calverley, Bramley.</p>
+                                <p class="text-brand-text-mid text-sm font-bold mt-2">Extended Area:</p>
+                                <p class="text-brand-text-mid text-sm">Horsforth, and other areas of West Leeds.</p>
+                                <p class="text-xs text-brand-highlight/90 mt-2 p-2 bg-brand-accent-dark/30 rounded">
+                                    <i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i>
+                                    <b class="font-bold">Please Note:</b> Travel fees may apply outside the core Pudsey area.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -171,37 +183,33 @@
             <!-- Contact Form (3/5 width) -->
             <div class="lg:col-span-3 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-highlight">
                 <h2 class="text-xl font-bold text-brand-text-light mb-4">Send a Message</h2>
-                
-                <!-- 
-                    FORM SUBMISSION INTEGRATION:
-                    This form uses the FormSubmit service to securely send the form data to the specified email address 
-                    (elliotmobilemusic@gmail.com) without needing a custom server-side script.
-                    The hidden fields are required for the service to function correctly.
-                -->
-                <form 
-                    action="https://formsubmit.co/elliotmobilemusic@gmail.com" 
-                    method="POST" 
-                    id="contact-form" 
+
+                <form
+                    action="https://formsubmit.co/elliotmobilemusic@gmail.com"
+                    method="POST"
+                    id="contact-form"
                     class="space-y-4"
+                    novalidate
                 >
                     <!-- REQUIRED FOR FORMSUBMIT: Recipient Email -->
                     <input type="hidden" name="_recipient" value="elliotmobilemusic@gmail.com">
-                    
+
                     <!-- REQUIRED FOR FORMSUBMIT: Spam prevention (Honeypot) -->
                     <input type="text" name="_gotcha" style="display:none">
-                    
+
                     <!-- Full Name -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-brand-text-light mb-1">Your Full Name *</label>
-                        <input type="text" id="name" name="Name" required class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="Jane Smith">
+                        <label for="name" class="block text-sm font-medium text-brand-text-light mb-1">Your Full Name <span class="text-brand-accent-light font-bold">(Required)</span></label>
+                        <input type="text" id="name" name="Name" required autofocus class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="Jane Smith">
+                        <p id="error-name" class="text-error-red text-sm mt-1 hidden">Your full name is required.</p>
                     </div>
 
                     <!-- Email and Phone Row -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-brand-text-light mb-1">Your Email *</label>
-                            <!-- Note: FormSubmit uses the email field with name="Email" for the Reply-To header -->
+                            <label for="email" class="block text-sm font-medium text-brand-text-light mb-1">Your Email <span class="text-brand-accent-light font-bold">(Required)</span></label>
                             <input type="email" id="email" name="Email" required class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="jane@example.com">
+                            <p id="error-email" class="text-error-red text-sm mt-1 hidden">A valid email is required.</p>
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-brand-text-light mb-1">Phone Number (Optional)</label>
@@ -211,7 +219,7 @@
 
                     <!-- Subject/Inquiry Type -->
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-brand-text-light mb-1">Inquiry Type *</label>
+                        <label for="subject" class="block text-sm font-medium text-brand-text-light mb-1">Inquiry Type <span class="text-brand-accent-light font-bold">(Required)</span></label>
                         <select id="subject" name="Inquiry Type" required class="input-style w-full p-3 rounded-lg border focus:ring-0 appearance-none">
                             <option value="" disabled selected>Select an option...</option>
                             <option value="Piano Lesson Inquiry">Piano Lesson Inquiry</option>
@@ -220,12 +228,14 @@
                             <option value="Question about Fees/Policy">Question about Fees/Policy</option>
                             <option value="General / Other">General / Other</option>
                         </select>
+                        <p id="error-subject" class="text-error-red text-sm mt-1 hidden">Please select an inquiry type.</p>
                     </div>
 
                     <!-- Message -->
                     <div>
-                        <label for="message" class="block text-sm font-medium text-brand-text-light mb-1">Your Message *</label>
+                        <label for="message" class="block text-sm font-medium text-brand-text-light mb-1">Your Message <span class="text-brand-accent-light font-bold">(Required)</span></label>
                         <textarea id="message" name="Message" rows="4" required class="input-style w-full p-3 rounded-lg border focus:ring-0 resize-none" placeholder="Tell me about the student (age, experience) and what you are hoping to achieve."></textarea>
+                        <p id="error-message" class="text-error-red text-sm mt-1 hidden">Please include a detailed message.</p>
                     </div>
 
                     <!-- Submit Button -->
@@ -239,7 +249,6 @@
         </div>
 
     </main>
-
     <!-- Footer (Reused) -->
     <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
         <div class="max-w-6xl mx-auto px-4 text-center text-sm">
@@ -248,119 +257,299 @@
         </div>
     </footer>
 
-    <!-- Submission Confirmation Modal (Reverted to Website Confirmation) -->
-    <div id="success-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+    <!-- SUCCESS Confirmation Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-success-title">
         <div class="bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-brand-accent-light relative">
-            <button id="close-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
+            <button id="close-success-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
                  <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <i data-lucide="check-circle" class="w-16 h-16 text-brand-accent-light mx-auto mb-4"></i>
-            <h3 id="modal-title" class="text-2xl font-bold text-brand-text-light mb-2">Message Sent!</h3>
+            <h3 id="modal-success-title" class="text-2xl font-bold text-brand-text-light mb-2">Message Sent!</h3>
             <p class="text-brand-text-mid mb-6">
-                Thank you for your inquiry. Your message has been sent successfully. Elliot aims to respond within **24 hours**.
+                Thank you for your inquiry. Your message has been sent successfully. Elliot aims to respond within <b class="font-bold">24 hours</b>.
             </p>
-            <button onclick="hideModal()" class="w-full px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-brand-highlight hover:bg-brand-highlight/90 transition duration-200">
+            <button onclick="hideSuccessModal()" class="w-full px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-brand-highlight hover:bg-brand-highlight/90 transition duration-200">
                 Acknowledge & Continue
             </button>
         </div>
     </div>
-    
+
+    <!-- ERROR Confirmation Modal -->
+    <div id="error-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-error-title">
+        <div class="bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-error-red relative">
+            <button id="close-error-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
+                 <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <i data-lucide="alert-triangle" class="w-16 h-16 text-error-red mx-auto mb-4"></i>
+            <h3 id="modal-error-title" class="text-2xl font-bold text-error-red mb-2">Submission Failed</h3>
+            <p id="error-modal-text" class="text-brand-text-light mb-6">
+                Unfortunately, there was an unexpected error. Please check your connection or try emailing Elliot directly.
+            </p>
+            <a href="mailto:elliotmobilemusic@gmail.com" class="w-full inline-block px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-error-red hover:bg-error-red/90 transition duration-200">
+                Email Elliot Directly
+            </a>
+            <button onclick="hideErrorModal()" class="w-full mt-3 px-5 py-2.5 text-sm font-medium rounded-lg text-brand-text-light bg-card-bg border border-error-red/50 hover:border-error-red transition duration-200">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+
     <!-- JavaScript for Mobile Menu and Form Handling -->
     <script>
+        // --- Setup and Constants ---
+        const FORM_STORAGE_KEY = 'contactFormState';
+        const contactForm = document.getElementById('contact-form');
+        const successModal = document.getElementById('success-modal');
+        const errorModal = document.getElementById('error-modal');
+        const errorModalText = document.getElementById('error-modal-text');
+
+        const requiredInputs = [
+            { id: 'name', errorMessage: 'Your full name is required.' },
+            { id: 'email', errorMessage: 'A valid email is required.' },
+            { id: 'subject', errorMessage: 'Please select an inquiry type.' },
+            { id: 'message', errorMessage: 'Please include a detailed message.' }
+        ];
+
+        // --- Core Advanced Feature 1: Form Persistence (Local Storage) ---
+
+        /**
+         * Saves the current state of the form to localStorage.
+         */
+        function saveFormState() {
+            const state = {};
+            new FormData(contactForm).forEach((value, key) => {
+                // Ignore hidden fields like _recipient and _gotcha
+                if (!key.startsWith('_')) {
+                    state[key] = value;
+                }
+            });
+            try {
+                localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {
+                console.warn("Could not save form state to localStorage:", e);
+            }
+        }
+
+        /**
+         * Loads the form state from localStorage and pre-fills the form.
+         */
+        function loadFormState() {
+            try {
+                const savedState = localStorage.getItem(FORM_STORAGE_KEY);
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    for (const key in state) {
+                        const input = document.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            input.value = state[key];
+                        }
+                    }
+                    console.log("Form state restored from previous session.");
+                }
+            } catch (e) {
+                console.error("Error loading form state from localStorage:", e);
+                localStorage.removeItem(FORM_STORAGE_KEY); // Clear potentially corrupted data
+            }
+        }
+
+        /**
+         * Clears the form state from localStorage after successful submission.
+         */
+        function clearFormState() {
+            try {
+                localStorage.removeItem(FORM_STORAGE_KEY);
+                console.log("Form state cleared after successful submission.");
+            } catch (e) {
+                console.warn("Could not clear form state:", e);
+            }
+        }
+
+
+        // --- UI and Validation Handlers ---
+
         // Mobile Menu Toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             var menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
 
-        const contactForm = document.getElementById('contact-form');
-        const successModal = document.getElementById('success-modal');
-        const closeModalButton = document.getElementById('close-modal-button');
-
-        // Function to show the modal
-        function showModal() {
+        // Modal Handlers
+        function showSuccessModal() {
             successModal.classList.remove('hidden');
-            setTimeout(() => successModal.classList.remove('opacity-0'), 10); // Start transition
+            setTimeout(() => successModal.classList.remove('opacity-0'), 10);
         }
-
-        // Function to hide the modal
-        function hideModal() {
+        function hideSuccessModal() {
             successModal.classList.add('opacity-0');
-            setTimeout(() => successModal.classList.add('hidden'), 300); // Wait for transition before hiding
+            setTimeout(() => successModal.classList.add('hidden'), 300);
         }
-        
-        // Hide modal on button click
-        closeModalButton.addEventListener('click', hideModal);
+        function showErrorModal(message) {
+            errorModalText.textContent = message;
+            errorModal.classList.remove('hidden');
+            setTimeout(() => errorModal.classList.remove('opacity-0'), 10);
+        }
+        function hideErrorModal() {
+            errorModal.classList.add('opacity-0');
+            setTimeout(() => errorModal.classList.add('hidden'), 300);
+        }
 
-        // Hide modal if user clicks outside of it (on the backdrop)
-        successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) {
-                hideModal();
+        document.getElementById('close-success-modal-button').addEventListener('click', hideSuccessModal);
+        document.getElementById('close-error-modal-button').addEventListener('click', hideErrorModal);
+        successModal.addEventListener('click', (e) => { if (e.target === successModal) hideSuccessModal(); });
+        errorModal.addEventListener('click', (e) => { if (e.target === errorModal) hideErrorModal(); });
+
+
+        /**
+         * Validates a single input field and updates its error display.
+         * @param {HTMLElement} inputElement The input to validate.
+         * @returns {boolean} True if the input is valid.
+         */
+        function validateInput(inputElement) {
+            const field = requiredInputs.find(f => f.id === inputElement.id);
+            if (!field) return true; // Not a required field, skip client validation logic
+
+            const errorElement = document.getElementById(`error-${field.id}`);
+            let isValid = true;
+            let errorMessage = field.errorMessage;
+
+            if (inputElement.value.trim() === '') {
+                isValid = false;
+            } else if (inputElement.type === 'email' && !inputElement.checkValidity()) {
+                isValid = false;
+                errorMessage = 'Please enter a properly formatted email address.';
+            } else if (inputElement.tagName === 'SELECT' && inputElement.value === '') {
+                 isValid = false;
             }
-        });
 
-        // The form submission is now handled automatically by the 'action' attribute, 
-        // which sends the user to a FormSubmit 'thank you' page by default. 
-        // We use JavaScript here to override that default behavior via a fetch request 
-        // to keep the user on the same page and show our custom modal.
-        
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Stop the default browser submission
-            
+            // Update UI based on validation result
+            if (isValid) {
+                errorElement.classList.add('hidden');
+                inputElement.classList.remove('input-error');
+            } else {
+                errorElement.textContent = errorMessage;
+                errorElement.classList.remove('hidden');
+                inputElement.classList.add('input-error');
+            }
+
+            return isValid;
+        }
+
+        function validateFormOnSubmit() {
+            let isValid = true;
+            requiredInputs.forEach(field => {
+                const inputElement = document.getElementById(field.id);
+                // Perform validation for all required fields
+                if (!validateInput(inputElement)) {
+                    isValid = false;
+                    // For submit, scroll to the first invalid field
+                    if (!document.querySelector('.input-error:focus')) {
+                        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+            return isValid;
+        }
+
+
+        // --- Core Advanced Feature 2: Submission with Retry and Exponential Backoff ---
+
+        /**
+         * Attempts to submit the form using fetch with retries on failure.
+         * @param {string} url The form action URL.
+         * @param {object} options The fetch options.
+         */
+        async function submitWithRetry(url, options, maxRetries = 3, delay = 500) {
+            let lastError = null;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return response;
+                    } else {
+                        lastError = new Error(`Server returned status ${response.status}`);
+                        console.warn(`Attempt ${i + 1} failed with status: ${response.status}. Retrying...`);
+                    }
+                } catch (error) {
+                    // Network error (e.g., connection timed out)
+                    lastError = error;
+                    console.warn(`Attempt ${i + 1} failed with network error:`, error.message);
+                }
+
+                if (i < maxRetries - 1) {
+                    const currentDelay = delay * Math.pow(2, i);
+                    await new Promise(resolve => setTimeout(resolve, currentDelay));
+                }
+            }
+            throw lastError; // Final failure
+        }
+
+        // --- Main Submission Handler ---
+        contactForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            if (!validateFormOnSubmit()) {
+                return;
+            }
+
             const form = event.target;
             const formData = new FormData(form);
-
-            // Disable button and show loading state
             const submitButton = form.querySelector('button[type="submit"]');
+
+            // Set loading state
             submitButton.disabled = true;
             submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
 
+            try {
+                await submitWithRetry(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }, 3, 500);
 
-            fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: {
-                    // Set Accept header to application/json to prevent redirection
-                    'Accept': 'application/json' 
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    showModal();
-                    form.reset();
-                } else {
-                    // Handle server errors (e.g., FormSubmit issues)
-                    console.error('Form submission failed:', response);
-                    alert('There was an error sending your message. Please try again or email Elliot directly.'); 
-                }
-            })
-            .catch(error => {
-                // Handle network errors
-                console.error('Network error:', error);
-                alert('A network error occurred. Please check your connection or email Elliot directly.');
-            })
-            .finally(() => {
+                // Success
+                clearFormState(); // Clear saved data
+                showSuccessModal();
+                form.reset();
+
+            } catch (error) {
+                // Final Failure after all retries
+                console.error('Final form submission failed after all retries:', error);
+                showErrorModal('The form submission failed after multiple attempts. This suggests a persistent connection issue or a server problem. Please use the direct email link below.');
+
+            } finally {
                 // Restore button state
                 submitButton.disabled = false;
                 submitButton.innerHTML = '<i data-lucide="mail" class="w-5 h-5 mr-2"></i> Send Message';
 
-                // Re-initialize Lucide icons to fix the restored button's icon
+                // Re-initialize Lucide icons
                 if (typeof createIcons !== 'undefined') {
                     import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
                         .then(({ createIcons, Mail }) => {
                             createIcons({ icons: { Mail } });
                         });
                 }
-            });
+            }
         });
 
-        // Initialize Lucide icons on load (necessary for modal icon)
+        // --- Initialization and Event Listeners ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Load saved data when the page opens
+            loadFormState();
+
+            // Add listener to save state and validate on user input
+            contactForm.addEventListener('input', (event) => {
+                saveFormState();
+                // Live validation (only for required fields and when the field is not empty)
+                if (event.target.hasAttribute('required') || event.target.type === 'email') {
+                    validateInput(event.target);
+                }
+            });
+
+            // Re-initialize Lucide icons
             if (typeof createIcons !== 'undefined') {
-                 // Ensure icons are rendered
                  import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
-                    .then(({ createIcons, Mail, Phone, MapPin, CheckCircle, X }) => {
-                        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X } });
+                    .then(({ createIcons, Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle }) => {
+                        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } });
                     });
             }
         });
