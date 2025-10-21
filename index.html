@@ -82,32 +82,11 @@
         .contact-box a:hover {
             text-decoration: underline;
         }
-
-        /* Toggle switch styling */
-        .toggle-switch {
-            @apply relative inline-block w-12 h-6 rounded-full cursor-pointer transition-colors duration-200;
-        }
-        .toggle-switch input {
-            @apply opacity-0 w-0 h-0;
-        }
-        .slider {
-            @apply absolute top-0 left-0 right-0 bottom-0 bg-gray-600 rounded-full transition-colors duration-200;
-        }
-        .slider:before {
-            content: "";
-            @apply absolute h-4 w-4 left-1 bottom-1 bg-white rounded-full transition-transform duration-200;
-        }
-        input:checked + .slider {
-            @apply bg-brand-accent-light;
-        }
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
     </style>
     <!-- Load Lucide Icons -->
     <script type="module">
-        import { createIcons, Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, Star, Calculator, MessageSquare, Rocket } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-        createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, Star, Calculator, MessageSquare, Rocket } });
+        import { createIcons, Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, MessageSquare } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, MessageSquare } });
     </script>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -159,7 +138,7 @@
         <header id="hero-section" class="text-center mb-10">
             <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-3 main-hero-shadow">
                 <span class="text-brand-accent-light">Elliot Wardill</span>
-                <br class="hidden sm:inline"> Mobile Music Lessons
+                <br class="hidden sm:inline"> <span class="text-brand-accent-light">Mobile Music Lessons</span>
             </h1>
             <p class="text-lg sm:text-xl text-brand-text-mid max-w-3xl mx-auto">
                 Piano and Singing Lessons brought right to your home in **Pudsey**, **Leeds**, and surrounding areas.
@@ -228,42 +207,25 @@
             </div>
         </section>
 
-        <!-- LLM Q&A Chat Section -->
+        <!-- Simple LLM Q&A Chat Section -->
         <section class="bg-card-bg p-5 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
-            <!-- Title and Mode Selector -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 border-b border-brand-accent-dark pb-3">
-                <div class="flex items-center mb-3 sm:mb-0">
-                    <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-                        <i id="mode-icon" data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-                        <span id="mode-title">Lesson Assistant Q&A</span>
-                    </h2>
-                </div>
-
-                <!-- Mode Toggle Switch -->
-                <div class="flex items-center space-x-3 text-sm">
-                    <i data-lucide="message-square" class="w-4 h-4 text-brand-text-mid"></i>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="mode-toggle">
-                        <span class="slider"></span>
-                    </label>
-                    <i data-lucide="calculator" class="w-4 h-4 text-brand-accent-light"></i>
-                    <span class="text-brand-text-mid">Calculator Mode</span>
-                    <button id="clear-history-button" class="text-brand-text-mid hover:text-brand-highlight transition duration-200 text-sm flex items-center p-2 rounded-lg hover:bg-brand-accent-light/10 ml-4">
-                        <i data-lucide="history" class="w-4 h-4 mr-1"></i> Clear
-                    </button>
-                </div>
+            <!-- Title -->
+            <div class="mb-5 border-b border-brand-accent-dark pb-3">
+                <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
+                    <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+                    Policy Q&A Assistant
+                </h2>
+                <p class="text-brand-text-mid text-sm mt-1">Ask questions about fees, availability, or the safety policy, and get instant answers.</p>
             </div>
 
-            <!-- Chat Box with A11Y improvement: aria-live region -->
+            <!-- Chat Box -->
             <div id="chat-box" class="h-[20rem] md:h-96 overflow-y-auto p-4 mb-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite" aria-atomic="false">
                 <!-- Initial Bot Message -->
                 <div class="flex justify-start initial-message">
                     <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-                        Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and photo consent.
+                        Hello! I am the Policy Assistant. Ask me anything about lesson **fees**, **cancellation policy**, or Elliot's **availability**!
                     </div>
                 </div>
-                <!-- Chat messages will be appended here -->
-
                 <!-- Animated Loading Indicator -->
                 <div id="loading-indicator" class="hidden flex justify-start">
                     <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
@@ -276,14 +238,13 @@
             </div>
             <!-- Text Query Input & Send Button -->
             <form id="chat-form" class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Ask a question about fees, availability, or policies..." class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light transition duration-200 text-sm">
+                <input type="text" id="chat-input" placeholder="E.g., What are the lesson times on Thursdays?" class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light transition duration-200 text-sm">
                 <button type="submit" id="send-button" class="bg-brand-highlight text-brand-dark-bg p-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition duration-200 flex items-center justify-center w-10 h-10" aria-label="Send message">
                     <i data-lucide="send" class="w-5 h-5"></i>
                 </button>
             </form>
             <div id="error-container" class="mt-2">
                 <p id="error-message" class="text-xs text-red-400 hidden" role="alert"></p>
-                <p id="mode-tip" class="text-xs text-brand-text-mid mt-1">Tip: Switch to Calculator Mode to get cost estimates, like "How much is a 60-minute lesson with a 7-mile travel fee?"</p>
             </div>
         </section>
     </main>
@@ -300,9 +261,9 @@
             <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
         </div>
     </footer>
-    <!-- JavaScript for Mobile Menu, Advanced API Interaction, and Sticky CTA -->
+    <!-- JavaScript for Mobile Menu and Simple API Interaction -->
     <script>
-        // IIFE for scope management and advanced logic
+        // IIFE for scope management and logic
         (function() {
             // Mobile Menu Toggle
             document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -317,269 +278,72 @@
             if (stickyCta && heroSection) {
                 const observer = new IntersectionObserver(
                     ([entry]) => {
-                        // If the top of the hero section is intersecting (i.e., we are near the top)
                         if (entry.isIntersecting) {
                             stickyCta.classList.remove('show');
                         } else {
-                            // If the top of the hero section is scrolled out of view
                             stickyCta.classList.add('show');
                         }
                     },
                     {
-                        // Observe the bottom edge of the viewport
                         rootMargin: "0px 0px -100% 0px",
-                        threshold: 0.1 // Trigger when 10% of the hero is scrolled out
+                        threshold: 0.1
                     }
                 );
                 observer.observe(heroSection);
             }
 
-            // --- LLM Q&A Chat/Calculator Logic ---
-            const CHAT_HISTORY_KEY = 'elliot_music_chat_history';
+            // --- Simple LLM Q&A Logic ---
             const chatForm = document.getElementById('chat-form');
             const chatInput = document.getElementById('chat-input');
             const chatBox = document.getElementById('chat-box');
             const loadingIndicator = document.getElementById('loading-indicator');
             const errorMessage = document.getElementById('error-message');
-            const modeTip = document.getElementById('mode-tip');
             const sendButton = document.getElementById('send-button');
-            const clearHistoryButton = document.getElementById('clear-history-button');
-            const modeToggle = document.getElementById('mode-toggle');
-            const modeTitle = document.getElementById('mode-title');
-            const modeIcon = document.getElementById('mode-icon');
-
-            // Global state for history
-            let chatHistory = [];
-            let currentMode = 'qa'; // 'qa' or 'calculator'
-
+            
+            // NOTE: The environment automatically provides the API key to this base URL
             const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
 
-            // --- Q&A SYSTEM INSTRUCTION (Unchanged for reliability) ---
-            const qaSystemPrompt = `You are a helpful, friendly, and highly knowledgeable Q&A assistant for Elliot Wardill's Mobile Music Lessons. Your primary role is to act as an advanced Q&A system, answering questions concisely and clearly using the provided Context.
-            **Context (Policy & Logistics):**
-            --- General Information & Safety ---
-            - **Instructor:** Elliot Wardill, a musician and educator based in Pudsey who currently works within the education sector.
-            - **Services:** Piano and Singing Lessons.
-            - **Delivery:** Lessons are mobile (at the student's home). Elliot brings all the necessary equipment (including a keyboard) so the student does not need to travel or provide their own instrument.
-            - **Safety Vetting:** Elliot holds a valid **DBS check** for working with children. Parents/guardians are welcome to sit in on lessons.
-            - **Safeguarding (Stanningley Primary School):** Any information or incidents disclosed by a child enrolled at Stanningley Primary School will be reported directly to the school authorities in line with safeguarding procedures.
-            - **Policy Date:** 21/10/2025.
-            --- Fees & Payment ---
-            - **Introductory Offer:** The first lesson is offered at an introductory price of **£10**.
-            - **Standard Lesson Fees:** 30 minutes: **£15**; 60 minutes: **£30**; 90 minutes: **£50**.
-            - **Payment Methods:** Payment can be made in **cash** at the lesson or via **bank transfer** in advance.
-            --- Location & Travel Fees (added to lesson cost for locations outside Pudsey) ---
-            - Up to 5 Miles: **£5**
-            - 5 to 10 Miles: **£10**
-            - 10 to 15 Miles: **£20–£30** (Exact quote provided upon booking).
-            --- Cancellations and Rescheduling Policy ---
-            - **Notice Required:** Please give at least **24 hours’ notice** to cancel or reschedule a lesson.
-            - **Late Cancellation Fee:** Cancellations with less than 24 hours’ notice **may be charged 50%** of the lesson fee.
-            - **Instructor Cancellation:** If Elliot cancels (which is rare), he will **reschedule the lesson at no extra cost** to the student.
-            --- Availability ---
-            - **Available Times:** Tuesday, Wednesday, Thursday: **6pm – 9pm**.
-            - **Weekend:** Saturday & Sunday are **available upon request**.
-            - **Unavailable:** Monday & Friday have **no available slots**.
-            --- Photo and Video Consent Policy ---
-            - **Usage:** Social Media (first name only) and Website/Portfolio.
-            - **Privacy Measures:** Surname, contact details, or specific location will **never** be published.
-            - **Withdrawal of Consent:** Consent can be withdrawn at any time by written notice (email). Media already published may remain online.
-            ***
-            Keep responses brief and directly answer the user's query using the details above.`;
+            // --- Q&A SYSTEM INSTRUCTION (Policy Context) ---
+            const qaSystemPrompt = `You are a helpful, friendly, and highly knowledgeable Q&A assistant for Elliot Wardill's Mobile Music Lessons. Your role is to act as an advanced Q&A system, answering questions concisely and clearly. **Prioritize answering strictly from the Context below**. If a question is outside the scope of the Context, you may use the Google Search tool, but ensure policy answers rely on the Context only. Always use bold text for key figures, names, and policies in your response.
 
-            // --- CALCULATOR SYSTEM INSTRUCTION (Unchanged for LLM fallback) ---
-            const calculatorSystemPrompt = `You are an AI Cost Calculator for Elliot Wardill's Mobile Music Lessons. Your only task is to analyze the user's request and calculate a total cost based ONLY on the provided policy data. Respond ONLY with a JSON object that strictly adheres to the provided JSON Schema. Do NOT include any introductory or explanatory text.
+            **Context (Policy and Logistics)**
 
-            **Lesson Fees:** 30 min: 15, 60 min: 30, 90 min: 50.
-            **Travel Fees (in miles from Pudsey):** Up to 5 Miles: 5. 5 to 10 Miles: 10. 10 to 15 Miles: 20 (Use 20 for estimates).
-            **First Lesson:** 10 (Use this only if the user explicitly asks for the FIRST lesson).
-            **Frequency:** Assume 4 weeks per month for monthly calculations unless specified otherwise (e.g., 'weekly' means 4 per month).
+            --- **General Information and Safety** ---
+            - **Instructor**: **Elliot Wardill**, a musician and educator based in **Pudsey** who currently works within the education sector.
+            - **Services**: **Piano** and **Singing Lessons**.
+            - **Delivery**: Lessons are **mobile** (at the student's home). Elliot brings all the necessary equipment, including a **keyboard**.
+            - **Safety Vetting**: Elliot holds a valid **DBS check** for working with children. Parents/guardians are welcome to sit in on lessons.
+            - **Safeguarding (Stanningley Primary School)**: Any information or incidents disclosed by a child enrolled at **Stanningley Primary School** will be reported directly to the school authorities in line with **safeguarding procedures**.
 
-            If the user request is too vague to calculate, set 'success' to false and provide a helpful message in 'errorDetails'.`;
+            --- **Fees and Payment** ---
+            - **Introductory Offer**: The first lesson is offered at an introductory price of **£10**.
+            - **Standard Lesson Fees**: **30 minutes**: **£15**; **60 minutes**: **£30**; **90 minutes**: **£50**.
+            - **Payment Methods**: Payment can be made in **cash** at the lesson or via **bank transfer** in advance.
 
-            // --- CALCULATOR JSON SCHEMA (Unchanged for LLM fallback) ---
-            const calculatorSchema = {
-                type: "OBJECT",
-                properties: {
-                    success: { type: "BOOLEAN", description: "True if a calculation was possible, false otherwise." },
-                    errorDetails: { type: "STRING", description: "If success is false, explain what information is missing (e.g., 'Lesson duration is missing.')." },
-                    lessonDurationMinutes: { type: "NUMBER", description: "The duration of one lesson in minutes (30, 60, or 90)." },
-                    lessonCost: { type: "NUMBER", description: "The single lesson cost in GBP, including any first lesson discount." },
-                    travelFee: { type: "NUMBER", description: "The calculated travel fee in GBP based on distance (5, 10, or 20)." },
-                    lessonsPerMonth: { type: "NUMBER", description: "The estimated number of lessons per month (e.g., 4 for weekly, 2 for bi-weekly)." },
-                    totalMonthlyCost: { type: "NUMBER", description: "The final total cost per month in GBP." },
-                    calculationBreakdown: { type: "STRING", description: "A simple, single-sentence explanation of the calculation (e.g., '£30 lesson + £5 travel) x 4 weeks = £140')." },
-                    source: { type: "STRING", description: "This will always be 'ai-fallback'." } // Added source for clarity
-                },
-                required: ["success", "errorDetails", "lessonDurationMinutes", "lessonCost", "travelFee", "lessonsPerMonth", "totalMonthlyCost", "calculationBreakdown", "source"],
-                propertyOrdering: ["success", "errorDetails", "lessonDurationMinutes", "lessonCost", "travelFee", "lessonsPerMonth", "totalMonthlyCost", "calculationBreakdown", "source"]
-            };
+            --- **Location and Travel Fees** (added to lesson cost for locations outside Pudsey) ---
+            - Up to **5 Miles**: **£5**
+            - **5 to 10 Miles**: **£10**
+            - **10 to 15 Miles**: **£20-£30**
 
-            // Helper function to update mode display
-            function updateModeUI() {
-                let modeInputPlaceholder;
-                if (currentMode === 'qa') {
-                    modeTitle.textContent = 'Lesson Assistant Q&A';
-                    modeInputPlaceholder = 'Ask a question about fees, availability, or policies...';
-                    modeTip.textContent = 'Tip: Switch to Calculator Mode to get cost estimates, like "How much is a 60-minute lesson with a 7-mile travel fee?"';
-                    modeIcon.setAttribute('data-lucide', 'message-square');
-                    if (typeof createIcons === 'function') {
-                        createIcons({ icons: { MessageSquare } }); // Re-render icon
-                    }
-                } else { // calculator
-                    modeTitle.textContent = 'Lesson Calculator (Hybrid)';
-                    modeInputPlaceholder = 'E.g., "I want a weekly 90-minute lesson with a 3-mile travel fee."';
-                    modeTip.textContent = 'Tip: Provide lesson duration, frequency (e.g., weekly, monthly), and travel distance (miles) for best results. Simple queries are INSTANT!';
-                    modeIcon.setAttribute('data-lucide', 'calculator');
-                    if (typeof createIcons === 'function') {
-                        createIcons({ icons: { Calculator } }); // Re-render icon
-                    }
-                }
-                chatInput.placeholder = modeInputPlaceholder;
-            }
+            --- **Cancellations and Rescheduling Policy** ---
+            - **Notice Required**: Please give at least **24 hours' notice** to cancel or reschedule a lesson.
+            - **Late Cancellation Fee**: Cancellations with less than **24 hours' notice** may be charged **50%** of the lesson fee.
+            - **Instructor Cancellation**: If Elliot cancels, he will **reschedule the lesson at no extra cost**.
 
-            // --- ADVANCED CODE: Client-Side Calculation Pre-processor ---
-            function calculateClientSide(query) {
-                const q = query.toLowerCase();
-                const result = { duration: 0, cost: 0, distance: 0, travelFee: 0, frequency: 0, lessonsPerMonth: 0, isFirstLesson: false };
+            --- **Availability** ---
+            - **Available Times**: **Tuesday, Wednesday, Thursday**: **6pm – 9pm**.
+            - **Weekend**: **Saturday** and **Sunday** are available upon request.
+            - **Unavailable**: **Monday** and **Friday** have **no available slots**.
 
-                // 1. Duration & Cost
-                if (/(90|90\s*min|hour and a half)/.test(q)) {
-                    result.duration = 90; result.cost = 50;
-                } else if (/(60|60\s*min|hour)/.test(q)) {
-                    result.duration = 60; result.cost = 30;
-                } else if (/(30|30\s*min|half hour)/.test(q)) {
-                    result.duration = 30; result.cost = 15;
-                } else {
-                    return null; // Must have a duration to calculate
-                }
+            --- **Photo and Video Consent Policy** ---
+            - **Usage**: **Social Media** (first name only) and **Website/Portfolio** (promotional/educational use).
+            - **Privacy Measures**: Surname, contact details, or specific location will **never** be published.
+            - **Withdrawal of Consent**: Consent can be withdrawn at any time by **written notice** (email). Media already published may remain online.
 
-                // Check for introductory offer
-                if (/(first|introductory|trial)/.test(q)) {
-                    result.isFirstLesson = true;
-                    result.cost = 10;
-                }
-
-                // 2. Distance & Travel Fee (using fixed policy tiers)
-                const distanceMatch = q.match(/(\d+)\s*(mile|mi)/);
-                if (distanceMatch) {
-                    result.distance = parseInt(distanceMatch[1], 10);
-                    if (result.distance <= 5) {
-                        result.travelFee = 5;
-                    } else if (result.distance <= 10) {
-                        result.travelFee = 10;
-                    } else if (result.distance <= 15) {
-                        result.travelFee = 20; // Use minimum fee for simplicity
-                    } else {
-                         // >15 miles is too complex for client-side as it is £20-£30
-                         return null;
-                    }
-                } else {
-                    // Default to 0 if not specified (assumed to be in Pudsey/local area)
-                    result.travelFee = 0;
-                }
-
-                // 3. Frequency (Default to weekly if duration found but frequency is absent)
-                if (/(bi-weekly|twice\s*a\s*month|every 2 weeks)/.test(q)) {
-                    result.lessonsPerMonth = 2;
-                } else if (/(once\s*a\s*month|monthly)/.test(q)) {
-                    result.lessonsPerMonth = 1;
-                } else {
-                    // Default to weekly (4) for any other case where duration was found
-                    result.lessonsPerMonth = 4;
-                }
-                
-                // Final calculation
-                result.totalMonthlyCost = (result.cost + result.travelFee) * result.lessonsPerMonth;
-                
-                // If it's the first lesson, we can't calculate a monthly cost in a sensible way, so let LLM handle it
-                // We only do a monthly calculation if it's NOT the first lesson, or if the user explicitly asks for only 1 lesson (i.e., the first lesson)
-                if (result.isFirstLesson && result.lessonsPerMonth > 1) {
-                    return null;
-                }
-                
-                // If it is the first lesson AND only one lesson is calculated, the monthly cost is just the single lesson cost.
-                if (result.isFirstLesson && result.lessonsPerMonth === 1) {
-                     result.totalMonthlyCost = result.cost + result.travelFee;
-                     result.lessonsPerMonth = 1; // Explicitly set 1 for the one-off calculation
-                }
-
-
-                // Construct final structured output (matching LLM schema for consistency)
-                return {
-                    success: true,
-                    source: 'client-side',
-                    lessonDurationMinutes: result.duration,
-                    lessonCost: result.cost,
-                    travelFee: result.travelFee,
-                    lessonsPerMonth: result.lessonsPerMonth,
-                    totalMonthlyCost: result.totalMonthlyCost,
-                    calculationBreakdown: `(£${result.cost} lesson ${result.isFirstLesson ? '(First Lesson Discount)' : ''} + £${result.travelFee} travel) x ${result.lessonsPerMonth} lesson${result.lessonsPerMonth === 1 ? '' : 's'}`
-                };
-            }
-            // --- END ADVANCED CODE ---
-
-
-            // Function to render the JSON calculation result
-            function renderCalculation(data) {
-                // Ensure number formatting is correct for display
-                const lessonCost = data.lessonCost.toFixed(2);
-                const travelFee = data.travelFee.toFixed(2);
-                const totalMonthlyCost = data.totalMonthlyCost.toFixed(2);
-
-                if (!data.success) {
-                    return `<div class="p-4 bg-red-400/20 text-red-100 rounded-xl border border-red-500">
-                        <p class="font-semibold mb-1">Calculation Error</p>
-                        <p class="text-xs">I couldn't complete the calculation. **Reason:** ${data.errorDetails}</p>
-                    </div>`;
-                }
-                
-                const isLocal = data.source === 'client-side';
-                const sourceBadge = isLocal 
-                    ? `<span class="bg-brand-accent-light text-brand-dark-bg px-2 py-0.5 rounded-full text-xs font-bold flex items-center"><i data-lucide="rocket" class="w-3 h-3 mr-1"></i> INSTANT</span>`
-                    : `<span class="bg-brand-highlight text-brand-dark-bg px-2 py-0.5 rounded-full text-xs font-bold flex items-center"><i data-lucide="star" class="w-3 h-3 mr-1"></i> AI PARSED</span>`;
-
-                const lessonText = data.lessonsPerMonth > 1 ? 'Lessons per Month' : 'Cost for Single Lesson';
-
-
-                return `
-                    <div class="p-5 bg-brand-dark-bg rounded-xl border-t-4 ${isLocal ? 'border-brand-accent-light' : 'border-brand-highlight'} text-brand-text-light shadow-xl">
-                        <div class="flex justify-between items-center mb-3">
-                             <h4 class="text-xl font-heading font-bold text-white">Cost Estimate</h4>
-                             ${sourceBadge}
-                        </div>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between border-b border-gray-700/50 pb-1">
-                                <span class="text-brand-text-mid">Lesson Duration:</span>
-                                <span class="font-semibold">${data.lessonDurationMinutes} mins</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-700/50 pb-1">
-                                <span class="text-brand-text-mid">Lesson Cost (Single):</span>
-                                <span class="font-semibold">£${lessonCost}</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-700/50 pb-1">
-                                <span class="text-brand-text-mid">Estimated Travel Fee (Single):</span>
-                                <span class="font-semibold">£${travelFee}</span>
-                            </div>
-                            ${data.lessonsPerMonth > 1 ? 
-                            `<div class="flex justify-between border-b border-gray-700/50 pb-1">
-                                <span class="text-brand-text-mid">Total Lessons Included:</span>
-                                <span class="font-semibold">${data.lessonsPerMonth}</span>
-                            </div>` : ''}
-                            <div class="flex justify-between pt-2 border-t border-brand-highlight/50">
-                                <span class="text-lg font-bold text-brand-accent-light">${lessonText}:</span>
-                                <span class="text-lg font-bold text-brand-accent-light">£${totalMonthlyCost}</span>
-                            </div>
-                        </div>
-                        <p class="text-xs text-brand-text-mid mt-4 italic border-t border-gray-700 pt-2">
-                            Breakdown: ${data.calculationBreakdown}
-                        </p>
-                    </div>
-                `;
-            }
+            Keep responses brief and directly answer the user's query, following all formatting rules.`;
 
             // Helper function to append message to chat box UI
-            function appendMessageToUI(sender, parts, isHtml = false) {
+            function appendMessageToUI(sender, text) {
                 const messageContainer = document.createElement('div');
                 messageContainer.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
 
@@ -594,139 +358,29 @@
                     bubble.classList.add('bg-brand-accent-light/20', 'text-brand-text-light', 'rounded-tl-none');
                 }
 
-                if (isHtml) {
-                     bubble.innerHTML = parts[0].text; // Directly inject HTML content
-                } else {
-                    // Process parts (text only now)
-                    parts.forEach(part => {
-                        if (part.text) {
-                            const textNode = document.createElement('p');
-                            textNode.innerHTML = part.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                            bubble.appendChild(textNode);
-                        }
-                    });
-                }
-
+                const textNode = document.createElement('p');
+                // Simple bolding of text from API response
+                textNode.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                bubble.appendChild(textNode);
 
                 messageContainer.appendChild(bubble);
                 chatBox.insertBefore(messageContainer, loadingIndicator);
                 chatBox.scrollTop = chatBox.scrollHeight;
-                
-                // Re-render new icons
-                if (typeof createIcons === 'function') {
-                    createIcons({ icons: { Rocket, Star } });
-                }
             }
-            // Function to save chat history to localStorage (only text for simplicity)
-            function saveChatHistory() {
-                // Strip out non-text parts before saving to avoid hitting localStorage size limits
-                const textOnlyHistory = chatHistory.map(item => ({
-                    role: item.role,
-                    parts: item.parts.filter(part => part.text)
-                })).filter(item => item.parts.length > 0);
-
-                try {
-                    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(textOnlyHistory));
-                } catch (e) {
-                    console.error("Could not save chat history to localStorage:", e);
-                }
-            }
-
-            // Function to clear chat history from localStorage and UI
-            function clearChatHistory() {
-                localStorage.removeItem(CHAT_HISTORY_KEY);
-                chatHistory = [];
-
-                chatBox.innerHTML = `
-                    <div class="flex justify-start initial-message">
-                        <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-                            Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and photo consent.
-                        </div>
-                    </div>
-                    <div id="loading-indicator" class="hidden flex justify-start">
-                        <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
-                            <span class="text-sm">Typing</span>
-                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
-                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
-                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
-                        </div>
-                    </div>
-                `;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-
-            // Function to load and display chat history from localStorage
-            function loadChatHistory() {
-                try {
-                    const savedHistory = localStorage.getItem(CHAT_HISTORY_KEY);
-                    if (savedHistory) {
-                        // Clear the initial message before loading history
-                        const initialMessage = chatBox.querySelector('.initial-message');
-                        if (initialMessage) {
-                            initialMessage.remove();
-                        }
-
-                        const parsedHistory = JSON.parse(savedHistory);
-                        chatHistory = parsedHistory; // Restore history array
-
-                        // Display restored history in UI
-                        parsedHistory.forEach(message => {
-                            if (message.role === 'user') {
-                                // User messages are always plain text
-                                appendMessageToUI(message.role, message.parts);
-                            } else if (message.role === 'model') {
-                                // Check if it's a calculator output that needs HTML rendering
-                                const text = message.parts[0].text;
-                                if (text.startsWith('CALCULATION: ')) {
-                                    const jsonString = text.substring('CALCULATION: '.length);
-                                    try {
-                                        const data = JSON.parse(jsonString);
-                                        const htmlContent = renderCalculation(data);
-                                        // The third argument (true) indicates the part is HTML
-                                        appendMessageToUI('bot', [{ text: htmlContent }], true);
-                                    } catch (e) {
-                                        // If parsing fails, treat it as regular text
-                                        appendMessageToUI('bot', [{ text: 'Error displaying previous calculation.' }]);
-                                    }
-                                } else {
-                                    // Regular text response
-                                    appendMessageToUI('bot', message.parts);
-                                }
-                            }
-                        });
-
-                        const historyMessage = document.createElement('div');
-                        historyMessage.classList.add('text-center', 'text-brand-text-mid', 'text-xs', 'py-1');
-                        historyMessage.innerHTML = '<i data-lucide="history" class="w-3 h-3 inline-block mr-1 align-sub"></i> Conversation loaded from history.';
-                        chatBox.insertBefore(historyMessage, loadingIndicator);
-
-                        // Re-create icons for the new element
-                        if (typeof createIcons === 'function') {
-                            createIcons({ icons: { History, Rocket, Star } });
-                        }
-                    }
-                } catch (e) {
-                    console.error("Could not load chat history from localStorage, starting new session:", e);
-                    localStorage.removeItem(CHAT_HISTORY_KEY);
-                    chatHistory = []; // Reset just in case of partial failure
-                }
-            }
-
-            // Fetch data from Gemini API with exponential backoff
-            async function fetchWithBackoff(url, options, retries = 5) { // Retries set to 5
+            
+            // Fetch data from Gemini API with exponential backoff (required)
+            async function fetchWithBackoff(url, options, retries = 5) {
                 for (let i = 0; i < retries; i++) {
                     try {
                         const response = await fetch(url, options);
                         if (!response.ok) {
                             const errorBody = await response.text();
-                            
-                            let errorMessage = `API request failed with status ${response.status}. Details logged.`;
+                            let statusError = `API request failed with status ${response.status}.`;
                             if (response.status === 403) {
-                                // Specific error log for 403 to help user debug
-                                errorMessage = `API request failed with 403 Forbidden. This is an authentication issue.`;
+                                statusError += " This indicates an authentication issue (403 Forbidden).";
                             }
-                            console.error("API Non-OK Response Details:", errorMessage, errorBody); 
-                            throw new Error(errorMessage);
+                            console.error(statusError, "Details:", errorBody); 
+                            throw new Error(statusError);
                         }
                         return response;
                     } catch (error) {
@@ -739,6 +393,7 @@
                 }
             }
 
+
             // Core Logic to handle the user's input
             async function handleQuery(query) {
                 sendButton.disabled = true;
@@ -746,53 +401,15 @@
                 errorMessage.classList.add('hidden');
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                const userParts = [{ text: query.trim() }];
-                appendMessageToUI('user', userParts);
-                const userMessageForRequest = { role: "user", parts: userParts };
+                appendMessageToUI('user', query);
                 
-                // --- HYBRID LOGIC START ---
-                if (currentMode === 'calculator') {
-                    const clientResult = calculateClientSide(query);
-                    if (clientResult && clientResult.success) {
-                        // Success: Render client-side result instantly (FASTEST PATH)
-                        const htmlContent = renderCalculation(clientResult);
-                        // Store original JSON text in history, but render HTML to UI
-                        const modelMessage = { role: "model", parts: [{ text: `CALCULATION: ${JSON.stringify(clientResult)}` }] };
-                        chatHistory.push(userMessageForRequest, modelMessage);
-                        appendMessageToUI('bot', [{ text: htmlContent }], true);
-                        saveChatHistory();
-                        loadingIndicator.classList.add('hidden');
-                        sendButton.disabled = false;
-                        chatInput.value = '';
-                        return; // EXIT - No API call needed
-                    }
-                    // Client-side failed/was too complex, fall through to AI
-                }
-                // --- HYBRID LOG END / AI FALLBACK START ---
-                
-                // Add user message to history for the API call (Q&A mode uses full history, Calc mode uses single query)
-                chatHistory.push(userMessageForRequest);
-                const MAX_HISTORY_MESSAGES = 6;
-                const contentHistory = chatHistory.slice(Math.max(chatHistory.length - MAX_HISTORY_MESSAGES, 0));
-
-                let payload = {
-                    contents: contentHistory,
-                    // Only use Google Search grounding in Q&A mode
-                    tools: currentMode === 'qa' ? [{ "google_search": {} }] : undefined,
+                const payload = {
+                    contents: [{ parts: [{ text: query.trim() }] }],
+                    tools: [{ "google_search": {} }], // Use Google Search for grounded Q&A
                     systemInstruction: {
-                        parts: [{ text: currentMode === 'qa' ? qaSystemPrompt : calculatorSystemPrompt }]
+                        parts: [{ text: qaSystemPrompt }]
                     },
                 };
-                
-                if (currentMode === 'calculator') {
-                    // Use LLM for parsing complex calculation requests
-                    payload.generationConfig = {
-                        responseMimeType: "application/json",
-                        responseSchema: calculatorSchema
-                    };
-                    // Only send the current query, as calculations don't need history
-                    payload.contents = [userMessageForRequest];
-                }
 
                 const options = {
                     method: 'POST',
@@ -801,7 +418,6 @@
                 };
 
                 try {
-                    // Using API_URL directly, relying on the environment to inject the API key.
                     const response = await fetchWithBackoff(API_URL, options);
                     const result = await response.json();
 
@@ -814,50 +430,24 @@
                     let text = botCandidate?.content?.parts?.[0]?.text;
 
                     if (text) {
-                        if (currentMode === 'calculator') {
-                            // Handle JSON response from AI
-                            const data = JSON.parse(text);
-                            data.source = 'ai-fallback'; // Ensure source is labeled
-                            const htmlContent = renderCalculation(data);
-                            // Store original JSON text in history, but render HTML to UI
-                            const modelMessage = { role: "model", parts: [{ text: `CALCULATION: ${JSON.stringify(data)}` }] };
-                            chatHistory[chatHistory.length - 1] = modelMessage; // Replace the history entry that was just added with the LLM response
-                            appendMessageToUI('bot', [{ text: htmlContent }], true);
-                        } else {
-                            // Handle standard Q&A text response
-                            const modelMessage = { role: "model", parts: [{ text: text }] };
-                            chatHistory[chatHistory.length - 1] = modelMessage; // Replace the history entry that was just added with the LLM response
-                            appendMessageToUI('bot', modelMessage.parts);
-                        }
-                        saveChatHistory();
+                        appendMessageToUI('bot', text);
                     } else {
-                        // Handle empty or missing text response
-                        const modelMessage = { role: "model", parts: [{ text: "I received an empty response. Please try rephrasing your question." }] };
-                        chatHistory[chatHistory.length - 1] = modelMessage; // Replace the history entry
-                        appendMessageToUI('bot', modelMessage.parts);
+                        appendMessageToUI('bot', "I received an empty response. Please try rephrasing your question.");
                     }
 
                 } catch (error) {
-                    console.error(`Gemini API Request Failed in ${currentMode.toUpperCase()} mode:`, error);
+                    console.error("Gemini API Request Failed:", error);
 
                     let userVisibleError = "The assistant service failed due to a communication error. Please try again.";
                     if (error.message.includes('403')) {
                          userVisibleError = "The AI service failed to authenticate (403 Error). Please try reloading the page to refresh the connection.";
                     } else if (error.message.includes('error in body')) {
                         userVisibleError = "The AI model returned an error. Try asking a simpler question.";
-                    } else if (error instanceof SyntaxError) {
-                         userVisibleError = "The model returned unparseable data. Try rephrasing your calculation request.";
                     }
 
                     errorMessage.textContent = userVisibleError;
                     errorMessage.classList.remove('hidden');
-
-                    // Remove the failed user message from history
-                    if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'user') {
-                         chatHistory.pop();
-                    }
-                    // Informative failure message in the chat bubble
-                    appendMessageToUI('bot', [{ text: "I apologize, but I can't process this right now. The AI service is temporarily unavailable. Please try your question again in a moment." }]);
+                    appendMessageToUI('bot', "I apologize, but I can't process this right now. The AI service is temporarily unavailable. Please check the console for details.");
 
                 } finally {
                     loadingIndicator.classList.add('hidden');
@@ -880,16 +470,6 @@
                 }
             });
 
-            clearHistoryButton.addEventListener('click', clearChatHistory);
-
-            modeToggle.addEventListener('change', function() {
-                currentMode = this.checked ? 'calculator' : 'qa';
-                updateModeUI();
-            });
-
-            // --- Initialization ---
-            updateModeUI();
-            loadChatHistory();
         })();
     </script>
 </body>
