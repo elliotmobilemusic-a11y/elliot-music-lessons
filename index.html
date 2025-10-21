@@ -472,7 +472,7 @@
             }
 
             // Fetch data from Gemini API with exponential backoff
-            async function fetchWithBackoff(url, options, retries = 3) {
+            async function fetchWithBackoff(url, options, retries = 5) { // RETRIES INCREASED TO 5 FOR ROBUSTNESS
                 for (let i = 0; i < retries; i++) {
                     try {
                         const response = await fetch(url, options);
