@@ -170,7 +170,7 @@
                                 <p class="text-brand-text-mid text-sm">Pudsey, Farsley, Calverley, Bramley.</p>
                                 <p class="text-brand-text-mid text-sm font-bold mt-2">Extended Area:</p>
                                 <p class="text-brand-text-mid text-sm">Horsforth, and other areas of West Leeds.</p>
-                                <p class="text-xs text-brand-highlight/90 mt-2 p-2 bg-brand-accent-dark/30 rounded">
+                                <p class="xs text-brand-highlight/90 mt-2 p-2 bg-brand-accent-dark/30 rounded">
                                     <i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i>
                                     <b class="font-bold">Please Note:</b> Travel fees may apply outside the core Pudsey area.
                                 </p>
@@ -185,16 +185,19 @@
                 <h2 class="text-xl font-bold text-brand-text-light mb-4">Send a Message</h2>
 
                 <form
-                    action="https://formsubmit.co/elliotmobilemusic@gmail.com"
+                    action="https://formspree.io/f/mblzezqv"
                     method="POST"
                     id="contact-form"
                     class="space-y-4"
                     novalidate
                 >
-                    <!-- REQUIRED FOR FORMSUBMIT: Recipient Email -->
-                    <input type="hidden" name="_recipient" value="elliotmobilemusic@gmail.com">
+                    <!-- 
+                        NOTE: This form is now configured for Formspree. 
+                        1. Create your form on Formspree to get a unique hash (e.g., 'f123abc').
+                        2. The fetch logic below will automatically handle the submission.
+                    -->
 
-                    <!-- REQUIRED FOR FORMSUBMIT: Spam prevention (Honeypot) -->
+                    <!-- REQUIRED FOR FORMSUBMIT/FORMSPREE: Spam prevention (Honeypot) -->
                     <input type="text" name="_gotcha" style="display:none">
 
                     <!-- Full Name -->
@@ -466,11 +469,15 @@
                     if (response.ok) {
                         return response;
                     } else {
+                        // Formspree returns a 400 or 422 if the setup/hash is wrong
+                        if (response.status === 400 || response.status === 422) {
+                            throw new Error('Form configuration error. Please ensure the Formspree hash is correct and activated.');
+                        }
                         lastError = new Error(`Server returned status ${response.status}`);
                         console.warn(`Attempt ${i + 1} failed with status: ${response.status}. Retrying...`);
                     }
                 } catch (error) {
-                    // Network error (e.g., connection timed out)
+                    // Network error (e.g., connection timed out) or Configuration error
                     lastError = error;
                     console.warn(`Attempt ${i + 1} failed with network error:`, error.message);
                 }
@@ -500,10 +507,10 @@
             submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
 
             try {
+                // Attempt submission with built-in retry logic
                 await submitWithRetry(form.action, {
                     method: form.method,
                     body: formData,
-                    headers: { 'Accept': 'application/json' }
                 }, 3, 500);
 
                 // Success
@@ -514,7 +521,14 @@
             } catch (error) {
                 // Final Failure after all retries
                 console.error('Final form submission failed after all retries:', error);
-                showErrorModal('The form submission failed after multiple attempts. This suggests a persistent connection issue or a server problem. Please use the direct email link below.');
+                
+                let errorMessage = 'The form submission failed after multiple attempts. This suggests a persistent connection issue or a server problem. Please use the direct email link below.';
+                // Prioritize the Formspree activation/config error message if detected
+                if (error.message.includes('Form configuration error')) {
+                    errorMessage = 'ERROR: The form submission URL is invalid or the form is not activated. Please check your Formspree hash and ensure you have activated the form via the confirmation email.';
+                }
+                
+                showErrorModal(errorMessage);
 
             } finally {
                 // Restore button state
