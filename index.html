@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elliot Wardill - Mobile Music Lessons</title>
-    
+
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Custom Tailwind Config for Theme -->
     <script>
         tailwind.config = {
@@ -18,13 +18,13 @@
                         'brand-accent-light': '#00d084', // Vibrant green/aqua
                         'brand-accent-dark': '#00a36e', // Darker green/aqua
                         'brand-text-light': '#e0e0e0', // Light grey for text
-                        'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
+                        'brand-text-mid': '#a0e0e0', // Mid grey for secondary text
                         'brand-highlight': '#ffb703', // Vibrant golden yellow
                         'card-bg': '#252538', // Slightly lighter dark background for containers
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'], 
+                        heading: ['Montserrat', 'sans-serif'],
                     },
                 }
             }
@@ -34,8 +34,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e; 
-            color: #e0e0e0; 
+            background-color: #1a1a2e;
+            color: #e0e0e0;
             /* Subtle radial gradient for depth */
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
         }
@@ -43,22 +43,57 @@
             text-shadow: 0 0 10px rgba(0, 208, 132, 0.5);
         }
         .card-glow {
-             box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
         }
         /* Style the chat input and button for better integration */
         #chat-input:focus {
             border-color: #00d084;
             box-shadow: 0 0 0 3px rgba(0, 208, 132, 0.5);
         }
+
+        /* --- Advanced Typing Indicator Animation --- */
+        @keyframes dot-pulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.4); }
+        }
+        .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
+        .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
+        .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
+        /* ------------------------------------------- */
+        
+        /* General input group styling */
+        .input-group {
+            background-color: #252538;
+            border-radius: 0.5rem;
+        }
+        
+        /* Sticky CTA specific styling */
+        #sticky-cta {
+            position: fixed;
+            bottom: 1.5rem; /* Large enough for mobile tap targets */
+            right: 1.5rem;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(20px);
+        }
+        #sticky-cta.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Contact Box specific styling */
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
     </style>
     <!-- Load Lucide Icons -->
     <script type="module">
-        import { createIcons, Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-        createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History } });
+        import { createIcons, Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, Star } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, Loader2, Send, History, Star } });
     </script>
 </head>
 <body class="min-h-screen flex flex-col">
-
     <!-- Navigation Bar -->
     <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,7 +139,7 @@
     <main class="max-w-6xl mx-auto px-4 py-8 sm:py-12 flex-grow">
 
         <!-- Hero Section -->
-        <header class="text-center mb-10">
+        <header id="hero-section" class="text-center mb-10">
             <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-3 main-hero-shadow">
                 <span class="text-brand-accent-light">Elliot Wardill</span>
                 <br class="hidden sm:inline"> Mobile Music Lessons
@@ -122,10 +157,38 @@
             </div>
         </header>
 
+        <!-- Instructor Bio / Visual Rapport Section -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-card-bg p-6 rounded-xl border border-brand-accent-dark/50">
+                <div class="md:col-span-2">
+                    <h2 class="font-heading text-3xl font-bold text-brand-accent-light mb-3">Meet Your Tutor</h2>
+                    <p class="text-brand-text-mid mb-4">
+                        Elliot is a professional musician and experienced educator who brings passion and expertise directly to your home. He believes music education should be fun, accessible, and tailored to the individual student's aspirations, whether they aim for examinations or simply want to play their favorite songs.
+                    </p>
+                    <!-- Prominent Contact Block -->
+                    <div class="contact-box flex flex-col sm:flex-row gap-4 text-sm mt-4 p-4 rounded-lg bg-brand-dark-bg/50 border border-brand-highlight/30">
+                        <span class="flex items-center text-brand-text-light font-semibold">
+                            <i data-lucide="phone" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+                            Call: <a href="tel:07368975144" class="ml-1 hover:text-white">07368 975144</a>
+                        </span>
+                        <span class="flex items-center text-brand-text-light font-semibold">
+                            <i data-lucide="mail" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+                            Email: <a href="mailto:elliotmobilemusic@gmail.com" class="ml-1 hover:text-white">elliotmobilemusic@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="md:col-span-1 flex justify-center">
+                    <!-- Placeholder for Instructor Photo -->
+                    <img src="https://placehold.co/300x300/1a1a2e/00d084?text=Elliot+Wardill" alt="Elliot Wardill, Music Tutor" class="rounded-xl shadow-2xl w-48 h-48 md:w-full md:h-auto object-cover border-4 border-brand-accent-light/50" onerror="this.onerror=null; this.src='https://placehold.co/300x300/1a1a2e/00d084?text=Elliot+Wardill'">
+                </div>
+            </div>
+        </section>
+
+
         <!-- Key Features Section -->
         <section class="mb-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
+
                 <!-- Feature 1: Expertise -->
                 <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-accent-light hover:border-brand-highlight transition duration-300">
                     <i data-lucide="book-open" class="w-7 h-7 text-brand-accent-light mb-2"></i>
@@ -139,39 +202,56 @@
                     <h3 class="text-lg font-semibold text-brand-text-light mb-1">We Come To You</h3>
                     <p class="text-brand-text-mid text-xs">Enjoy lessons in the comfort of your own home. All necessary equipment, including a keyboard, is provided.</p>
                 </div>
-
-                <!-- Feature 3: Safety -->
-                <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-accent-light hover:border-brand-highlight transition duration-300">
-                    <i data-lucide="zap" class="w-7 h-7 text-brand-accent-light mb-2"></i>
+                
+                <!-- Feature 3: Safety/Vetting -->
+                <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-highlight hover:border-brand-accent-light transition duration-300">
+                    <i data-lucide="zap" class="w-7 h-7 text-brand-highlight mb-2"></i>
                     <h3 class="text-lg font-semibold text-brand-text-light mb-1">Fully Vetted</h3>
-                    <p class="text-brand-text-mid text-xs">I hold a valid **DBS check** for working with children, ensuring a safe and inspiring learning environment.</p>
+                    <p class="text-brand-text-mid text-xs">For peace of mind, Elliot holds a valid **DBS check** for working with children, and is fully insured.</p>
                 </div>
             </div>
         </section>
 
+
         <!-- LLM Q&A Chat Section -->
         <section class="bg-card-bg p-5 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
-            <h2 class="font-heading text-2xl font-bold text-brand-highlight mb-5 text-center border-b border-brand-accent-dark pb-3">
-                Quick Q&A Assistant
-            </h2>
+            
+            <!-- Title and Clear History Button -->
+            <div class="flex justify-between items-center mb-5 border-b border-brand-accent-dark pb-3">
+                <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
+                    <i data-lucide="history" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+                    Lesson Assistant Q&A
+                </h2>
+                <button id="clear-history-button" class="text-brand-text-mid hover:text-brand-highlight transition duration-200 text-sm flex items-center p-2 rounded-lg hover:bg-brand-accent-light/10">
+                    <i data-lucide="history" class="w-4 h-4 mr-1"></i> Clear Conversation
+                </button>
+            </div>
+
             <!-- Chat Box with A11Y improvement: aria-live region -->
-            <div id="chat-box" class="h-72 overflow-y-auto p-4 mb-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite" aria-atomic="false">
+            <!-- UPDATED: Increased default and medium height -->
+            <div id="chat-box" class="h-[20rem] md:h-96 overflow-y-auto p-4 mb-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite" aria-atomic="false">
                 <!-- Initial Bot Message -->
-                <div class="flex justify-start">
+                <div class="flex justify-start initial-message">
                     <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-                        Hello! I'm your assistant. Ask me anything about Elliot's lessons, policies, or availability!
+                        Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and contact information.
                     </div>
                 </div>
                 <!-- Chat messages will be appended here -->
+                
+                <!-- Animated Loading Indicator -->
                 <div id="loading-indicator" class="hidden flex justify-start">
-                    <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center">
-                        <i data-lucide="loader-2" class="w-4 h-4 mr-2 animate-spin"></i> Thinking...
+                    <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
+                        <span class="text-sm">Typing</span>
+                        <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
+                        <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
+                        <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
                     </div>
                 </div>
             </div>
 
+            <!-- Text Query Input & Send Button -->
             <form id="chat-form" class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="e.g., What is the cost for a 60-minute lesson?" class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light transition duration-200 text-sm" required>
+                <input type="text" id="chat-input" placeholder="Ask a question about fees, availability, or policies..." class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light transition duration-200 text-sm">
                 <button type="submit" id="send-button" class="bg-brand-highlight text-brand-dark-bg p-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition duration-200 flex items-center justify-center w-10 h-10" aria-label="Send message">
                     <i data-lucide="send" class="w-5 h-5"></i>
                 </button>
@@ -180,6 +260,11 @@
         </section>
 
     </main>
+    
+    <!-- Sticky CTA Button (Hidden until scrolled) -->
+    <a href="contact.html" id="sticky-cta" class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 shadow-xl shadow-brand-accent-light/50">
+        <i data-lucide="mail" class="w-5 h-5 mr-1"></i> Book Now
+    </a>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
@@ -188,8 +273,8 @@
             <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
         </div>
     </footer>
-    
-    <!-- JavaScript for Mobile Menu and Advanced API Interaction with History -->
+
+    <!-- JavaScript for Mobile Menu, Advanced API Interaction, and Sticky CTA -->
     <script>
         // IIFE for scope management and advanced logic
         (function() {
@@ -198,6 +283,30 @@
                 var menu = document.getElementById('mobile-menu');
                 menu.classList.toggle('hidden');
             });
+            
+            // --- Sticky CTA Logic ---
+            const stickyCta = document.getElementById('sticky-cta');
+            const heroSection = document.getElementById('hero-section');
+
+            if (stickyCta && heroSection) {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        // If the top of the hero section is intersecting (i.e., we are near the top)
+                        if (entry.isIntersecting) {
+                            stickyCta.classList.remove('show');
+                        } else {
+                            // If the top of the hero section is scrolled out of view
+                            stickyCta.classList.add('show');
+                        }
+                    },
+                    {
+                        // Observe the bottom edge of the viewport
+                        rootMargin: "0px 0px -100% 0px", 
+                        threshold: 0.1 // Trigger when 10% of the hero is scrolled out
+                    }
+                );
+                observer.observe(heroSection);
+            }
 
             // --- LLM Q&A Chat Logic ---
             const CHAT_HISTORY_KEY = 'elliot_music_chat_history';
@@ -207,40 +316,78 @@
             const loadingIndicator = document.getElementById('loading-indicator');
             const errorMessage = document.getElementById('error-message');
             const sendButton = document.getElementById('send-button');
+            const clearHistoryButton = document.getElementById('clear-history-button');
 
-            // Global chat history array used for session management and persistence
-            let chatHistory = []; 
+            // Global state for history
+            let chatHistory = [];
 
-            const apiKey = "" 
+            const apiKey = ""
             const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-            
-            // System instruction remains the same, but it's now wrapped for clarity in the JS module
-            const systemPrompt = `You are a helpful and friendly Q&A assistant for Elliot Wardill's Mobile Music Lessons. 
-            Your goal is to answer user questions concisely and clearly, based *only* on the provided context.
-            
-            **Context:**
-            - **Instructor:** Elliot Wardill.
-            - **Services:** Piano and Singing Lessons.
-            - **Delivery:** Lessons are mobile (at the student's home). Elliot brings necessary equipment (including a keyboard).
-            - **Areas Served:** Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.
-            - **Travel Fees:** 5 Miles +: £5; 10 Miles +: £10; 15 Miles +: £20-£30.
-            - **Fees (Standard Lessons):** 30 minutes: £15; 60 minutes: £30; 90 minutes: £50. First lesson introductory offer: £10.
-            - **Payment:** Cash at the lesson or bank transfer in advance.
-            - **Cancellation Policy:** At least 24 hours' notice required. Less than 24 hours' notice may be charged 50% of the lesson fee.
-            - **Availability:** Tuesday (6pm-9pm), Wednesday (6pm-9pm), Thursday (6pm-9pm). Saturday & Sunday are available upon request. Monday & Friday have no available slots.
-            - **Safety:** Instructor holds a valid DBS check. Parents/guardians are welcome to sit in.
-            - **Safeguarding (Stanningley Primary School):** Any information disclosed by a child enrolled there will be reported directly to school authorities.
 
+            // --- SYSTEM INSTRUCTION ---
+            const systemPrompt = `You are a helpful, friendly, and highly knowledgeable Q&A assistant for Elliot Wardill's Mobile Music Lessons. Your primary role is to act as an advanced Q&A system, answering questions concisely and clearly using the provided Context.
+
+            **Context (Policy & Logistics):**
+
+            --- General Information & Safety ---
+            - **Instructor:** Elliot Wardill, a musician and educator based in Pudsey who currently works within the education sector.
+            - **Services:** Piano and Singing Lessons.
+            - **Delivery:** Lessons are mobile (at the student's home). Elliot brings all the necessary equipment (including a keyboard) so the student does not need to travel or provide their own instrument.
+            - **Safety Vetting:** Elliot holds a valid **DBS check** for working with children.
+            - **Supervision:** Parents/guardians are welcome and encouraged to sit in on lessons.
+            - **Safeguarding (Stanningley Primary School):** Any information or incidents disclosed by a child enrolled at Stanningley Primary School will be reported directly to the school authorities in line with safeguarding procedures.
+            - **Policy Date:** 21/10/2025.
+
+            --- Fees & Payment ---
+            - **Introductory Offer:** The first lesson is offered at an introductory price of **£10**.
+            - **Standard Lesson Fees:** - 30 minutes: **£15**
+                - 60 minutes: **£30**
+                - 90 minutes: **£50**
+            - **Payment Methods:** Payment can be made in **cash** at the lesson or via **bank transfer** in advance.
+
+            --- Location & Travel Fees ---
+            - **Areas Served:** Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.
+            - **Travel Fee Structure (added to lesson cost):**
+                - Up to 5 Miles: **£5**
+                - 5 to 10 Miles: **£10**
+                - 10 to 15 Miles: **£20–£30** (Exact quote provided upon booking).
+
+            --- Cancellations and Rescheduling Policy ---
+            - **Notice Required:** Please give at least **24 hours’ notice** to cancel or reschedule a lesson.
+            - **Late Cancellation Fee:** Cancellations with less than 24 hours’ notice **may be charged 50%** of the lesson fee.
+            - **Instructor Cancellation:** If Elliot cancels (which is rare), he will **reschedule the lesson at no extra cost** to the student.
+
+            --- Availability ---
+            - **Available Times:** - Tuesday: **6pm – 9pm**
+                - Wednesday: **6pm – 9pm**
+                - Thursday: **6pm – 9pm**
+            - **Weekend:** Saturday & Sunday are **available upon request**.
+            - **Unavailable:** Monday & Friday have **no available slots**.
+            - **Note:** All availability is subject to change, particularly during term time.
+
+            --- Lesson Structure & Approach ---
+            - Lessons are tailored to each student’s age, goals, and interests.
+            - For beginners, the lesson starts with fun, simple songs.
+            - The approach gradually builds skills in **musicality**, **rhythm**, and **performance confidence**.
+
+            --- Contact Information ---
+            - **Phone:** 07368 975144
+            - **Email:** elliotmobilemusic@gmail.com
+            
+            ***
+            
             Keep responses brief and directly answer the user's query using the details above.`;
+            // --- END OF SYSTEM INSTRUCTION ---
+
 
             // Helper function to append message to chat box UI
-            function appendMessageToUI(sender, text) {
+            function appendMessageToUI(sender, parts) {
                 const messageContainer = document.createElement('div');
                 messageContainer.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
 
                 const bubble = document.createElement('div');
                 bubble.classList.add(
-                    'max-w-[75%]', 'p-3', 'rounded-xl', 'text-sm', 'shadow'
+                    'max-w-[75%]', 'p-3', 'rounded-xl', 'text-sm', 'shadow', 'break-words', 'whitespace-pre-wrap'
                 );
 
                 if (sender === 'user') {
@@ -249,22 +396,56 @@
                     bubble.classList.add('bg-brand-accent-light/20', 'text-brand-text-light', 'rounded-tl-none');
                 }
 
-                bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Simple markdown bolding
+                // Process parts (text only now)
+                parts.forEach(part => {
+                    if (part.text) {
+                        const textNode = document.createElement('p');
+                        textNode.innerHTML = part.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        bubble.appendChild(textNode);
+                    }
+                });
 
-                // Add the message *before* the loading indicator
+                messageContainer.appendChild(bubble);
                 chatBox.insertBefore(messageContainer, loadingIndicator);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
-            // Function to save chat history to localStorage
+            // Function to save chat history to localStorage (only text for simplicity)
             function saveChatHistory() {
+                // Strip out non-text parts before saving to avoid hitting localStorage size limits
+                const textOnlyHistory = chatHistory.map(item => ({
+                    role: item.role,
+                    parts: item.parts.filter(part => part.text)
+                })).filter(item => item.parts.length > 0);
+                
                 try {
-                    // Only save the user/model parts of the history, not the initial system prompt
-                    const serializableHistory = chatHistory.filter(msg => msg.role !== 'system');
-                    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(serializableHistory));
+                    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(textOnlyHistory));
                 } catch (e) {
                     console.error("Could not save chat history to localStorage:", e);
                 }
+            }
+            
+            // Function to clear chat history from localStorage and UI
+            function clearChatHistory() {
+                localStorage.removeItem(CHAT_HISTORY_KEY);
+                chatHistory = [];
+                
+                chatBox.innerHTML = `
+                    <div class="flex justify-start initial-message">
+                        <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
+                            Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and contact information.
+                        </div>
+                    </div>
+                    <div id="loading-indicator" class="hidden flex justify-start">
+                        <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
+                            <span class="text-sm">Typing</span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
 
             // Function to load and display chat history from localStorage
@@ -274,76 +455,72 @@
                     if (savedHistory) {
                         const parsedHistory = JSON.parse(savedHistory);
                         chatHistory = parsedHistory; // Restore history array
-                        
+
                         // Display restored history in UI
                         parsedHistory.forEach(message => {
-                            if (message.role === 'user') {
-                                appendMessageToUI('user', message.parts[0].text);
-                            } else if (message.role === 'model') {
-                                appendMessageToUI('bot', message.parts[0].text);
+                            if (message.role === 'user' || message.role === 'model') {
+                                appendMessageToUI(message.role, message.parts);
                             }
                         });
 
-                        // Add a history-loaded indicator message
                         const historyMessage = document.createElement('div');
                         historyMessage.classList.add('text-center', 'text-brand-text-mid', 'text-xs', 'py-1');
                         historyMessage.innerHTML = '<i data-lucide="history" class="w-3 h-3 inline-block mr-1 align-sub"></i> Conversation loaded from history.';
                         chatBox.insertBefore(historyMessage, loadingIndicator);
 
+                        if (typeof createIcons === 'function') {
+                            createIcons({ icons: { History } }); 
+                        }
                     }
                 } catch (e) {
                     console.error("Could not load chat history from localStorage:", e);
-                    // Clear corrupted history if parsing fails
                     localStorage.removeItem(CHAT_HISTORY_KEY);
                 }
             }
 
-
-            // Fetch data from Gemini API with exponential backoff (improved)
+            // Fetch data from Gemini API with exponential backoff
             async function fetchWithBackoff(url, options, retries = 3) {
                 for (let i = 0; i < retries; i++) {
                     try {
                         const response = await fetch(url, options);
-                        if (response.status === 403) {
-                            throw new Error(`API Error: Forbidden (Status 403). Permissions issue.`);
-                        }
                         if (!response.ok) {
-                            throw new Error(`API request failed with status ${response.status}`);
+                            const errorBody = await response.text();
+                            console.error("API Non-OK Response Details:", errorBody);
+                            throw new Error(`API request failed with status ${response.status}. Details logged.`);
                         }
                         return response;
                     } catch (error) {
                         if (i === retries - 1) {
-                            throw error; // Throw final error
+                            throw error;
                         }
-                        // Exponential backoff delay
                         const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
                         await new Promise(resolve => setTimeout(resolve, delay));
                     }
                 }
             }
-
-
+            
+            // Core Logic to handle the user's input - simplified for text only
             async function handleQuery(query) {
                 sendButton.disabled = true;
                 loadingIndicator.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                // 1. Add user message to history
-                const userMessage = { role: "user", parts: [{ text: query }] };
-                chatHistory.push(userMessage);
+                const userParts = [{ text: query.trim() }];
+                
+                // Push the display version to the UI immediately
+                appendMessageToUI('user', userParts);
 
-                // 2. Build contents array including all history
-                const contents = [
-                    // System instructions must be added to the request payload, NOT the chat history array
-                    { parts: [{ text: systemPrompt }], role: "system" }, 
-                    ...chatHistory.filter(msg => msg.role !== 'system') // Filter out the initial system part from the array
-                ];
+                // Construct the full request message and push to history
+                const userMessageForRequest = { role: "user", parts: userParts };
+                chatHistory.push(userMessageForRequest);
 
                 const payload = {
-                    contents: contents,
-                    // tools property is outside contents array
+                    contents: chatHistory,
                     tools: [{ "google_search": {} }], 
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
                 };
 
                 const options = {
@@ -357,42 +534,64 @@
                     const response = await fetchWithBackoff(urlWithKey, options);
                     const result = await response.json();
 
+                    if (result.error) {
+                        console.error("Gemini API Error Response:", result.error);
+                        throw new Error(`API returned error in body: ${result.error.message}`);
+                    }
+
                     const botCandidate = result.candidates?.[0];
                     const text = botCandidate?.content?.parts?.[0]?.text;
 
                     if (text) {
-                        // 3. Add model response to history and UI
                         const modelMessage = { role: "model", parts: [{ text: text }] };
                         chatHistory.push(modelMessage);
-                        appendMessageToUI('bot', text);
-                        saveChatHistory(); // Save after successful response
+                        appendMessageToUI('bot', modelMessage.parts);
+                        saveChatHistory(); 
                     } else {
-                        // Handle cases where response is OK but content is missing
-                        appendMessageToUI('bot', "I couldn't generate a response for that. Please try a different question.");
+                        appendMessageToUI('bot', [{ text: "I couldn't generate a response for that. Please try a different question or check the console." }]);
                     }
 
                 } catch (error) {
-                    console.error("Gemini API Error:", error);
-                    errorMessage.textContent = `Error: The Q&A service failed. Please try again.`;
+                    console.error("Gemini API Request Failed:", error);
+
+                    let userVisibleError = "The assistant service failed due to a communication error. Please try again.";
+                    if (error.message.includes('error in body')) {
+                         userVisibleError = "The AI model returned an error. Try asking a simpler question.";
+                    }
+
+                    errorMessage.textContent = userVisibleError;
                     errorMessage.classList.remove('hidden');
-                    // Remove the last user message from history if the API call failed
-                    chatHistory.pop(); 
-                    appendMessageToUI('bot', "I apologize, but I'm currently unable to connect to the Q&A service.");
+                    chatHistory.pop(); // Remove the failed user message
+                    appendMessageToUI('bot', [{ text: "I apologize, but I'm currently unable to process your request." }]);
+
                 } finally {
                     loadingIndicator.classList.add('hidden');
                     sendButton.disabled = false;
+                    chatInput.value = '';
                 }
             }
 
+
+            // --- Event Listeners ---
+
+            // Chat Form Submission
             chatForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const query = chatInput.value.trim();
-                if (query) {
-                    appendMessageToUI('user', query);
-                    handleQuery(query);
-                    chatInput.value = '';
+                
+                if (!query) {
+                    errorMessage.textContent = "Please enter a message to ask a question.";
+                    errorMessage.classList.remove('hidden');
+                    return;
                 }
+                
+                handleQuery(query);
             });
+
+            // Clear History Button
+            if (clearHistoryButton) {
+                clearHistoryButton.addEventListener('click', clearChatHistory);
+            }
 
             // Initialize on Load
             document.addEventListener('DOMContentLoaded', () => {
