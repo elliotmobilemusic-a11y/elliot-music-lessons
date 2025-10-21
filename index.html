@@ -419,6 +419,7 @@
 
             // Helper function to update mode display
             function updateModeUI() {
+                let modeInputPlaceholder;
                 if (currentMode === 'qa') {
                     modeTitle.textContent = 'Lesson Assistant Q&A';
                     modeInputPlaceholder = 'Ask a question about fees, availability, or policies...';
@@ -494,9 +495,17 @@
                 result.totalMonthlyCost = (result.cost + result.travelFee) * result.lessonsPerMonth;
                 
                 // If it's the first lesson, we can't calculate a monthly cost in a sensible way, so let LLM handle it
+                // We only do a monthly calculation if it's NOT the first lesson, or if the user explicitly asks for only 1 lesson (i.e., the first lesson)
                 if (result.isFirstLesson && result.lessonsPerMonth > 1) {
                     return null;
                 }
+                
+                // If it is the first lesson AND only one lesson is calculated, the monthly cost is just the single lesson cost.
+                if (result.isFirstLesson && result.lessonsPerMonth === 1) {
+                     result.totalMonthlyCost = result.cost + result.travelFee;
+                     result.lessonsPerMonth = 1; // Explicitly set 1 for the one-off calculation
+                }
+
 
                 // Construct final structured output (matching LLM schema for consistency)
                 return {
@@ -507,7 +516,7 @@
                     travelFee: result.travelFee,
                     lessonsPerMonth: result.lessonsPerMonth,
                     totalMonthlyCost: result.totalMonthlyCost,
-                    calculationBreakdown: `(£${result.cost} lesson ${result.isFirstLesson ? '(First Lesson Discount)' : ''} + £${result.travelFee} travel) x ${result.lessonsPerMonth} weeks`
+                    calculationBreakdown: `(£${result.cost} lesson ${result.isFirstLesson ? '(First Lesson Discount)' : ''} + £${result.travelFee} travel) x ${result.lessonsPerMonth} lesson${result.lessonsPerMonth === 1 ? '' : 's'}`
                 };
             }
             // --- END ADVANCED CODE ---
@@ -532,6 +541,8 @@
                     ? `<span class="bg-brand-accent-light text-brand-dark-bg px-2 py-0.5 rounded-full text-xs font-bold flex items-center"><i data-lucide="rocket" class="w-3 h-3 mr-1"></i> INSTANT</span>`
                     : `<span class="bg-brand-highlight text-brand-dark-bg px-2 py-0.5 rounded-full text-xs font-bold flex items-center"><i data-lucide="star" class="w-3 h-3 mr-1"></i> AI PARSED</span>`;
 
+                const lessonText = data.lessonsPerMonth > 1 ? 'Lessons per Month' : 'Cost for Single Lesson';
+
 
                 return `
                     <div class="p-5 bg-brand-dark-bg rounded-xl border-t-4 ${isLocal ? 'border-brand-accent-light' : 'border-brand-highlight'} text-brand-text-light shadow-xl">
@@ -552,12 +563,13 @@
                                 <span class="text-brand-text-mid">Estimated Travel Fee (Single):</span>
                                 <span class="font-semibold">£${travelFee}</span>
                             </div>
-                            <div class="flex justify-between border-b border-gray-700/50 pb-1">
-                                <span class="text-brand-text-mid">Lessons per Month:</span>
+                            ${data.lessonsPerMonth > 1 ? 
+                            `<div class="flex justify-between border-b border-gray-700/50 pb-1">
+                                <span class="text-brand-text-mid">Total Lessons Included:</span>
                                 <span class="font-semibold">${data.lessonsPerMonth}</span>
-                            </div>
+                            </div>` : ''}
                             <div class="flex justify-between pt-2 border-t border-brand-highlight/50">
-                                <span class="text-lg font-bold text-brand-accent-light">TOTAL MONTHLY ESTIMATE:</span>
+                                <span class="text-lg font-bold text-brand-accent-light">${lessonText}:</span>
                                 <span class="text-lg font-bold text-brand-accent-light">£${totalMonthlyCost}</span>
                             </div>
                         </div>
@@ -672,6 +684,7 @@
                                     try {
                                         const data = JSON.parse(jsonString);
                                         const htmlContent = renderCalculation(data);
+                                        // The third argument (true) indicates the part is HTML
                                         appendMessageToUI('bot', [{ text: htmlContent }], true);
                                     } catch (e) {
                                         // If parsing fails, treat it as regular text
@@ -722,7 +735,7 @@
                 }
             }
 
-            // Core Logic to handle the user's input
+            // Core Logic to handle the user's input (FIXED: Added 'async' keyword)
             async function handleQuery(query) {
                 sendButton.disabled = true;
                 loadingIndicator.classList.remove('hidden');
@@ -739,6 +752,7 @@
                     if (clientResult && clientResult.success) {
                         // Success: Render client-side result instantly (FASTEST PATH)
                         const htmlContent = renderCalculation(clientResult);
+                        // Store original JSON text in history, but render HTML to UI
                         const modelMessage = { role: "model", parts: [{ text: `CALCULATION: ${JSON.stringify(clientResult)}` }] };
                         chatHistory.push(userMessageForRequest, modelMessage);
                         appendMessageToUI('bot', [{ text: htmlContent }], true);
@@ -759,6 +773,7 @@
 
                 let payload = {
                     contents: contentHistory,
+                    // Only use Google Search grounding in Q&A mode
                     tools: currentMode === 'qa' ? [{ "google_search": {} }] : undefined,
                     systemInstruction: {
                         parts: [{ text: currentMode === 'qa' ? qaSystemPrompt : calculatorSystemPrompt }]
