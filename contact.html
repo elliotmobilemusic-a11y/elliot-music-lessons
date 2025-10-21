@@ -191,12 +191,6 @@
                     class="space-y-4"
                     novalidate
                 >
-                    <!-- 
-                        NOTE: This form is now configured for Formspree. 
-                        1. Create your form on Formspree to get a unique hash (e.g., 'f123abc').
-                        2. The fetch logic below will automatically handle the submission.
-                    -->
-
                     <!-- REQUIRED FOR FORMSUBMIT/FORMSPREE: Spam prevention (Honeypot) -->
                     <input type="text" name="_gotcha" style="display:none">
 
@@ -463,16 +457,30 @@
          */
         async function submitWithRetry(url, options, maxRetries = 3, delay = 500) {
             let lastError = null;
+            
+            // Add header to request a clean JSON response instead of a redirect
+            const fetchOptions = {
+                ...options,
+                headers: {
+                    'Accept': 'application/json', 
+                }
+            };
+            
             for (let i = 0; i < maxRetries; i++) {
                 try {
-                    const response = await fetch(url, options);
+                    // Use the options that include the 'Accept: application/json' header
+                    const response = await fetch(url, fetchOptions);
+                    
                     if (response.ok) {
                         return response;
                     } else {
-                        // Formspree returns a 400 or 422 if the setup/hash is wrong
+                        // Formspree returns a 400 or 422 if the hash is wrong or unconfirmed.
+                        // Since the user confirmed the email, a 400/422 here is highly unlikely
+                        // but we keep the robust error check.
                         if (response.status === 400 || response.status === 422) {
                             throw new Error('Form configuration error. Please ensure the Formspree hash is correct and activated.');
                         }
+                        
                         lastError = new Error(`Server returned status ${response.status}`);
                         console.warn(`Attempt ${i + 1} failed with status: ${response.status}. Retrying...`);
                     }
@@ -511,7 +519,7 @@
                 await submitWithRetry(form.action, {
                     method: form.method,
                     body: formData,
-                }, 3, 500);
+                }, 3, 500); // Max 3 attempts
 
                 // Success
                 clearFormState(); // Clear saved data
@@ -523,9 +531,11 @@
                 console.error('Final form submission failed after all retries:', error);
                 
                 let errorMessage = 'The form submission failed after multiple attempts. This suggests a persistent connection issue or a server problem. Please use the direct email link below.';
-                // Prioritize the Formspree activation/config error message if detected
+                
                 if (error.message.includes('Form configuration error')) {
-                    errorMessage = 'ERROR: The form submission URL is invalid or the form is not activated. Please check your Formspree hash and ensure you have activated the form via the confirmation email.';
+                    // This error indicates the form is unactivated or the hash is wrong.
+                    // Since the user confirmed it, this means there is a different underlying issue
+                    errorMessage = 'FATAL ERROR: The Formspree hash is either incorrect or the form is still not fully activated. Please re-check the confirmation link in your email.';
                 }
                 
                 showErrorModal(errorMessage);
