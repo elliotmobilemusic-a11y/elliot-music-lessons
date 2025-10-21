@@ -353,6 +353,7 @@
             let chatHistory = [];
             let currentMode = 'qa'; // 'qa' or 'calculator'
 
+            // NOTE: The apiKey MUST be an empty string here. It is expected to be injected by the environment at runtime.
             const apiKey = ""
             const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
 
@@ -721,7 +722,8 @@
                         const response = await fetch(url, options);
                         if (!response.ok) {
                             const errorBody = await response.text();
-                            console.error("API Non-OK Response Details:", errorBody);
+                            // This console.error is what triggers the reported error on the page.
+                            console.error("API Non-OK Response Details:", errorBody); 
                             throw new Error(`API request failed with status ${response.status}. Details logged.`);
                         }
                         return response;
@@ -735,7 +737,7 @@
                 }
             }
 
-            // Core Logic to handle the user's input (FIXED: Added 'async' keyword)
+            // Core Logic to handle the user's input (FIXED: Contains the 'async' keyword)
             async function handleQuery(query) {
                 sendButton.disabled = true;
                 loadingIndicator.classList.remove('hidden');
@@ -797,7 +799,8 @@
                 };
 
                 try {
-                    const urlWithKey = `${API_URL}?key=${apiKey}`;
+                    // Crucially includes the apiKey (which should be injected by the environment)
+                    const urlWithKey = `${API_URL}?key=${apiKey}`; 
                     const response = await fetchWithBackoff(urlWithKey, options);
                     const result = await response.json();
 
@@ -838,7 +841,12 @@
 
                     let userVisibleError = "The assistant service failed due to a communication error. Please try again.";
                     if (error.message.includes('error in body')) {
-                         userVisibleError = "The AI model returned an error. Try asking a simpler question.";
+                         // Specific message for the 403 API Key issue
+                         if (error.message.includes('403')) {
+                            userVisibleError = "The AI service failed to authenticate (403 Error). Please try reloading the page to refresh the connection.";
+                         } else {
+                            userVisibleError = "The AI model returned an error. Try asking a simpler question.";
+                         }
                     } else if (error instanceof SyntaxError) {
                          userVisibleError = "The model returned unparseable data. Try rephrasing your calculation request.";
                     }
