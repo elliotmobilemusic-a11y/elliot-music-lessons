@@ -30,7 +30,7 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e;
@@ -59,12 +59,12 @@
         .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
         .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
         /* ------------------------------------------- */
-                /* General input group styling */
+        /* General input group styling */
         .input-group {
             background-color: #252538;
             border-radius: 0.5rem;
         }
-                /* Sticky CTA specific styling */
+        /* Sticky CTA specific styling */
         #sticky-cta {
             position: fixed;
             bottom: 1.5rem; /* Large enough for mobile tap targets */
@@ -199,7 +199,7 @@
                     <p class="text-brand-text-mid text-xs">Enjoy lessons in the comfort of your own home. All necessary equipment, including a keyboard, is provided.</p>
                 </div>
 
-                                <!-- Feature 3: Safety/Vetting -->
+                <!-- Feature 3: Safety/Vetting -->
                 <div class="bg-card-bg p-5 rounded-xl card-glow border-t-4 border-brand-highlight hover:border-brand-accent-light transition duration-300">
                     <i data-lucide="zap" class="w-7 h-7 text-brand-highlight mb-2"></i>
                     <h3 class="text-lg font-semibold text-brand-text-light mb-1">Fully Vetted</h3>
@@ -210,7 +210,7 @@
 
         <!-- LLM Q&A Chat Section -->
         <section class="bg-card-bg p-5 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
-                        <!-- Title and Clear History Button -->
+            <!-- Title and Clear History Button -->
             <div class="flex justify-between items-center mb-5 border-b border-brand-accent-dark pb-3">
                 <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
                     <i data-lucide="history" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
@@ -226,7 +226,7 @@
                 <!-- Initial Bot Message -->
                 <div class="flex justify-start initial-message">
                     <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-                        Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and contact information.
+                        Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and photo consent.
                     </div>
                 </div>
                 <!-- Chat messages will be appended here -->
@@ -252,7 +252,7 @@
         </section>
     </main>
 
-        <!-- Sticky CTA Button (Hidden until scrolled) -->
+    <!-- Sticky CTA Button (Hidden until scrolled) -->
     <a href="contact.html" id="sticky-cta" class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 shadow-xl shadow-brand-accent-light/50">
         <i data-lucide="mail" class="w-5 h-5 mr-1"></i> Book Now
     </a>
@@ -314,28 +314,25 @@
             const apiKey = ""
             const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
 
-            // --- SYSTEM INSTRUCTION ---
+            // --- SYSTEM INSTRUCTION - UPDATED WITH DETAILED POLICY CONTENT ---
             const systemPrompt = `You are a helpful, friendly, and highly knowledgeable Q&A assistant for Elliot Wardill's Mobile Music Lessons. Your primary role is to act as an advanced Q&A system, answering questions concisely and clearly using the provided Context.
             **Context (Policy & Logistics):**
             --- General Information & Safety ---
             - **Instructor:** Elliot Wardill, a musician and educator based in Pudsey who currently works within the education sector.
             - **Services:** Piano and Singing Lessons.
             - **Delivery:** Lessons are mobile (at the student's home). Elliot brings all the necessary equipment (including a keyboard) so the student does not need to travel or provide their own instrument.
-            - **Safety Vetting:** Elliot holds a valid **DBS check** for working with children.
-            - **Supervision:** Parents/guardians are welcome and encouraged to sit in on lessons.
+            - **Safety Vetting:** Elliot holds a valid **DBS check** for working with children. Parents/guardians are welcome to sit in on lessons.
             - **Safeguarding (Stanningley Primary School):** Any information or incidents disclosed by a child enrolled at Stanningley Primary School will be reported directly to the school authorities in line with safeguarding procedures.
             - **Policy Date:** 21/10/2025.
 
             --- Fees & Payment ---
             - **Introductory Offer:** The first lesson is offered at an introductory price of **£10**.
-            - **Standard Lesson Fees:** - 30 minutes: **£15**
-                - 60 minutes: **£30**
-                - 90 minutes: **£50**
+            - **Standard Lesson Fees:** 30 minutes: **£15**; 60 minutes: **£30**; 90 minutes: **£50**.
             - **Payment Methods:** Payment can be made in **cash** at the lesson or via **bank transfer** in advance.
 
             --- Location & Travel Fees ---
             - **Areas Served:** Pudsey, Farsley, Calverley, Bramley, Horsforth, and Leeds.
-            - **Travel Fee Structure (added to lesson cost):**
+            - **Travel Fee Structure (added to lesson cost for locations outside Pudsey):**
                 - Up to 5 Miles: **£5**
                 - 5 to 10 Miles: **£10**
                 - 10 to 15 Miles: **£20–£30** (Exact quote provided upon booking).
@@ -346,17 +343,18 @@
             - **Instructor Cancellation:** If Elliot cancels (which is rare), he will **reschedule the lesson at no extra cost** to the student.
 
             --- Availability ---
-            - **Available Times:** - Tuesday: **6pm – 9pm**
-                - Wednesday: **6pm – 9pm**
-                - Thursday: **6pm – 9pm**
+            - **Available Times:** Tuesday, Wednesday, Thursday: **6pm – 9pm**.
             - **Weekend:** Saturday & Sunday are **available upon request**.
             - **Unavailable:** Monday & Friday have **no available slots**.
             - **Note:** All availability is subject to change, particularly during term time.
 
-            --- Lesson Structure & Approach ---
-            - Lessons are tailored to each student’s age, goals, and interests.
-            - For beginners, the lesson starts with fun, simple songs.
-            - The approach gradually builds skills in **musicality**, **rhythm**, and **performance confidence**.
+            --- Photo and Video Consent Policy (from Photo & Video Consent Form.pdf) ---
+            - **Purpose:** Images/videos are captured for promotional and educational purposes to share student achievements and demonstrate teaching quality.
+            - **Usage:**
+                1. **Social Media (Primary Use):** Posts, stories, or short clips on professional social media accounts (Instagram, Facebook). **Identification is limited to the student's first name only** or simply "a student."
+                2. **Website/Portfolio:** Images or videos may be used on the professional website, digital portfolio, or promotional leaflets.
+            - **Privacy Measures:** The student's surname, contact details, or specific location (other than general area, e.g., "Leeds-based") will **never** be published alongside any media.
+            - **Withdrawal of Consent:** Consent can be withdrawn at any time by providing written notice (email is acceptable). Media already published may remain online due to technical limitations.
 
             --- Contact Information ---
             - **Phone:** 07368 975144
@@ -417,7 +415,7 @@
                 chatBox.innerHTML = `
                     <div class="flex justify-start initial-message">
                         <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-                            Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and contact information.
+                            Hello! I am the Lesson Assistant, ready to answer your questions about lesson policies, fees, availability, and photo consent.
                         </div>
                     </div>
                     <div id="loading-indicator" class="hidden flex justify-start">
@@ -472,7 +470,7 @@
             }
 
             // Fetch data from Gemini API with exponential backoff
-            async function fetchWithBackoff(url, options, retries = 5) { // RETRIES INCREASED TO 5 FOR ROBUSTNESS
+            async function fetchWithBackoff(url, options, retries = 5) { // Retries set to 5
                 for (let i = 0; i < retries; i++) {
                     try {
                         const response = await fetch(url, options);
@@ -515,7 +513,9 @@
 
                 const payload = {
                     contents: contentHistory, // Now uses the limited history
-                    tools: [{ "google_search": {} }],
+                    // We keep tools: [{ "google_search": {} }] even though context is provided, 
+                    // in case the user asks something outside the policy that requires grounding.
+                    tools: [{ "google_search": {} }], 
                     systemInstruction: {
                         parts: [{ text: systemPrompt }]
                     },
