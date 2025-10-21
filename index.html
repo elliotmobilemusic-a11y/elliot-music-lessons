@@ -34,7 +34,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e;
-            color: #e0e0e0;
             /* Subtle radial gradient for depth */
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
         }
@@ -799,9 +798,9 @@
                 };
 
                 try {
-                    // Crucially includes the apiKey (which should be injected by the environment)
-                    const urlWithKey = `${API_URL}?key=${apiKey}`; 
-                    const response = await fetchWithBackoff(urlWithKey, options);
+                    // FIX: Using API_URL directly. The environment is expected to inject the necessary API key.
+                    // The previous structure, `${API_URL}?key=${apiKey}`, caused issues when apiKey was empty.
+                    const response = await fetchWithBackoff(API_URL, options);
                     const result = await response.json();
 
                     if (result.error) {
