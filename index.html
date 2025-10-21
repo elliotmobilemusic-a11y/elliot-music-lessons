@@ -508,8 +508,13 @@
                 const userMessageForRequest = { role: "user", parts: userParts };
                 chatHistory.push(userMessageForRequest);
 
+                // IMPORTANT FIX: Use only the last 6 messages (3 full turns) for the API call to limit size
+                const MAX_HISTORY_MESSAGES = 6;
+                const contentHistory = chatHistory.slice(Math.max(chatHistory.length - MAX_HISTORY_MESSAGES, 0));
+
+
                 const payload = {
-                    contents: chatHistory,
+                    contents: contentHistory, // Now uses the limited history
                     tools: [{ "google_search": {} }],
                     systemInstruction: {
                         parts: [{ text: systemPrompt }]
@@ -562,7 +567,7 @@
                          chatHistory.pop();
                     }
                     // Informative failure message in the chat bubble
-                    appendMessageToUI('bot', [{ text: "I apologize, but I can't process this right now. If you're on a **mobile connection**, please try checking your network or asking a shorter question. (Error: Service Unavailable)" }]);
+                    appendMessageToUI('bot', [{ text: "I apologize, but I can't process this right now. The AI service is temporarily unavailable. Please try your question again in a moment." }]);
 
                 } finally {
                     loadingIndicator.classList.add('hidden');
