@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Availability – Elliot Wardill Mobile Music Lessons</title>
+    <title>Current Availability – Elliot Wardill Mobile Music Lessons</title>
     <link rel="icon" href="/favicon.png" type="image/png" />
 
     <!-- Tailwind -->
@@ -55,8 +55,6 @@
         .main-hero-shadow {
             text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
         }
-
-        /* Reveal animation */
         .reveal {
             opacity: 0;
             transform: translateY(24px);
@@ -70,25 +68,6 @@
         }
         .reveal.delayed-1 { transition-delay: 0.12s; }
         .reveal.delayed-2 { transition-delay: 0.18s; }
-
-        /* Availability slot pills */
-        .slot-pill {
-            cursor: pointer;
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease,
-                background-color 0.15s ease,
-                border-color 0.15s ease;
-        }
-        .slot-pill:hover {
-            transform: translateY(-2px);
-        }
-        .slot-pill.disabled {
-            cursor: not-allowed;
-            opacity: 0.35;
-        }
-
-        /* Badge */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -105,34 +84,28 @@
     <script type="module">
         import {
             createIcons,
-            Zap,
-            BookOpen,
+            Music2,
             Clock,
+            Calendar,
+            XCircle,
+            Users,
             Mail,
             Phone,
             MapPin,
-            MessageSquare,
-            Star,
-            Users,
-            Send,
-            Calendar,
-            XCircle
+            AlertTriangle
         } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
 
         createIcons({
             icons: {
-                Zap,
-                BookOpen,
+                Music2,
                 Clock,
+                Calendar,
+                XCircle,
+                Users,
                 Mail,
                 Phone,
                 MapPin,
-                MessageSquare,
-                Star,
-                Users,
-                Send,
-                Calendar,
-                XCircle
+                AlertTriangle
             }
         });
     </script>
@@ -144,7 +117,6 @@
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                        <!-- same icon as Home & Pricing -->
                         <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
                     </span>
                     <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
@@ -170,10 +142,7 @@
 
                 <!-- Mobile button -->
                 <div class="sm:hidden">
-                    <button
-                        id="mobile-menu-button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
-                    >
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -199,186 +168,201 @@
     <main class="flex-grow">
         <!-- HERO -->
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-10">
-            <div class="text-center max-w-3xl mx-auto mb-8 reveal">
+            <div class="text-center max-w-3xl mx-auto mb-10 reveal">
                 <p class="text-xs font-semibold tracking-[0.25em] text-brand-highlight mb-3 uppercase">
-                    LIVE EVENING AVAILABILITY
+                    LIVE, UP-TO-DATE SCHEDULE
                 </p>
                 <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-text-light main-hero-shadow mb-4">
-                    Current Lesson Availability
+                    Current Availability
                 </h1>
                 <p class="text-base sm:text-lg text-brand-text-mid">
-                    This page shows a live view of my typical evening availability for <strong>mobile piano & singing lessons</strong> from Pudsey.
-                    Click a slot to send a request for that time.
+                    See when I’m currently available for mobile piano and singing lessons, and request a slot that works for you.
                 </p>
             </div>
 
-            <!-- Highlight row -->
+            <!-- Quick highlight row -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto reveal delayed-1">
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
                     <i data-lucide="clock" class="w-4 h-4 text-brand-accent-light"></i>
-                    <span>Evenings: Tue, Wed & Thu</span>
+                    <span>Standard evenings: Tue–Thu, 6–9pm</span>
                 </div>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
                     <i data-lucide="calendar" class="w-4 h-4 text-brand-highlight"></i>
-                    <span>1-hour blocks between 6–9pm</span>
+                    <span>Weekends by request</span>
                 </div>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
-                    <i data-lucide="mail" class="w-4 h-4 text-brand-accent-light"></i>
-                    <span>Click a slot to request it</span>
+                    <i data-lucide="map-pin" class="w-4 h-4 text-brand-accent-light"></i>
+                    <span>Mobile lessons from Pudsey & West Leeds</span>
                 </div>
             </div>
         </section>
 
-        <!-- AVAILABILITY GRID + SLOT DETAILS -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
-                <!-- LEFT: DYNAMIC GRID -->
+        <!-- AVAILABILITY SUMMARY CARDS + INFO -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
+                <!-- LEFT: SUMMARY CARDS -->
                 <section class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <div>
-                            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light flex items-center gap-2">
-                                <i data-lucide="calendar" class="w-6 h-6 text-brand-highlight"></i>
-                                Weekly Evening Calendar
-                            </h2>
-                            <p class="text-xs sm:text-sm text-brand-text-mid mt-1 max-w-md">
-                                View evening availability for <strong>this week</strong> and move forwards or backwards a week.
-                                This is a guide – I’ll always confirm times directly with you.
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button
-                                id="prev-week"
-                                class="px-3 py-1.5 rounded-lg border border-brand-text-mid/40 text-xs sm:text-sm text-brand-text-mid bg-brand-dark-bg hover:bg-brand-dark-bg/80 hover:text-white"
-                            >
-                                ← Previous week
-                            </button>
-                            <button
-                                id="next-week"
-                                class="px-3 py-1.5 rounded-lg border border-brand-accent-light/60 text-xs sm:text-sm text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark font-semibold"
-                            >
-                                Next week →
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-xs sm:text-sm text-brand-text-mid">
-                            Showing evenings for the week of
-                            <span id="week-label" class="font-semibold text-brand-text-light"></span>
-                        </p>
-                        <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
-                            1-HOUR BLOCKS
-                        </span>
-                    </div>
-
-                    <!-- Legend -->
-                    <div class="flex flex-wrap items-center gap-3 text-[0.7rem] text-brand-text-mid mb-4">
-                        <span class="inline-flex items-center gap-1">
-                            <span class="inline-block w-3 h-3 rounded-full bg-brand-accent-light/40 border border-brand-accent-light/80"></span>
-                            Available
-                        </span>
-                        <span class="inline-flex items-center gap-1">
-                            <span class="inline-block w-3 h-3 rounded-full bg-red-900/40 border border-red-500/70"></span>
-                            Unavailable / booked / past
-                        </span>
-                        <span class="inline-flex items-center gap-1">
-                            <span class="inline-block w-3 h-3 rounded-full bg-gray-600/40 border border-gray-500/70"></span>
-                            Day not in teaching schedule
-                        </span>
-                    </div>
-
-                    <!-- Grid container -->
-                    <div id="slots-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-                        <!-- JS will inject cards here -->
-                    </div>
-
-                    <p class="mt-5 text-[0.7rem] text-brand-text-mid">
-                        Availability is usually accurate but can change with school terms, holidays, and existing students.
-                        I’ll always confirm your booking personally once you send a request.
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-6 h-6 text-brand-accent-light"></i>
+                        Weekly Pattern
+                    </h2>
+                    <p class="text-sm text-brand-text-mid mb-6">
+                        These are my regular teaching times during term-time. The live calendar below will always show the latest booked-out slots.
                     </p>
-                </section>
 
-                <!-- RIGHT: SELECTED SLOT + NOTES -->
-                <section class="space-y-6 reveal delayed-1">
-                    <!-- Selected slot card -->
-                    <div id="selected-slot-card" class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-5 hidden">
-                        <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-2">
-                            Request this time
-                        </h3>
-                        <p id="selected-slot-text" class="text-xs sm:text-sm text-brand-text-mid mb-4">
-                            Click an available slot on the left to see details here.
-                        </p>
-
-                        <div class="mb-4">
-                            <p class="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">
-                                Choose lesson length
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <!-- Tuesday -->
+                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light hover-lift">
+                            <p class="text-xs font-semibold tracking-[0.16em] uppercase text-brand-text-mid mb-1">
+                                Tuesday
                             </p>
-                            <div class="flex flex-wrap gap-2">
-                                <button
-                                    class="lesson-length-btn px-3 py-1.5 rounded-full border border-brand-text-mid/60 text-xs text-brand-text-mid bg-brand-dark-bg hover:bg-brand-accent-light/10"
-                                    data-minutes="30"
-                                >
-                                    30 minutes (£15)
-                                </button>
-                                <button
-                                    class="lesson-length-btn px-3 py-1.5 rounded-full border border-brand-text-mid/60 text-xs text-brand-text-mid bg-brand-dark-bg hover:bg-brand-accent-light/10"
-                                    data-minutes="60"
-                                >
-                                    60 minutes (£30)
-                                </button>
-                                <button
-                                    class="lesson-length-btn px-3 py-1.5 rounded-full border border-brand-text-mid/60 text-xs text-brand-text-mid bg-brand-dark-bg hover:bg-brand-accent-light/10"
-                                    data-minutes="90"
-                                >
-                                    90 minutes (£50)
-                                </button>
-                            </div>
+                            <p class="text-2xl font-extrabold text-brand-accent-light">6 – 9pm</p>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Regular evening teaching slots. See live calendar for exact gaps.
+                            </p>
+                            <span class="inline-flex mt-3 badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+                                Typically Available
+                            </span>
                         </div>
 
-                        <button
-                            id="email-request-btn"
-                            class="w-full px-4 py-2.5 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-sm font-semibold text-brand-dark-bg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                            disabled
-                        >
-                            <i data-lucide="mail" class="w-4 h-4"></i>
-                            Email Elliot about this slot
-                        </button>
+                        <!-- Wednesday -->
+                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light hover-lift">
+                            <p class="text-xs font-semibold tracking-[0.16em] uppercase text-brand-text-mid mb-1">
+                                Wednesday
+                            </p>
+                            <p class="text-2xl font-extrabold text-brand-accent-light">6 – 9pm</p>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Mix of regular students and openings. Check the calendar for free times.
+                            </p>
+                            <span class="inline-flex mt-3 badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+                                Typically Available
+                            </span>
+                        </div>
 
-                        <p class="mt-3 text-[0.7rem] text-brand-text-mid">
-                            This will open your email app with a pre-filled message including the date, time, and your chosen lesson length.
-                            You can edit the message before sending.
-                        </p>
+                        <!-- Thursday -->
+                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light hover-lift">
+                            <p class="text-xs font-semibold tracking-[0.16em] uppercase text-brand-text-mid mb-1">
+                                Thursday
+                            </p>
+                            <p class="text-2xl font-extrabold text-brand-accent-light">6 – 9pm</p>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Often used for regular lessons but with flexible spaces.
+                            </p>
+                            <span class="inline-flex mt-3 badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+                                Typically Available
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Weekend & other notes -->
-                    <div class="bg-card-bg/90 rounded-2xl card-glow border-l-4 border-brand-highlight border border-brand-accent-dark/60 p-5">
-                        <h3 class="font-heading text-xl font-bold text-brand-accent-light mb-2 flex items-center gap-2">
-                            <span class="text-brand-highlight text-lg">📆</span>
-                            Weekends & exceptions
-                        </h3>
-                        <p class="text-xs sm:text-sm text-brand-text-mid mb-2">
-                            <strong>Saturday & Sunday</strong> are sometimes available on request, especially outside normal school terms.
-                        </p>
-                        <p class="text-xs sm:text-sm text-brand-text-mid">
-                            <span class="text-brand-highlight font-semibold">End-of-year break:</span>
-                            around <strong>22 December – 2 January</strong>, I usually pause all lessons for the holidays.
-                            Exact dates will always be confirmed in advance with current students.
-                        </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-7">
+                        <!-- Weekends -->
+                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-t-4 border-brand-highlight hover-lift">
+                            <p class="text-xs font-semibold tracking-[0.16em] uppercase text-brand-text-mid mb-1">
+                                Saturday & Sunday
+                            </p>
+                            <p class="text-lg font-bold text-brand-highlight">Available by request</p>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                I sometimes open weekend slots, especially around holidays. Use the calendar or message me to ask.
+                            </p>
+                        </div>
+
+                        <!-- Monday & Friday -->
+                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-t-4 border-red-500 hover-lift">
+                            <p class="text-xs font-semibold tracking-[0.16em] uppercase text-brand-text-mid mb-1">
+                                Monday & Friday
+                            </p>
+                            <p class="text-lg font-bold text-red-400">Not available</p>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Reserved for other commitments. The calendar will always show these as unavailable.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-5 text-xs sm:text-sm">
-                        <p class="font-semibold text-brand-text-light mb-1">
-                            Need a different time?
-                        </p>
-                        <p class="text-brand-text-mid mb-2">
-                            If you don’t see the time you’re hoping for, send me a quick message and I’ll let you know if there’s any flexibility.
-                        </p>
+                    <div class="mt-6 bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4 text-xs sm:text-sm flex gap-3">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-highlight mt-0.5"></i>
                         <p class="text-brand-text-mid">
-                            Phone: <a href="tel:07368975144" class="text-brand-accent-light hover:text-white">07368 975144</a><br />
-                            Email: <a href="mailto:elliotmobilemusic@gmail.com" class="text-brand-accent-light hover:text-white">elliotmobilemusic@gmail.com</a>
+                            <strong class="text-brand-highlight">School holidays & end-of-year break:</strong><br />
+                            During holidays, weekend options may open up. Around <strong>22nd December – 2nd January</strong>
+                            I usually pause lessons – the live calendar will clearly show this as unavailable.
                         </p>
                     </div>
                 </section>
+
+                <!-- RIGHT: QUICK CONTACT / HOW TO USE -->
+                <section class="space-y-6 reveal delayed-1">
+                    <div class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60">
+                        <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
+                            <i data-lucide="users" class="w-5 h-5 text-brand-accent-light"></i>
+                            How to use this page
+                        </h2>
+                        <ol class="list-decimal list-inside text-xs sm:text-sm text-brand-text-mid space-y-2">
+                            <li>Check the <strong>weekly pattern</strong> above to see my normal teaching days.</li>
+                            <li>Scroll down to the <strong>live booking calendar</strong> and look for available slots.</li>
+                            <li>Click a time that suits you and complete the short form.</li>
+                            <li>You’ll receive a confirmation email, and I’ll also get the request.</li>
+                        </ol>
+                        <p class="mt-3 text-xs sm:text-sm text-brand-text-mid">
+                            If your ideal time isn’t visible, you can still <a href="contact.html" class="underline text-brand-accent-light hover:text-white">contact me directly</a> and I’ll see what’s possible.
+                        </p>
+                    </div>
+
+                    <div class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 text-xs sm:text-sm">
+                        <h3 class="font-heading text-lg font-bold text-brand-accent-light mb-3 flex items-center gap-2">
+                            <i data-lucide="mail" class="w-5 h-5 text-brand-accent-light"></i>
+                            Prefer to message first?
+                        </h3>
+                        <p class="text-brand-text-mid mb-2">
+                            You can always get in touch before booking:
+                        </p>
+                        <p class="flex items-center gap-2 text-brand-text-mid">
+                            <i data-lucide="phone" class="w-4 h-4 text-brand-highlight"></i>
+                            <a href="tel:07368975144" class="hover:text-white">07368 975144</a>
+                        </p>
+                        <p class="flex items-center gap-2 text-brand-text-mid mt-1">
+                            <i data-lucide="mail" class="w-4 h-4 text-brand-highlight"></i>
+                            <a href="mailto:elliotmobilemusic@gmail.com" class="hover:text-white">elliotmobilemusic@gmail.com</a>
+                        </p>
+                        <p class="mt-3 text-[0.7rem] text-brand-text-mid">
+                            Tip: If you include your postcode and preferred day/time in your message, I can quickly check travel and availability for you.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- LIVE BOOKING CALENDAR -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 reveal">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-6 h-6 text-brand-accent-light"></i>
+                            Live Booking Calendar
+                        </h2>
+                        <p class="text-xs sm:text-sm text-brand-text-mid mt-1">
+                            This calendar shows my real-time availability. Click any available slot to request a lesson – you’ll fill out a simple form, and I’ll receive an email.
+                        </p>
+                    </div>
+                    <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+                        Updates Automatically
+                    </span>
+                </div>
+
+                <div class="rounded-xl overflow-hidden border border-brand-accent-dark/60 bg-brand-dark-bg/80">
+                    <!-- Google Calendar Appointment Scheduling begin -->
+                    <iframe
+                        src="https://calendar.google.com/calendar/appointments/AcZssZ2UgZALmhogXCCBrWXCCn6RqJ-GQnZl8oafVj4=?gv=true"
+                        style="border:0;"
+                        width="100%"
+                        height="600"
+                        frameborder="0"
+                    ></iframe>
+                    <!-- end Google Calendar Appointment Scheduling -->
+                </div>
+
+                <p class="mt-3 text-[0.7rem] text-brand-text-mid">
+                    All bookings are requests only until confirmed. If a time clashes with an existing student or travel, I’ll email you back with the closest alternative.
+                </p>
             </div>
         </section>
     </main>
@@ -388,19 +372,19 @@
         <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
             <p class="mt-1 text-gray-500">
-                DBS Checked & Insured. Availability may change during school holidays and term time.
+                DBS Checked & Insured. Full lesson policy and travel information available on the pricing page.
             </p>
         </div>
     </footer>
 
-    <!-- JS: UI + DYNAMIC WEEK LOGIC -->
+    <!-- JS: mobile menu + reveal -->
     <script>
-        // Mobile menu
+        // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
-        // Reveal on scroll
+        // Scroll reveal
         const revealElements = document.querySelectorAll('.reveal');
         if (revealElements.length) {
             const revealObserver = new IntersectionObserver(
@@ -416,289 +400,6 @@
             );
             revealElements.forEach(el => revealObserver.observe(el));
         }
-
-        // ============ AVAILABILITY LOGIC (1-HOUR BLOCKS) ============
-
-        // Teaching evenings: Tue, Wed, Thu – 6-9pm (one-hour blocks)
-        const TEACHING_DAYS = [
-            { weekday: 2, label: 'Tuesday' },
-            { weekday: 3, label: 'Wednesday' },
-            { weekday: 4, label: 'Thursday' }
-        ];
-        const SLOT_HOURS = [18, 19, 20]; // 6–7, 7–8, 8–9
-        const SLOT_LABELS = {
-            18: '6:00 – 7:00 PM',
-            19: '7:00 – 8:00 PM',
-            20: '8:00 – 9:00 PM'
-        };
-
-        // Manually block specific slots (example format). You can edit this.
-        // Use ISO date (YYYY-MM-DD) + hour in 24h format.
-        const BLOCKED_SLOTS = [
-            // { date: '2025-12-09', hour: 18 },
-            // { date: '2025-12-09', hour: 19 },
-        ];
-
-        const weekLabelEl = document.getElementById('week-label');
-        const slotsGridEl = document.getElementById('slots-grid');
-        const prevWeekBtn = document.getElementById('prev-week');
-        const nextWeekBtn = document.getElementById('next-week');
-
-        const selectedSlotCard = document.getElementById('selected-slot-card');
-        const selectedSlotText = document.getElementById('selected-slot-text');
-        const emailRequestBtn = document.getElementById('email-request-btn');
-        const lessonLengthButtons = document.querySelectorAll('.lesson-length-btn');
-
-        let weekOffset = 0; // 0 = current week, 1 = next week, -1 = previous, etc.
-        let currentSelectedSlot = null;
-        let selectedLessonMinutes = null;
-
-        function getMondayOfWeek(date) {
-            const d = new Date(date);
-            const day = d.getDay(); // Sun=0
-            const diff = (day === 0 ? -6 : 1 - day); // Move to Monday
-            d.setDate(d.getDate() + diff);
-            d.setHours(0, 0, 0, 0);
-            return d;
-        }
-
-        function formatDateLabel(date) {
-            const options = { day: 'numeric', month: 'short' };
-            return date.toLocaleDateString('en-GB', options);
-        }
-
-        function formatFullDate(date) {
-            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-            return date.toLocaleDateString('en-GB', options);
-        }
-
-        function isSameDay(d1, d2) {
-            return (
-                d1.getFullYear() === d2.getFullYear() &&
-                d1.getMonth() === d2.getMonth() &&
-                d1.getDate() === d2.getDate()
-            );
-        }
-
-        function isSlotBlocked(date, hour) {
-            const isoDate = date.toISOString().slice(0, 10);
-            return BLOCKED_SLOTS.some(
-                (s) => s.date === isoDate && s.hour === hour
-            );
-        }
-
-        function buildWeekDate(baseWeekOffset) {
-            const today = new Date();
-            const monday = getMondayOfWeek(today);
-            monday.setDate(monday.getDate() + baseWeekOffset * 7);
-            return monday;
-        }
-
-        function renderWeek() {
-            slotsGridEl.innerHTML = '';
-            currentSelectedSlot = null;
-            selectedLessonMinutes = null;
-            emailRequestBtn.disabled = true;
-            selectedSlotText.textContent = 'Click an available slot on the left to see details here.';
-            selectedSlotCard.classList.add('hidden');
-
-            const today = new Date();
-            const monday = buildWeekDate(weekOffset);
-            const sunday = new Date(monday);
-            sunday.setDate(sunday.getDate() + 6);
-
-            weekLabelEl.textContent = `${formatDateLabel(monday)} – ${formatDateLabel(sunday)}`;
-
-            TEACHING_DAYS.forEach((dayInfo) => {
-                const colDate = new Date(monday);
-                const diff = dayInfo.weekday - 1; // Monday=1
-                colDate.setDate(colDate.getDate() + diff);
-
-                const dayIsPast =
-                    colDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-                // Column card
-                const colDiv = document.createElement('div');
-                colDiv.className =
-                    'bg-brand-dark-bg rounded-xl border border-brand-accent-dark/60 card-glow p-4 flex flex-col gap-3';
-
-                const header = document.createElement('div');
-                header.className = 'flex items-baseline justify-between';
-                header.innerHTML = `
-                    <div>
-                        <p class="text-xs font-semibold tracking-[0.14em] text-brand-text-mid uppercase">${dayInfo.label}</p>
-                        <p class="text-sm font-semibold text-brand-text-light">${formatDateLabel(colDate)}</p>
-                    </div>
-                    <span class="text-[0.7rem] text-brand-text-mid">
-                        ${dayIsPast ? 'Earlier this week' : 'Evening slots'}
-                    </span>
-                `;
-                colDiv.appendChild(header);
-
-                const slotsContainer = document.createElement('div');
-                slotsContainer.className = 'flex flex-col gap-2 mt-1';
-
-                SLOT_HOURS.forEach((hour) => {
-                    const slotDate = new Date(colDate);
-                    slotDate.setHours(hour, 0, 0, 0);
-
-                    let isAvailable = true;
-
-                    // Past time?
-                    if (slotDate < today) {
-                        isAvailable = false;
-                    }
-
-                    // Hard rules: only Tue–Thu evenings (already restricted by TEACHING_DAYS)
-                    // Blocked by your own array?
-                    if (isSlotBlocked(slotDate, hour)) {
-                        isAvailable = false;
-                    }
-
-                    const slotDiv = document.createElement('button');
-                    slotDiv.type = 'button';
-                    slotDiv.className =
-                        'slot-pill w-full flex items-center justify-between px-3 py-2 rounded-lg border text-left text-xs sm:text-sm';
-
-                    slotDiv.dataset.dateIso = slotDate.toISOString();
-                    slotDiv.dataset.hour = hour;
-
-                    if (isAvailable) {
-                        slotDiv.classList.add(
-                            'bg-brand-accent-light/10',
-                            'border-brand-accent-light/60',
-                            'text-brand-text-light'
-                        );
-                        slotDiv.innerHTML = `
-                            <span>${SLOT_LABELS[hour]}</span>
-                            <span class="text-[0.7rem] text-brand-accent-light font-semibold">Available</span>
-                        `;
-                        slotDiv.addEventListener('click', () => handleSlotClick(slotDate, hour));
-                    } else {
-                        slotDiv.classList.add(
-                            'bg-red-900/20',
-                            'border-red-500/60',
-                            'text-red-200',
-                            'disabled'
-                        );
-                        slotDiv.innerHTML = `
-                            <span>${SLOT_LABELS[hour]}</span>
-                            <span class="text-[0.7rem] text-red-300 font-semibold">Unavailable</span>
-                        `;
-                    }
-
-                    slotsContainer.appendChild(slotDiv);
-                });
-
-                colDiv.appendChild(slotsContainer);
-                slotsGridEl.appendChild(colDiv);
-            });
-        }
-
-        function handleSlotClick(dateObj, hour) {
-            currentSelectedSlot = { date: new Date(dateObj), hour };
-            selectedLessonMinutes = null;
-
-            // Reset length button styles
-            lessonLengthButtons.forEach(btn => {
-                btn.classList.remove(
-                    'bg-brand-accent-light/20',
-                    'border-brand-accent-light',
-                    'text-brand-text-light'
-                );
-                btn.classList.add('bg-brand-dark-bg');
-            });
-
-            const fullDate = formatFullDate(dateObj);
-            const label = SLOT_LABELS[hour] || '';
-
-            selectedSlotText.innerHTML = `
-                <span class="block text-brand-text-light font-semibold">${fullDate}</span>
-                <span class="block text-brand-text-mid">Preferred slot: <strong>${label}</strong></span>
-                <span class="block text-[0.7rem] text-brand-text-mid mt-1">
-                    Choose a lesson length below, then click the button to email your request.
-                </span>
-            `;
-
-            selectedSlotCard.classList.remove('hidden');
-            emailRequestBtn.disabled = true;
-        }
-
-        lessonLengthButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!currentSelectedSlot) return;
-                const mins = parseInt(btn.dataset.minutes, 10);
-                selectedLessonMinutes = mins;
-
-                // Update button highlighting
-                lessonLengthButtons.forEach(b => {
-                    b.classList.remove(
-                        'bg-brand-accent-light/20',
-                        'border-brand-accent-light',
-                        'text-brand-text-light'
-                    );
-                    b.classList.add('bg-brand-dark-bg', 'text-brand-text-mid');
-                });
-
-                btn.classList.remove('bg-brand-dark-bg', 'text-brand-text-mid');
-                btn.classList.add(
-                    'bg-brand-accent-light/20',
-                    'border-brand-accent-light',
-                    'text-brand-text-light'
-                );
-
-                emailRequestBtn.disabled = false;
-            });
-        });
-
-        emailRequestBtn.addEventListener('click', () => {
-            if (!currentSelectedSlot || !selectedLessonMinutes) return;
-
-            const { date, hour } = currentSelectedSlot;
-            const fullDate = formatFullDate(date);
-            const timeLabel = SLOT_LABELS[hour] || '';
-            const length = selectedLessonMinutes;
-
-            const subject = encodeURIComponent(
-                `Lesson Enquiry – ${fullDate} (${timeLabel}, ${length} mins)`
-            );
-
-            const bodyLines = [
-                `Hi Elliot,`,
-                ``,
-                `I'd like to enquire about booking this slot:`,
-                `• Date: ${fullDate}`,
-                `• Time: ${timeLabel}`,
-                `• Lesson length: ${length} minutes`,
-                ``,
-                `A bit about me / my child:`,
-                `[Please add age, experience level, and whether it's piano or singing.]`,
-                ``,
-                `My postcode (for travel fee):`,
-                `[Your postcode here]`,
-                ``,
-                `Thank you!`,
-                ``,
-                `[Your name]`
-            ];
-
-            const body = encodeURIComponent(bodyLines.join('\n'));
-
-            window.location.href = `mailto:elliotmobilemusic@gmail.com?subject=${subject}&body=${body}`;
-        });
-
-        // Week navigation
-        prevWeekBtn.addEventListener('click', () => {
-            weekOffset -= 1;
-            renderWeek();
-        });
-        nextWeekBtn.addEventListener('click', () => {
-            weekOffset += 1;
-            renderWeek();
-        });
-
-        // Initial render
-        renderWeek();
     </script>
 </body>
 </html>
