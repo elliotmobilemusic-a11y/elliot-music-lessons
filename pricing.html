@@ -31,6 +31,40 @@
     </script>
 
     <style>
+        <!-- Lucide Icons Loader (must be included for icons to appear) -->
+<script type="module">
+    import {
+        createIcons,
+        AudioLines,
+        Zap,
+        BookOpen,
+        Clock,
+        Mail,
+        Phone,
+        MapPin,
+        MessageSquare,
+        Star,
+        Users,
+        Send
+    } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+
+    createIcons({
+        icons: {
+            AudioLines,
+            Zap,
+            BookOpen,
+            Clock,
+            Mail,
+            Phone,
+            MapPin,
+            MessageSquare,
+            Star,
+            Users,
+            Send
+        }
+    });
+</script>
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
@@ -147,7 +181,7 @@
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                        <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                        <i data-lucide="audio-lines" class="w-5 h-5 text-brand-accent-light"></i>
                     </span>
                     <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
                         ELLIOT'S MOBILE MUSIC
