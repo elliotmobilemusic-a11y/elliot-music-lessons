@@ -57,6 +57,7 @@
             transform: translateY(0);
         }
 
+        /* Typing indicator */
         @keyframes dot-pulse {
             0%, 100% { opacity: 0.2; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.4); }
@@ -64,6 +65,47 @@
         .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
         .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
         .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
+
+        /* Subtle scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition:
+                opacity 0.8s ease-out,
+                transform 0.8s ease-out;
+        }
+        .reveal.delayed-1 {
+            transition-delay: 0.12s;
+        }
+        .reveal.delayed-2 {
+            transition-delay: 0.2s;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover lift utility */
+        .hover-lift {
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Tutor image gold glow */
+        .tutor-photo {
+            box-shadow: 0 0 32px rgba(255, 183, 3, 0.3);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .tutor-photo:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 45px rgba(255, 183, 3, 0.45);
+        }
     </style>
 
     <!-- Lucide Icons -->
@@ -83,7 +125,7 @@
     <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2 reveal visible">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
                         <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
                     </span>
@@ -94,16 +136,16 @@
 
                 <!-- Desktop nav -->
                 <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-                    <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">
+                    <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
                         HOME
                     </a>
-                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
                         PRICING & FEES
                     </a>
-                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
                         AVAILABILITY
                     </a>
-                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
                         CONTACT
                     </a>
                 </div>
@@ -138,7 +180,7 @@
         <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Text side -->
-                <div>
+                <div class="reveal">
                     <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
                         PIANO & SINGING LESSONS IN YOUR HOME
                     </p>
@@ -189,13 +231,12 @@
                 </div>
 
                 <!-- Visual card / “Meet Elliot” -->
-                <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
+                <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5 reveal delayed-1">
                     <div class="flex items-center gap-4">
                         <img
-                            src="https://placehold.co/160x160/1a1a2e/00d084?text=Elliot"
+                            src="/images/B778D2ED-6309-4D1F-B167-411BE412F09E.jpg"
                             alt="Elliot Wardill, Music Tutor"
-                            class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl border-2 border-brand-accent-light/60 object-cover"
-                            onerror="this.onerror=null;this.src='https://placehold.co/160x160/1a1a2e/00d084?text=Elliot';"
+                            class="w-32 h-40 sm:w-36 sm:h-48 rounded-2xl border border-brand-highlight/70 object-cover tutor-photo"
                         >
                         <div>
                             <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">
@@ -206,7 +247,8 @@
                             </h2>
                             <p class="text-xs sm:text-sm text-brand-text-mid">
                                 Musician & educator working within the education sector,
-                                specialising in relaxed, confidence-building piano and singing lessons.
+                                specialising in relaxed, confidence-building piano and singing lessons
+                                delivered in the comfort of your own home.
                             </p>
                         </div>
                     </div>
@@ -236,21 +278,21 @@
         <!-- KEY BENEFITS -->
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
-                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal">
                     <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-3"></i>
                     <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Tailored to Each Student</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
                         Whether it’s chart songs, grades, or simply playing for fun, lessons are personalised to age, taste, and goals.
                     </p>
                 </div>
-                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal delayed-1">
                     <i data-lucide="map-pin" class="w-6 h-6 text-brand-highlight mb-3"></i>
                     <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">I Come to You</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
                         No travelling, no waiting rooms. I bring everything needed, including a keyboard where needed.
                     </p>
                 </div>
-                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow hover:border-brand-accent-light transition">
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow hover-lift reveal delayed-2">
                     <i data-lucide="zap" class="w-6 h-6 text-brand-highlight mb-3"></i>
                     <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Safe & Professional</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
@@ -264,7 +306,7 @@
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <!-- How it works -->
-                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
                     <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">
                         How mobile lessons work
                     </h2>
@@ -283,13 +325,13 @@
                         </li>
                     </ol>
                     <a href="availability.html"
-                       class="inline-flex items-center mt-5 text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light">
+                       class="inline-flex items-center mt-5 text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
                         Check current availability
                     </a>
                 </div>
 
                 <!-- Who it's for -->
-                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal delayed-1">
                     <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">
                         Who lessons are perfect for
                     </h2>
@@ -313,7 +355,7 @@
 
         <!-- TRUST / TESTIMONIAL -->
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col lg:flex-row gap-8 items-center">
+            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col lg:flex-row gap-8 items-center reveal">
                 <div class="flex-1">
                     <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">
                         A supportive, confidence-building approach
@@ -347,7 +389,7 @@
 
         <!-- POLICY Q&A ASSISTANT -->
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
-            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
                     <div>
                         <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
@@ -358,7 +400,7 @@
                             Ask quick questions about lesson fees, travel, availability, or safeguarding and get instant answers based on the written policy.
                         </p>
                     </div>
-                    <a href="pricing.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light">
+                    <a href="pricing.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
                         View full lesson policy
                     </a>
                 </div>
@@ -439,6 +481,23 @@
                 { rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
             );
             observer.observe(heroSection);
+        }
+
+        // Scroll reveal on sections
+        const revealElements = document.querySelectorAll('.reveal');
+        if (revealElements.length) {
+            const revealObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.15 }
+            );
+            revealElements.forEach(el => revealObserver.observe(el));
         }
 
         // Policy Q&A Assistant (frontend, calls /api/chat on Vercel)
