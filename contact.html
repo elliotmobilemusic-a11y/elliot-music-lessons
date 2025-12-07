@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Elliot Wardill - Mobile Music Lessons</title>
+    <title>Contact Elliot Wardill – Mobile Music Lessons</title>
     <link rel="icon" href="/favicon.png" type="image/png">
 
-    <!-- Load Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Custom Tailwind Config for Theme -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'brand-dark-bg': '#1a1a2e', // Deep dark blue
-                        'brand-accent-light': '#00d084', // Vibrant green/aqua
-                        'brand-accent-dark': '#00a36e', // Darker green/aqua
-                        'brand-text-light': '#e0e0e0', // Light grey for text
-                        'brand-text-mid': '#a0e0e0', // Mid grey for secondary text
-                        'brand-highlight': '#ffb703', // Vibrant golden yellow
-                        'card-bg': '#252538', // Slightly lighter dark background for containers
-                        'error-red': '#f87171', // Red for errors (Tailwind red-400)
+                        'brand-dark-bg': '#1a1a2e',
+                        'brand-accent-light': '#00d084',
+                        'brand-accent-dark': '#00a36e',
+                        'brand-text-light': '#e0e0e0',
+                        'brand-text-mid': '#a0e0e0',
+                        'brand-highlight': '#ffb703',
+                        'card-bg': '#252538',
+                        'error-red': '#f87171',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -32,158 +30,277 @@
             }
         }
     </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e;
-            color: #e0e0e0;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            color: #e0e0e0;
         }
         .main-hero-shadow {
-            text-shadow: 0 0 10px rgba(0, 208, 132, 0.5);
+            text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
         }
         .card-glow {
-            box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
         }
-        /* Custom styling for form inputs */
+        .hover-lift {
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
         .input-style {
             background-color: #1a1a2e;
             border-color: #44445c;
             color: #e0e0e0;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
         }
         .input-style:focus {
             outline: none;
             border-color: #00d084;
-            box-shadow: 0 0 0 2px rgba(0, 208, 132, 0.5);
+            box-shadow: 0 0 0 2px rgba(0, 208, 132, 0.4);
         }
-
-        /* Visual indication for invalid state (used for live validation) */
         .input-error {
-            border-color: #f87171; /* Error Red */
-            box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.5);
+            border-color: #f87171 !important;
+            box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.5) !important;
         }
 
-        /* Modal backdrop for confirmation */
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition:
+                opacity 0.8s ease-out,
+                transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal.delayed-1 { transition-delay: 0.12s; }
+        .reveal.delayed-2 { transition-delay: 0.2s; }
+
+        /* Modals */
         .modal-backdrop {
             background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px); /* Safari support */
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .modal-panel {
+            transform: translateY(12px) scale(0.97);
+            opacity: 0;
+            transition:
+                opacity 0.25s ease-out,
+                transform 0.25s ease-out;
+        }
+        .modal-panel.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Small helper pills */
+        .helper-pill {
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
         }
     </style>
-    <!-- Load Lucide Icons -->
+
+    <!-- Lucide Icons -->
     <script type="module">
-        import { createIcons, Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } });
+        import {
+            createIcons,
+            Music2,
+            Mail,
+            Phone,
+            MapPin,
+            Car,
+            CheckCircle2,
+            X,
+            AlertTriangle,
+            Info
+        } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+
+        createIcons({
+            icons: { Music2, Mail, Phone, MapPin, Car, CheckCircle2, X, AlertTriangle, Info }
+        });
     </script>
 </head>
-<body class="min-h-screen flex flex-col">
-    <!-- Navigation Bar (Reused) -->
-    <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
+<body class="min-h-screen flex flex-col text-brand-text-light">
+
+    <!-- NAVIGATION (matches other pages) -->
+    <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo/Brand Name -->
-                <div class="flex-shrink-0">
-                    <a href="index.html" class="text-xl font-extrabold tracking-wider text-brand-highlight hover:text-white transition duration-200">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+                        <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                    </span>
+                    <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
                         ELLIOT'S MOBILE MUSIC
+                    </span>
+                </a>
+
+                <!-- Desktop nav -->
+                <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        HOME
+                    </a>
+                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        PRICING & FEES
+                    </a>
+                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        AVAILABILITY
+                    </a>
+                    <a href="contact.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+                        CONTACT
                     </a>
                 </div>
 
-                <!-- Desktop Navigation Links -->
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
-                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">HOME</a>
-                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">PRICING & FEES</a>
-                    <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">AVAILABILITY</a>
-                    <a href="contact.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 text-sm font-medium transition duration-200">CONTACT</a>
-                </div>
-
-                <!-- Mobile Menu Button -->
+                <!-- Mobile button -->
                 <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white" aria-label="Toggle navigation">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
+        <!-- Mobile menu -->
         <div class="sm:hidden hidden" id="mobile-menu">
-            <div class="pt-2 pb-3 space-y-1 px-2">
-                <a href="index.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">HOME</a>
-                <a href="pricing.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">PRICING & FEES</a>
-                <a href="availability.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">AVAILABILITY</a>
-                <a href="contact.html" class="bg-brand-accent-dark text-white block rounded-md px-3 py-2 text-base font-medium">CONTACT</a>
+            <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
+                <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
+                <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
+                <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
+                <a href="contact.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">CONTACT</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow">
-
-        <header class="text-center mb-10">
-            <h1 class="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight main-hero-shadow text-brand-highlight">
-                Get in Touch
+    <!-- MAIN -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex-grow">
+        <!-- HERO -->
+        <header class="text-center mb-10 sm:mb-12 reveal">
+            <p class="text-xs font-semibold tracking-[0.26em] text-brand-highlight uppercase mb-3">
+                BOOK A MOBILE MUSIC LESSON
+            </p>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow text-brand-text-light mb-3">
+                Get in touch with Elliot
             </h1>
-            <p class="text-lg text-brand-text-mid mt-2">
-                Use the form below to send Elliot a direct message about booking a lesson.
+            <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl mx-auto">
+                Fill in a few details below and Elliot will get back to you within
+                <span class="font-semibold text-brand-accent-light">24 hours</span> to confirm times, travel and prices.
             </p>
         </header>
 
-        <!-- Contact Grid: Details and Form -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <!-- HELPER BAR -->
+        <div class="max-w-3xl mx-auto mb-8 reveal delayed-1">
+            <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 card-glow">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/40">
+                        <i data-lucide="info" class="w-4 h-4 text-brand-accent-light"></i>
+                    </span>
+                    <div class="text-xs sm:text-sm text-brand-text-mid">
+                        <p class="font-semibold text-brand-text-light">Quick tip:</p>
+                        <p>Include your <strong>postcode area</strong>, preferred <strong>evening</strong>, and whether it’s for <strong>piano</strong> or <strong>singing</strong> to help speed things up.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <!-- Contact Details Card (2/5 width) -->
-            <div class="lg:col-span-2 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light h-full">
-                <h2 class="text-xl font-bold text-brand-text-light mb-4">Direct Contact Information</h2>
-                <p class="text-brand-text-mid mb-6 text-sm">
-                    Prefer to speak directly? Here's how you can reach Elliot.
+        <!-- GRID: INFO + FORM -->
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-8 lg:gap-10 items-start">
+            <!-- LEFT: DIRECT INFO -->
+            <section class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 reveal delayed-1">
+                <p class="helper-pill inline-flex items-center px-2.5 py-1 rounded-full bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 mb-3 uppercase font-semibold">
+                    Direct contact details
+                </p>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-text-light mb-3">
+                    Prefer to message or call?
+                </h2>
+                <p class="text-sm sm:text-base text-brand-text-mid mb-6">
+                    You can either use the form, or contact Elliot directly using the details below.
                 </p>
 
-                <div class="space-y-4">
+                <div class="space-y-4 text-sm sm:text-base">
                     <!-- Phone -->
-                    <div class="flex items-start">
-                        <i data-lucide="phone" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
-                        <div class="ml-3">
-                            <h3 class="font-semibold text-brand-text-light">Call or Text</h3>
-                            <a href="tel:07368975144" class="text-brand-highlight hover:text-white transition duration-200">07368 975144</a>
+                    <div class="flex items-start gap-3">
+                        <i data-lucide="phone" class="w-5 h-5 mt-0.5 text-brand-accent-light"></i>
+                        <div>
+                            <p class="font-semibold text-brand-text-light">Call or text</p>
+                            <a href="tel:07368975144" class="text-brand-highlight hover:text-white transition">
+                                07368 975144
+                            </a>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Evenings are usually best for a quick chat.
+                            </p>
                         </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="flex items-start">
-                        <i data-lucide="mail" class="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0"></i>
-                        <div class="ml-3">
-                            <h3 class="font-semibold text-brand-text-light">Email Address</h3>
-                            <a href="mailto:elliotmobilemusic@gmail.com" class="text-brand-highlight hover:text-white transition duration-200">elliotmobilemusic@gmail.com</a>
+                    <div class="flex items-start gap-3">
+                        <i data-lucide="mail" class="w-5 h-5 mt-0.5 text-brand-accent-light"></i>
+                        <div>
+                            <p class="font-semibold text-brand-text-light">Email</p>
+                            <a href="mailto:elliotmobilemusic@gmail.com" class="text-brand-highlight hover:text-white transition">
+                                elliotmobilemusic@gmail.com
+                            </a>
+                            <p class="text-xs text-brand-text-mid mt-1">
+                                Elliot aims to reply to all emails within 24 hours.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Enhanced Service Area Display -->
-                    <div class="pt-4 border-t border-brand-accent-dark/30">
-                        <div class="flex items-start">
-                            <i data-lucide="car" class="w-5 h-5 text-brand-highlight mt-1 flex-shrink-0"></i>
-                            <div class="ml-3">
-                                <h3 class="font-semibold text-brand-text-light">Mobile Service Area</h3>
-                                <p class="text-brand-text-mid text-sm font-bold">Primary Locations:</p>
-                                <p class="text-brand-text-mid text-sm">Pudsey, Farsley, Calverley, Bramley.</p>
-                                <p class="text-brand-text-mid text-sm font-bold mt-2">Extended Area:</p>
-                                <p class="text-brand-text-mid text-sm">Horsforth, and other areas of West Leeds.</p>
-                                <p class="xs text-brand-highlight/90 mt-2 p-2 bg-brand-accent-dark/30 rounded">
+                    <!-- Service area -->
+                    <div class="pt-4 border-t border-brand-accent-dark/40 mt-2">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="car" class="w-5 h-5 mt-0.5 text-brand-highlight"></i>
+                            <div>
+                                <p class="font-semibold text-brand-text-light">Mobile service area</p>
+                                <p class="text-xs sm:text-sm text-brand-text-mid">
+                                    <span class="font-semibold">Core area:</span> Pudsey, Farsley, Calverley, Bramley.<br>
+                                    <span class="font-semibold">Extended:</span> Horsforth and wider West Leeds (travel fees may apply).
+                                </p>
+                                <p class="mt-2 text-[0.7rem] text-brand-highlight/90 bg-brand-accent-dark/20 border border-brand-accent-dark/50 rounded-md px-3 py-2">
                                     <i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i>
-                                    <b class="font-bold">Please Note:</b> Travel fees may apply outside the core Pudsey area.
+                                    Not in Pudsey? Check the <a href="pricing.html" class="underline text-brand-accent-light hover:text-white">Pricing & Travel</a> page to see how distance is calculated.
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Contact Form (3/5 width) -->
-            <div class="lg:col-span-3 bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-highlight">
-                <h2 class="text-xl font-bold text-brand-text-light mb-4">Send a Message</h2>
+                    <!-- Response expectation -->
+                    <div class="mt-4 bg-brand-dark-bg/80 rounded-xl border border-brand-accent-dark/50 p-3 text-xs sm:text-sm text-brand-text-mid">
+                        <p class="font-semibold text-brand-text-light mb-1">
+                            Typical response time
+                        </p>
+                        <p>
+                            Elliot replies personally to every enquiry. If you don’t hear back within 24 hours, please check your spam folder or try a direct text.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT: CONTACT FORM -->
+            <section class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 border-t-4 border-brand-highlight p-6 sm:p-7 reveal delayed-2">
+                <p class="helper-pill inline-flex items-center px-2.5 py-1 rounded-full bg-brand-highlight/10 text-brand-highlight border border-brand-highlight/40 mb-3 uppercase font-semibold">
+                    Enquiry form
+                </p>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-text-light mb-2">
+                    Send a message to Elliot
+                </h2>
+                <p class="text-xs sm:text-sm text-brand-text-mid mb-5">
+                    The more detail you can give, the easier it is to suggest suitable lesson times and confirm travel.
+                </p>
 
                 <form
                     action="https://formspree.io/f/mblzezqv"
@@ -192,391 +309,565 @@
                     class="space-y-4"
                     novalidate
                 >
-                    <!-- REQUIRED FOR FORMSUBMIT/FORMSPREE: Spam prevention (Honeypot) -->
-                    <input type="text" name="_gotcha" style="display:none">
+                    <!-- Honeypot -->
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
-                    <!-- Full Name -->
+                    <!-- Name -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-brand-text-light mb-1">Your Full Name <span class="text-brand-accent-light font-bold">(Required)</span></label>
-                        <input type="text" id="name" name="Name" required autofocus class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="Jane Smith">
-                        <p id="error-name" class="text-error-red text-sm mt-1 hidden">Your full name is required.</p>
+                        <label for="name" class="block text-sm font-medium text-brand-text-light mb-1">
+                            Your full name <span class="text-brand-accent-light font-semibold">(required)</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="Name"
+                            required
+                            autocomplete="name"
+                            class="input-style w-full p-3 rounded-lg border text-sm sm:text-base"
+                            placeholder="e.g. Sarah Thompson"
+                            aria-required="true"
+                            aria-describedby="error-name"
+                        >
+                        <p id="error-name" class="text-error-red text-xs mt-1 hidden">Your full name is required.</p>
                     </div>
 
-                    <!-- Email and Phone Row -->
+                    <!-- Email + phone -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-brand-text-light mb-1">Your Email <span class="text-brand-accent-light font-bold">(Required)</span></label>
-                            <input type="email" id="email" name="Email" required class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="jane@example.com">
-                            <p id="error-email" class="text-error-red text-sm mt-1 hidden">A valid email is required.</p>
+                            <label for="email" class="block text-sm font-medium text-brand-text-light mb-1">
+                                Email address <span class="text-brand-accent-light font-semibold">(required)</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="Email"
+                                required
+                                autocomplete="email"
+                                class="input-style w-full p-3 rounded-lg border text-sm sm:text-base"
+                                placeholder="you@example.com"
+                                aria-required="true"
+                                aria-describedby="error-email"
+                            >
+                            <p id="error-email" class="text-error-red text-xs mt-1 hidden">Please enter a valid email address.</p>
                         </div>
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-brand-text-light mb-1">Phone Number (Optional)</label>
-                            <input type="tel" id="phone" name="Phone" class="input-style w-full p-3 rounded-lg border focus:ring-0" placeholder="07XXXXXXXXX">
+                            <label for="phone" class="block text-sm font-medium text-brand-text-light mb-1">
+                                Phone number <span class="text-brand-text-mid">(optional)</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="Phone"
+                                autocomplete="tel"
+                                class="input-style w-full p-3 rounded-lg border text-sm sm:text-base"
+                                placeholder="07XXXXXXXXX"
+                            >
                         </div>
                     </div>
 
-                    <!-- Subject/Inquiry Type -->
+                    <!-- Inquiry type -->
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-brand-text-light mb-1">Inquiry Type <span class="text-brand-accent-light font-bold">(Required)</span></label>
-                        <select id="subject" name="Inquiry Type" required class="input-style w-full p-3 rounded-lg border focus:ring-0 appearance-none">
+                        <label for="subject" class="block text-sm font-medium text-brand-text-light mb-1">
+                            What is your enquiry about? <span class="text-brand-accent-light font-semibold">(required)</span>
+                        </label>
+                        <select
+                            id="subject"
+                            name="Inquiry Type"
+                            required
+                            class="input-style w-full p-3 rounded-lg border text-sm sm:text-base appearance-none"
+                            aria-required="true"
+                            aria-describedby="error-subject helper-subject"
+                        >
                             <option value="" disabled selected>Select an option...</option>
-                            <option value="Piano Lesson Inquiry">Piano Lesson Inquiry</option>
-                            <option value="Singing Lesson Inquiry">Singing Lesson Inquiry</option>
-                            <option value="Check Availability">Check Availability</option>
-                            <option value="Question about Fees/Policy">Question about Fees/Policy</option>
-                            <option value="General / Other">General / Other</option>
+                            <option value="Piano Lesson Inquiry">Piano lesson enquiry</option>
+                            <option value="Singing Lesson Inquiry">Singing lesson enquiry</option>
+                            <option value="Both Piano & Singing">Piano & singing together</option>
+                            <option value="Check Availability">Check availability</option>
+                            <option value="Question about Fees/Policy">Question about fees / policy</option>
+                            <option value="General / Other">General / other</option>
                         </select>
-                        <p id="error-subject" class="text-error-red text-sm mt-1 hidden">Please select an inquiry type.</p>
+                        <p id="error-subject" class="text-error-red text-xs mt-1 hidden">Please select an enquiry type.</p>
+                        <p id="helper-subject" class="text-[0.7rem] text-brand-text-mid mt-1">
+                            This helps Elliot know what kind of reply you need.
+                        </p>
                     </div>
 
-                    <!-- Message -->
+                    <!-- Message with smart prompts -->
                     <div>
-                        <label for="message" class="block text-sm font-medium text-brand-text-light mb-1">Your Message <span class="text-brand-accent-light font-bold">(Required)</span></label>
-                        <textarea id="message" name="Message" rows="4" required class="input-style w-full p-3 rounded-lg border focus:ring-0 resize-none" placeholder="Tell me about the student (age, experience) and what you are hoping to achieve."></textarea>
-                        <p id="error-message" class="text-error-red text-sm mt-1 hidden">Please include a detailed message.</p>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="message" class="block text-sm font-medium text-brand-text-light">
+                                Your message <span class="text-brand-accent-light font-semibold">(required)</span>
+                            </label>
+                            <span id="message-counter" class="text-[0.7rem] text-brand-text-mid">
+                                0 / 800
+                            </span>
+                        </div>
+                        <textarea
+                            id="message"
+                            name="Message"
+                            rows="5"
+                            required
+                            maxlength="800"
+                            class="input-style w-full p-3 rounded-lg border text-sm sm:text-base resize-none"
+                            placeholder="Tell me about the student (age, experience), your postcode area (e.g. LS28 / LS13), and what days/times usually work best."
+                            aria-required="true"
+                            aria-describedby="error-message helper-message"
+                        ></textarea>
+                        <p id="error-message" class="text-error-red text-xs mt-1 hidden">Please include a short message so Elliot knows how to help.</p>
+                        <p id="helper-message" class="text-[0.7rem] text-brand-text-mid mt-1">
+                            Tip: including your <strong>postcode area</strong> and preferred <strong>evening</strong> makes it much easier to confirm availability and travel.
+                        </p>
                     </div>
 
-                    <!-- Submit Button -->
-                    <div>
-                        <button type="submit" class="w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-bold rounded-lg text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 transform hover:scale-[1.01] shadow-lg shadow-brand-accent-light/30">
-                            <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Send Message
+                    <!-- Helpful “What to include” prompts -->
+                    <div class="bg-brand-dark-bg/80 border border-brand-accent-dark/50 rounded-xl p-3 text-[0.75rem] text-brand-text-mid space-y-1">
+                        <p class="font-semibold text-brand-text-light mb-1">
+                            It’s helpful if you can mention:
+                        </p>
+                        <ul class="list-disc list-inside space-y-0.5">
+                            <li>The student’s age and whether they’re a complete beginner.</li>
+                            <li>Your postcode area (e.g. LS28, LS13, BD17).</li>
+                            <li>Whether you’re interested in piano, singing, or both.</li>
+                            <li>Your preferred evenings (e.g. Wednesday 6–8pm).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="pt-2">
+                        <button
+                            type="submit"
+                            class="w-full inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm sm:text-base font-semibold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-300 transform hover:scale-[1.01] shadow-lg shadow-brand-accent-light/30"
+                            id="submit-button"
+                        >
+                            <span class="inline-flex items-center justify-center">
+                                <span class="mr-2 inline-flex items-center justify-center">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </span>
+                                <span>Send message to Elliot</span>
+                            </span>
                         </button>
+                        <p class="mt-2 text-[0.7rem] text-brand-text-mid">
+                            By sending this form you agree that Elliot can contact you about lessons. Your details are never shared with anyone else.
+                        </p>
                     </div>
                 </form>
-            </div>
+            </section>
         </div>
-
     </main>
-    <!-- Footer (Reused) -->
-    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
-        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-            <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
+            <p class="mt-1 text-gray-500">
+                DBS checked & insured. Full lesson policy and travel information available on the pricing page.
+            </p>
         </div>
     </footer>
 
-    <!-- SUCCESS Confirmation Modal -->
-    <div id="success-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-success-title">
-        <div class="bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-brand-accent-light relative">
-            <button id="close-success-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
-                 <i data-lucide="x" class="w-6 h-6"></i>
+    <!-- SUCCESS MODAL -->
+    <div
+        id="success-modal"
+        class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center"
+        aria-modal="true"
+        role="dialog"
+        aria-labelledby="modal-success-title"
+    >
+        <div class="modal-panel bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-brand-accent-light relative">
+            <button
+                id="close-success-modal-button"
+                class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight"
+                aria-label="Close message"
+            >
+                <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            <i data-lucide="check-circle" class="w-16 h-16 text-brand-accent-light mx-auto mb-4"></i>
-            <h3 id="modal-success-title" class="text-2xl font-bold text-brand-text-light mb-2">Message Sent!</h3>
-            <p class="text-brand-text-mid mb-6">
-                Thank you for your inquiry. Your message has been sent successfully. Elliot aims to respond within <b class="font-bold">24 hours</b>.
+            <i data-lucide="check-circle-2" class="w-14 h-14 text-brand-accent-light mx-auto mb-4"></i>
+            <h3 id="modal-success-title" class="text-2xl font-bold text-brand-text-light mb-2">
+                Message sent successfully
+            </h3>
+            <p class="text-sm text-brand-text-mid mb-6">
+                Thank you for your enquiry. Elliot aims to reply within
+                <strong>24 hours</strong>. If you don’t see a reply, please check your spam folder.
             </p>
-            <button onclick="hideSuccessModal()" class="w-full px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-brand-highlight hover:bg-brand-highlight/90 transition duration-200">
-                Acknowledge & Continue
+            <button
+                id="success-continue-button"
+                class="w-full px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-brand-highlight hover:bg-brand-highlight/90 transition"
+            >
+                Close and continue browsing
             </button>
         </div>
     </div>
 
-    <!-- ERROR Confirmation Modal -->
-    <div id="error-modal" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog" aria-labelledby="modal-error-title">
-        <div class="bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-error-red relative">
-            <button id="close-error-modal-button" class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight" aria-label="Close message">
-                 <i data-lucide="x" class="w-6 h-6"></i>
+    <!-- ERROR MODAL -->
+    <div
+        id="error-modal"
+        class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center"
+        aria-modal="true"
+        role="dialog"
+        aria-labelledby="modal-error-title"
+    >
+        <div class="modal-panel bg-card-bg p-8 rounded-xl max-w-sm w-full text-center card-glow border-t-4 border-error-red relative">
+            <button
+                id="close-error-modal-button"
+                class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight"
+                aria-label="Close message"
+            >
+                <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            <i data-lucide="alert-triangle" class="w-16 h-16 text-error-red mx-auto mb-4"></i>
-            <h3 id="modal-error-title" class="text-2xl font-bold text-error-red mb-2">Submission Failed</h3>
-            <p id="error-modal-text" class="text-brand-text-light mb-6">
-                Unfortunately, there was an unexpected error. Please check your connection or try emailing Elliot directly.
+            <i data-lucide="alert-triangle" class="w-14 h-14 text-error-red mx-auto mb-4"></i>
+            <h3 id="modal-error-title" class="text-2xl font-bold text-error-red mb-2">
+                Something went wrong
+            </h3>
+            <p id="error-modal-text" class="text-sm text-brand-text-light mb-6">
+                The message couldn’t be sent just now. Please check your connection, or email Elliot directly.
             </p>
-            <a href="mailto:elliotmobilemusic@gmail.com" class="w-full inline-block px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-error-red hover:bg-error-red/90 transition duration-200">
-                Email Elliot Directly
+            <a
+                href="mailto:elliotmobilemusic@gmail.com"
+                class="w-full inline-block px-5 py-2.5 text-sm font-medium rounded-lg text-brand-dark-bg bg-error-red hover:bg-error-red/90 transition"
+            >
+                Email Elliot directly
             </a>
-            <button onclick="hideErrorModal()" class="w-full mt-3 px-5 py-2.5 text-sm font-medium rounded-lg text-brand-text-light bg-card-bg border border-error-red/50 hover:border-error-red transition duration-200">
-                Try Again
+            <button
+                id="error-try-again-button"
+                class="w-full mt-3 px-5 py-2.5 text-sm font-medium rounded-lg text-brand-text-light bg-card-bg border border-error-red/50 hover:border-error-red transition"
+            >
+                Try sending the form again
             </button>
         </div>
     </div>
 
-
-    <!-- JavaScript for Mobile Menu and Form Handling -->
+    <!-- JS: UI + FORM LOGIC -->
     <script>
-        // --- Setup and Constants ---
-        const FORM_STORAGE_KEY = 'contactFormState';
+        // ---------- BASIC UI ----------
+
+        // Mobile nav
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        if (revealEls.length) {
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.12 }
+            );
+            revealEls.forEach(el => observer.observe(el));
+        }
+
+        // ---------- FORM & ADVANCED FEATURES ----------
+
+        const FORM_STORAGE_KEY = 'ew_contact_form_state_v1';
+
         const contactForm = document.getElementById('contact-form');
+        const submitButton = document.getElementById('submit-button');
+        const messageField = document.getElementById('message');
+        const subjectField = document.getElementById('subject');
+        const messageCounter = document.getElementById('message-counter');
+
+        // Modals
         const successModal = document.getElementById('success-modal');
         const errorModal = document.getElementById('error-modal');
         const errorModalText = document.getElementById('error-modal-text');
+        const successContinueButton = document.getElementById('success-continue-button');
+        const closeSuccessModalButton = document.getElementById('close-success-modal-button');
+        const closeErrorModalButton = document.getElementById('close-error-modal-button');
+        const errorTryAgainButton = document.getElementById('error-try-again-button');
 
-        const requiredInputs = [
-            { id: 'name', errorMessage: 'Your full name is required.' },
-            { id: 'email', errorMessage: 'A valid email is required.' },
-            { id: 'subject', errorMessage: 'Please select an inquiry type.' },
-            { id: 'message', errorMessage: 'Please include a detailed message.' }
+        const requiredFields = [
+            { id: 'name', message: 'Your full name is required.' },
+            { id: 'email', message: 'A valid email address is required.' },
+            { id: 'subject', message: 'Please select what your enquiry is about.' },
+            { id: 'message', message: 'Please include a short message.' },
         ];
 
-        // --- Core Advanced Feature 1: Form Persistence (Local Storage) ---
+        // ----------- LOCAL STORAGE (form persistence) -----------
 
-        /**
-         * Saves the current state of the form to localStorage.
-         */
         function saveFormState() {
-            const state = {};
+            const data = {};
             new FormData(contactForm).forEach((value, key) => {
-                // Ignore hidden fields like _recipient and _gotcha
                 if (!key.startsWith('_')) {
-                    state[key] = value;
+                    data[key] = value;
                 }
             });
             try {
-                localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(state));
-            } catch (e) {
-                console.warn("Could not save form state to localStorage:", e);
+                localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
+            } catch (err) {
+                console.warn('Could not save form state:', err);
             }
         }
 
-        /**
-         * Loads the form state from localStorage and pre-fills the form.
-         */
         function loadFormState() {
             try {
-                const savedState = localStorage.getItem(FORM_STORAGE_KEY);
-                if (savedState) {
-                    const state = JSON.parse(savedState);
-                    for (const key in state) {
-                        const input = document.querySelector(`[name="${key}"]`);
-                        if (input) {
-                            input.value = state[key];
-                        }
-                    }
-                    console.log("Form state restored from previous session.");
-                }
-            } catch (e) {
-                console.error("Error loading form state from localStorage:", e);
-                localStorage.removeItem(FORM_STORAGE_KEY); // Clear potentially corrupted data
+                const saved = localStorage.getItem(FORM_STORAGE_KEY);
+                if (!saved) return;
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const field = contactForm.querySelector('[name="' + key + '"]');
+                    if (field) field.value = data[key];
+                });
+            } catch (err) {
+                console.warn('Could not load saved form state:', err);
+                localStorage.removeItem(FORM_STORAGE_KEY);
             }
         }
 
-        /**
-         * Clears the form state from localStorage after successful submission.
-         */
         function clearFormState() {
             try {
                 localStorage.removeItem(FORM_STORAGE_KEY);
-                console.log("Form state cleared after successful submission.");
-            } catch (e) {
-                console.warn("Could not clear form state:", e);
+            } catch (err) {
+                console.warn('Could not clear form state:', err);
             }
         }
 
+        // ----------- VALIDATION -----------
 
-        // --- UI and Validation Handlers ---
+        function validateField(el) {
+            const fieldConfig = requiredFields.find(f => f.id === el.id);
+            if (!fieldConfig) return true;
 
-        // Mobile Menu Toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            var menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
+            const errorEl = document.getElementById('error-' + fieldConfig.id);
+            let valid = true;
+            let msg = fieldConfig.message;
 
-        // Modal Handlers
-        function showSuccessModal() {
-            successModal.classList.remove('hidden');
-            setTimeout(() => successModal.classList.remove('opacity-0'), 10);
-        }
-        function hideSuccessModal() {
-            successModal.classList.add('opacity-0');
-            setTimeout(() => successModal.classList.add('hidden'), 300);
-        }
-        function showErrorModal(message) {
-            errorModalText.textContent = message;
-            errorModal.classList.remove('hidden');
-            setTimeout(() => errorModal.classList.remove('opacity-0'), 10);
-        }
-        function hideErrorModal() {
-            errorModal.classList.add('opacity-0');
-            setTimeout(() => errorModal.classList.add('hidden'), 300);
-        }
+            const value = el.value.trim();
 
-        document.getElementById('close-success-modal-button').addEventListener('click', hideSuccessModal);
-        document.getElementById('close-error-modal-button').addEventListener('click', hideErrorModal);
-        successModal.addEventListener('click', (e) => { if (e.target === successModal) hideSuccessModal(); });
-        errorModal.addEventListener('click', (e) => { if (e.target === errorModal) hideErrorModal(); });
-
-
-        /**
-         * Validates a single input field and updates its error display.
-         * @param {HTMLElement} inputElement The input to validate.
-         * @returns {boolean} True if the input is valid.
-         */
-        function validateInput(inputElement) {
-            const field = requiredInputs.find(f => f.id === inputElement.id);
-            if (!field) return true; // Not a required field, skip client validation logic
-
-            const errorElement = document.getElementById(`error-${field.id}`);
-            let isValid = true;
-            let errorMessage = field.errorMessage;
-
-            if (inputElement.value.trim() === '') {
-                isValid = false;
-            } else if (inputElement.type === 'email' && !inputElement.checkValidity()) {
-                isValid = false;
-                errorMessage = 'Please enter a properly formatted email address.';
-            } else if (inputElement.tagName === 'SELECT' && inputElement.value === '') {
-                 isValid = false;
+            if (!value) {
+                valid = false;
+            } else if (el.type === 'email' && !el.checkValidity()) {
+                valid = false;
+                msg = 'Please enter a properly formatted email address.';
+            } else if (el.tagName === 'SELECT' && value === '') {
+                valid = false;
             }
 
-            // Update UI based on validation result
-            if (isValid) {
-                errorElement.classList.add('hidden');
-                inputElement.classList.remove('input-error');
+            if (valid) {
+                errorEl.classList.add('hidden');
+                el.classList.remove('input-error');
+                el.setAttribute('aria-invalid', 'false');
             } else {
-                errorElement.textContent = errorMessage;
-                errorElement.classList.remove('hidden');
-                inputElement.classList.add('input-error');
+                errorEl.textContent = msg;
+                errorEl.classList.remove('hidden');
+                el.classList.add('input-error');
+                el.setAttribute('aria-invalid', 'true');
             }
 
-            return isValid;
+            return valid;
         }
 
-        function validateFormOnSubmit() {
-            let isValid = true;
-            requiredInputs.forEach(field => {
-                const inputElement = document.getElementById(field.id);
-                // Perform validation for all required fields
-                if (!validateInput(inputElement)) {
-                    isValid = false;
-                    // For submit, scroll to the first invalid field
-                    if (!document.querySelector('.input-error:focus')) {
-                        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+        function validateForm() {
+            let allValid = true;
+            let firstInvalid = null;
+
+            requiredFields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const ok = validateField(el);
+                if (!ok && !firstInvalid) {
+                    firstInvalid = el;
                 }
+                if (!ok) allValid = false;
             });
-            return isValid;
+
+            if (firstInvalid) {
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalid.focus({ preventScroll: true });
+            }
+
+            return allValid;
         }
 
+        // ----------- SMART MESSAGE COUNTER & PROMPTS -----------
 
-        // --- Core Advanced Feature 2: Submission with Retry and Exponential Backoff ---
+        function updateMessageCounter() {
+            const max = messageField.maxLength || 800;
+            const current = messageField.value.length;
+            messageCounter.textContent = current + ' / ' + max;
+        }
 
-        /**
-         * Attempts to submit the form using fetch with retries on failure.
-         * @param {string} url The form action URL.
-         * @param {object} options The fetch options.
-         */
-        async function submitWithRetry(url, options, maxRetries = 3, delay = 500) {
+        function updateSmartPrompt() {
+            const helper = document.getElementById('helper-message');
+            const value = subjectField.value;
+
+            if (value === 'Check Availability') {
+                helper.innerHTML = 'For availability, include your <strong>postcode area</strong>, plus 2–3 preferred evenings (e.g. Wednesday 6–8pm).';
+            } else if (value === 'Piano Lesson Inquiry' || value === 'Singing Lesson Inquiry' || value === 'Both Piano & Singing') {
+                helper.innerHTML = 'Tell Elliot about the student (age, experience), your postcode area, and what kind of music they enjoy.';
+            } else if (value === 'Question about Fees/Policy') {
+                helper.innerHTML = 'Ask anything about prices, travel, cancellations or safeguarding. Elliot will reply with a clear explanation.';
+            } else {
+                helper.innerHTML = 'Tip: including your <strong>postcode area</strong> and preferred <strong>evening</strong> makes it much easier to confirm availability and travel.';
+            }
+        }
+
+        // ----------- SUBMISSION WITH RETRY -----------
+
+        async function submitWithRetry(url, options, maxRetries = 3, baseDelay = 500) {
             let lastError = null;
-            
-            // Add header to request a clean JSON response instead of a redirect
+
             const fetchOptions = {
                 ...options,
                 headers: {
-                    'Accept': 'application/json', 
+                    'Accept': 'application/json'
                 }
             };
-            
-            for (let i = 0; i < maxRetries; i++) {
+
+            for (let attempt = 0; attempt < maxRetries; attempt++) {
                 try {
-                    // Use the options that include the 'Accept: application/json' header
-                    const response = await fetch(url, fetchOptions);
-                    
-                    if (response.ok) {
-                        return response;
-                    } else {
-                        // Formspree returns a 400 or 422 if the hash is wrong or unconfirmed.
-                        // Since the user confirmed the email, a 400/422 here is highly unlikely
-                        // but we keep the robust error check.
-                        if (response.status === 400 || response.status === 422) {
-                            throw new Error('Form configuration error. Please ensure the Formspree hash is correct and activated.');
-                        }
-                        
-                        lastError = new Error(`Server returned status ${response.status}`);
-                        console.warn(`Attempt ${i + 1} failed with status: ${response.status}. Retrying...`);
+                    const res = await fetch(url, fetchOptions);
+                    if (res.ok) return res;
+
+                    if (res.status === 400 || res.status === 422) {
+                        throw new Error('Form configuration error. Please ensure your Formspree form is active and the ID is correct.');
                     }
-                } catch (error) {
-                    // Network error (e.g., connection timed out) or Configuration error
-                    lastError = error;
-                    console.warn(`Attempt ${i + 1} failed with network error:`, error.message);
+
+                    lastError = new Error('Server returned status ' + res.status);
+                } catch (err) {
+                    lastError = err;
                 }
 
-                if (i < maxRetries - 1) {
-                    const currentDelay = delay * Math.pow(2, i);
-                    await new Promise(resolve => setTimeout(resolve, currentDelay));
+                if (attempt < maxRetries - 1) {
+                    const delay = baseDelay * Math.pow(2, attempt);
+                    await new Promise(r => setTimeout(r, delay));
                 }
             }
-            throw lastError; // Final failure
+
+            throw lastError;
         }
 
-        // --- Main Submission Handler ---
-        contactForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
+        // ----------- MODALS -----------
 
-            if (!validateFormOnSubmit()) {
-                return;
-            }
+        function openModal(modalEl) {
+            modalEl.classList.remove('hidden');
+            const panel = modalEl.querySelector('.modal-panel');
+            requestAnimationFrame(() => {
+                panel.classList.add('show');
+            });
+        }
 
-            const form = event.target;
-            const formData = new FormData(form);
-            const submitButton = form.querySelector('button[type="submit"]');
+        function closeModal(modalEl) {
+            const panel = modalEl.querySelector('.modal-panel');
+            panel.classList.remove('show');
+            setTimeout(() => modalEl.classList.add('hidden'), 220);
+        }
 
-            // Set loading state
+        // Success modal
+        function showSuccessModal() {
+            openModal(successModal);
+        }
+
+        function hideSuccessModal() {
+            closeModal(successModal);
+        }
+
+        // Error modal
+        function showErrorModal(message) {
+            errorModalText.textContent = message;
+            openModal(errorModal);
+        }
+
+        function hideErrorModal() {
+            closeModal(errorModal);
+        }
+
+        // ----------- FORM SUBMIT HANDLER -----------
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateForm()) return;
+
+            const formData = new FormData(contactForm);
+
+            // Button loading UI (keep it simple, no lucide here)
             submitButton.disabled = true;
-            submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
+            const originalHtml = submitButton.innerHTML;
+            submitButton.innerHTML = `
+                <span class="inline-flex items-center">
+                    <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-brand-dark-bg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Sending your message…</span>
+                </span>
+            `;
 
             try {
-                // Attempt submission with built-in retry logic
-                await submitWithRetry(form.action, {
-                    method: form.method,
-                    body: formData,
-                }, 3, 500); // Max 3 attempts
+                await submitWithRetry(contactForm.action, {
+                    method: contactForm.method,
+                    body: formData
+                });
 
-                // Success
-                clearFormState(); // Clear saved data
+                clearFormState();
+                contactForm.reset();
+                updateMessageCounter();
+                updateSmartPrompt();
                 showSuccessModal();
-                form.reset();
 
-            } catch (error) {
-                // Final Failure after all retries
-                console.error('Final form submission failed after all retries:', error);
-                
-                let errorMessage = 'The form submission failed after multiple attempts. This suggests a persistent connection issue or a server problem. Please use the direct email link below.';
-                
-                if (error.message.includes('Form configuration error')) {
-                    // This error indicates the form is unactivated or the hash is wrong.
-                    // Since the user confirmed it, this means there is a different underlying issue
-                    errorMessage = 'FATAL ERROR: The Formspree hash is either incorrect or the form is still not fully activated. Please re-check the confirmation link in your email.';
+            } catch (err) {
+                console.error('Form submission failed:', err);
+                let message = 'The form submission failed after several attempts. This may be a connection or server issue. Please try again, or email Elliot directly.';
+
+                if (String(err.message || '').includes('Form configuration error')) {
+                    message = 'There seems to be a configuration problem with the form service. Until it is fixed, please email Elliot directly at elliotmobilemusic@gmail.com.';
                 }
-                
-                showErrorModal(errorMessage);
+
+                showErrorModal(message);
 
             } finally {
-                // Restore button state
                 submitButton.disabled = false;
-                submitButton.innerHTML = '<i data-lucide="mail" class="w-5 h-5 mr-2"></i> Send Message';
-
-                // Re-initialize Lucide icons
-                if (typeof createIcons !== 'undefined') {
-                    import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
-                        .then(({ createIcons, Mail }) => {
-                            createIcons({ icons: { Mail } });
-                        });
-                }
+                submitButton.innerHTML = originalHtml;
             }
         });
 
-        // --- Initialization and Event Listeners ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load saved data when the page opens
-            loadFormState();
+        // ----------- EVENT LISTENERS / INIT -----------
 
-            // Add listener to save state and validate on user input
-            contactForm.addEventListener('input', (event) => {
-                saveFormState();
-                // Live validation (only for required fields and when the field is not empty)
-                if (event.target.hasAttribute('required') || event.target.type === 'email') {
-                    validateInput(event.target);
-                }
-            });
-
-            // Re-initialize Lucide icons
-            if (typeof createIcons !== 'undefined') {
-                 import('https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js')
-                    .then(({ createIcons, Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle }) => {
-                        createIcons({ icons: { Mail, Phone, MapPin, CheckCircle, X, Car, AlertTriangle } });
-                    });
+        // Form persistence + live validation + counter
+        contactForm.addEventListener('input', (e) => {
+            saveFormState();
+            if (e.target.matches('#name, #email, #subject, #message')) {
+                validateField(e.target);
             }
+            if (e.target === messageField) {
+                updateMessageCounter();
+            }
+        });
+
+        // Smart prompts on subject change
+        subjectField.addEventListener('change', updateSmartPrompt);
+
+        // Modal buttons
+        closeSuccessModalButton.addEventListener('click', hideSuccessModal);
+        successContinueButton.addEventListener('click', hideSuccessModal);
+        closeErrorModalButton.addEventListener('click', hideErrorModal);
+        errorTryAgainButton.addEventListener('click', hideErrorModal);
+
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) hideSuccessModal();
+        });
+        errorModal.addEventListener('click', (e) => {
+            if (e.target === errorModal) hideErrorModal();
+        });
+
+        // Escape closes modals
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                hideSuccessModal();
+                hideErrorModal();
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFormState();
+            updateMessageCounter();
+            updateSmartPrompt();
         });
     </script>
 </body>
