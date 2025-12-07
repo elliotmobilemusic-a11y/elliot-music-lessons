@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Fees & Policy – Elliot Wardill Mobile Music Lessons</title>
+    <title>Elliot Wardill – Lesson Fees & Policy</title>
     <link rel="icon" href="/favicon.png" type="image/png">
 
     <!-- Tailwind -->
@@ -35,15 +35,59 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e;
-            color: #e0e0e0;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            color: #e0e0e0;
+        }
+        .card-glow {
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
+        }
+        .policy-table th {
+            background-color: #00a36e;
+            color: #1a1a2e;
+            font-weight: 700;
+        }
+        .policy-table td {
+            background-color: #252538;
+            border-bottom: 1px solid #333355;
+        }
+        .policy-table tr:hover td {
+            background-color: #333355;
+        }
+        .policy-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #a0a0a0;
+        }
+        .policy-content h4 {
+            font-weight: bold;
+            color: #e0e0e0;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid #ffb703;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        /* Card glow + lift (match homepage) */
-        .card-glow {
-            box-shadow:
-                0 10px 30px rgba(0, 208, 132, 0.12),
-                0 3px 10px rgba(0, 0, 0, 0.6);
+        /* Reveal animation (match home page vibe) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition:
+                opacity 0.7s ease-out,
+                transform 0.7s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .hover-lift {
             transition:
@@ -53,138 +97,31 @@
                 background-color 0.2s ease;
         }
         .hover-lift:hover {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
         }
-
-        .glow-title {
-            text-shadow: 0 0 14px rgba(0, 208, 132, 0.35);
-        }
-
-        /* Scroll reveal */
-        .reveal {
+        .fade-in {
             opacity: 0;
-            transform: translateY(24px);
-            transition:
-                opacity 0.8s ease-out,
-                transform 0.8s ease-out;
+            transform: translateY(6px);
+            transition: opacity 0.35s ease-out, transform 0.35s ease-out;
         }
-        .reveal.visible {
+        .fade-in.show {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal.delayed-1 { transition-delay: 0.15s; }
-        .reveal.delayed-2 { transition-delay: 0.30s; }
-
-        /* Spinner */
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.25);
-            border-top: 4px solid #ffb703;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Autocomplete dropdown */
-        #autocomplete-container {
-            position: relative;
-        }
-        #autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            margin-top: 4px;
-            z-index: 40;
-            background-color: #1a1a2e;
-            border: 1px solid #00a36e;
-            border-radius: 0.7rem;
-            overflow: hidden;
-            max-height: 220px;
-            overflow-y: auto;
-        }
-        .autocomplete-item {
-            padding: 9px 12px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.15s ease;
-        }
-        .autocomplete-item span.code {
-            font-weight: 600;
-        }
-        .autocomplete-item span.label {
-            opacity: 0.8;
-        }
-        .autocomplete-item:hover {
-            background-color: rgba(0, 208, 132, 0.18);
-        }
-
-        /* Policy text */
-        .policy-content p {
-            margin-bottom: 1rem;
-            line-height: 1.7;
-            color: #a0a0a0;
-        }
-        .policy-content h4 {
-            font-weight: 700;
-            color: #e0e0e0;
-            margin-top: 1.6rem;
-            margin-bottom: 0.4rem;
-            font-size: 1.15rem;
-        }
-
-        /* Map thumbnail */
-        #map-card {
-            display: none;
-        }
-        #map-thumbnail {
-            border-radius: 0.9rem;
-            box-shadow:
-                0 8px 20px rgba(0, 208, 132, 0.25),
-                0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Full policy expand transition */
-        #full-policy-text {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease;
-        }
-        #full-policy-text.open {
-            max-height: 540px; /* scrollable area */
-        }
     </style>
-
-    <!-- Lucide Icons -->
-    <script type="module">
-        import {
-            createIcons,
-            Music2, Mail, MapPin, Zap, BookOpen, Clock, Users, Star
-        } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-
-        createIcons({
-            icons: { Music2, Mail, MapPin, Zap, BookOpen, Clock, Users, Star }
-        });
-    </script>
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
-    <!-- NAVIGATION (same style as homepage) -->
+
+    <!-- NAVIGATION (matches homepage) -->
     <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                        <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                        <!-- Simple music icon -->
+                        <span class="w-4 h-4 border-b-2 border-brand-accent-light rounded-sm inline-block transform translate-y-[1px]"></span>
                     </span>
-                    <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+                    <span class="text-xs sm:text-sm md:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
                         ELLIOT'S MOBILE MUSIC
                     </span>
                 </a>
@@ -205,7 +142,7 @@
                     </a>
                 </div>
 
-                <!-- Mobile menu button -->
+                <!-- Mobile button -->
                 <div class="sm:hidden">
                     <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -231,232 +168,222 @@
 
     <!-- MAIN -->
     <main class="flex-grow">
-        <!-- HEADER -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-10 text-center reveal">
-            <p class="text-xs font-semibold tracking-[0.3em] text-brand-highlight uppercase mb-3">
-                FEES · TRAVEL · POLICY
-            </p>
-            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold glow-title mb-4">
-                Lesson Fees & Policy
-            </h1>
-            <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl mx-auto">
-                Clear, transparent pricing for mobile piano and singing lessons, including travel from <strong>Pudsey (LS28)</strong>.
-            </p>
+        <!-- PAGE HEADER -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-8">
+            <div class="text-center space-y-4 reveal">
+                <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight uppercase">
+                    CLEAR, TRANSPARENT PRICING
+                </p>
+                <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-highlight">
+                    Lesson Fees & Travel Policy
+                </h1>
+                <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl mx-auto">
+                    A simple breakdown of lesson prices, travel fees and policies so you always know exactly what to expect.
+                </p>
+            </div>
         </section>
 
-        <!-- SMART TRAVEL CALCULATOR + MAP -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <div class="grid lg:grid-cols-[1.65fr,1.1fr] gap-8 items-start">
+        <!-- TRAVEL CALCULATOR + MAP -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                 <!-- Calculator card -->
-                <div class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-left">
-                            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight mb-1">
-                                Calculate Your Final Lesson Price
-                            </h2>
-                            <p class="text-xs sm:text-sm text-brand-text-mid">
-                                Uses live driving distance from <strong>Pudsey (LS28)</strong> to your postcode.
-                            </p>
-                        </div>
-                        <span class="hidden sm:inline-flex items-center text-[0.7rem] px-3 py-1 rounded-full border border-brand-accent-light text-brand-text-mid">
-                            Live distance · Travel time · Fair capped fee
-                        </span>
+                <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 space-y-5 reveal">
+                    <div>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-2">
+                            Estimate your total lesson cost
+                        </h2>
+                        <p class="text-sm sm:text-base text-brand-text-mid">
+                            Enter your postcode and choose a lesson length. I’ll calculate a real **driving distance** from
+                            <strong>Pudsey (LS28)</strong>, then apply the correct travel band and give you a full breakdown.
+                        </p>
                     </div>
 
                     <!-- Inputs -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div>
-                            <label for="lesson-duration" class="block text-xs font-semibold text-brand-text-mid mb-1">
-                                Lesson length
-                            </label>
-                            <select id="lesson-duration"
-                                    class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-white text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
-                                <option value="30">30 Minutes – £15.00</option>
-                                <option value="60" selected>60 Minutes – £30.00</option>
-                                <option value="90">90 Minutes – £50.00</option>
-                            </select>
-                        </div>
-
-                        <div id="autocomplete-container" class="md:col-span-2">
-                            <label for="postcode-input" class="block text-xs font-semibold text-brand-text-mid mb-1">
-                                Your postcode (or area)
-                            </label>
-                            <input
-                                type="text"
-                                id="postcode-input"
-                                placeholder="e.g. LS28 7AA, LS12, BD17…"
-                                class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-white text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40 uppercase"
-                                autocomplete="off"
-                            >
-                            <div id="autocomplete-list" class="hidden"></div>
-                            <p class="mt-1 text-[0.7rem] text-brand-text-mid">
-                                Suggestions: LS28 (Pudsey), LS12, LS13, LS18, LS21, BD10, BD17, HX1…
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-3 mb-4">
-                        <button id="check-fee-button"
-                                class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white font-semibold text-sm shadow-lg shadow-brand-accent-light/30 transition transform hover:scale-[1.02]">
-                            <span id="button-text">Calculate Final Price</span>
-                            <span id="loading-spinner" class="spinner ml-3 hidden"></span>
-                        </button>
-                        <button id="use-location-button"
-                                class="inline-flex items-center justify-center px-4 py-3 rounded-lg border border-brand-highlight/70 text-brand-highlight text-xs sm:text-sm font-semibold hover:bg-brand-highlight/10 transition">
-                            Try "use my location"
-                        </button>
-                    </div>
-
-                    <!-- Result -->
-                    <div id="fee-result"
-                         class="mt-4 p-4 rounded-xl border border-brand-accent-light/40 bg-brand-dark-bg/70 text-sm hidden">
-                    </div>
-
-                    <!-- Tips / error -->
-                    <p id="fee-note" class="mt-3 text-[0.72rem] text-brand-text-mid">
-                        Tip: If the estimate looks unusual (for example, you’re right on the edge of a postcode area),
-                        just send Elliot a quick message – he’ll manually check and confirm the fairest price.
-                    </p>
-                    <p id="fee-error" class="mt-2 text-xs text-red-400 hidden"></p>
-                </div>
-
-                <!-- Map + quick bands -->
-                <div class="space-y-4 reveal delayed-1">
-                    <!-- Map card -->
-                    <div id="map-card" class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-4">
-                        <div class="flex items-center justify-between mb-3">
-                            <div>
-                                <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">
-                                    ROUTE PREVIEW
-                                </p>
-                                <p class="text-xs text-brand-text-mid" id="map-route-label">
-                                    From Pudsey (LS28) to…
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="md:col-span-1">
+                                <label for="lesson-duration" class="block text-xs font-semibold text-brand-text-mid mb-1">
+                                    Lesson length
+                                </label>
+                                <select id="lesson-duration"
+                                        class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark text-sm focus:border-brand-highlight focus:ring-2 focus:ring-brand-highlight/40 outline-none">
+                                    <option value="30">30 minutes (£15.00)</option>
+                                    <option value="60" selected>60 minutes (£30.00)</option>
+                                    <option value="90">90 minutes (£50.00)</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="postcode-input" class="block text-xs font-semibold text-brand-text-mid mb-1">
+                                    Your postcode
+                                </label>
+                                <input
+                                    type="text"
+                                    id="postcode-input"
+                                    placeholder="Start typing your postcode (e.g. LS28 7...)"
+                                    class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark text-sm focus:border-brand-highlight focus:ring-2 focus:ring-brand-highlight/40 outline-none uppercase"
+                                >
+                                <p id="postcode-hint" class="mt-1 text-[11px] text-brand-text-mid">
+                                    Autocomplete is UK-only. I’ll gently tidy up spacing and casing for you.
                                 </p>
                             </div>
                         </div>
-                        <a id="map-link" href="#" target="_blank" rel="noopener noreferrer">
-                            <img id="map-thumbnail" src="" alt="Route map" class="w-full h-40 object-cover">
-                        </a>
-                        <p class="mt-2 text-[0.7rem] text-brand-text-mid">
-                            Opens the full route in Google Maps so you can see exactly where the travel distance comes from.
+
+                        <button
+                            id="check-fee-button"
+                            class="w-full px-6 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white text-sm font-semibold transition duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                            <span id="button-text">Calculate final price</span>
+                            <span id="loading-spinner" class="spinner hidden"></span>
+                        </button>
+
+                        <!-- Friendly band explanation + warnings -->
+                        <div id="band-explainer" class="hidden fade-in mt-3 text-xs sm:text-sm rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/70 p-3 space-y-1">
+                            <p id="band-main" class="font-semibold text-brand-text-light"></p>
+                            <p id="band-extra" class="text-brand-text-mid"></p>
+                            <p id="band-warning" class="text-[11px] text-red-300 hidden"></p>
+                        </div>
+                    </div>
+
+                    <!-- Result summary -->
+                    <div id="fee-result" class="mt-4 p-4 rounded-xl border border-brand-accent-dark/60 bg-brand-dark-bg/80 hidden fade-in">
+                        <!-- Filled by JS -->
+                    </div>
+                    <p class="text-[11px] text-brand-highlight/70 mt-2">
+                        *Distances and times are based on current Google Maps data, but may vary slightly depending on traffic on the day.*
+                    </p>
+                </div>
+
+                <!-- Map / ETA card -->
+                <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 flex flex-col justify-between reveal">
+                    <div class="mb-4">
+                        <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-accent-light mb-2">
+                            Journey snapshot
+                        </h3>
+                        <p class="text-sm text-brand-text-mid mb-3">
+                            Once you calculate, you’ll see a live map preview and travel stats from **Pudsey (LS28)** to your postcode:
+                            distance, ETA and which travel band you fall into.
                         </p>
                     </div>
 
-                    <!-- Band explanation card -->
-                    <div class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-4">
-                        <h3 class="font-heading text-lg font-bold text-brand-accent-light mb-2 flex items-center">
-                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-brand-highlight"></i>
-                            How travel fees work
-                        </h3>
-                        <p class="text-xs text-brand-text-mid mb-3">
-                            Travel is based on the <strong>driving distance</strong> from Pudsey (LS28) to your lesson location.
-                            The calculator above does this automatically using live mapping.
-                        </p>
-                        <ul class="text-xs text-brand-text-mid space-y-1">
-                            <li><span class="text-brand-accent-light font-semibold">Under 5 miles:</span> £0.00 travel</li>
-                            <li><span class="text-brand-accent-light font-semibold">5 – 10 miles:</span> £5.00</li>
-                            <li><span class="text-brand-accent-light font-semibold">10 – 15 miles:</span> £10.00</li>
-                            <li><span class="text-brand-accent-light font-semibold">15+ miles:</span> £20.00 (capped max)</li>
+                    <div id="map-container" class="space-y-4">
+                        <div class="aspect-[16/9] w-full rounded-xl overflow-hidden border border-brand-accent-dark/60 bg-brand-dark-bg flex items-center justify-center">
+                            <img id="map-thumb" src="" alt="Route map preview" class="w-full h-full object-cover hidden">
+                            <div id="map-placeholder" class="text-center text-xs text-brand-text-mid px-6">
+                                Once you enter a postcode and calculate, a route preview will appear here.
+                            </div>
+                        </div>
+
+                        <div id="travel-summary" class="rounded-xl bg-brand-dark-bg/80 border border-brand-accent-dark/50 p-4 text-xs sm:text-sm space-y-1 hidden">
+                            <p id="eta-text" class="font-semibold text-brand-text-light"></p>
+                            <p id="distance-text" class="text-brand-text-mid"></p>
+                            <p id="origin-dest-text" class="text-brand-text-mid text-[11px]"></p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-xs sm:text-sm text-brand-text-mid">
+                        <p class="font-semibold text-brand-text-light mb-1">How travel fees work:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Travel is always calculated from a fixed starting point in <strong>Pudsey (LS28)</strong>.</li>
+                            <li>Banding is based on driving distance, not “as the crow flies”.</li>
+                            <li>For journeys over 15 miles, a simple flat rate of <strong>£20</strong> is applied.</li>
                         </ul>
-                        <p class="mt-2 text-[0.7rem] text-brand-highlight/80">
-                            The calculator also shows an approximate travel time, which Elliot uses when planning his route between students.
-                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- STANDARD RATES -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <div class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+            <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-8 space-y-5 reveal">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-1">
-                            Standard Lesson Rates
+                        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-2">
+                            Standard lesson rates
                         </h2>
-                        <p class="text-xs sm:text-sm text-brand-text-mid">
-                            These are the base lesson prices before any travel fee is applied.
+                        <p class="text-sm sm:text-base text-brand-text-mid">
+                            These are the core lesson prices before any travel fee is added.
                         </p>
                     </div>
-                    <div class="text-xs sm:text-sm text-brand-text-mid">
-                        <p class="font-semibold text-brand-highlight">Payment options:</p>
-                        <p>Cash at the lesson or bank transfer in advance.</p>
+                    <div class="text-xs sm:text-sm text-brand-highlight bg-brand-dark-bg/60 rounded-lg px-4 py-2 border border-brand-highlight/60">
+                        Introductory first lesson is always <strong>£10</strong>.
                     </div>
                 </div>
 
-                <div class="overflow-x-auto rounded-lg border border-brand-accent-dark/60">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-brand-accent-dark text-brand-dark-bg">
+                <div class="overflow-x-auto rounded-lg mt-4">
+                    <table class="w-full text-left policy-table text-brand-text-light text-sm sm:text-base">
+                        <thead>
                             <tr>
-                                <th class="px-5 py-3 font-semibold">Lesson Type</th>
-                                <th class="px-5 py-3 font-semibold">Duration</th>
-                                <th class="px-5 py-3 font-semibold">Base Fee</th>
+                                <th class="px-6 py-3">Lesson Duration</th>
+                                <th class="px-6 py-3">Fee (Base)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-brand-dark-bg/60 border-t border-brand-accent-dark/50">
-                                <td class="px-5 py-3 font-semibold text-brand-text-light">Introductory Lesson</td>
-                                <td class="px-5 py-3 text-brand-text-mid">One-off taster session</td>
-                                <td class="px-5 py-3 text-brand-highlight font-extrabold">£10.00</td>
+                            <tr>
+                                <td class="px-6 py-4 font-semibold">Introductory Offer (First Lesson)</td>
+                                <td class="px-6 py-4 text-brand-highlight font-extrabold">£10.00</td>
                             </tr>
-                            <tr class="bg-card-bg/80 border-t border-brand-accent-dark/40">
-                                <td class="px-5 py-3 font-semibold text-brand-text-light">Standard Lesson</td>
-                                <td class="px-5 py-3 text-brand-text-mid">30 Minutes</td>
-                                <td class="px-5 py-3">£15.00</td>
+                            <tr>
+                                <td class="px-6 py-4 font-semibold">30 Minutes</td>
+                                <td class="px-6 py-4">£15.00</td>
                             </tr>
-                            <tr class="bg-brand-dark-bg/60 border-t border-brand-accent-dark/40">
-                                <td class="px-5 py-3 font-semibold text-brand-text-light">Standard Lesson</td>
-                                <td class="px-5 py-3 text-brand-text-mid">60 Minutes</td>
-                                <td class="px-5 py-3">£30.00</td>
+                            <tr>
+                                <td class="px-6 py-4 font-semibold">60 Minutes</td>
+                                <td class="px-6 py-4">£30.00</td>
                             </tr>
-                            <tr class="bg-card-bg/80 border-t border-brand-accent-dark/40">
-                                <td class="px-5 py-3 font-semibold text-brand-text-light">Extended Session</td>
-                                <td class="px-5 py-3 text-brand-text-mid">90 Minutes</td>
-                                <td class="px-5 py-3">£50.00</td>
+                            <tr>
+                                <td class="px-6 py-4 font-semibold">90 Minutes</td>
+                                <td class="px-6 py-4">£50.00</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <p class="mt-3 text-xs sm:text-sm text-brand-text-mid">
+                    Payment can be made in cash at the lesson or via bank transfer in advance.
+                </p>
             </div>
         </section>
 
         <!-- TRAVEL & CANCELLATION -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-20">
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Travel bands -->
-                <div class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 reveal">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center">
-                        <i data-lucide="map-pin" class="w-5 h-5 mr-2 text-brand-highlight"></i>
-                        Travel Bands (from Pudsey, LS28)
+                <!-- Travel -->
+                <div class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3">
+                        Travel fee bands (from Pudsey, LS28)
                     </h3>
-                    <p class="text-xs sm:text-sm text-brand-text-mid mb-4">
-                        These bands are automatically applied by the calculator using live driving distance. They’re also capped so longer journeys stay reasonable.
+                    <p class="text-sm text-brand-text-mid mb-4">
+                        Most pupils fall within the first two bands. The calculator above uses these values to give you a clear total.
                     </p>
-                    <ul class="text-sm text-brand-text-mid space-y-2">
-                        <li><strong class="text-brand-accent-light">Under 5 miles:</strong> no travel fee added.</li>
-                        <li><strong class="text-brand-accent-light">5 – 10 miles:</strong> £5.00 added to the lesson fee.</li>
-                        <li><strong class="text-brand-accent-light">10 – 15 miles:</strong> £10.00 added to the lesson fee.</li>
-                        <li><strong class="text-brand-accent-light">15+ miles:</strong> £20.00 max (capped) – usually for out-of-area or one-off bookings.</li>
-                    </ul>
-                    <p class="mt-3 text-[0.72rem] text-brand-highlight/80">
-                        If you’re unsure which band applies, use the calculator above or just send your postcode and Elliot will confirm the exact price.
+                    <table class="w-full text-left policy-table text-brand-text-light text-xs sm:text-sm mb-3">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Driving Distance</th>
+                                <th class="px-4 py-2">Additional Travel Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="px-4 py-2">Under 5 Miles</td><td class="px-4 py-2">£0.00</td></tr>
+                            <tr><td class="px-4 py-2">5 – 10 Miles</td><td class="px-4 py-2">£5.00</td></tr>
+                            <tr><td class="px-4 py-2">10 – 15 Miles</td><td class="px-4 py-2">£10.00</td></tr>
+                            <tr><td class="px-4 py-2">15+ Miles</td><td class="px-4 py-2">£20.00 (Flat Rate)</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="text-xs sm:text-sm text-brand-highlight/80">
+                        For especially long or complex journeys, we can always chat and agree a sensible plan together.
                     </p>
                 </div>
 
-                <!-- Cancellation policy -->
-                <div class="bg-card-bg/90 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 reveal delayed-1">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center">
-                        <span class="text-brand-highlight mr-2 text-xl">❌</span>
-                        Cancellation Policy
+                <!-- Cancellation -->
+                <div class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3">
+                        Cancellation & rescheduling
                     </h3>
                     <ul class="list-disc ml-5 space-y-3 text-sm text-brand-text-mid">
-                        <li><strong>24 hours’ notice</strong> is required for cancelling or rescheduling a lesson.</li>
-                        <li>Cancellations with <strong>less than 24 hours’ notice</strong> may be charged <strong>50% of the lesson fee</strong>.</li>
-                        <li>If Elliot ever needs to cancel a lesson, it will be <strong>rearranged at no extra cost</strong> to you.</li>
+                        <li><strong>24 hours’ notice</strong> is kindly requested to cancel or reschedule a lesson.</li>
+                        <li>Cancellations with less than 24 hours’ notice may be charged at <strong>50%</strong> of the usual fee.</li>
+                        <li>If I ever need to cancel, we simply reschedule at no extra cost.</li>
                     </ul>
-                    <p class="mt-3 text-[0.75rem] text-brand-text-mid">
-                        The goal is always to be fair and flexible – this policy is simply to protect Elliot’s time when routes and slots are planned in advance.
+                    <p class="mt-3 text-xs text-brand-text-mid">
+                        Life happens – if there’s illness or a genuine emergency, I’ll always try to be fair and understanding.
                     </p>
                 </div>
             </div>
@@ -464,124 +391,57 @@
 
         <!-- FULL POLICY -->
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-            <div class="bg-brand-dark-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-5 sm:p-6 reveal">
+            <div class="bg-brand-dark-bg/90 p-6 sm:p-7 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
                 <button id="toggle-policy"
-                        class="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white font-semibold text-sm sm:text-base transition">
-                    <span>View Full Music Lesson Policy Document</span>
-                    <span id="toggle-icon" class="text-lg">▼</span>
+                        class="w-full text-left p-4 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-white font-bold text-sm sm:text-base transition duration-300 flex justify-between items-center">
+                    <span>View full music lesson policy document</span>
+                    <span id="toggle-icon">▼</span>
                 </button>
 
-                <div id="full-policy-text"
-                     class="policy-content mt-4 p-4 border border-brand-accent-dark/60 rounded-lg bg-card-bg/80 overflow-y-auto">
-                    <h3 class="font-heading text-2xl font-bold text-brand-highlight mb-3">
-                        Elliot Wardill – Mobile Music Lesson Policy
-                    </h3>
+                <div id="full-policy-text" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg max-h-96 overflow-y-auto text-xs sm:text-sm">
+                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Elliot Wardill – Music Lesson Policy</h3>
 
-                    <p>
-                        Hello, and thank you for your interest in music lessons. I’m <strong>Elliot Wardill</strong>, a musician
-                        and educator based in <strong>Pudsey</strong>. I have been playing piano and singing for several years
-                        and currently work within the education sector. This policy is here to keep things clear, fair, and
-                        straightforward for everyone.
-                    </p>
+                    <p>Hello, and thank you for booking music lessons. I am <strong>Elliot Wardill</strong>, a musician and educator based in Pudsey. I have been playing piano and singing for several years and currently work within the education sector. This policy outlines key terms to keep everything clear and straightforward.</p>
 
-                    <p>
-                        I bring the equipment needed for your lessons (including a keyboard where required) to your home,
-                        so there is no need for you to travel. Lessons are designed to be friendly, relaxed, and tailored
-                        to each student’s goals.
-                    </p>
+                    <p>I bring all the necessary equipment (including a keyboard where needed) to your home, so there is no need to travel. Lessons are designed to be fun, safe, and confidence-building, whatever your goals.</p>
 
-                    <h4>1. Safety and Safeguarding</h4>
-                    <p>
-                        I hold a valid <strong>DBS check</strong> for working with children. Parents and guardians are always
-                        welcome to sit in on lessons, especially for younger students.
-                    </p>
-                    <p>
-                        If your child is enrolled at <strong>Stanningley Primary School</strong>, any safeguarding concerns or
-                        disclosures made during lessons will be reported directly to the school’s safeguarding leads in line
-                        with their procedures.
-                    </p>
+                    <h4>1. Safety and safeguarding</h4>
+                    <p>I hold a valid <strong>DBS check</strong> for working with children. Parents and guardians are very welcome to sit in on lessons.</p>
+                    <p>If your child is enrolled at Stanningley Primary School, any information or safeguarding concerns disclosed to me during lesson times will be reported directly to the school in line with their procedures.</p>
 
-                    <h4>2. Lesson Fees and Payment</h4>
-                    <p>
-                        <strong>Introductory lesson:</strong> £10 (one-off first session).<br>
-                        <strong>Standard lessons:</strong> 30 minutes – £15 · 60 minutes – £30 · 90 minutes – £50.
-                    </p>
-                    <p>
-                        Any applicable travel fee is added based on the driving distance calculated from <strong>Pudsey (LS28)</strong>
-                        to your postcode, using the bands shown above.
-                    </p>
-                    <p>
-                        Payment can be made in cash at the lesson or via bank transfer in advance, depending on what suits you best.
-                    </p>
+                    <h4>2. Lesson fees and payment</h4>
+                    <p><strong>First lesson:</strong> £10 (introductory offer).</p>
+                    <p><strong>Standard lessons:</strong> 30 minutes – £15, 60 minutes – £30, 90 minutes – £50.</p>
+                    <p>The total price, including the travel fee, is shown by the calculator above and will always be clearly agreed in advance.</p>
 
-                    <h4>3. Cancellations and Rescheduling</h4>
-                    <p>
-                        Please give at least <strong>24 hours’ notice</strong> if you need to cancel or move a lesson.
-                        Cancellations with less than 24 hours’ notice may be charged at <strong>50% of the lesson fee</strong>.
-                    </p>
-                    <p>
-                        If I ever need to cancel a lesson myself, it will be <strong>rearranged at no extra cost</strong> to you.
-                    </p>
+                    <h4>3. Cancellations and rescheduling</h4>
+                    <p>Please give at least <strong>24 hours’ notice</strong> if you need to cancel or move a lesson.</p>
+                    <p>Cancellations with less than 24 hours’ notice may be charged at <strong>50%</strong> of the lesson fee.</p>
+                    <p>If I need to cancel for any reason, we will reschedule the lesson at no additional cost.</p>
 
-                    <h4>4. Lesson Style and Structure</h4>
-                    <p>
-                        Lessons are tailored to each student’s age, interests, and goals. Some students focus on pop songs
-                        and performance, others prefer a more structured approach, including music reading and theory.
-                    </p>
-                    <p>
-                        We’ll typically include a warm-up, core song or piece work, and a short recap at the end – plus
-                        suggestions for what to practise between sessions.
-                    </p>
+                    <h4>4. Lesson structure and approach</h4>
+                    <p>Lessons are tailored to each student’s age, interests and confidence level. For beginners, we’ll usually start with simple songs and warm-ups to build a solid foundation.</p>
+                    <p>We work on musicality, rhythm, performance confidence and (if desired) music reading – always at a pace that feels manageable and enjoyable.</p>
 
-                    <h4>5. Travel and Area Covered</h4>
-                    <p>
-                        I am based in <strong>Pudsey (LS28)</strong> and travel to surrounding areas across West Leeds and
-                        nearby Bradford / Halifax postcodes. Travel fees are based on the approximate driving distance
-                        from my base to your postcode:
-                    </p>
+                    <h4>5. Travel and location</h4>
+                    <p>Lessons are based from a fixed starting point in <strong>Pudsey (LS28)</strong>. Travel fees are calculated using the estimated <strong>driving distance</strong> from Pudsey to your postcode and are added to the standard lesson cost:</p>
                     <ul class="list-disc ml-5">
-                        <li><strong>Under 5 miles:</strong> £0.00</li>
-                        <li><strong>5 – 10 miles:</strong> £5.00</li>
-                        <li><strong>10 – 15 miles:</strong> £10.00</li>
-                        <li><strong>15+ miles:</strong> £20.00 (capped maximum)</li>
+                        <li>Under 5 miles – <strong>£0.00</strong></li>
+                        <li>5 – 10 miles – <strong>£5.00</strong></li>
+                        <li>10 – 15 miles – <strong>£10.00</strong></li>
+                        <li>15+ miles – <strong>£20.00</strong> (flat rate)</li>
                     </ul>
-                    <p>
-                        The calculator at the top of this page uses live mapping to estimate this automatically. If your
-                        location sits on a boundary or is unusual, I’ll always double-check and keep it fair.
-                    </p>
+                    <p>The pricing tool on this page uses these bands to give a clear, realistic estimate.</p>
 
                     <h4>6. Availability</h4>
-                    <p>
-                        My typical teaching times are:
-                    </p>
-                    <ul class="list-disc ml-5">
-                        <li><strong>Tuesday – Thursday:</strong> 6pm – 9pm</li>
-                        <li><strong>Weekends:</strong> Available on request</li>
-                        <li><strong>Monday & Friday:</strong> No regular teaching slots</li>
-                    </ul>
-                    <p>
-                        Availability can change slightly during term-time and holidays, but I will always keep you updated
-                        and work with you to find a slot that fits.
-                    </p>
+                    <p>Standard teaching times are currently: Tuesday, Wednesday and Thursday evenings, roughly 6pm – 9pm. Saturday and Sunday may be available on request. Monday and Friday are typically unavailable.</p>
 
-                    <h4>7. Photo and Video Consent</h4>
-                    <p>
-                        Occasionally I may ask to take short photos or videos for use on social media or my website, mainly
-                        to celebrate progress or share musical moments.
-                    </p>
-                    <p>
-                        This is <strong>always optional</strong> and based on written consent. Only first names are used and no
-                        contact details or exact locations are ever shared. Consent can be withdrawn at any time by email.
-                    </p>
+                    <h4>7. Photo and video consent</h4>
+                    <p>Occasionally, photos or short clips may be taken to celebrate progress. This is always optional and only ever with consent.</p>
+                    <p>Where consent is given, media may be used on social media or a website using first names only. Consent can be withdrawn at any time by email, and no new content will be posted from that point onward.</p>
 
-                    <h4>8. Contact Details</h4>
-                    <p>
-                        If you have any questions about this policy or would like to discuss lessons:
-                    </p>
-                    <p>
-                        Phone: <strong>07368 975144</strong><br>
-                        Email: <strong>elliotmobilemusic@gmail.com</strong>
-                    </p>
+                    <h4>8. Contact details</h4>
+                    <p>Phone: 07368 975144<br>Email: elliotmobilemusic@gmail.com</p>
                 </div>
             </div>
         </section>
@@ -592,460 +452,329 @@
         <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
             <p class="mt-1 text-gray-500">
-                DBS Checked & Insured. Full lesson policy and travel information provided on this page.
+                DBS Checked & Insured. Full lesson policy and travel information available on this page.
             </p>
         </div>
     </footer>
 
-    <!-- MAIN SCRIPT -->
-    <script>
-        // ---------- GLOBAL CONFIG ----------
-        const BASE_ORIGIN = "Pudsey, LS28"; // starting point
-        const LESSON_RATES = { 30: 15.00, 60: 30.00, 90: 50.00 };
-        const LOCAL_SUGGESTIONS = [
-            { code: "LS28", label: "Pudsey / Stanningley (base area)" },
-            { code: "LS12", label: "Farnley / Armley / Bramley" },
-            { code: "LS13", label: "Bramley / Rodley" },
-            { code: "LS18", label: "Horsforth" },
-            { code: "LS21", label: "Otley / Pool" },
-            { code: "LS6",  label: "Headingley / Meanwood" },
-            { code: "LS16", label: "Adel / Cookridge" },
-            { code: "BD10", label: "Thackley / Idle" },
-            { code: "BD17", label: "Baildon / Shipley" },
-            { code: "HX1",  label: "Halifax" }
-        ];
-        let mapsReady = false;
-
-        // ---------- UTILITIES ----------
-        function normalisePostcode(value) {
-            if (!value) return "";
-            return value.trim().toUpperCase();
-        }
-
-        function getOutwardFromPostcode(pc) {
-            if (!pc) return "";
-            const cleaned = pc.replace(/\s+/g, "");
-            const match = cleaned.match(/^([A-Z]{1,2}[0-9][A-Z0-9]?)/);
-            return match ? match[1] : cleaned;
-        }
-
-        function getTravelBand(distanceMiles) {
-            let band = "Under 5 miles";
-            let fee = 0;
-            let colour = "text-brand-accent-light";
-
-            if (distanceMiles >= 5 && distanceMiles < 10) {
-                band = "5 – 10 miles";
-                fee = 5;
-                colour = "text-brand-highlight";
-            } else if (distanceMiles >= 10 && distanceMiles < 15) {
-                band = "10 – 15 miles";
-                fee = 10;
-                colour = "text-brand-highlight";
-            } else if (distanceMiles >= 15) {
-                band = "15+ miles (capped)";
-                fee = 20;
-                colour = "text-red-400";
-            }
-
-            return { band, fee, colour };
-        }
-
-        function showError(msg) {
-            const error = document.getElementById("fee-error");
-            error.textContent = msg;
-            error.classList.remove("hidden");
-        }
-
-        function clearError() {
-            const error = document.getElementById("fee-error");
-            error.textContent = "";
-            error.classList.add("hidden");
-        }
-
-        function showResult(html) {
-            const box = document.getElementById("fee-result");
-            box.innerHTML = html;
-            box.classList.remove("hidden");
-        }
-
-        function hideResult() {
-            const box = document.getElementById("fee-result");
-            box.classList.add("hidden");
-            box.innerHTML = "";
-        }
-
-        function setLoading(isLoading) {
-            const btnText = document.getElementById("button-text");
-            const spinner = document.getElementById("loading-spinner");
-            const button = document.getElementById("check-fee-button");
-
-            if (isLoading) {
-                btnText.textContent = "Calculating…";
-                spinner.classList.remove("hidden");
-                button.disabled = true;
-                button.classList.add("opacity-80");
-            } else {
-                btnText.textContent = "Calculate Final Price";
-                spinner.classList.add("hidden");
-                button.disabled = false;
-                button.classList.remove("opacity-80");
-            }
-        }
-
-        function updateMapThumbnail(destinationPostcode) {
-            const mapCard = document.getElementById("map-card");
-            const mapImg = document.getElementById("map-thumbnail");
-            const link = document.getElementById("map-link");
-            const label = document.getElementById("map-route-label");
-
-            if (!destinationPostcode) {
-                mapCard.style.display = "none";
-                return;
-            }
-
-            const escapedDest = encodeURIComponent(destinationPostcode);
-            const escapedOrigin = encodeURIComponent(BASE_ORIGIN);
-
-            const staticUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x320&scale=2&maptype=roadmap&markers=color:green|${escapedOrigin}&markers=color:red|${escapedDest}&path=color:0x00d084ff|weight:4|${escapedOrigin}|${escapedDest}&key=YOUR_GOOGLE_MAPS_API_KEY_HERE`;
-
-            const mapsLink = `https://www.google.com/maps/dir/?api=1&origin=${escapedOrigin}&destination=${escapedDest}&travelmode=driving`;
-
-            mapImg.src = staticUrl;
-            link.href = mapsLink;
-            label.textContent = `From Pudsey (LS28) to ${destinationPostcode}`;
-            mapCard.style.display = "block";
-        }
-
-        // ---------- GOOGLE DISTANCE CALL ----------
-        function getDistanceAndDuration(destination, callback) {
-            if (!window.google || !google.maps || !google.maps.DistanceMatrixService) {
-                callback(new Error("Map service is still loading. Please try again in a moment."));
-                return;
-            }
-
-            const service = new google.maps.DistanceMatrixService();
-            service.getDistanceMatrix(
-                {
-                    origins: [BASE_ORIGIN],
-                    destinations: [destination],
-                    travelMode: "DRIVING",
-                    unitSystem: google.maps.UnitSystem.METRIC
-                },
-                (response, status) => {
-                    if (status !== "OK" || !response.rows || !response.rows[0] || !response.rows[0].elements[0]) {
-                        callback(new Error("Couldn't get a distance from Google Maps for that postcode."));
-                        return;
-                    }
-                    const element = response.rows[0].elements[0];
-                    if (element.status !== "OK") {
-                        callback(new Error("That postcode looks tricky to route to – please check it or contact Elliot."));
-                        return;
-                    }
-
-                    const distanceMeters = element.distance.value;
-                    const durationSeconds = element.duration.value;
-
-                    const miles = distanceMeters / 1609.34;
-                    const minutes = Math.round(durationSeconds / 60);
-
-                    callback(null, { miles, minutes });
-                }
-            );
-        }
-
-        // ---------- MAIN CALCULATION ----------
-        function calculatePrice(useStoredPostcode) {
-            clearError();
-            hideResult();
-
-            const durationEl = document.getElementById("lesson-duration");
-            const postcodeEl = document.getElementById("postcode-input");
-
-            const duration = parseInt(durationEl.value, 10);
-            const baseFee = LESSON_RATES[duration];
-
-            let inputPc = normalisePostcode(postcodeEl.value);
-            if (useStoredPostcode && !inputPc) {
-                const lastPc = localStorage.getItem("ew_last_postcode");
-                if (lastPc) {
-                    inputPc = lastPc;
-                    postcodeEl.value = lastPc;
-                }
-            }
-
-            if (!inputPc) {
-                showError("Please enter a postcode or outward code (e.g. LS28, LS12, BD17).");
-                return;
-            }
-
-            setLoading(true);
-
-            const outward = getOutwardFromPostcode(inputPc);
-
-            // Try to be helpful with small typos like LS22R → LS22
-            let suggested = "";
-            if (!/[0-9][A-Z]{2}$/.test(inputPc) && inputPc.length > 3) {
-                suggested = outward;
-            }
-
-            getDistanceAndDuration(inputPc, (err, result) => {
-                setLoading(false);
-
-                if (err) {
-                    showError(err.message);
-                    updateMapThumbnail(null);
-                    return;
-                }
-
-                const { miles, minutes } = result;
-                const milesRounded = miles.toFixed(1);
-                const { band, fee: travelFee, colour } = getTravelBand(miles);
-
-                const total = baseFee + travelFee;
-
-                // Persist last used values
-                localStorage.setItem("ew_last_postcode", inputPc);
-                localStorage.setItem("ew_last_duration", String(duration));
-
-                // Build result HTML
-                const resultHtml = `
-                    <div class="flex flex-col gap-4 text-left">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                            <div>
-                                <p class="text-xs text-brand-text-mid">Destination postcode:</p>
-                                <p class="text-sm font-semibold text-brand-text-light">${inputPc}</p>
-                                <p class="text-xs text-brand-text-mid mt-1">
-                                    Approx. driving distance from Pudsey (LS28): <span class="font-semibold">${milesRounded} miles</span>
-                                    <br>
-                                    Typical driving time: <span class="font-semibold">${minutes} minutes</span>
-                                    <br>
-                                    Travel band: <span class="${colour} font-semibold">${band}</span>
-                                </p>
-                            </div>
-                            <div class="text-right text-xs sm:text-sm">
-                                <p>Lesson fee (${duration} minutes): <span class="font-semibold text-brand-text-light">£${baseFee.toFixed(2)}</span></p>
-                                <p>Travel fee: <span class="${colour} font-semibold">£${travelFee.toFixed(2)}</span></p>
-                            </div>
-                        </div>
-                        <div class="pt-3 border-t border-brand-accent-light/40">
-                            <p class="text-brand-highlight text-2xl sm:text-3xl font-extrabold">
-                                Total estimated price: £${total.toFixed(2)}
-                            </p>
-                            <p class="text-[0.75rem] text-brand-text-mid mt-1">
-                                This is an estimate based on live mapping. If traffic or routing looks unusual, Elliot will always confirm a fair final price with you directly.
-                            </p>
-                            ${
-                                suggested && suggested !== inputPc
-                                    ? `<p class="text-[0.7rem] text-brand-text-mid mt-1">
-                                           Did you mean <span class="font-semibold">${suggested}</span>? If not, the calculator has still used <span class="font-semibold">${inputPc}</span> exactly as entered.
-                                       </p>`
-                                    : ""
-                            }
-                        </div>
-                    </div>
-                `;
-
-                showResult(resultHtml);
-                updateMapThumbnail(inputPc);
-            });
-        }
-
-        // ---------- AUTOCOMPLETE ----------
-        function setupAutocomplete() {
-            const input = document.getElementById("postcode-input");
-            const list = document.getElementById("autocomplete-list");
-
-            function closeList() {
-                list.innerHTML = "";
-                list.classList.add("hidden");
-            }
-
-            input.addEventListener("input", () => {
-                const value = normalisePostcode(input.value);
-                if (!value) {
-                    closeList();
-                    return;
-                }
-
-                const matches = LOCAL_SUGGESTIONS.filter(item =>
-                    item.code.startsWith(value) || item.label.toUpperCase().includes(value)
-                );
-
-                if (!matches.length) {
-                    closeList();
-                    return;
-                }
-
-                list.innerHTML = "";
-                matches.forEach(item => {
-                    const div = document.createElement("div");
-                    div.className = "autocomplete-item";
-                    div.innerHTML = `
-                        <span class="code">${item.code}</span>
-                        <span class="label">${item.label}</span>
-                    `;
-                    div.addEventListener("click", () => {
-                        input.value = item.code;
-                        closeList();
-                        calculatePrice(false);
-                    });
-                    list.appendChild(div);
-                });
-                list.classList.remove("hidden");
-            });
-
-            document.addEventListener("click", (e) => {
-                if (!document.getElementById("autocomplete-container").contains(e.target)) {
-                    closeList();
-                }
-            });
-        }
-
-        // ---------- GEOLOCATION BUTTON ----------
-        function useMyLocation() {
-            clearError();
-            if (!navigator.geolocation) {
-                showError("Your browser doesn't support location access. Please type your postcode instead.");
-                return;
-            }
-
-            setLoading(true);
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const coords = `${pos.coords.latitude},${pos.coords.longitude}`;
-                    // We can feed the lat/lng directly into google distance matrix as destination
-                    getDistanceAndDuration(coords, (err, result) => {
-                        if (err) {
-                            setLoading(false);
-                            showError("Location found, but couldn't calculate a route. Please try manually entering your postcode.");
-                            return;
-                        }
-
-                        setLoading(false);
-
-                        const outwardGuess = "Your location";
-                        const inputEl = document.getElementById("postcode-input");
-                        inputEl.value = outwardGuess;
-
-                        const durationEl = document.getElementById("lesson-duration");
-                        const duration = parseInt(durationEl.value, 10);
-                        const baseFee = LESSON_RATES[duration];
-
-                        const { miles, minutes } = result;
-                        const milesRounded = miles.toFixed(1);
-                        const { band, fee: travelFee, colour } = getTravelBand(miles);
-                        const total = baseFee + travelFee;
-
-                        const html = `
-                            <div class="flex flex-col gap-4 text-left">
-                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                                    <div>
-                                        <p class="text-xs text-brand-text-mid">Location detected via GPS</p>
-                                        <p class="text-sm font-semibold text-brand-text-light">Approximate area near you</p>
-                                        <p class="text-xs text-brand-text-mid mt-1">
-                                            Distance from Pudsey (LS28): <span class="font-semibold">${milesRounded} miles</span><br>
-                                            Typical driving time: <span class="font-semibold">${minutes} minutes</span><br>
-                                            Travel band: <span class="${colour} font-semibold">${band}</span>
-                                        </p>
-                                    </div>
-                                    <div class="text-right text-xs sm:text-sm">
-                                        <p>Lesson fee (${duration} minutes): <span class="font-semibold text-brand-text-light">£${baseFee.toFixed(2)}</span></p>
-                                        <p>Travel fee: <span class="${colour} font-semibold">£${travelFee.toFixed(2)}</span></p>
-                                    </div>
-                                </div>
-                                <div class="pt-3 border-t border-brand-accent-light/40">
-                                    <p class="text-brand-highlight text-2xl sm:text-3xl font-extrabold">
-                                        Total estimated price: £${total.toFixed(2)}
-                                    </p>
-                                    <p class="text-[0.75rem] text-brand-text-mid mt-1">
-                                        For a precise quote, Elliot may still ask for your exact postcode – but this gives a good idea based on your approximate location.
-                                    </p>
-                                </div>
-                            </div>
-                        `;
-                        showResult(html);
-                        updateMapThumbnail(null); // no exact postcode to show, so hide route map
-                    });
-                },
-                () => {
-                    setLoading(false);
-                    showError("Couldn’t access your location. Please type your postcode instead.");
-                }
-            );
-        }
-
-        // ---------- UI WIRES + SCROLL REVEAL ----------
-        document.addEventListener("DOMContentLoaded", () => {
-            // Mobile menu
-            const mobileBtn = document.getElementById("mobile-menu-button");
-            const mobileMenu = document.getElementById("mobile-menu");
-            if (mobileBtn && mobileMenu) {
-                mobileBtn.addEventListener("click", () => {
-                    mobileMenu.classList.toggle("hidden");
-                });
-            }
-
-            // Scroll reveal
-            const reveals = document.querySelectorAll(".reveal");
-            if (reveals.length) {
-                const obs = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("visible");
-                            obs.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.15 });
-
-                reveals.forEach(el => obs.observe(el));
-            }
-
-            // Full policy toggle
-            const toggleBtn = document.getElementById("toggle-policy");
-            const policyText = document.getElementById("full-policy-text");
-            const icon = document.getElementById("toggle-icon");
-            if (toggleBtn && policyText && icon) {
-                toggleBtn.addEventListener("click", () => {
-                    const isOpen = policyText.classList.toggle("open");
-                    icon.textContent = isOpen ? "▲" : "▼";
-                });
-            }
-
-            // Autocomplete
-            setupAutocomplete();
-
-            // Calculator buttons
-            document.getElementById("check-fee-button").addEventListener("click", () => calculatePrice(false));
-            document.getElementById("use-location-button").addEventListener("click", useMyLocation);
-            document.getElementById("postcode-input").addEventListener("keypress", (e) => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                    calculatePrice(false);
-                }
-            });
-
-            // Restore last values
-            const lastPc = localStorage.getItem("ew_last_postcode");
-            const lastDuration = localStorage.getItem("ew_last_duration");
-            if (lastPc) {
-                document.getElementById("postcode-input").value = lastPc;
-            }
-            if (lastDuration && LESSON_RATES[lastDuration]) {
-                document.getElementById("lesson-duration").value = lastDuration;
-            }
-        });
-
-        // Called by Google Maps JS when it finishes loading
-        function initMaps() {
-            mapsReady = true;
-        }
-        window.initMaps = initMaps; // ensure global
+    <!-- GOOGLE MAPS JS (with your key) -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCztWhTrSCVgN1VrzKupHOdpWNreLuvTGs&libraries=places&callback=initTravelEstimator"
+        async defer>
     </script>
 
-    <!-- GOOGLE MAPS (PUT YOUR REAL KEY IN THE URL) -->
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCztWhTrSCVgN1VrzKupHOdpWNreLuvTGs&libraries=places&callback=initMaps">
+    <!-- PAGE JS -->
+    <script>
+        // Mobile menu
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Reveal on scroll
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+        revealEls.forEach(el => revealObserver.observe(el));
+
+        // Policy collapse
+        document.getElementById('toggle-policy').addEventListener('click', () => {
+            const box = document.getElementById('full-policy-text');
+            const icon = document.getElementById('toggle-icon');
+            const hidden = box.classList.contains('hidden');
+            box.classList.toggle('hidden');
+            icon.textContent = hidden ? '▲' : '▼';
+        });
+
+        // ---------------- GOOGLE MAPS TRAVEL CALCULATOR ----------------
+        const LESSON_RATES = { 30: 15.00, 60: 30.00, 90: 50.00 };
+        const ORIGIN_ADDRESS = "Pudsey, LS28, UK";
+
+        let autocomplete;
+        let lastPlaceResult = null; // store last good destination for map
+        let mapsReady = false;
+
+        function safeFadeShow(el) {
+            if (!el) return;
+            el.classList.add('show');
+        }
+
+        function metersToMiles(m) {
+            return m / 1609.344;
+        }
+
+        function classifyBand(miles) {
+            let band = "Under 5 miles (local)";
+            let fee = 0;
+            let colourClass = "text-brand-accent-light";
+            let note = "This is a local journey from Pudsey, with no additional travel fee.";
+
+            if (miles >= 5 && miles < 10) {
+                band = "5 – 10 miles (short drive)";
+                fee = 5;
+                note = "This is a short drive – a small travel fee helps cover time and fuel.";
+            } else if (miles >= 10 && miles < 15) {
+                band = "10 – 15 miles (extended drive)";
+                fee = 10;
+                colourClass = "text-brand-highlight";
+                note = "A longer journey with a modest extra fee to keep things sustainable.";
+            } else if (miles >= 15) {
+                band = "15+ miles (extended area)";
+                fee = 20;
+                colourClass = "text-red-300";
+                note = "For longer distances, a simple flat £20 travel fee keeps things fair and predictable.";
+            }
+
+            return { band, fee, colourClass, note };
+        }
+
+        function storeLastPostcode(pc) {
+            try {
+                localStorage.setItem('elliot_last_postcode', pc);
+            } catch (_) {}
+        }
+
+        function loadLastPostcode() {
+            try {
+                return localStorage.getItem('elliot_last_postcode') || "";
+            } catch (_) {
+                return "";
+            }
+        }
+
+        function normalisePostcodeInput(raw) {
+            if (!raw) return "";
+            let cleaned = raw.toUpperCase().trim();
+            cleaned = cleaned.replace(/\s+/g, " ");
+            return cleaned;
+        }
+
+        window.initTravelEstimator = function initTravelEstimator() {
+            mapsReady = true;
+            const input = document.getElementById('postcode-input');
+            const lastPc = loadLastPostcode();
+            if (lastPc) input.value = lastPc;
+
+            autocomplete = new google.maps.places.Autocomplete(input, {
+                componentRestrictions: { country: "uk" },
+                fields: ["formatted_address", "geometry", "place_id", "name"]
+            });
+
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+                lastPlaceResult = place && place.geometry ? place : null;
+            });
+
+            document.getElementById('check-fee-button').addEventListener('click', handleCalculate);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleCalculate();
+                }
+            });
+        };
+
+        async function handleCalculate() {
+            const durationEl = document.getElementById('lesson-duration');
+            const postcodeInput = document.getElementById('postcode-input');
+            const buttonText = document.getElementById('button-text');
+            const spinner = document.getElementById('loading-spinner');
+            const feeResult = document.getElementById('fee-result');
+            const bandBox = document.getElementById('band-explainer');
+            const bandMain = document.getElementById('band-main');
+            const bandExtra = document.getElementById('band-extra');
+            const bandWarning = document.getElementById('band-warning');
+            const mapThumb = document.getElementById('map-thumb');
+            const mapPlaceholder = document.getElementById('map-placeholder');
+            const travelSummary = document.getElementById('travel-summary');
+            const etaText = document.getElementById('eta-text');
+            const distanceText = document.getElementById('distance-text');
+            const originDestText = document.getElementById('origin-dest-text');
+
+            if (!mapsReady) {
+                alert("Map services are still loading. Please wait a second and try again.");
+                return;
+            }
+
+            let raw = postcodeInput.value;
+            raw = normalisePostcodeInput(raw);
+            postcodeInput.value = raw;
+
+            if (!raw) {
+                feeResult.classList.remove('show');
+                feeResult.classList.remove('hidden');
+                feeResult.innerHTML = `<p class="text-red-300 text-sm font-semibold">Please enter a postcode before calculating.</p>`;
+                return;
+            }
+
+            // UI: start loading
+            buttonText.textContent = "Calculating...";
+            spinner.classList.remove('hidden');
+            feeResult.classList.add('hidden');
+            bandBox.classList.add('hidden');
+            travelSummary.classList.add('hidden');
+            bandWarning.classList.add('hidden');
+
+            try {
+                storeLastPostcode(raw);
+
+                // Get destination: prefer autocomplete geometry, fallback to geocode
+                let destLocation = null;
+                let destLabel = raw;
+
+                if (lastPlaceResult && lastPlaceResult.geometry) {
+                    destLocation = lastPlaceResult.geometry.location;
+                    destLabel = lastPlaceResult.formatted_address || lastPlaceResult.name || raw;
+                } else {
+                    destLocation = await geocodeAddress(raw);
+                }
+
+                if (!destLocation) {
+                    throw new Error("Could not find that postcode location.");
+                }
+
+                const distanceData = await getDrivingDistance(ORIGIN_ADDRESS, destLocation);
+                if (!distanceData) {
+                    throw new Error("Unable to retrieve driving distance.");
+                }
+
+                const miles = metersToMiles(distanceData.distance.value);
+                const mins = distanceData.duration.value / 60;
+                const bandInfo = classifyBand(miles);
+
+                const lessonDuration = durationEl.value;
+                const baseFee = LESSON_RATES[lessonDuration] || 0;
+                const total = baseFee + bandInfo.fee;
+
+                // Result box
+                feeResult.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <div class="text-xs sm:text-sm text-brand-text-mid">
+                            <p><span class="font-semibold text-brand-text-light">Lesson:</span> ${lessonDuration} minutes</p>
+                            <p><span class="font-semibold text-brand-text-light">Postcode:</span> ${destLabel}</p>
+                            <p><span class="font-semibold text-brand-text-light">Band:</span> <span class="${bandInfo.colourClass}">${bandInfo.band}</span></p>
+                        </div>
+                        <div class="text-right text-xs sm:text-sm">
+                            <p>Lesson fee: <span class="font-semibold text-brand-text-light">£${baseFee.toFixed(2)}</span></p>
+                            <p>Travel fee: <span class="font-semibold ${bandInfo.colourClass}">£${bandInfo.fee.toFixed(2)}</span></p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-brand-accent-light/40">
+                        <p class="text-brand-highlight text-2xl sm:text-3xl font-extrabold">
+                            Estimated total: £${total.toFixed(2)}
+                        </p>
+                        <p class="mt-1 text-[11px] text-brand-text-mid">
+                            This is an estimate based on current route data – I’ll always confirm the exact price with you when booking.
+                        </p>
+                    </div>
+                `;
+                feeResult.classList.remove('hidden');
+                setTimeout(() => safeFadeShow(feeResult), 10);
+
+                // Band explainer
+                bandMain.textContent = bandInfo.band;
+                bandExtra.textContent = bandInfo.note;
+                bandWarning.classList.add('hidden');
+
+                if (miles >= 15) {
+                    bandWarning.textContent = "This is classed as an extended-area visit. Sometimes I may suggest slightly longer gaps between lessons, or grouping sessions together, to keep travel fair.";
+                    bandWarning.classList.remove('hidden');
+                }
+
+                bandBox.classList.remove('hidden');
+                setTimeout(() => safeFadeShow(bandBox), 10);
+
+                // Travel summary
+                const milesRounded = miles.toFixed(1);
+                const minsRounded = Math.round(mins);
+                etaText.textContent = `Typical drive time: around ${minsRounded} minute${minsRounded === 1 ? "" : "s"}.`;
+                distanceText.textContent = `Estimated driving distance: approximately ${milesRounded} miles (${bandInfo.band}).`;
+                originDestText.textContent = `Route: ${ORIGIN_ADDRESS} → ${destLabel}`;
+                travelSummary.classList.remove('hidden');
+
+                // Static map thumbnail
+                const lat = destLocation.lat();
+                const lng = destLocation.lng();
+                const staticUrl =
+                    "https://maps.googleapis.com/maps/api/staticmap" +
+                    "?size=640x360&scale=2&maptype=roadmap" +
+                    `&markers=color:0x00d084|label:E|${encodeURIComponent(ORIGIN_ADDRESS)}` +
+                    `&markers=color:0xffb703|label:S|${lat},${lng}` +
+                    `&path=color:0x00a36e|weight:4|${encodeURIComponent(ORIGIN_ADDRESS)}|${lat},${lng}` +
+                    `&key=AIzaSyCztWhTrSCVgN1VrzKupHOdpWNreLuvTGs`;
+
+                mapThumb.src = staticUrl;
+                mapThumb.onload = () => {
+                    mapThumb.classList.remove('hidden');
+                    mapPlaceholder.classList.add('hidden');
+                };
+                mapThumb.onerror = () => {
+                    mapThumb.classList.add('hidden');
+                    mapPlaceholder.classList.remove('hidden');
+                    mapPlaceholder.textContent = "The map image couldn’t be loaded just now, but the distance and pricing above are still accurate.";
+                }
+
+            } catch (err) {
+                console.error(err);
+                feeResult.classList.remove('hidden');
+                feeResult.innerHTML = `
+                    <p class="text-red-300 text-sm font-semibold mb-1">Sorry, something went wrong working out that route.</p>
+                    <p class="text-xs text-brand-text-mid">Please double-check the postcode, or message Elliot directly and he’ll confirm the exact price with you.</p>
+                `;
+            } finally {
+                buttonText.textContent = "Calculate final price";
+                spinner.classList.add('hidden');
+            }
+        }
+
+        function geocodeAddress(address) {
+            const geocoder = new google.maps.Geocoder();
+            return new Promise((resolve, reject) => {
+                geocoder.geocode({ address }, (results, status) => {
+                    if (status === "OK" && results[0] && results[0].geometry) {
+                        resolve(results[0].geometry.location);
+                    } else {
+                        reject(new Error("Geocoding failed: " + status));
+                    }
+                });
+            });
+        }
+
+        function getDrivingDistance(origin, destLocation) {
+            const service = new google.maps.DistanceMatrixService();
+            const destLatLng = destLocation;
+
+            return new Promise((resolve, reject) => {
+                service.getDistanceMatrix(
+                    {
+                        origins: [origin],
+                        destinations: [destLatLng],
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        unitSystem: google.maps.UnitSystem.METRIC,
+                    },
+                    (response, status) => {
+                        if (status !== "OK") {
+                            reject(new Error("DistanceMatrix failed: " + status));
+                            return;
+                        }
+                        const row = response.rows[0];
+                        if (!row || !row.elements || !row.elements[0] || row.elements[0].status !== "OK") {
+                            reject(new Error("No valid distance result."));
+                            return;
+                        }
+                        resolve(row.elements[0]);
+                    }
+                );
+            });
+        }
     </script>
 </body>
 </html>
