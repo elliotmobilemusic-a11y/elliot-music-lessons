@@ -31,50 +31,19 @@
     </script>
 
     <style>
-        <!-- Lucide Icons Loader (must be included for icons to appear) -->
-<script type="module">
-    import {
-        createIcons,
-        AudioLines,
-        Zap,
-        BookOpen,
-        Clock,
-        Mail,
-        Phone,
-        MapPin,
-        MessageSquare,
-        Star,
-        Users,
-        Send
-    } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-
-    createIcons({
-        icons: {
-            AudioLines,
-            Zap,
-            BookOpen,
-            Clock,
-            Mail,
-            Phone,
-            MapPin,
-            MessageSquare,
-            Star,
-            Users,
-            Send
-        }
-    });
-</script>
-
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a1a2e;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
             color: #e0e0e0;
         }
+
         .card-glow {
             box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
         }
+
         .hover-lift {
             transition:
                 transform 0.25s ease,
@@ -85,9 +54,11 @@
         .hover-lift:hover {
             transform: translateY(-4px);
         }
+
         .main-hero-shadow {
             text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
         }
+
         /* Table */
         .policy-table th {
             background-color: #00a36e;
@@ -101,6 +72,7 @@
         .policy-table tr:hover td {
             background-color: #333355;
         }
+
         /* Full policy text */
         .policy-content p {
             margin-bottom: 1rem;
@@ -114,6 +86,7 @@
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
         }
+
         /* Spinner */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
@@ -127,6 +100,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
         /* Reveal */
         .reveal {
             opacity: 0;
@@ -165,11 +139,33 @@
     <script type="module">
         import {
             createIcons,
-            Zap, BookOpen, Clock, Mail, Phone,
-            MapPin, MessageSquare, Star, Users, Send, Route
+            Zap,
+            BookOpen,
+            Clock,
+            Mail,
+            Phone,
+            MapPin,
+            MessageSquare,
+            Star,
+            Users,
+            Send,
+            Route
         } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+
         createIcons({
-            icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Users, Send, Route }
+            icons: {
+                Zap,
+                BookOpen,
+                Clock,
+                Mail,
+                Phone,
+                MapPin,
+                MessageSquare,
+                Star,
+                Users,
+                Send,
+                Route
+            }
         });
     </script>
 </head>
@@ -181,7 +177,16 @@
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                        <i data-lucide="audio-lines" class="w-5 h-5 text-brand-accent-light"></i>
+                        <!-- Inline music icon SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24" height="24" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="w-5 h-5 text-brand-accent-light">
+                            <circle cx="8" cy="18" r="4"></circle>
+                            <path d="M12 18V2l7 4"></path>
+                        </svg>
                     </span>
                     <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
                         ELLIOT'S MOBILE MUSIC
@@ -231,7 +236,7 @@
     <!-- MAIN -->
     <main class="flex-grow">
         <!-- HERO -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-10">
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-12">
             <div class="text-center max-w-3xl mx-auto mb-10 reveal">
                 <p class="text-xs font-semibold tracking-[0.25em] text-brand-highlight mb-3 uppercase">
                     CLEAR, TRANSPARENT PRICING
@@ -283,8 +288,8 @@
                     </div>
 
                     <!-- Controls -->
-                    <div class="space-y-4 mb-5">
-                        <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-4">
+                    <div class="space-y-5 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-5">
                             <!-- Postcode input -->
                             <div>
                                 <label for="postcode-input" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">
@@ -293,11 +298,11 @@
                                 <input
                                     id="postcode-input"
                                     type="text"
-                                    placeholder="e.g. LS28 7***, LS13, BD17..."
+                                    placeholder="e.g. LS28 7**, LS13, BD17..."
                                     class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40 uppercase"
                                 >
                                 <p class="mt-1 text-[0.7rem] text-brand-text-mid">
-                                    Start typing and choose from the suggestions, or enter a full postcode. UK postcodes only.
+                                    Start typing and choose from suggestions, or enter a full postcode. UK postcodes only.
                                 </p>
                             </div>
 
@@ -348,9 +353,7 @@
                     <div
                         id="fee-result"
                         class="mt-6 p-4 sm:p-5 rounded-xl border border-brand-accent-light/40 bg-brand-dark-bg/70 hidden text-sm space-y-4"
-                    >
-                        <!-- Filled by JS -->
-                    </div>
+                    ></div>
 
                     <p class="mt-4 text-[0.7rem] text-brand-text-mid">
                         All figures are estimates based on Google’s live and typical traffic data. Final fees will always be confirmed directly with Elliot.
@@ -361,7 +364,7 @@
                 <section class="space-y-6 reveal delayed-1">
                     <!-- Map -->
                     <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-4">
-                        <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center justify-between mb-3">
                             <div>
                                 <h3 class="font-heading text-lg font-bold text-brand-accent-light flex items-center gap-2">
                                     <i data-lucide="map-pin" class="w-5 h-5 text-brand-highlight"></i>
@@ -375,7 +378,7 @@
                                 LOCAL AREA
                             </span>
                         </div>
-                        <div id="map" style="width:100%;height:220px;" class="bg-brand-dark-bg"></div>
+                        <div id="map" style="width:100%;height:230px;" class="bg-brand-dark-bg"></div>
                     </div>
 
                     <!-- Small info cards -->
@@ -663,20 +666,6 @@
         const etaLine = document.getElementById('eta-line');
         const localTag = document.getElementById('local-tag');
 
-        // Haversine fallback
-        function haversineDistance(lat1, lon1, lat2, lon2) {
-            const R = 3958.8; // miles
-            const toRad = (deg) => deg * Math.PI / 180;
-            const dLat = toRad(lat2 - lat1);
-            const dLon = toRad(lon2 - lon1);
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c;
-        }
-
         function bandTravelFee(distanceMiles) {
             let fee = 0;
             let band = "Under 5 miles";
@@ -752,7 +741,6 @@
             autocomplete.addListener('place_changed', () => {
                 const place = autocomplete.getPlace();
                 if (!place || !place.geometry) return;
-                // Normalise to outward/full postcode in field
                 const ac = place.address_components || [];
                 const postalComponent = ac.find(c => c.types.includes('postal_code'));
                 if (postalComponent) {
@@ -763,7 +751,6 @@
             });
         }
 
-        // Handle CALCULATE click
         async function handleCheckFee() {
             const rawPostcode = postcodeInput.value.trim();
             const lessonDuration = parseInt(durationSelect.value, 10);
@@ -813,8 +800,7 @@
                 const partial = !!geocodeResult.partial_match;
                 const formattedAddress = geocodeResult.formatted_address || cleanedPostcode;
 
-                // DistanceMatrix with traffic model
-                const departureTime = new Date(Date.now() + 30 * 60 * 1000); // +30 mins from now
+                const departureTime = new Date(Date.now() + 30 * 60 * 1000);
                 const trafficModel = trafficProfile === 'low' ? 'optimistic' : 'bestguess';
 
                 const dmResponse = await new Promise((resolve, reject) => {
@@ -847,12 +833,10 @@
                     ? element.duration_in_traffic.value / 60
                     : normalDurationMins;
 
-                // Build an ETA window (best / typical / busier)
                 const bestMins = Math.min(normalDurationMins, trafficDurationMins);
                 const midMins = trafficDurationMins;
-                const worstMins = trafficDurationMins * 1.25; // gentle buffer
+                const worstMins = trafficDurationMins * 1.25;
 
-                // Directions route (with alternatives)
                 const directionsResult = await new Promise((resolve, reject) => {
                     directionsService.route(
                         {
@@ -868,7 +852,6 @@
                     );
                 });
 
-                // Choose best route by duration_in_traffic if available
                 let bestRoute = directionsResult.routes[0];
                 let bestSeconds = Infinity;
 
@@ -884,12 +867,10 @@
                 directionsRenderer.setDirections(directionsResult);
                 directionsRenderer.setRouteIndex(directionsResult.routes.indexOf(bestRoute));
 
-                // Travel fee banding
                 const { fee: travelFee, band: travelBand } = bandTravelFee(distanceMiles);
                 const lessonFee = LESSON_RATES[lessonDuration] || 30;
                 const totalCost = lessonFee + travelFee;
 
-                // Confidence score + route stability
                 let confidence = 100;
                 let stability = 'Stable';
                 let stabilityDescription = 'This route is usually consistent day-to-day.';
@@ -917,7 +898,6 @@
                     localTag.classList.add('hidden');
                 }
 
-                // Build result UI
                 feeResult.classList.remove('hidden', 'bg-red-900/50', 'bg-green-900/40');
                 feeResult.classList.add('bg-brand-dark-bg/70');
 
@@ -927,14 +907,16 @@
                             <div class="text-left text-xs sm:text-sm">
                                 <p class="text-brand-text-mid">Postcode searched:</p>
                                 <p class="font-semibold text-brand-text-light">
-                                    ${formattedAddress} ${partial ? '<span class="badge bg-red-900/40 text-red-300 border border-red-400/60 ml-2">Approximate match</span>' : ''}
+                                    ${formattedAddress}
+                                    ${partial ? '<span class="badge bg-red-900/40 text-red-300 border border-red-400/60 ml-2">Approximate match</span>' : ''}
                                 </p>
                                 ${localHint ? `<p class="mt-1 text-[0.7rem] text-brand-text-mid">${localHint}</p>` : ''}
                             </div>
                             <div class="text-right text-xs sm:text-sm">
                                 <p class="text-brand-text-mid">Estimated road distance:</p>
                                 <p class="font-semibold text-brand-text-light">
-                                    ${distanceMiles.toFixed(1)} miles <span class="text-brand-text-mid text-[0.7rem]">(${travelBand})</span>
+                                    ${distanceMiles.toFixed(1)} miles
+                                    <span class="text-brand-text-mid text-[0.7rem]">(${travelBand})</span>
                                 </p>
                             </div>
                         </div>
@@ -993,13 +975,12 @@
             } catch (err) {
                 console.error(err);
 
-                // Failsafe: light Haversine estimate + max-rate banding
                 feeResult.classList.remove('hidden', 'bg-green-900/40');
                 feeResult.classList.add('bg-red-900/50');
 
                 const lessonDuration = parseInt(durationSelect.value, 10);
                 const lessonFee = LESSON_RATES[lessonDuration] || 30;
-                const approxDistance = 12; // a generic mid band if Google fails
+                const approxDistance = 12;
                 const { fee: travelFee, band: travelBand } = bandTravelFee(approxDistance);
                 const totalCost = lessonFee + travelFee;
 
@@ -1032,7 +1013,6 @@
             }
         }
 
-        // Wire up events
         checkButton.addEventListener('click', handleCheckFee);
         postcodeInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -1041,7 +1021,6 @@
             }
         });
 
-        // Expose init function so Google callback can find it
         window.initPricingMap = initPricingMap;
     </script>
 
