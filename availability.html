@@ -45,11 +45,7 @@
         }
 
         .hover-lift {
-            transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease,
-                border-color 0.2s ease,
-                background-color 0.2s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease, background-color 0.2s ease;
         }
         .hover-lift:hover {
             transform: translateY(-4px);
@@ -59,13 +55,11 @@
             text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
         }
 
-        /* Reveal-on-scroll */
+        /* Reveal on scroll */
         .reveal {
             opacity: 0;
             transform: translateY(24px);
-            transition:
-                opacity 0.8s ease-out,
-                transform 0.8s ease-out;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .reveal.visible {
             opacity: 1;
@@ -74,7 +68,7 @@
         .reveal.delayed-1 { transition-delay: 0.12s; }
         .reveal.delayed-2 { transition-delay: 0.18s; }
 
-        /* Timeline bar */
+        /* Timeline bars */
         .timeline-track {
             position: relative;
             height: 12px;
@@ -116,23 +110,22 @@
             createIcons,
             Music2,
             Clock,
-            Calendar,
-            Users,
-            Mail,
-            MapPin
+            Mail
         } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
 
         createIcons({
-            icons: { Music2, Clock, Calendar, Users, Mail, MapPin }
+            icons: { Music2, Clock, Mail }
         });
     </script>
 </head>
+
 <body class="min-h-screen flex flex-col text-brand-text-light">
 
-    <!-- NAVIGATION (matches home + pricing) -->
+    <!-- NAV -->
     <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
+                
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
                         <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
@@ -142,136 +135,106 @@
                     </span>
                 </a>
 
-                <!-- Desktop nav -->
                 <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                    <a href="index.html" class="hover-lift px-3 py-2 border-b-2 border-transparent hover:border-brand-accent-light text-brand-text-mid">
                         HOME
                     </a>
-                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                    <a href="pricing.html" class="hover-lift px-3 py-2 border-b-2 border-transparent hover:border-brand-accent-light text-brand-text-mid">
                         PRICING & FEES
                     </a>
-                    <a href="availability.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+                    <a href="availability.html" class="hover-lift px-3 py-2 border-b-2 border-brand-accent-light text-brand-accent-light">
                         AVAILABILITY
                     </a>
-                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                    <a href="contact.html" class="hover-lift px-3 py-2 border-b-2 border-transparent hover:border-brand-accent-light text-brand-text-mid">
                         CONTACT
                     </a>
                 </div>
 
-                <!-- Mobile button -->
                 <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
+                    <button id="mobile-menu-button" class="p-2 text-gray-300 hover:text-white hover:bg-brand-accent-dark rounded-md">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M4 6h16M4 12h16M4 18h16" />
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile menu -->
         <div class="sm:hidden hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-                <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
-                <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
-                <a href="availability.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">AVAILABILITY</a>
-                <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
+                <a href="index.html" class="block rounded-md px-3 py-2 text-brand-text-mid hover:bg-brand-accent-dark">HOME</a>
+                <a href="pricing.html" class="block rounded-md px-3 py-2 text-brand-text-mid hover:bg-brand-accent-dark">PRICING & FEES</a>
+                <a href="availability.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2">AVAILABILITY</a>
+                <a href="contact.html" class="block rounded-md px-3 py-2 text-brand-text-mid hover:bg-brand-accent-dark">CONTACT</a>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN -->
-    <main class="flex-grow">
-        <!-- HERO -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-10">
-            <div class="text-center max-w-3xl mx-auto mb-10 reveal">
-                <p class="text-xs font-semibold tracking-[0.25em] text-brand-highlight mb-3 uppercase">
-                    LIVE EVENING AVAILABILITY (TRAVEL-AWARE)
-                </p>
-                <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-text-light main-hero-shadow mb-4">
-                    When Elliot is usually free for lessons
-                </h1>
-                <p class="text-base sm:text-lg text-brand-text-mid">
-                    Based on a typical week travelling out from <strong>LS28 (Pudsey)</strong>, with real journey time to regular students.
-                </p>
-            </div>
+    <!-- HERO -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+        <div class="text-center max-w-3xl mx-auto mb-10 reveal">
+            <p class="text-xs tracking-[0.25em] text-brand-highlight mb-3 uppercase">
+                LIVE EVENING AVAILABILITY
+            </p>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-text-light main-hero-shadow mb-3">
+                Weekly Evening Schedule
+            </h1>
+            <p class="text-base sm:text-lg text-brand-text-mid">
+                These availability times include realistic travel between lessons across the local area.
+            </p>
+        </div>
+    </section>
 
-            <!-- Quick key -->
-            <div class="max-w-xl mx-auto flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs text-brand-text-mid reveal delayed-1">
-                <span class="inline-flex items-center gap-2">
-                    <span class="w-6 h-2 rounded-full bg-gradient-to-r from-brand-accent-light to-brand-highlight"></span>
-                    <span>Teaching / travelling (busy)</span>
-                </span>
-                <span class="inline-flex items-center gap-2">
-                    <span class="w-6 h-2 rounded-full border border-brand-accent-light/60 bg-brand-dark-bg/40"></span>
-                    <span>Usually free for new enquiries</span>
-                </span>
-                <span class="inline-flex items-center gap-2">
-                    <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">LS28 BASED</span>
-                </span>
-            </div>
-        </section>
+    <!-- AVAILABILITY GRID -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div id="availability-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 reveal delayed-1"></div>
 
-        <!-- AVAILABILITY GRID -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-            <div id="availability-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 reveal delayed-1">
-                <!-- JS will inject the day cards here -->
-            </div>
-
-            <!-- CTA -->
-            <div class="max-w-xl mx-auto mt-10 text-center reveal delayed-2">
-                <p class="text-xs sm:text-sm text-brand-text-mid mb-3">
-                    All times are approximate and can shift slightly with traffic and school-term changes.
-                </p>
-                <a
-                    href="contact.html#lesson-enquiry"
-                    class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition"
-                >
-                    <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
-                    Enquire about a time that works for you
-                </a>
-            </div>
-        </section>
-    </main>
+        <div class="max-w-xl mx-auto mt-10 text-center reveal delayed-2">
+            <p class="text-xs sm:text-sm text-brand-text-mid mb-3">
+                Times may vary slightly due to traffic or term-time changes. Always ask to confirm availability.
+            </p>
+            <a href="contact.html#lesson-enquiry"
+               class="inline-flex items-center px-5 py-3 bg-brand-accent-light text-brand-dark-bg rounded-lg shadow-lg text-sm font-semibold hover:bg-brand-accent-dark hover:scale-[1.02] transition">
+                <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
+                Enquire About a Time
+            </a>
+        </div>
+    </section>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+    <footer class="bg-gray-900 text-brand-text-mid py-7">
         <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-            <p class="mt-1 text-gray-500">
-                DBS Checked & Insured. Travel and availability based on a typical teaching week from LS28.
-            </p>
+            <p class="mt-1 text-gray-500">DBS Checked & Insured.</p>
         </div>
     </footer>
 
-    <!-- JS: UI + AVAILABILITY LOGIC -->
+    <!-- JS: Menu + Reveal + Availability -->
     <script>
-        // Mobile menu toggle
+        // Mobile toggle
         document.getElementById('mobile-menu-button').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
-        // Reveal on scroll
+        // Reveal effect
         const revealElements = document.querySelectorAll('.reveal');
-        if (revealElements.length) {
-            const revealObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            revealObserver.unobserve(entry.target);
-                        }
-                    });
-                },
-                { threshold: 0.12 }
-            );
-            revealElements.forEach(el => revealObserver.observe(el));
-        }
+        const ro = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    ro.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach((el) => ro.observe(el));
 
-        // ====== AVAILABILITY MODEL ======
-        // Time helper: "18:45" -> minutes from midnight
+
+        /* ================================
+           CLEANED AVAILABILITY SCHEDULE
+           NO NAMES • NO POSTCODES • NO PRIVACY DATA
+        ================================= */
+        
         function timeToMinutes(t) {
             const [h, m] = t.split(':').map(Number);
             return h * 60 + m;
@@ -285,66 +248,34 @@
             return `${displayH}:${displayM}${suffix}`;
         }
 
-        // This is the only bit you'll need to edit in future
-        // if your regular students / times change.
-        //
-        // BASE ASSUMPTIONS:
-        // - Evenings run from 18:00–21:00 (6–9pm)
-        // - "busyBlocks" already include travel from LS28 + between students.
-        //
-        // BASED ON YOUR CURRENT SETUP:
-        // Home base: LS28
-        // Tuesday: Ted (HX6 1JZ) 6:45–7:15pm
-        // Wednesday: Harry (LS28 8AP) 6:15–6:45pm, Eddie (LS13 1PQ) 7:00–7:30pm
-        // Thursday: Bryony (LS13 2LA) 6:30–7:30pm, Primrose (LS28 9BS) 7:15–7:45pm
-        //
-        // We've turned that into realistic "busy windows" including travel.
-
+        // CLEANED schedule (PRIVATE)
         const weeklyEvenings = [
             {
                 day: 'Tuesday',
-                label: 'Regular teaching + travel to HX6 (Ted)',
                 windowStart: '18:00',
                 windowEnd: '21:00',
                 busyBlocks: [
-                    {
-                        from: '18:00',  // leave LS28
-                        to:   '19:45',  // lesson + realistic travel back towards LS28
-                        description: 'On the road to/from HX6 (Ted) & teaching',
-                        detail: 'Usually travelling from LS28 to HX6 and teaching Ted 6:45–7:15pm.'
-                    }
+                    { from: '18:00', to: '19:45', detail: 'Booked lesson + travel time' }
                 ],
-                note: 'Most new enquiries fit best between roughly 8:00–9:00pm, depending on your location.'
+                note: 'Typically free from around 8:00pm onwards depending on travel that day.'
             },
             {
                 day: 'Wednesday',
-                label: 'Two local lessons (Harry & Eddie)',
                 windowStart: '18:00',
                 windowEnd: '21:00',
                 busyBlocks: [
-                    {
-                        from: '18:00',  // leave LS28
-                        to:   '19:45',  // Harry + Eddie + hops between LS28 and LS13
-                        description: 'Travelling / teaching Harry & Eddie',
-                        detail: 'Harry (LS28 8AP) 6:15–6:45pm, Eddie (LS13 1PQ) 7:00–7:30pm, including travel.'
-                    }
+                    { from: '18:00', to: '19:45', detail: 'Two booked lessons + local travel' }
                 ],
-                note: 'Typically free 8:00–9:00pm for new lessons, especially around LS28 / LS13.'
+                note: 'Best availability is usually between 8:00pm and 9:00pm.'
             },
             {
                 day: 'Thursday',
-                label: 'Evening largely booked',
                 windowStart: '18:00',
                 windowEnd: '21:00',
                 busyBlocks: [
-                    {
-                        from: '18:00',
-                        to:   '20:00',  // treat Bryony + Primrose + travel as one long busy block
-                        description: 'Travelling / teaching Bryony & Primrose',
-                        detail: 'Bryony (LS13 2LA) 6:30–7:30pm and Primrose (LS28 9BS) 7:15–7:45pm with travel.'
-                    }
+                    { from: '18:00', to: '20:00', detail: 'Evening partly booked with travel' }
                 ],
-                note: 'There is occasionally room after ~8:00pm; best to message and check that week.'
+                note: 'Space occasionally available after 8:00pm — message to check.'
             }
         ];
 
@@ -357,7 +288,6 @@
                 const endMin = timeToMinutes(e.windowEnd);
                 const total = endMin - startMin;
 
-                // Compute free blocks (gaps between busy blocks)
                 const busySorted = [...e.busyBlocks].sort(
                     (a, b) => timeToMinutes(a.from) - timeToMinutes(b.from)
                 );
@@ -368,100 +298,78 @@
                 busySorted.forEach(block => {
                     const bStart = timeToMinutes(block.from);
                     const bEnd = timeToMinutes(block.to);
-
                     if (bStart > cursor + 5) {
-                        freeBlocks.push({
-                            fromMin: cursor,
-                            toMin: bStart
-                        });
+                        freeBlocks.push({ fromMin: cursor, toMin: bStart });
                     }
                     cursor = Math.max(cursor, bEnd);
                 });
 
                 if (cursor < endMin - 5) {
-                    freeBlocks.push({
-                        fromMin: cursor,
-                        toMin: endMin
-                    });
+                    freeBlocks.push({ fromMin: cursor, toMin: endMin });
                 }
 
-                // Create card
                 const card = document.createElement('article');
-                card.className = 'bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 flex flex-col gap-4 hover-lift';
+                card.className = 'bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 hover-lift';
 
                 card.innerHTML = `
                     <header class="flex items-start justify-between gap-3">
                         <div>
                             <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-text-light flex items-center gap-2">
                                 <i data-lucide="clock" class="w-5 h-5 text-brand-accent-light"></i>
-                                ${e.day} evenings
+                                ${e.day} Evenings
                             </h2>
-                            <p class="text-xs sm:text-sm text-brand-text-mid mt-1">${e.label}</p>
+                            <p class="text-xs text-brand-text-mid mt-1">6pm–9pm teaching window</p>
                         </div>
-                        <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
-                            6–9pm window
-                        </span>
                     </header>
 
-                    <div class="space-y-2 text-[0.75rem] sm:text-xs text-brand-text-mid">
-                        <p><strong>Base window:</strong> ${minutesToLabel(startMin)} – ${minutesToLabel(endMin)} (leaving from LS28 at 6:00pm).</p>
-                        <p><strong>Regular lessons:</strong> ${busySorted.map(b => b.detail).join(' ')}</p>
+                    <div class="space-y-2 text-xs text-brand-text-mid">
+                        <p><strong>Busy:</strong> ${busySorted.map(b => b.detail).join(', ')}</p>
                     </div>
 
                     <div class="space-y-2">
-                        <div class="flex items-center justify-between text-[0.7rem] sm:text-xs text-brand-text-mid mb-1">
-                            <span>Timeline (travel + lessons vs free)</span>
+                        <div class="flex items-center justify-between text-xs text-brand-text-mid mb-1">
+                            <span>Travel + lessons timeline</span>
                             <span>${e.windowStart}–${e.windowEnd}</span>
                         </div>
+
                         <div class="timeline-track">
-                            ${
-                                // busy segments
-                                busySorted.map(b => {
-                                    const bStart = timeToMinutes(b.from);
-                                    const bEnd = timeToMinutes(b.to);
-                                    const leftPct = ((bStart - startMin) / total) * 100;
-                                    const widthPct = ((bEnd - bStart) / total) * 100;
-                                    return `<div class="timeline-busy" style="left:${leftPct}%;width:${widthPct}%;"></div>`;
-                                }).join('')
-                            }
-                            ${
-                                // free segments (for visual hint)
-                                freeBlocks.map(f => {
-                                    const leftPct = ((f.fromMin - startMin) / total) * 100;
-                                    const widthPct = ((f.toMin - f.fromMin) / total) * 100;
-                                    return `<div class="timeline-free" style="left:${leftPct}%;width:${widthPct}%;"></div>`;
-                                }).join('')
-                            }
+                            ${busySorted.map(b => {
+                                const bStart = timeToMinutes(b.from);
+                                const bEnd = timeToMinutes(b.to);
+                                const leftPct = ((bStart - startMin) / total) * 100;
+                                const widthPct = ((bEnd - bStart) / total) * 100;
+                                return `<div class="timeline-busy" style="left:${leftPct}%;width:${widthPct}%"></div>`;
+                            }).join('')}
+
+                            ${freeBlocks.map(f => {
+                                const leftPct = ((f.fromMin - startMin) / total) * 100;
+                                const widthPct = ((f.toMin - f.fromMin) / total) * 100;
+                                return `<div class="timeline-free" style="left:${leftPct}%;width:${widthPct}%"></div>`;
+                            }).join('')}
                         </div>
                     </div>
 
-                    <div class="space-y-2 text-[0.75rem] sm:text-xs text-brand-text-mid">
-                        ${
-                            freeBlocks.length
-                                ? `<p><strong>Usually free:</strong> ${
-                                    freeBlocks.map(f => `${minutesToLabel(f.fromMin)} – ${minutesToLabel(f.toMin)}`).join(', ')
-                                  } (exact availability depends on your location).</p>`
-                                : `<p><strong>Evening mostly booked:</strong> space is very limited – please contact to check this week.</p>`
+                    <div class="space-y-2 text-xs text-brand-text-mid mt-3">
+                        ${freeBlocks.length
+                            ? `<p><strong>Usually available:</strong> ${
+                                freeBlocks.map(f => `${minutesToLabel(f.fromMin)} – ${minutesToLabel(f.toMin)}`).join(', ')
+                              }</p>`
+                            : `<p><strong>Evening mostly booked.</strong></p>`
                         }
                         <p>${e.note}</p>
                     </div>
 
-                    <div class="mt-3">
-                        <button
-                            type="button"
-                            class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-brand-accent-light text-brand-dark-bg text-xs sm:text-sm font-semibold hover:bg-brand-accent-dark transition"
-                            onclick="window.location.href='contact.html#lesson-enquiry';"
-                        >
-                            <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
-                            Ask about a ${e.day} slot
-                        </button>
-                    </div>
+                    <button
+                        class="w-full mt-4 inline-flex items-center justify-center px-4 py-2 bg-brand-accent-light text-brand-dark-bg rounded-lg text-xs font-semibold hover:bg-brand-accent-dark transition"
+                        onclick="window.location.href='contact.html#lesson-enquiry';">
+                        <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
+                        Request a ${e.day} lesson time
+                    </button>
                 `;
 
                 grid.appendChild(card);
             });
 
-            // Re-run lucide to hydrate newly-added icons
             if (window.lucide && window.lucide.createIcons) {
                 window.lucide.createIcons();
             }
