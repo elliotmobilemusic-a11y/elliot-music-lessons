@@ -57,7 +57,6 @@
             transform: translateY(0);
         }
 
-        /* Typing indicator dots from your original chat section */
         @keyframes dot-pulse {
             0%, 100% { opacity: 0.2; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.4); }
@@ -72,10 +71,10 @@
         import {
             createIcons,
             Zap, BookOpen, Clock, Mail, Phone,
-            MapPin, MessageSquare, Star, Music2
+            MapPin, MessageSquare, Star, Music2, Users, Send
         } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
         createIcons({
-            icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Music2 }
+            icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Music2, Users, Send }
         });
     </script>
 </head>
@@ -136,21 +135,21 @@
     <!-- MAIN -->
     <main class="flex-grow">
         <!-- HERO -->
-        <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Text side -->
                 <div>
-                    <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-3 uppercase">
+                    <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
                         PIANO & SINGING LESSONS IN YOUR HOME
                     </p>
-                    <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-4">
+                    <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
                         Learn the music <span class="text-brand-accent-light">you love</span><br>
                         without leaving home.
                     </h1>
-                    <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-6">
+                    <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-8">
                         I’m <strong>Elliot Wardill</strong>, a mobile music tutor based in
                         <strong>Pudsey, Leeds</strong>. I travel to you with all the equipment needed,
-                        making lessons relaxed, convenient, and completely tailored to each student.
+                        making lessons relaxed, convenient, and tailored to each student.
                     </p>
 
                     <div class="flex flex-wrap gap-3 mb-6">
@@ -164,14 +163,14 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap gap-4 mb-4">
+                    <div class="flex flex-wrap gap-4 mb-6">
                         <a href="contact.html"
-                           class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition">
+                           class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition">
                             <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
                             Book an Intro Lesson (£10)
                         </a>
                         <a href="pricing.html"
-                           class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transform hover:scale-[1.02] transition">
+                           class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transform hover:scale-[1.02] transition">
                             View Pricing & Policy
                         </a>
                     </div>
@@ -190,13 +189,13 @@
                 </div>
 
                 <!-- Visual card / “Meet Elliot” -->
-                <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 flex flex-col gap-4">
+                <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
                     <div class="flex items-center gap-4">
                         <img
-                            src="https://placehold.co/140x140/1a1a2e/00d084?text=Elliot"
+                            src="https://placehold.co/160x160/1a1a2e/00d084?text=Elliot"
                             alt="Elliot Wardill, Music Tutor"
-                            class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl border-2 border-brand-accent-light/60 object-cover"
-                            onerror="this.onerror=null;this.src='https://placehold.co/140x140/1a1a2e/00d084?text=Elliot';"
+                            class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl border-2 border-brand-accent-light/60 object-cover"
+                            onerror="this.onerror=null;this.src='https://placehold.co/160x160/1a1a2e/00d084?text=Elliot';"
                         >
                         <div>
                             <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">
@@ -212,7 +211,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm pt-2 border-t border-brand-accent-dark/40 mt-2">
+                    <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm pt-3 border-t border-brand-accent-dark/40 mt-1">
                         <div class="flex items-center">
                             <i data-lucide="book-open" class="w-4 h-4 mr-2 text-brand-accent-light"></i>
                             Tailored learning for all ages
@@ -235,25 +234,25 @@
         </section>
 
         <!-- KEY BENEFITS -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-card-bg rounded-xl p-5 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
-                    <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-2"></i>
-                    <h3 class="font-semibold mb-1 text-brand-text-light text-sm sm:text-base">Tailored to Each Student</h3>
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
+                    <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-3"></i>
+                    <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Tailored to Each Student</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
                         Whether it’s chart songs, grades, or simply playing for fun, lessons are personalised to age, taste, and goals.
                     </p>
                 </div>
-                <div class="bg-card-bg rounded-xl p-5 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
-                    <i data-lucide="map-pin" class="w-6 h-6 text-brand-highlight mb-2"></i>
-                    <h3 class="font-semibold mb-1 text-brand-text-light text-sm sm:text-base">I Come to You</h3>
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover:border-brand-highlight transition">
+                    <i data-lucide="map-pin" class="w-6 h-6 text-brand-highlight mb-3"></i>
+                    <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">I Come to You</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
                         No travelling, no waiting rooms. I bring everything needed, including a keyboard where needed.
                     </p>
                 </div>
-                <div class="bg-card-bg rounded-xl p-5 border-t-4 border-brand-highlight card-glow hover:border-brand-accent-light transition">
-                    <i data-lucide="zap" class="w-6 h-6 text-brand-highlight mb-2"></i>
-                    <h3 class="font-semibold mb-1 text-brand-text-light text-sm sm:text-base">Safe & Professional</h3>
+                <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow hover:border-brand-accent-light transition">
+                    <i data-lucide="zap" class="w-6 h-6 text-brand-highlight mb-3"></i>
+                    <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Safe & Professional</h3>
                     <p class="text-xs sm:text-sm text-brand-text-mid">
                         Fully DBS checked and insured, with clear policies on safeguarding, cancellations, and fees.
                     </p>
@@ -262,14 +261,14 @@
         </section>
 
         <!-- HOW IT WORKS + WHO IT'S FOR -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <!-- How it works -->
-                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7">
-                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">
+                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">
                         How mobile lessons work
                     </h2>
-                    <ol class="space-y-3 text-sm text-brand-text-mid">
+                    <ol class="space-y-4 text-sm text-brand-text-mid">
                         <li><span class="font-semibold text-brand-text-light">1. Quick chat & intro lesson</span><br>
                             Send a message or call to check availability. Most students start with a £10 introductory lesson.
                         </li>
@@ -284,23 +283,23 @@
                         </li>
                     </ol>
                     <a href="availability.html"
-                       class="inline-flex items-center mt-4 text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light">
+                       class="inline-flex items-center mt-5 text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light">
                         Check current availability
                     </a>
                 </div>
 
                 <!-- Who it's for -->
-                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7">
-                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">
+                <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">
                         Who lessons are perfect for
                     </h2>
-                    <ul class="space-y-3 text-sm text-brand-text-mid">
+                    <ul class="space-y-3 text-sm text-brand-text-mid mb-5">
                         <li><strong>Children</strong> who want a relaxed introduction to piano or singing.</li>
                         <li><strong>Teenagers</strong> interested in pop songs, performance, or building confidence.</li>
                         <li><strong>Adults</strong> who always wanted to learn but never had chance.</li>
                         <li>Students who prefer learning in their <strong>own home environment</strong>.</li>
                     </ul>
-                    <div class="mt-5 bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-4 text-xs sm:text-sm">
+                    <div class="mt-2 bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-4 text-xs sm:text-sm">
                         <p class="font-semibold text-brand-text-light mb-1">
                             Service area:
                         </p>
@@ -312,14 +311,14 @@
             </div>
         </section>
 
-        <!-- SIMPLE TESTIMONIAL / TRUST STRIP -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 flex flex-col lg:flex-row gap-6 items-center">
+        <!-- TRUST / TESTIMONIAL -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col lg:flex-row gap-8 items-center">
                 <div class="flex-1">
-                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-2">
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">
                         A supportive, confidence-building approach
                     </h2>
-                    <p class="text-sm sm:text-base text-brand-text-mid mb-4">
+                    <p class="text-sm sm:text-base text-brand-text-mid mb-5">
                         Lessons are friendly, calm and encouraging. Many students start as complete beginners
                         and quickly discover they’re capable of far more than they thought.
                     </p>
@@ -334,7 +333,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="flex-[0.9] bg-brand-dark-bg/60 rounded-xl border border-brand-accent-dark/50 p-4 text-xs sm:text-sm text-brand-text-mid">
+                <div class="flex-[0.9] bg-brand-dark-bg/60 rounded-xl border border-brand-accent-dark/50 p-5 text-xs sm:text-sm text-brand-text-mid">
                     <p class="italic mb-2">
                         “Elliot has been fantastic at building confidence and making lessons something to look forward to each week.
                         Everything is really clear and relaxed, and having lessons at home makes it so much easier.”
@@ -346,10 +345,10 @@
             </div>
         </section>
 
-        <!-- POLICY Q&A ASSISTANT (your original chat feature, visually framed) -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7">
-                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-3 mb-4">
+        <!-- POLICY Q&A ASSISTANT -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
+            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
                     <div>
                         <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
                             <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
@@ -364,8 +363,7 @@
                     </a>
                 </div>
 
-                <!-- Chat box (mostly your original code/structure) -->
-                <div id="chat-box" class="h-[18rem] md:h-80 overflow-y-auto p-4 mb-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite">
+                <div id="chat-box" class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite">
                     <div class="flex justify-start initial-message">
                         <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
                             Hello! I am the Policy Assistant. Ask me anything about lesson fees, cancellations, travel, or Elliot's availability.
@@ -409,7 +407,7 @@
     </a>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-4">
+    <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
         <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
             <p class="mt-1 text-gray-500">
@@ -418,14 +416,14 @@
         </div>
     </footer>
 
-    <!-- JS: mobile nav, sticky CTA, and Q&A logic (based on your original) -->
+    <!-- JS -->
     <script>
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
-        // Sticky CTA show/hide based on hero visibility
+        // Sticky CTA visibility
         const stickyCta = document.getElementById('sticky-cta');
         const heroSection = document.getElementById('hero-section');
 
@@ -443,7 +441,7 @@
             observer.observe(heroSection);
         }
 
-        // ---- Policy Q&A Assistant logic (trimmed but same behaviour as before) ----
+        // Policy Q&A Assistant (frontend, calls /api/chat on Vercel)
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
         const chatBox = document.getElementById('chat-box');
@@ -451,11 +449,8 @@
         const errorMessage = document.getElementById('error-message');
         const sendButton = document.getElementById('send-button');
 
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-
         const qaSystemPrompt = `You are a helpful, friendly Q&A assistant for Elliot Wardill's Mobile Music Lessons. 
-Answer briefly and clearly, using **bold** for key policy details. 
-Only answer using this context unless asked general questions.
+Answer briefly and clearly, using **bold** for key policy details.
 
 Context:
 - Tutor: **Elliot Wardill**, mobile piano & singing teacher based in **Pudsey, Leeds**.
@@ -489,22 +484,6 @@ Context:
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        async function fetchWithBackoff(url, options, retries = 4) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const res = await fetch(url, options);
-                    if (!res.ok) {
-                        throw new Error("Request failed with " + res.status);
-                    }
-                    return res;
-                } catch (err) {
-                    if (i === retries - 1) throw err;
-                    const delay = Math.pow(2, i) * 500 + Math.random() * 500;
-                    await new Promise(r => setTimeout(r, delay));
-                }
-            }
-        }
-
         async function handleQuery(query) {
             sendButton.disabled = true;
             loadingIndicator.classList.remove('hidden');
@@ -512,26 +491,23 @@ Context:
 
             appendMessage('user', query);
 
-            const payload = {
-                contents: [{ parts: [{ text: query.trim() }] }],
-                systemInstruction: { parts: [{ text: qaSystemPrompt }] }
-            };
-
             try {
-                const res = await fetchWithBackoff(API_URL, {
+                const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        message: query.trim(),
+                        systemPrompt: qaSystemPrompt
+                    })
                 });
 
-                const data = await res.json();
-                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (text) {
-                    appendMessage('bot', text);
-                } else {
-                    appendMessage('bot', "I couldn't find a clear answer there – try asking in a slightly different way.");
+                if (!res.ok) {
+                    throw new Error('Server error: ' + res.status);
                 }
+
+                const data = await res.json();
+                const text = data.text || "I couldn't find a clear answer there – try asking in a slightly different way.";
+                appendMessage('bot', text);
             } catch (err) {
                 console.error(err);
                 errorMessage.textContent = "Sorry, the assistant is unavailable at the moment. Please try again later.";
