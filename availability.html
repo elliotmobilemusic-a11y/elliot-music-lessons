@@ -1,206 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elliot Wardill - Current Availability</title>
-    <link rel="icon" href="/favicon.png" type="image/png">
-    
-    <!-- Load Tailwind CSS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Availability – Elliot Wardill Mobile Music Lessons</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom Tailwind Config for Theme -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'brand-dark-bg': '#1a1a2e', // Deep dark blue
-                        'brand-accent-light': '#00d084', // Vibrant green/aqua
-                        'brand-accent-dark': '#00a36e', // Darker green/aqua
-                        'brand-text-light': '#e0e0e0', // Light grey for text
-                        'brand-text-mid': '#a0a0a0', // Mid grey for secondary text
-                        'brand-highlight': '#ffb703', // Vibrant golden yellow
-                        'card-bg': '#252538', // Slightly lighter dark background for containers
+                        'brand-dark-bg': '#1a1a2e',
+                        'brand-accent-light': '#00d084',
+                        'brand-accent-dark': '#00a36e',
+                        'brand-text-light': '#e0e0e0',
+                        'brand-text-mid': '#a0e0e0',
+                        'brand-highlight': '#ffb703',
+                        'card-bg': '#252538',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'], 
+                        heading: ['Montserrat', 'sans-serif'],
                     },
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght=700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e; 
-            color: #e0e0e0; 
+            background-color: #1a1a2e;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            color: #e0e0e0;
         }
+
         .card-glow {
-             box-shadow: 0 5px 15px rgba(0, 208, 132, 0.1), 0 2px 5px rgba(0, 208, 132, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
         }
-        /* Custom styling for the main container */
-        .main-container-glow {
-            box-shadow: 0 0 40px rgba(0, 208, 132, 0.2); /* Stronger glow for the main block */
+
+        .hover-lift {
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        .main-hero-shadow {
+            text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition:
+                opacity 0.8s ease-out,
+                transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal.delayed-1 { transition-delay: 0.12s; }
+        .reveal.delayed-2 { transition-delay: 0.18s; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
     </style>
-    <!-- Load Lucide Icons -->
+
+    <!-- Lucide Icons -->
     <script type="module">
-        import { createIcons, Clock, Calendar, XCircle, Users, Mail, Phone } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-        createIcons({ icons: { Clock, Calendar, XCircle, Users, Mail, Phone } });
+        import {
+            createIcons,
+            Music2,
+            Clock,
+            Calendar,
+            XCircle,
+            Users,
+            Mail,
+            Phone,
+            AlertTriangle
+        } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+
+        createIcons({
+            icons: { Music2, Clock, Calendar, XCircle, Users, Mail, Phone, AlertTriangle }
+        });
     </script>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col text-brand-text-light">
 
-    <!-- Navigation Bar -->
-    <nav class="bg-brand-dark-bg text-white shadow-lg sticky top-0 z-50">
+    <!-- NAVIGATION (matches home/pricing) -->
+    <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo/Brand Name -->
-                <div class="flex-shrink-0">
-                    <a href="index.html" class="text-xl font-extrabold tracking-wider text-brand-highlight hover:text-white transition duration-200">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+                        <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                    </span>
+                    <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
                         ELLIOT'S MOBILE MUSIC
+                    </span>
+                </a>
+
+                <!-- Desktop nav -->
+                <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        HOME
+                    </a>
+                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        PRICING & FEES
+                    </a>
+                    <a href="availability.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+                        AVAILABILITY
+                    </a>
+                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                        CONTACT
                     </a>
                 </div>
 
-                <!-- Desktop Navigation Links -->
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
-                    <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">HOME</a>
-                    <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">PRICING & FEES</a>
-                    <a href="availability.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 text-sm font-medium transition duration-200">AVAILABILITY</a>
-                    <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-light px-3 py-2 text-sm font-medium transition duration-200">CONTACT</a>
-                </div>
-
-                <!-- Mobile Menu Button -->
+                <!-- Mobile button -->
                 <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
+        <!-- Mobile menu -->
         <div class="sm:hidden hidden" id="mobile-menu">
-            <div class="pt-2 pb-3 space-y-1 px-2">
-                <a href="index.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">HOME</a>
-                <a href="pricing.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">PRICING & FEES</a>
-                <a href="availability.html" class="bg-brand-accent-dark text-white block rounded-md px-3 py-2 text-base font-medium">AVAILABILITY</a>
-                <a href="contact.html" class="text-brand-text-light hover:bg-brand-accent-dark block rounded-md px-3 py-2 text-base font-medium">CONTACT</a>
+            <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
+                <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
+                <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
+                <a href="availability.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">AVAILABILITY</a>
+                <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
             </div>
         </div>
     </nav>
-    
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto px-4 py-12 sm:py-20 flex-grow">
 
-        <div class="w-full max-w-4xl mx-auto bg-card-bg shadow-2xl rounded-xl overflow-hidden main-container-glow border border-brand-accent-dark/50">
-            
-            <!-- Header -->
-            <header class="bg-brand-accent-light/10 p-6 md:p-8 text-center border-b border-brand-accent-dark/50">
-                <i data-lucide="calendar" class="w-10 h-10 mx-auto mb-2 text-brand-highlight"></i>
-                <h1 class="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-accent-light">
+    <!-- MAIN -->
+    <main class="flex-grow">
+        <!-- HERO -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-10">
+            <div class="text-center max-w-3xl mx-auto mb-8 reveal">
+                <p class="text-xs font-semibold tracking-[0.25em] text-brand-highlight mb-3 uppercase">
+                    LIVE AVAILABILITY OVERVIEW
+                </p>
+                <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-text-light main-hero-shadow mb-4">
                     Current Lesson Availability
                 </h1>
-                <p class="mt-2 text-lg text-brand-text-mid">Find the perfect time for your mobile music lesson.</p>
-            </header>
+                <p class="text-base sm:text-lg text-brand-text-mid">
+                    See which days Elliot is teaching, which days are by request, and when the studio is closed for holidays.
+                </p>
+            </div>
 
-            <!-- Schedule Grid -->
-            <div class="p-6 md:p-10 space-y-10">
-
-                <!-- Fixed Evening Slots -->
-                <section>
-                    <h2 class="font-heading text-2xl font-bold text-brand-text-light border-b border-brand-accent-dark pb-2 mb-6 flex items-center">
-                        <i data-lucide="clock" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-                        Fixed Evening Slots
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        
-                        <!-- Fixed Day Card Template -->
-                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light transition duration-300 hover:scale-[1.02]">
-                            <div class="text-xl font-semibold text-brand-text-light">Tuesday</div>
-                            <div class="text-4xl font-extrabold text-brand-accent-light mt-1">6:00 PM</div>
-                            <div class="text-sm font-medium text-brand-text-mid">to 9:00 PM</div>
-                        </div>
-                        
-                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light transition duration-300 hover:scale-[1.02]">
-                            <div class="text-xl font-semibold text-brand-text-light">Wednesday</div>
-                            <div class="text-4xl font-extrabold text-brand-accent-light mt-1">6:00 PM</div>
-                            <div class="text-sm font-medium text-brand-text-mid">to 9:00 PM</div>
-                        </div>
-
-                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-l-4 border-brand-accent-light transition duration-300 hover:scale-[1.02]">
-                            <div class="text-xl font-semibold text-brand-text-light">Thursday</div>
-                            <div class="text-4xl font-extrabold text-brand-accent-light mt-1">6:00 PM</div>
-                            <div class="text-sm font-medium text-brand-text-mid">to 9:00 PM</div>
-                        </div>
-
+            <!-- Mode + summary strip -->
+            <div class="max-w-4xl mx-auto space-y-4 reveal delayed-1">
+                <!-- Mode toggle -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-card-bg/80 border border-brand-accent-dark/60 rounded-2xl px-4 py-3 card-glow">
+                    <div class="text-xs sm:text-sm text-brand-text-mid">
+                        <p id="today-line" class="font-semibold text-brand-text-light mb-1">
+                            <!-- Filled by JS -->
+                        </p>
+                        <p id="mode-description">
+                            <!-- Filled by JS -->
+                        </p>
                     </div>
-                </section>
-                
-                <!-- Flexible and Unavailable Slots -->
-                <section>
-                    <h2 class="font-heading text-2xl font-bold text-brand-text-light border-b border-brand-accent-dark pb-2 mb-6 flex items-center">
-                        <i data-lucide="users" class="w-6 h-6 mr-2 text-brand-highlight"></i>
-                        Weekend & Weekday Exceptions
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        
-                        <!-- Weekend (Upon Request) -->
-                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-t-4 border-brand-highlight text-center transition duration-300 hover:bg-[#2a2a4a]">
-                            <i data-lucide="calendar" class="w-7 h-7 mx-auto text-brand-highlight mb-2"></i>
-                            <div class="text-xl font-semibold text-brand-text-light">Saturday & Sunday</div>
-                            <p class="text-md text-brand-highlight font-medium mt-1">Available Upon Request</p>
-                            <p class="text-sm text-brand-text-mid mt-1">Contact me directly to arrange a flexible slot.</p>
-                        </div>
+                    <div class="flex items-center gap-2 text-xs sm:text-sm">
+                        <span class="text-brand-text-mid mr-1">View as:</span>
+                        <button
+                            id="mode-term"
+                            class="px-3 py-1.5 rounded-full border border-brand-accent-light/60 bg-brand-accent-light/15 text-brand-accent-light font-semibold hover:bg-brand-accent-light/30 transition"
+                        >
+                            Term Time
+                        </button>
+                        <button
+                            id="mode-holiday"
+                            class="px-3 py-1.5 rounded-full border border-brand-accent-dark/40 bg-transparent text-brand-text-mid font-semibold hover:bg-brand-accent-dark/40 hover:text-brand-text-light transition"
+                        >
+                            School Holidays
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- Unavailable Days -->
-                        <div class="bg-brand-dark-bg p-5 rounded-xl card-glow border-t-4 border-red-500 text-center transition duration-300 hover:bg-[#2a2a4a]">
-                            <i data-lucide="x-circle" class="w-7 h-7 mx-auto text-red-500 mb-2"></i>
-                            <div class="text-xl font-semibold text-brand-text-light">Monday & Friday</div>
-                            <p class="text-md text-red-400 font-medium mt-1">No Available Slots</p>
-                            <p class="text-sm text-brand-text-mid mt-1">Reserved for other commitments.</p>
+                <!-- Next available -->
+                <div class="max-w-4xl mx-auto bg-card-bg/90 border border-brand-accent-dark/60 rounded-2xl px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 card-glow">
+                    <div class="flex items-center gap-2 text-xs sm:text-sm">
+                        <i data-lucide="clock" class="w-5 h-5 text-brand-accent-light"></i>
+                        <div>
+                            <p class="font-semibold text-brand-text-light">Next available regular slot</p>
+                            <p id="next-slot-line" class="text-brand-text-mid">
+                                <!-- Filled by JS -->
+                            </p>
                         </div>
                     </div>
-                </section>
-                
-                <!-- General Note -->
-                <div class="pt-4 border-t border-brand-accent-dark/50">
-                    <div class="flex items-start bg-brand-dark-bg/50 p-4 rounded-lg border border-brand-highlight/50">
-                        <i data-lucide="warning" class="w-5 h-5 text-brand-highlight flex-shrink-0 mt-0.5"></i>
-                        <p class="ml-3 text-sm text-brand-text-mid">
-                            <strong class="text-brand-highlight">Important Note:</strong> All availability is subject to change, particularly during term time. I recommend checking the <a href="contact.html" class="underline text-brand-accent-light hover:text-white">Contact Page</a> to send an inquiry and confirm your desired booking time.
+                    <div class="text-xs sm:text-sm text-brand-text-mid">
+                        <p>
+                            For weekend or special requests, please use the <a href="contact.html" class="text-brand-accent-light hover:text-white underline">contact page</a>.
                         </p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <footer class="bg-brand-dark-bg/50 p-4 text-center text-sm text-brand-text-mid border-t border-brand-accent-dark rounded-b-xl">
-                Ready to secure your spot? View <a href="pricing.html" class="underline text-brand-accent-light hover:text-white">Pricing & Fees</a> or jump to the <a href="contact.html" class="underline text-brand-accent-light hover:text-white">Contact Page</a>.
-            </footer>
+        <!-- AVAILABILITY GRID -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div id="break-banner" class="max-w-4xl mx-auto mb-6 hidden reveal">
+                <div class="flex items-start gap-3 bg-[#4b2b20] border border-[#ffb703]/60 text-xs sm:text-sm text-[#ffe2a6] px-4 py-3 rounded-xl card-glow">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+                    <p>
+                        <strong>End-of-year break:</strong> Lessons are paused between
+                        <strong>22 December and 2 January</strong>. You can still send enquiries, and lessons resume from
+                        <strong>3 January</strong>.
+                    </p>
+                </div>
+            </div>
 
-        </div>
+            <div id="availability-grid" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 reveal delayed-2">
+                <!-- Cards generated by JS -->
+            </div>
+
+            <!-- Key -->
+            <div class="max-w-4xl mx-auto mt-8 text-[0.75rem] sm:text-xs text-brand-text-mid space-y-2 reveal">
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge bg-brand-accent-light/15 border border-brand-accent-light/50 text-brand-accent-light">
+                        AVAILABLE
+                    </span>
+                    <span class="badge bg-brand-highlight/15 border border-brand-highlight/60 text-brand-highlight">
+                        BY REQUEST
+                    </span>
+                    <span class="badge bg-red-900/40 border border-red-500/70 text-red-200">
+                        UNAVAILABLE / CLOSED
+                    </span>
+                </div>
+                <p>
+                    Availability may change during busy periods or school terms. Exact times are always confirmed directly with Elliot when you book.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT CTA -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="max-w-4xl mx-auto bg-card-bg/90 border border-brand-accent-dark/60 rounded-2xl p-6 sm:p-7 flex flex-col md:flex-row gap-5 items-start md:items-center card-glow reveal">
+                <div class="flex-1 text-sm sm:text-base">
+                    <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-accent-light mb-1 flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5 text-brand-accent-light"></i>
+                        Ready to book a lesson?
+                    </h2>
+                    <p class="text-brand-text-mid">
+                        Send a quick message with your preferred days, times and postcode. I’ll confirm the closest available slot
+                        and your full price, including travel.
+                    </p>
+                    <p class="mt-2 text-xs text-brand-text-mid">
+                        You can also text or call directly if that’s easier.
+                    </p>
+                    <div class="mt-3 flex flex-wrap gap-4 text-xs sm:text-sm text-brand-text-mid">
+                        <span class="inline-flex items-center gap-1">
+                            <i data-lucide="phone" class="w-4 h-4 text-brand-highlight"></i>
+                            <a href="tel:07368975144" class="hover:text-white">07368 975144</a>
+                        </span>
+                        <span class="inline-flex items-center gap-1">
+                            <i data-lucide="mail" class="w-4 h-4 text-brand-accent-light"></i>
+                            <a href="mailto:elliotmobilemusic@gmail.com" class="hover:text-white">elliotmobilemusic@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <a
+                        href="contact.html"
+                        class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition"
+                    >
+                        Enquire via Contact Page
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-brand-text-mid py-6 mt-12 flex-shrink-0">
-        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
             <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-            <p class="mt-2 text-gray-500">DBS Checked & Insured. Policy documents available upon request.</p>
+            <p class="mt-1 text-gray-500">
+                DBS Checked & Insured. Full lesson policy and travel information available on the pricing page.
+            </p>
         </div>
     </footer>
-    
-    <!-- JavaScript for Mobile Menu Toggle -->
+
+    <!-- JS: UI + Rule-based smart availability -->
     <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            var menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        // ===== Mobile menu =====
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         });
+
+        // ===== Reveal on scroll =====
+        const revealElements = document.querySelectorAll('.reveal');
+        if (revealElements.length) {
+            const revealObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.12 }
+            );
+            revealElements.forEach(el => revealObserver.observe(el));
+        }
+
+        // ===== Rule-based availability config =====
+        // Types:
+        //  - "available"   => normal teaching hours
+        //  - "request"     => available by request (weekends etc.)
+        //  - "unavailable" => no lessons
+
+        const SCHEDULES = {
+            term: {
+                monday:    { type: 'unavailable' },
+                tuesday:   { type: 'available', start: '18:00', end: '21:00' },
+                wednesday: { type: 'available', start: '18:00', end: '21:00' },
+                thursday:  { type: 'available', start: '18:00', end: '21:00' },
+                friday:    { type: 'unavailable' },
+                saturday:  { type: 'request',   label: 'By request – message to arrange' },
+                sunday:    { type: 'request',   label: 'By request – message to arrange' },
+            },
+            holiday: {
+                // Holiday weeks: weekends become fully open, weekdays stay the same.
+                monday:    { type: 'unavailable' },
+                tuesday:   { type: 'available', start: '18:00', end: '21:00' },
+                wednesday: { type: 'available', start: '18:00', end: '21:00' },
+                thursday:  { type: 'available', start: '18:00', end: '21:00' },
+                friday:    { type: 'unavailable' },
+                saturday:  { type: 'available', start: '10:00', end: '16:00', note: 'Times flexible in school holidays' },
+                sunday:    { type: 'available', start: '11:00', end: '16:00', note: 'Times flexible in school holidays' },
+            }
+        };
+
+        // End-of-year break (22 Dec – 2 Jan, any year)
+        function isEndOfYearBreak(date) {
+            const d = date.getDate();
+            const m = date.getMonth(); // 0 = Jan, 11 = Dec
+            // 22–31 December OR 1–2 January
+            return (m === 11 && d >= 22) || (m === 0 && d <= 2);
+        }
+
+        const DAY_ORDER = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        const DAY_LABELS = {
+            monday: 'Monday',
+            tuesday: 'Tuesday',
+            wednesday: 'Wednesday',
+            thursday: 'Thursday',
+            friday: 'Friday',
+            saturday: 'Saturday',
+            sunday: 'Sunday',
+        };
+
+        const availabilityGrid = document.getElementById('availability-grid');
+        const todayLine = document.getElementById('today-line');
+        const modeDescription = document.getElementById('mode-description');
+        const nextSlotLine = document.getElementById('next-slot-line');
+        const breakBanner = document.getElementById('break-banner');
+
+        const btnTerm = document.getElementById('mode-term');
+        const btnHoliday = document.getElementById('mode-holiday');
+
+        let currentMode = 'term'; // "term" or "holiday"
+        const today = new Date();
+
+        // If we're in the 22 Dec – 2 Jan break, we start in "closed" state.
+        const currentlyOnBreak = isEndOfYearBreak(today);
+
+        function formatTime24to12(timeStr) {
+            // "18:00" -> "6:00 PM"
+            if (!timeStr) return '';
+            const [hStr, mStr] = timeStr.split(':');
+            let h = parseInt(hStr, 10);
+            const m = mStr || '00';
+            const suffix = h >= 12 ? 'PM' : 'AM';
+            if (h === 0) h = 12;
+            else if (h > 12) h -= 12;
+            return `${h}:${m} ${suffix}`;
+        }
+
+        function isToday(dayKey, refDate = today) {
+            const dow = refDate.getDay(); // 0 = Sunday ... 6 = Saturday
+            const map = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            return map[dow] === dayKey;
+        }
+
+        function findNextAvailableSlot(mode, fromDate = today) {
+            // Look ahead up to 14 days
+            for (let i = 0; i < 14; i++) {
+                const d = new Date(fromDate);
+                d.setDate(fromDate.getDate() + i);
+
+                if (isEndOfYearBreak(d)) continue;
+
+                const dow = d.getDay();
+                const map = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                const dayKey = map[dow];
+                const schedule = SCHEDULES[mode][dayKey];
+
+                if (!schedule) continue;
+
+                if (schedule.type === 'available') {
+                    return {
+                        date: d,
+                        dayKey,
+                        kind: 'regular',
+                        start: schedule.start,
+                        end: schedule.end,
+                    };
+                }
+            }
+
+            // If no regular slot, try "request" days as a softer fallback
+            for (let i = 0; i < 14; i++) {
+                const d = new Date(fromDate);
+                d.setDate(fromDate.getDate() + i);
+
+                if (isEndOfYearBreak(d)) continue;
+
+                const dow = d.getDay();
+                const map = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                const dayKey = map[dow];
+                const schedule = SCHEDULES[mode][dayKey];
+
+                if (!schedule) continue;
+
+                if (schedule.type === 'request') {
+                    return {
+                        date: d,
+                        dayKey,
+                        kind: 'request',
+                        label: schedule.label || 'Available on request',
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        function updateModeButtons() {
+            if (currentlyOnBreak) {
+                btnTerm.disabled = true;
+                btnHoliday.disabled = true;
+                btnTerm.classList.add('opacity-60', 'cursor-not-allowed');
+                btnHoliday.classList.add('opacity-60', 'cursor-not-allowed');
+                modeDescription.textContent =
+                    'Lessons are currently paused for the end-of-year break. Availability returns from 3 January.';
+                return;
+            }
+
+            btnTerm.disabled = false;
+            btnHoliday.disabled = false;
+            btnTerm.classList.remove('opacity-60', 'cursor-not-allowed');
+            btnHoliday.classList.remove('opacity-60', 'cursor-not-allowed');
+
+            if (currentMode === 'term') {
+                btnTerm.classList.add('bg-brand-accent-light/15', 'border-brand-accent-light/60', 'text-brand-accent-light');
+                btnTerm.classList.remove('bg-transparent', 'text-brand-text-mid');
+
+                btnHoliday.classList.add('bg-transparent', 'text-brand-text-mid');
+                btnHoliday.classList.remove('bg-brand-accent-light/15', 'border-brand-accent-light/60', 'text-brand-accent-light');
+
+                modeDescription.textContent =
+                    'Showing standard term-time evenings: Tuesday–Thursday 6–9pm, with weekends available by request.';
+            } else {
+                btnHoliday.classList.add('bg-brand-accent-light/15', 'border-brand-accent-light/60', 'text-brand-accent-light');
+                btnHoliday.classList.remove('bg-transparent', 'text-brand-text-mid');
+
+                btnTerm.classList.add('bg-transparent', 'text-brand-text-mid');
+                btnTerm.classList.remove('bg-brand-accent-light/15', 'border-brand-accent-light/60', 'text-brand-accent-light');
+
+                modeDescription.textContent =
+                    'Showing school holiday view: evenings midweek plus more flexible weekend daytime slots.';
+            }
+        }
+
+        function renderTodayLine() {
+            const todayLabel = today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+            if (currentlyOnBreak) {
+                todayLine.textContent = `Today: ${todayLabel} – no lessons (end-of-year break).`;
+                return;
+            }
+
+            const dow = today.getDay();
+            const map = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = map[dow];
+
+            let schedule = SCHEDULES[currentMode];
+            const key = dayName.toLowerCase();
+            const info = schedule[key];
+
+            if (!info || info.type === 'unavailable') {
+                todayLine.textContent = `Today: ${todayLabel} – no regular lesson slots.`;
+            } else if (info.type === 'available') {
+                todayLine.textContent = `Today: ${todayLabel} – available between ${formatTime24to12(info.start)} and ${formatTime24to12(info.end)}.`;
+            } else if (info.type === 'request') {
+                todayLine.textContent = `Today: ${todayLabel} – available by request. Send a quick message to check a time.`;
+            }
+        }
+
+        function renderNextSlotLine() {
+            if (currentlyOnBreak) {
+                nextSlotLine.textContent = 'Lessons resume from 3 January. You can still send booking enquiries in the meantime.';
+                return;
+            }
+
+            const result = findNextAvailableSlot(currentMode, today);
+            if (!result) {
+                nextSlotLine.textContent = 'No upcoming regular slots found in the next 2 weeks. Please contact Elliot to check manually.';
+                return;
+            }
+
+            const d = result.date;
+            const labelDay = d.toLocaleDateString('en-GB', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'short'
+            });
+
+            if (result.kind === 'regular') {
+                nextSlotLine.innerHTML = `
+                    <span class="text-brand-text-light font-semibold">${labelDay}</span> ·
+                    <span>${formatTime24to12(result.start)} – ${formatTime24to12(result.end)}</span>
+                `;
+            } else {
+                nextSlotLine.innerHTML = `
+                    <span class="text-brand-text-light font-semibold">${labelDay}</span> ·
+                    <span>Available by request – send a message to confirm a time.</span>
+                `;
+            }
+        }
+
+        function renderGrid() {
+            availabilityGrid.innerHTML = '';
+
+            const isBreak = currentlyOnBreak;
+            const schedule = SCHEDULES[currentMode];
+
+            DAY_ORDER.forEach((dayKey) => {
+                const label = DAY_LABELS[dayKey];
+                let info = schedule[dayKey];
+
+                let type, title, subtitle, badgeText, badgeClass, borderClass;
+
+                if (isBreak) {
+                    type = 'unavailable';
+                    title = label;
+                    subtitle = 'Closed for end-of-year break.';
+                    badgeText = 'CLOSED';
+                    badgeClass = 'bg-red-900/40 border-red-500/70 text-red-200';
+                    borderClass = 'border-red-500/80';
+                } else if (!info || info.type === 'unavailable') {
+                    type = 'unavailable';
+                    title = label;
+                    subtitle = 'No lessons on this day.';
+                    badgeText = 'UNAVAILABLE';
+                    badgeClass = 'bg-red-900/40 border-red-500/70 text-red-200';
+                    borderClass = 'border-red-500/80';
+                } else if (info.type === 'available') {
+                    type = 'available';
+                    title = label;
+                    const timeRange = `${formatTime24to12(info.start)} – ${formatTime24to12(info.end)}`;
+                    subtitle = `Regular slot: ${timeRange}`;
+                    badgeText = 'AVAILABLE';
+                    badgeClass = 'bg-brand-accent-light/15 border-brand-accent-light/60 text-brand-accent-light';
+                    borderClass = 'border-brand-accent-light';
+                } else {
+                    type = 'request';
+                    title = label;
+                    subtitle = info.label || info.note || 'Available by request – contact to arrange a time.';
+                    badgeText = 'BY REQUEST';
+                    badgeClass = 'bg-brand-highlight/15 border-brand-highlight/70 text-brand-highlight';
+                    borderClass = 'border-brand-highlight';
+                }
+
+                const isTodayCard = isToday(dayKey);
+
+                const card = document.createElement('article');
+                card.className =
+                    'relative bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-5 sm:p-6 hover-lift flex flex-col gap-2';
+                if (isTodayCard) {
+                    card.classList.add('ring-1', 'ring-brand-accent-light/60');
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <div>
+                            <h3 class="font-heading text-lg sm:text-xl font-bold text-brand-text-light">
+                                ${title}
+                            </h3>
+                            <p class="text-[0.75rem] text-brand-text-mid mt-0.5">
+                                ${type === 'available'
+                                    ? 'Regular teaching evening.'
+                                    : type === 'request'
+                                        ? 'Availability can vary – message to check.'
+                                        : 'No regular teaching on this day.'}
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="badge ${badgeClass}">
+                                ${badgeText}
+                            </span>
+                            ${
+                                isTodayCard
+                                    ? '<span class="badge bg-brand-accent-light/10 border border-brand-accent-light/40 text-brand-accent-light">TODAY</span>'
+                                    : ''
+                            }
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-3 border-t ${borderClass}/50 text-xs sm:text-sm text-brand-text-mid">
+                        ${
+                            type === 'available'
+                                ? `<p><strong class="text-brand-text-light">Typical slot:</strong> ${formatTime24to12(
+                                      info.start
+                                  )} – ${formatTime24to12(info.end)}</p>`
+                                : type === 'request'
+                                    ? `<p>${subtitle}</p>`
+                                    : `<p>${subtitle}</p>`
+                        }
+                        ${
+                            info && info.note && !isBreak
+                                ? `<p class="mt-1 text-[0.7rem] text-brand-text-mid">${info.note}</p>`
+                                : ''
+                        }
+                    </div>
+                `;
+
+                availabilityGrid.appendChild(card);
+            });
+        }
+
+        // ===== Initialise =====
+        if (currentlyOnBreak) {
+            breakBanner.classList.remove('hidden');
+        }
+
+        function rerenderAll() {
+            updateModeButtons();
+            renderTodayLine();
+            renderNextSlotLine();
+            renderGrid();
+        }
+
+        // Mode buttons
+        btnTerm.addEventListener('click', () => {
+            if (currentlyOnBreak) return;
+            currentMode = 'term';
+            rerenderAll();
+        });
+        btnHoliday.addEventListener('click', () => {
+            if (currentlyOnBreak) return;
+            currentMode = 'holiday';
+            rerenderAll();
+        });
+
+        // First render
+        rerenderAll();
     </script>
 </body>
 </html>
