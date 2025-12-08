@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Student Portal – Elliot Wardill</title>
-    <link rel="icon" href="/favicon.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Portal – Elliot's Mobile Music</title>
+    <link rel="icon" href="/favicon.png" />
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,233 +27,173 @@
                         sans: ['Inter', 'sans-serif'],
                         heading: ['Montserrat', 'sans-serif'],
                     },
-                    boxShadow: {
-                        glow: '0 0 25px rgba(0,208,132,0.25)',
-                    }
                 }
             }
         }
     </script>
 
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
+        body {
+            background: #1a1a2e;
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card {
+            background: #252538;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(0,208,132,0.3);
+            box-shadow: 0 0 25px rgba(0,208,132,0.07);
+        }
+    </style>
+
     <!-- Lucide Icons -->
     <script type="module">
-        import {
-            createIcons,
-            User,
-            LogOut,
-            Book,
-            FileText,
-            Video,
-            Music,
-            Inbox,
-            Send
-        } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-
-        createIcons({ icons: { User, LogOut, Book, FileText, Video, Music, Inbox, Send } });
+        import { createIcons, LogOut, FileText, BookOpen, Bell } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+        createIcons({ icons: { LogOut, FileText, BookOpen, Bell } });
     </script>
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        body {
-            background-color: #1a1a2e;
-            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-        }
-    </style>
 </head>
 
-<body class="min-h-screen text-brand-text-light">
+<body class="min-h-screen">
 
-<!-- NAVBAR -->
-<nav class="bg-brand-dark-bg p-4 border-b border-brand-accent-dark shadow-lg">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
-        <h1 class="font-heading text-2xl text-brand-highlight">Student Portal</h1>
-
+    <!-- HEADER -->
+    <header class="p-6 flex justify-between items-center">
+        <h1 class="font-heading text-3xl font-extrabold text-brand-highlight">
+            Student Portal
+        </h1>
         <button id="logout-btn"
-            class="flex items-center text-sm bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
-            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i> Logout
+            class="px-4 py-2 flex items-center gap-2 bg-brand-accent-light text-brand-dark-bg rounded-lg font-bold hover:bg-brand-accent-dark transition">
+            <i data-lucide="log-out" class="w-5 h-5"></i> Logout
         </button>
-    </div>
-</nav>
+    </header>
 
-<!-- MAIN WRAPPER -->
-<div class="max-w-5xl mx-auto px-4 py-12 space-y-12">
+    <main class="max-w-5xl mx-auto p-6 space-y-8">
 
-    <!-- PROFILE -->
-    <section class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
-        <div class="flex items-center space-x-4">
-            <i data-lucide="user" class="w-10 h-10 text-brand-accent-light"></i>
-            <div>
-                <h2 class="text-2xl font-heading" id="student-name">Loading...</h2>
-                <p id="student-email" class="text-brand-text-mid"></p>
-                <p id="subscription-status" class="mt-1 text-brand-highlight text-sm font-bold"></p>
-            </div>
+        <!-- Welcome Block -->
+        <div class="card text-center">
+            <h2 id="welcome-name" class="text-2xl font-bold text-brand-accent-light">Welcome!</h2>
+            <p class="text-brand-text-mid mt-1">Here you can find your newsletters, files, and lesson info.</p>
         </div>
-    </section>
 
-    <!-- UPCOMING LESSON -->
-    <section>
-        <h3 class="font-heading text-xl mb-3 flex items-center">
-            <i data-lucide="book" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-            Your Next Lesson
-        </h3>
+        <!-- NEWSLETTERS FEED -->
+        <section class="card">
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="bell" class="w-5 h-5 text-brand-highlight"></i>
+                Latest Newsletters
+            </h3>
+            <div id="newsletter-list" class="space-y-4 text-brand-text-mid"></div>
+        </section>
 
-        <div id="next-lesson-card"
-            class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
-            <p class="text-brand-text-mid">No upcoming lesson scheduled.</p>
-        </div>
-    </section>
+        <!-- FILES -->
+        <section class="card">
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="file-text" class="w-5 h-5 text-brand-highlight"></i>
+                Your Files
+            </h3>
+            <div id="files-list" class="space-y-2"></div>
+        </section>
 
-    <!-- RESOURCES -->
-    <section>
-        <h3 class="font-heading text-xl mb-4 flex items-center">
-            <i data-lucide="file-text" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-            Lesson Resources
-        </h3>
+        <!-- NEXT LESSON (Placeholder for now) -->
+        <section class="card">
+            <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-5 h-5 text-brand-highlight"></i>
+                Your Next Lesson
+            </h3>
+            <p class="text-brand-text-mid">Coming soon (we will integrate your travel logic + schedule)</p>
+        </section>
 
-        <div id="resources-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
+    </main>
 
-    <!-- MESSAGE FORM -->
-    <section class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
-        <h3 class="font-heading text-xl mb-4 flex items-center">
-            <i data-lucide="inbox" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-            Send Elliot a Message
-        </h3>
+    <script>
+        // Supabase client
+        const supabase = supabase.createClient(
+            "https://gorrhpliwhpznmdqhzjo.supabase.co",
+            "YOUR-ANON-KEY-HERE"
+        );
 
-        <form id="message-form" class="space-y-4">
-            <textarea id="student-message" rows="4"
-                class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark focus:border-brand-accent-light"
-                placeholder="Ask a question, request a resource, or update Elliot about your lessons..."
-                required></textarea>
+        // Logout
+        document.getElementById("logout-btn").onclick = async () => {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+        };
 
-            <button type="submit"
-                class="w-full flex items-center justify-center px-5 py-3 bg-brand-accent-light text-brand-dark-bg font-bold rounded-lg hover:bg-brand-accent-dark transition">
-                <i data-lucide="send" class="w-5 h-5 mr-2"></i> Send Message
-            </button>
-        </form>
+        // Load user + portal data
+        async function loadPortal() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return window.location.href = "login.html";
 
-        <p id="message-status" class="mt-3 text-sm"></p>
-    </section>
+            document.getElementById("welcome-name").textContent =
+                `Welcome, ${user.email}!`;
 
-</div>
+            loadNewsletters();
+            loadFiles(user.id);
+        }
 
-<script>
-/* --------------------------
-   INIT SUPABASE
---------------------------- */
-const supabase = supabase.createClient(
-    ""https://gorrhpliwhpzndqhzjo.supabase.co",
-    "sb_publishable_DrVhz18850mZTf9WPrTyig_zV-j419E"
-);
+        async function loadNewsletters() {
+            const { data, error } = await supabase
+                .from("newsletters")
+                .select("*")
+                .eq("published", true)
+                .order("created_at", { ascending: false });
 
-/* --------------------------
-   CHECK LOGIN
---------------------------- */
-async function protectPage() {
-    const { data: { user } } = await supabase.auth.getUser();
+            const container = document.getElementById("newsletter-list");
 
-    if (!user) return window.location.href = "login.html";
+            if (!data || data.length === 0) {
+                container.innerHTML = `<p class="text-brand-text-mid">No newsletters yet.</p>`;
+                return;
+            }
 
-    // check role
-    const { data: profile } = await supabase
-        .from("profiles")
-        .select("role, full_name, email, subscription_status, next_lesson")
-        .eq("id", user.id)
-        .single();
+            container.innerHTML = data
+                .map(n => `
+                    <div class="p-4 border border-brand-accent-light/20 rounded-lg">
+                        <h4 class="text-brand-accent-light font-bold text-lg">${n.title}</h4>
+                        <div class="mt-2">${n.content_html}</div>
+                        <p class="text-xs text-brand-text-mid mt-2">${new Date(n.created_at).toLocaleString()}</p>
+                    </div>
+                `)
+                .join("");
+        }
 
-    if (profile.role === "admin") {
-        return window.location.href = "admin.html"; // redirect admin
-    }
+        async function loadFiles(userId) {
+            const { data: files } = await supabase.storage
+                .from("student_files")
+                .list(`${userId}/`);
 
-    // display profile
-    document.getElementById("student-name").textContent = profile.full_name;
-    document.getElementById("student-email").textContent = profile.email;
-    document.getElementById("subscription-status").textContent =
-        profile.subscription_status
-        ? "Active Subscription"
-        : "No Subscription";
+            const container = document.getElementById("files-list");
 
-    // next lesson
-    if (profile.next_lesson) {
-        document.getElementById("next-lesson-card").innerHTML = `
-            <p class="text-lg font-bold">${profile.next_lesson.day}</p>
-            <p class="text-brand-accent-light">${profile.next_lesson.time}</p>
-        `;
-    }
-}
-protectPage();
+            if (!files || files.length === 0) {
+                container.innerHTML = `<p class="text-brand-text-mid">No files uploaded yet.</p>`;
+                return;
+            }
 
-/* --------------------------
-   LOGOUT
---------------------------- */
-document.getElementById("logout-btn").onclick = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-};
+            container.innerHTML = files
+                .map(f => {
+                    const url = supabase.storage
+                        .from("student_files")
+                        .getPublicUrl(`${userId}/${f.name}`).data.publicUrl;
 
-/* --------------------------
-   LOAD RESOURCES
---------------------------- */
-async function loadResources() {
-    const { data, error } = await supabase.storage
-        .from("resources")
-        .list("", { limit: 100 });
+                    return `
+                        <div class="flex justify-between items-center p-3 bg-brand-dark-bg/40 rounded-lg">
+                            <span>${f.name}</span>
+                            <a href="${url}" target="_blank"
+                                class="text-brand-accent-light underline">
+                                Download
+                            </a>
+                        </div>
+                    `;
+                })
+                .join("");
+        }
 
-    const grid = document.getElementById("resources-grid");
-    grid.innerHTML = "";
-
-    if (error) return console.error(error);
-
-    data.forEach(file => {
-        const icon =
-            file.name.endsWith(".pdf") ? "file-text" :
-            file.name.endsWith(".mp4") ? "video" :
-            file.name.endsWith(".mp3") ? "music" :
-            "file-text";
-
-        const card = document.createElement("div");
-        card.className =
-            "bg-card-bg p-5 rounded-xl shadow-glow border border-brand-accent-dark hover:border-brand-accent-light transition";
-
-        card.innerHTML = `
-            <i data-lucide="${icon}" class="w-8 h-8 text-brand-accent-light mb-3"></i>
-            <p>${file.name}</p>
-            <a href="${supabase.storage.from("resources").getPublicUrl(file.name).data.publicUrl}"
-               target="_blank"
-               class="text-brand-highlight underline mt-2 inline-block">
-               Download
-            </a>
-        `;
-
-        grid.appendChild(card);
-    });
-}
-loadResources();
-
-/* --------------------------
-   SEND MESSAGE
---------------------------- */
-const messageForm = document.getElementById("message-form");
-
-messageForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const message = document.getElementById("student-message").value;
-
-    const { data: { user } } = await supabase.auth.getUser();
-
-    await supabase
-        .from("messages")
-        .insert([{ user_id: user.id, message }]);
-
-    document.getElementById("message-status").textContent =
-        "Message sent! Elliot will reply soon.";
-
-    messageForm.reset();
-});
-</script>
-
+        loadPortal();
+    </script>
 </body>
 </html>
