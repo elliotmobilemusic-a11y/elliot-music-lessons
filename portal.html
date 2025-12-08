@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Student Portal – Elliot Wardill</title>
+    <link rel="icon" href="/favicon.png">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark-bg': '#1a1a2e',
+                        'brand-accent-light': '#00d084',
+                        'brand-accent-dark': '#00a36e',
+                        'brand-text-light': '#e0e0e0',
+                        'brand-text-mid': '#a0a0a0',
+                        'brand-highlight': '#ffb703',
+                        'card-bg': '#252538',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 0 25px rgba(0,208,132,0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script type="module">
+        import {
+            createIcons,
+            User,
+            LogOut,
+            Book,
+            FileText,
+            Video,
+            Music,
+            Inbox,
+            Send
+        } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+
+        createIcons({ icons: { User, LogOut, Book, FileText, Video, Music, Inbox, Send } });
+    </script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            background-color: #1a1a2e;
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-brand-text-light">
+
+<!-- NAVBAR -->
+<nav class="bg-brand-dark-bg p-4 border-b border-brand-accent-dark shadow-lg">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <h1 class="font-heading text-2xl text-brand-highlight">Student Portal</h1>
+
+        <button id="logout-btn"
+            class="flex items-center text-sm bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i> Logout
+        </button>
+    </div>
+</nav>
+
+<!-- MAIN WRAPPER -->
+<div class="max-w-5xl mx-auto px-4 py-12 space-y-12">
+
+    <!-- PROFILE -->
+    <section class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+        <div class="flex items-center space-x-4">
+            <i data-lucide="user" class="w-10 h-10 text-brand-accent-light"></i>
+            <div>
+                <h2 class="text-2xl font-heading" id="student-name">Loading...</h2>
+                <p id="student-email" class="text-brand-text-mid"></p>
+                <p id="subscription-status" class="mt-1 text-brand-highlight text-sm font-bold"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- UPCOMING LESSON -->
+    <section>
+        <h3 class="font-heading text-xl mb-3 flex items-center">
+            <i data-lucide="book" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            Your Next Lesson
+        </h3>
+
+        <div id="next-lesson-card"
+            class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+            <p class="text-brand-text-mid">No upcoming lesson scheduled.</p>
+        </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section>
+        <h3 class="font-heading text-xl mb-4 flex items-center">
+            <i data-lucide="file-text" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            Lesson Resources
+        </h3>
+
+        <div id="resources-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- MESSAGE FORM -->
+    <section class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+        <h3 class="font-heading text-xl mb-4 flex items-center">
+            <i data-lucide="inbox" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            Send Elliot a Message
+        </h3>
+
+        <form id="message-form" class="space-y-4">
+            <textarea id="student-message" rows="4"
+                class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark focus:border-brand-accent-light"
+                placeholder="Ask a question, request a resource, or update Elliot about your lessons..."
+                required></textarea>
+
+            <button type="submit"
+                class="w-full flex items-center justify-center px-5 py-3 bg-brand-accent-light text-brand-dark-bg font-bold rounded-lg hover:bg-brand-accent-dark transition">
+                <i data-lucide="send" class="w-5 h-5 mr-2"></i> Send Message
+            </button>
+        </form>
+
+        <p id="message-status" class="mt-3 text-sm"></p>
+    </section>
+
+</div>
+
+<script>
+/* --------------------------
+   INIT SUPABASE
+--------------------------- */
+const supabase = supabase.createClient(
+    "sb_publishable_DrVhz18850mZTf9WPrTyig_zV-j419E",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
+);
+
+/* --------------------------
+   CHECK LOGIN
+--------------------------- */
+async function protectPage() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return window.location.href = "login.html";
+
+    // check role
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, full_name, email, subscription_status, next_lesson")
+        .eq("id", user.id)
+        .single();
+
+    if (profile.role === "admin") {
+        return window.location.href = "admin.html"; // redirect admin
+    }
+
+    // display profile
+    document.getElementById("student-name").textContent = profile.full_name;
+    document.getElementById("student-email").textContent = profile.email;
+    document.getElementById("subscription-status").textContent =
+        profile.subscription_status
+        ? "Active Subscription"
+        : "No Subscription";
+
+    // next lesson
+    if (profile.next_lesson) {
+        document.getElementById("next-lesson-card").innerHTML = `
+            <p class="text-lg font-bold">${profile.next_lesson.day}</p>
+            <p class="text-brand-accent-light">${profile.next_lesson.time}</p>
+        `;
+    }
+}
+protectPage();
+
+/* --------------------------
+   LOGOUT
+--------------------------- */
+document.getElementById("logout-btn").onclick = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+};
+
+/* --------------------------
+   LOAD RESOURCES
+--------------------------- */
+async function loadResources() {
+    const { data, error } = await supabase.storage
+        .from("resources")
+        .list("", { limit: 100 });
+
+    const grid = document.getElementById("resources-grid");
+    grid.innerHTML = "";
+
+    if (error) return console.error(error);
+
+    data.forEach(file => {
+        const icon =
+            file.name.endsWith(".pdf") ? "file-text" :
+            file.name.endsWith(".mp4") ? "video" :
+            file.name.endsWith(".mp3") ? "music" :
+            "file-text";
+
+        const card = document.createElement("div");
+        card.className =
+            "bg-card-bg p-5 rounded-xl shadow-glow border border-brand-accent-dark hover:border-brand-accent-light transition";
+
+        card.innerHTML = `
+            <i data-lucide="${icon}" class="w-8 h-8 text-brand-accent-light mb-3"></i>
+            <p>${file.name}</p>
+            <a href="${supabase.storage.from("resources").getPublicUrl(file.name).data.publicUrl}"
+               target="_blank"
+               class="text-brand-highlight underline mt-2 inline-block">
+               Download
+            </a>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+loadResources();
+
+/* --------------------------
+   SEND MESSAGE
+--------------------------- */
+const messageForm = document.getElementById("message-form");
+
+messageForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const message = document.getElementById("student-message").value;
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    await supabase
+        .from("messages")
+        .insert([{ user_id: user.id, message }]);
+
+    document.getElementById("message-status").textContent =
+        "Message sent! Elliot will reply soon.";
+
+    messageForm.reset();
+});
+</script>
+
+</body>
+</html>
