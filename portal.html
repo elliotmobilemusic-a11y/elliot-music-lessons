@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Portal – Elliot's Mobile Music</title>
-    <link rel="icon" href="/favicon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal – Elliot’s Mobile Music Lessons</title>
+    <link rel="icon" href="/favicon.png">
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind Theme -->
     <script>
         tailwind.config = {
             theme: {
@@ -32,168 +31,150 @@
         }
     </script>
 
-    <!-- Google Fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
 
         body {
             background: #1a1a2e;
-            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
             color: #e0e0e0;
-            font-family: 'Inter', sans-serif;
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
         }
 
-        .card {
-            background: #252538;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(0,208,132,0.3);
-            box-shadow: 0 0 25px rgba(0,208,132,0.07);
+        .card-glow {
+            box-shadow: 0 0 35px rgba(0, 208, 132, 0.15);
+        }
+
+        .modal-bg {
+            backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.5);
         }
     </style>
 
     <!-- Lucide Icons -->
     <script type="module">
-        import { createIcons, LogOut, FileText, BookOpen, Bell } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-        createIcons({ icons: { LogOut, FileText, BookOpen, Bell } });
+        import { createIcons, LogOut, Mail, Newspaper } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+        createIcons({ icons: { LogOut, Mail, Newspaper } });
     </script>
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
+<body class="min-h-screen flex flex-col">
 
-<body class="min-h-screen">
+<!-- NAVIGATION -->
+<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center space-x-2">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     class="w-5 h-5 text-brand-accent-light">
+                     <circle cx="8" cy="18" r="4"></circle>
+                     <path d="M12 18V2l7 4"></path>
+                </svg>
+            </span>
+            <span class="font-heading tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
+                STUDENT PORTAL
+            </span>
+        </a>
 
-    <!-- HEADER -->
-    <header class="p-6 flex justify-between items-center">
-        <h1 class="font-heading text-3xl font-extrabold text-brand-highlight">
-            Student Portal
-        </h1>
-        <button id="logout-btn"
-            class="px-4 py-2 flex items-center gap-2 bg-brand-accent-light text-brand-dark-bg rounded-lg font-bold hover:bg-brand-accent-dark transition">
-            <i data-lucide="log-out" class="w-5 h-5"></i> Logout
+        <button id="logout-btn" class="flex items-center gap-1 text-brand-text-light hover:text-white">
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+            Logout
         </button>
-    </header>
+    </div>
+</nav>
 
-    <main class="max-w-5xl mx-auto p-6 space-y-8">
+<!-- MAIN -->
+<main class="max-w-4xl mx-auto px-4 py-10 flex-grow">
 
-        <!-- Welcome Block -->
-        <div class="card text-center">
-            <h2 id="welcome-name" class="text-2xl font-bold text-brand-accent-light">Welcome!</h2>
-            <p class="text-brand-text-mid mt-1">Here you can find your newsletters, files, and lesson info.</p>
-        </div>
+    <h1 class="text-center font-heading text-4xl sm:text-5xl font-extrabold text-brand-accent-light mb-10">
+        Your Newsletters
+    </h1>
 
-        <!-- NEWSLETTERS FEED -->
-        <section class="card">
-            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="bell" class="w-5 h-5 text-brand-highlight"></i>
-                Latest Newsletters
-            </h3>
-            <div id="newsletter-list" class="space-y-4 text-brand-text-mid"></div>
-        </section>
+    <!-- Where newsletters appear -->
+    <div id="newsletter-list" class="space-y-6"></div>
 
-        <!-- FILES -->
-        <section class="card">
-            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="file-text" class="w-5 h-5 text-brand-highlight"></i>
-                Your Files
-            </h3>
-            <div id="files-list" class="space-y-2"></div>
-        </section>
+    <!-- Empty State -->
+    <div id="no-newsletters" class="hidden text-center text-brand-text-mid mt-10">
+        <i data-lucide="newspaper" class="w-10 h-10 mx-auto mb-3"></i>
+        <p>No newsletters have been published yet.</p>
+    </div>
 
-        <!-- NEXT LESSON (Placeholder for now) -->
-        <section class="card">
-            <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
-                <i data-lucide="book-open" class="w-5 h-5 text-brand-highlight"></i>
-                Your Next Lesson
-            </h3>
-            <p class="text-brand-text-mid">Coming soon (we will integrate your travel logic + schedule)</p>
-        </section>
+</main>
 
-    </main>
+<!-- Newsletter Modal -->
+<div id="newsletter-modal" class="hidden fixed inset-0 modal-bg z-50 flex items-center justify-center p-4">
+    <div class="bg-card-bg max-w-2xl w-full p-6 rounded-xl card-glow border border-brand-accent-dark/40 relative overflow-y-auto max-h-[90vh]">
+        <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white">
+            ✕
+        </button>
+        <h2 id="modal-title" class="text-3xl font-heading font-bold mb-4 text-brand-accent-light"></h2>
+        <div id="modal-content" class="prose prose-invert max-w-none"></div>
+    </div>
+</div>
 
-    <script>
-        // Supabase client
-        const supabase = supabase.createClient(
-            "https://gorrhpliwhpznmdqhzjo.supabase.co",
-            "YOUR-ANON-KEY-HERE"
-        );
+<script>
+    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE"; // <-- replace this
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Logout
-        document.getElementById("logout-btn").onclick = async () => {
-            await supabase.auth.signOut();
+    const newsletterList = document.getElementById("newsletter-list");
+    const noNewsletters = document.getElementById("no-newsletters");
+
+    const modal = document.getElementById("newsletter-modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalContent = document.getElementById("modal-content");
+
+    const closeModal = document.getElementById("close-modal");
+
+    closeModal.onclick = () => modal.classList.add("hidden");
+
+    async function loadNewsletters() {
+        const { data: newsletters, error } = await supabase
+            .from("newsletters")
+            .select("*")
+            .eq("published", true)
+            .order("created_at", { ascending: false });
+
+        if (!newsletters || newsletters.length === 0) {
+            noNewsletters.classList.remove("hidden");
+            return;
+        }
+
+        newsletters.forEach(n => {
+            const card = document.createElement("div");
+            card.className = "bg-card-bg p-5 rounded-xl border border-brand-accent-dark/40 card-glow hover:scale-[1.01] transition cursor-pointer";
+            card.innerHTML = `
+                <h2 class="text-2xl font-heading text-brand-accent-light mb-2">${n.title}</h2>
+                <p class="text-brand-text-mid text-sm">${new Date(n.created_at).toLocaleDateString()}</p>
+            `;
+            card.onclick = () => {
+                modalTitle.textContent = n.title;
+                modalContent.innerHTML = n.content_html;
+                modal.classList.remove("hidden");
+            };
+
+            newsletterList.appendChild(card);
+        });
+    }
+
+    async function protectRoute() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
             window.location.href = "login.html";
-        };
-
-        // Load user + portal data
-        async function loadPortal() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return window.location.href = "login.html";
-
-            document.getElementById("welcome-name").textContent =
-                `Welcome, ${user.email}!`;
-
-            loadNewsletters();
-            loadFiles(user.id);
         }
+    }
 
-        async function loadNewsletters() {
-            const { data, error } = await supabase
-                .from("newsletters")
-                .select("*")
-                .eq("published", true)
-                .order("created_at", { ascending: false });
+    document.getElementById("logout-btn").onclick = async () => {
+        await supabase.auth.signOut();
+        window.location.href = "login.html";
+    };
 
-            const container = document.getElementById("newsletter-list");
+    protectRoute();
+    loadNewsletters();
+</script>
 
-            if (!data || data.length === 0) {
-                container.innerHTML = `<p class="text-brand-text-mid">No newsletters yet.</p>`;
-                return;
-            }
-
-            container.innerHTML = data
-                .map(n => `
-                    <div class="p-4 border border-brand-accent-light/20 rounded-lg">
-                        <h4 class="text-brand-accent-light font-bold text-lg">${n.title}</h4>
-                        <div class="mt-2">${n.content_html}</div>
-                        <p class="text-xs text-brand-text-mid mt-2">${new Date(n.created_at).toLocaleString()}</p>
-                    </div>
-                `)
-                .join("");
-        }
-
-        async function loadFiles(userId) {
-            const { data: files } = await supabase.storage
-                .from("student_files")
-                .list(`${userId}/`);
-
-            const container = document.getElementById("files-list");
-
-            if (!files || files.length === 0) {
-                container.innerHTML = `<p class="text-brand-text-mid">No files uploaded yet.</p>`;
-                return;
-            }
-
-            container.innerHTML = files
-                .map(f => {
-                    const url = supabase.storage
-                        .from("student_files")
-                        .getPublicUrl(`${userId}/${f.name}`).data.publicUrl;
-
-                    return `
-                        <div class="flex justify-between items-center p-3 bg-brand-dark-bg/40 rounded-lg">
-                            <span>${f.name}</span>
-                            <a href="${url}" target="_blank"
-                                class="text-brand-accent-light underline">
-                                Download
-                            </a>
-                        </div>
-                    `;
-                })
-                .join("");
-        }
-
-        loadPortal();
-    </script>
 </body>
 </html>
