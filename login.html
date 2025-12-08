@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login – Elliot's Mobile Music Lessons</title>
-    <link rel="icon" href="/favicon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In – Elliot's Mobile Music</title>
+    <link rel="icon" href="/favicon.png">
 
-    <!-- Tailwind -->
+    <!-- Tailwind (Safe for dev) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -22,28 +21,28 @@
                         'brand-text-mid': '#a0a0a0',
                         'brand-highlight': '#ffb703',
                         'card-bg': '#252538',
-                        'error-red': '#f87171',
+                        'error-red': '#ef4444',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         heading: ['Montserrat', 'sans-serif'],
-                    },
+                    }
                 }
             }
-        }
+        };
     </script>
 
     <!-- Google Fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Montserrat:wght@700;800;900&display=swap');
+
         body {
             background: #1a1a2e;
-            color: #e0e0e0;
             background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
             font-family: 'Inter', sans-serif;
         }
         .card-glow {
-            box-shadow: 0 0 30px rgba(0, 208, 132, 0.15);
+            box-shadow: 0 0 25px rgba(0, 208, 132, 0.15);
         }
     </style>
 
@@ -53,22 +52,29 @@
         createIcons({ icons: { Mail, Lock, ArrowRight, XCircle } });
     </script>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    <!-- Supabase MUST load BEFORE client init -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CREATE SUPABASE CLIENT (THE FIX) -->
+    <script>
+        const supabaseClient = supabase.createClient(
+            "https://gorrhpliwhpzndqhzjo.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
+        );
+    </script>
 </head>
+
 <body class="min-h-screen flex flex-col">
 
     <!-- Main Container -->
     <main class="flex-grow flex items-center justify-center px-4 py-16">
-
         <div class="w-full max-w-md bg-card-bg p-8 rounded-2xl card-glow border border-brand-accent-dark/40">
 
-            <!-- Header -->
             <h1 class="text-3xl font-heading font-extrabold text-center mb-2 text-brand-highlight">
                 Log In
             </h1>
             <p class="text-center text-brand-text-mid mb-8">
-                Access your student or admin portal
+                Access your student or admin dashboard
             </p>
 
             <!-- Error Box -->
@@ -80,67 +86,58 @@
             <!-- Login Form -->
             <form id="login-form" class="space-y-5">
 
+                <!-- Email -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Email</label>
                     <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
                         <i data-lucide="mail" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
-                        <input type="email" id="email" class="w-full p-3 bg-transparent focus:outline-none" placeholder="you@example.com" required />
+                        <input type="email" id="email" required class="w-full p-3 bg-transparent focus:outline-none" placeholder="you@example.com">
                     </div>
                 </div>
 
+                <!-- Password -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Password</label>
                     <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
                         <i data-lucide="lock" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
-                        <input type="password" id="password" class="w-full p-3 bg-transparent focus:outline-none" placeholder="••••••••" required />
+                        <input type="password" id="password" required class="w-full p-3 bg-transparent focus:outline-none" placeholder="••••••••">
                     </div>
                 </div>
 
-                <button
-                    id="login-button"
-                    class="w-full py-3 bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-bold rounded-lg transition flex items-center justify-center gap-2"
-                >
+                <!-- Submit Button -->
+                <button id="login-button"
+                    class="w-full py-3 bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-bold rounded-lg transition flex items-center justify-center gap-2">
                     <span>Log In</span>
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
-
-                <p class="text-center text-xs text-brand-text-mid">
-                    Forgot your password?  
-                    <a href="#" id="reset-link" class="text-brand-accent-light underline hover:text-white">Reset it</a>
-                </p>
             </form>
-        </div>
 
+        </div>
     </main>
 
+    <!-- LOGIN LOGIC -->
     <script>
-       supabase.createClient(
-  "https://gorrhpliwhpzndqhzjo.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
-);
-
-        const loginForm = document.getElementById('login-form');
-        const loginBtn = document.getElementById('login-button');
-
-        const errBox = document.getElementById('login-error');
-        const errMsg = document.getElementById('login-error-msg');
+        const loginForm = document.getElementById("login-form");
+        const loginButton = document.getElementById("login-button");
+        const errorBox = document.getElementById("login-error");
+        const errorMsg = document.getElementById("login-error-msg");
 
         function showError(msg) {
-            errMsg.textContent = msg;
-            errBox.classList.remove('hidden');
+            errorMsg.textContent = msg;
+            errorBox.classList.remove("hidden");
         }
 
-        loginForm.addEventListener('submit', async (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+            errorBox.classList.add("hidden");
 
-            errBox.classList.add('hidden');
+            loginButton.disabled = true;
+            loginButton.innerHTML = "Logging in…";
 
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = "Logging in…";
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
 
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
+            // Sign in
             const { data, error } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password
@@ -148,18 +145,27 @@
 
             if (error) {
                 showError(error.message);
-                loginBtn.disabled = false;
-                loginBtn.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
+                loginButton.disabled = false;
+                loginButton.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
                 return;
             }
 
-            // ⭐ OPTION A — Auth Metadata Role Check
-            const { data: session } = await supabaseClient.auth.getSession();
-            const user = session.session.user;
+            // Fetch profile
+            const { data: profile, error: profileError } = await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", data.user.id)
+                .single();
 
-            console.log("User metadata:", user.user_metadata);
+            if (!profile || profileError) {
+                showError("Your profile could not be loaded.");
+                loginButton.disabled = false;
+                loginButton.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
+                return;
+            }
 
-            if (user.user_metadata.role === "admin") {
+            // Redirect based on role
+            if (profile.role === "admin") {
                 window.location.href = "admin.html";
             } else {
                 window.location.href = "portal.html";
