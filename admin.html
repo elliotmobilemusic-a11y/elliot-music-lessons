@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Tailwind CDN (fine for now) -->
+  <!-- Tailwind CDN (fine for now while developing) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -67,7 +67,7 @@
       font-weight: 700;
     }
 
-    /* Quill overrides to blend with theme */
+    /* Quill styling */
     .ql-toolbar.ql-snow {
       border-radius: 0.75rem 0.75rem 0 0;
       border: 1px solid #3b3b5a;
@@ -85,7 +85,7 @@
       min-height: 180px;
     }
 
-    /* Scrollbars for big lists */
+    /* Scrollbars */
     .scroll-skinny::-webkit-scrollbar {
       width: 6px;
     }
@@ -102,19 +102,18 @@
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-  <!-- Supabase JS (UMD) -->
+  <!-- Supabase JS (UMD, same pattern as login.html) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- NAVIGATION (matches branding) -->
+  <!-- NAVIGATION -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-            <!-- Inline music icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
               width="24" height="24" viewBox="0 0 24 24"
               fill="none" stroke="currentColor"
@@ -130,7 +129,7 @@
           </span>
         </a>
 
-        <!-- Right side: current admin + logout -->
+        <!-- Right: admin pill + logout -->
         <div class="flex items-center space-x-3 text-xs sm:text-sm">
           <span
             id="admin-user-pill"
@@ -156,7 +155,7 @@
     <!-- Global Error Banner -->
     <div id="global-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-error-red text-error-red text-sm"></div>
 
-    <!-- Page header + stats -->
+    <!-- Header + stats -->
     <header class="mb-6 sm:mb-8">
       <p class="text-[0.7rem] tracking-[0.22em] font-semibold text-brand-highlight uppercase mb-2">
         Internal Control Panel
@@ -211,7 +210,6 @@
 
     <!-- TAB: USERS -->
     <section id="tab-users" class="space-y-4">
-      <!-- Search + hint -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div class="flex-1">
           <label class="block text-xs font-semibold text-brand-text-mid mb-1">
@@ -237,14 +235,13 @@
         </div>
       </div>
 
-      <!-- Users table -->
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow overflow-hidden">
         <div class="px-4 py-3 border-b border-brand-accent-dark/50 flex justify-between items-center text-xs">
           <span class="text-brand-text-mid">
             Profiles are synced from Supabase <span class="hidden sm:inline">(`profiles` table)</span>.
           </span>
           <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
-            READ / UPDATE: role
+            ROLE: student / admin / pending
           </span>
         </div>
 
@@ -259,7 +256,7 @@
               </tr>
             </thead>
             <tbody id="users-table-body" class="divide-y divide-[#333355]">
-              <!-- Filled by JS -->
+              <!-- JS fills -->
             </tbody>
           </table>
         </div>
@@ -277,7 +274,7 @@
                 Newsletter Editor
               </h2>
               <p class="text-xs text-brand-text-mid">
-                Write updates that will surface on student portals.
+                Write updates that will appear on student portals.
               </p>
             </div>
             <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
@@ -315,7 +312,7 @@
               id="newsletter-publish"
               class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-semibold"
             >
-              🚀 Publish
+              🚀 Publish & Notify
             </button>
             <button
               id="newsletter-clear"
@@ -345,7 +342,7 @@
               </button>
             </div>
             <div id="newsletter-list" class="space-y-2 max-h-56 overflow-y-auto scroll-skinny text-xs sm:text-sm">
-              <!-- filled by JS -->
+              <!-- JS fills -->
             </div>
           </div>
 
@@ -384,7 +381,6 @@
           </span>
         </div>
 
-        <!-- Select student + file -->
         <div class="grid grid-cols-1 md:grid-cols-[1.2fr_minmax(0,1fr)] gap-4">
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">
@@ -395,7 +391,6 @@
               class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
             >
               <option value="">Select a student...</option>
-              <!-- options from JS -->
             </select>
             <p class="text-[0.7rem] text-brand-text-mid mt-1">
               List is based on entries in the <code>profiles</code> table.
@@ -411,7 +406,7 @@
               class="block w-full text-xs text-brand-text-mid file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-brand-accent-light file:text-brand-dark-bg hover:file:bg-brand-accent-dark"
             />
             <p class="text-[0.7rem] text-brand-text-mid mt-1">
-              Good for PDFs, audio, images, etc. Uploaded to <code>student_files/{student_id}/</code>.
+              Uploaded to <code>student_files/{student_id}/</code>.
             </p>
           </div>
         </div>
@@ -456,7 +451,7 @@
 
   <!-- ADMIN LOGIC -->
   <script>
-    // 🔐 Supabase project (same values as your working login.html)
+    // 🔐 Supabase config – SAME as working login.html
     const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
@@ -470,7 +465,6 @@
     let quill = null;
     let currentNewsletterId = null;
 
-    // Short helpers
     const $ = (id) => document.getElementById(id);
 
     function showGlobalError(message) {
@@ -480,8 +474,9 @@
     }
 
     function hideGlobalError() {
-      $("global-error").classList.add("hidden");
-      $("global-error").textContent = "";
+      const box = $("global-error");
+      box.classList.add("hidden");
+      box.textContent = "";
     }
 
     function formatDate(value) {
@@ -506,14 +501,12 @@
     async function ensureAdmin() {
       const { data, error } = await supabaseClient.auth.getUser();
       if (error || !data || !data.user) {
-        // Not logged in → send to login
         window.location.href = "login.html";
         return;
       }
 
       currentAdminUser = data.user;
 
-      // Get profile row
       const { data: profile, error: profileError } = await supabaseClient
         .from("profiles")
         .select("*")
@@ -527,13 +520,12 @@
 
       currentAdminProfile = profile;
 
-      // Enforce admin-only
       if (profile.role !== "admin") {
+        // Logged in but no admin role → student portal
         window.location.href = "portal.html";
         return;
       }
 
-      // Show who is logged in
       const pill = $("admin-user-pill");
       if (pill) {
         const name = profile.full_name || profile.username || currentAdminUser.email || "Admin user";
@@ -546,12 +538,12 @@
       }
     }
 
-    // 2) USERS TAB
+    // 2) USERS
     async function loadProfiles() {
       hideGlobalError();
       const { data, error } = await supabaseClient
         .from("profiles")
-        .select("*"); // safe: returns all existing columns
+        .select("*");
 
       if (error) {
         console.error(error);
@@ -668,8 +660,6 @@
           return combo.includes(term);
         });
       }
-
-      // We keep whatever last sort was applied implicitly simple
       renderUsersTable();
     }
 
@@ -677,12 +667,8 @@
       filteredProfiles.sort((a, b) => {
         const nameA = (a.full_name || a.username || "").toLowerCase();
         const nameB = (b.full_name || b.username || "").toLowerCase();
-        if (mode === "name-asc") {
-          return nameA.localeCompare(nameB);
-        }
-        if (mode === "name-desc") {
-          return nameB.localeCompare(nameA);
-        }
+        if (mode === "name-asc") return nameA.localeCompare(nameB);
+        if (mode === "name-desc") return nameB.localeCompare(nameA);
         if (mode === "role") {
           const rA = (a.role || "student").toLowerCase();
           const rB = (b.role || "student").toLowerCase();
@@ -724,18 +710,13 @@
         },
       });
 
-      quill.on("text-change", () => {
-        updateNewsletterPreview();
-      });
-
-      const titleInput = $("newsletter-title");
-      titleInput.addEventListener("input", updateNewsletterPreview);
+      quill.on("text-change", updateNewsletterPreview);
+      $("newsletter-title").addEventListener("input", updateNewsletterPreview);
     }
 
     function updateNewsletterPreview() {
       const title = $("newsletter-title").value.trim();
       const html = quill.root.innerHTML.trim();
-
       $("newsletter-preview-title").textContent = title || "(Title will appear here)";
       $("newsletter-preview-body").innerHTML = html || "Start typing in the editor to see a preview...";
     }
@@ -812,7 +793,6 @@
             </div>
           </div>
         `;
-
         listEl.appendChild(item);
       });
     }
@@ -850,6 +830,23 @@
       }
 
       currentNewsletterId = data.id;
+
+      // If published true → call Edge Function for email notifications (Mixed setup)
+      if (published) {
+        try {
+          await supabaseClient.functions.invoke("newsletter-notify", {
+            body: {
+              newsletter_id: data.id,
+              title: data.title,
+              content_html: data.content_html,
+            },
+          });
+        } catch (fnErr) {
+          console.warn("newsletter-notify function failed or not deployed yet:", fnErr);
+          // We don't block the UI; newsletter is still saved & published.
+        }
+      }
+
       await loadNewsletters();
     }
 
@@ -862,10 +859,9 @@
 
     async function toggleNewsletterPublish(id) {
       hideGlobalError();
-      // Get current row
       const { data, error } = await supabaseClient
         .from("newsletters")
-        .select("id, published")
+        .select("id, published, title, content_html")
         .eq("id", id)
         .single();
 
@@ -874,14 +870,32 @@
         return;
       }
 
+      const newState = !data.published;
+
       const { error: updateError } = await supabaseClient
         .from("newsletters")
-        .update({ published: !data.published })
+        .update({ published: newState })
         .eq("id", id);
 
       if (updateError) {
+        console.error(updateError);
         showGlobalError("Failed to update publish state.");
         return;
+      }
+
+      if (newState) {
+        // Just published → notify via Edge function
+        try {
+          await supabaseClient.functions.invoke("newsletter-notify", {
+            body: {
+              newsletter_id: data.id,
+              title: data.title,
+              content_html: data.content_html,
+            },
+          });
+        } catch (err) {
+          console.warn("newsletter-notify function failed or not deployed yet:", err);
+        }
       }
 
       await loadNewsletters();
@@ -897,6 +911,7 @@
         .eq("id", id);
 
       if (error) {
+        console.error(error);
         showGlobalError("Failed to delete newsletter.");
         return;
       }
@@ -917,15 +932,15 @@
       const actionBtn = target.closest("button[data-action]");
       if (actionBtn) {
         const action = actionBtn.dataset.action;
+        const nId = actionBtn.dataset.id;
         if (action === "toggle-publish") {
-          toggleNewsletterPublish(actionBtn.dataset.id);
+          toggleNewsletterPublish(nId);
         } else if (action === "delete-newsletter") {
-          deleteNewsletter(actionBtn.dataset.id);
+          deleteNewsletter(nId);
         }
         return;
       }
 
-      // Click item itself => load into editor
       loadNewsletterIntoEditor(id);
     }
 
@@ -938,6 +953,7 @@
         .single();
 
       if (error || !data) {
+        console.error(error);
         showGlobalError("Could not load that newsletter.");
         return;
       }
@@ -948,13 +964,12 @@
       updateNewsletterPreview();
     }
 
-    // 4) FILES TAB
+    // 4) FILES (Storage: student_files)
     function populateStudentSelect() {
       const select = $("files-student-select");
       if (!select) return;
 
-      // Clear, keep first placeholder
-      const selectedValue = select.value;
+      const previous = select.value;
       select.innerHTML = `<option value="">Select a student...</option>`;
 
       const students = allProfiles.filter((p) => p.role !== "admin");
@@ -967,9 +982,8 @@
         select.appendChild(opt);
       });
 
-      // Restore selection if still valid
-      if (students.some((p) => p.id === selectedValue)) {
-        select.value = selectedValue;
+      if (students.some((p) => p.id === previous)) {
+        select.value = previous;
       }
     }
 
@@ -996,7 +1010,7 @@
         if (error) {
           console.error(error);
           listEl.innerHTML =
-            '<p class="text-error-red text-sm">Could not list files. Ensure the storage bucket <code>student_files</code> exists and storage policies allow admin access.</p>';
+            '<p class="text-error-red text-sm">Could not list files. Ensure the <code>student_files</code> bucket exists and storage policies allow admin access.</p>';
           return;
         }
 
@@ -1012,7 +1026,6 @@
           const { data: pub } = supabaseClient.storage
             .from("student_files")
             .getPublicUrl(fullPath);
-
           const url = pub?.publicUrl || "#";
 
           const row = document.createElement("div");
@@ -1132,7 +1145,7 @@
         window.location.href = "login.html";
       });
 
-      // Enforce admin + load data
+      // Enforce admin + load base data
       await ensureAdmin();
       if (!currentAdminUser || !currentAdminProfile || currentAdminProfile.role !== "admin") {
         return;
@@ -1146,18 +1159,14 @@
         });
       });
 
-      // Users: search + sort + actions
-      $("user-search").addEventListener("input", () => {
-        applyUserSearchAndSort();
-      });
-
+      // Users: search + sort + role actions
+      $("user-search").addEventListener("input", applyUserSearchAndSort);
       document.querySelectorAll(".user-sort").forEach((btn) => {
         btn.addEventListener("click", () => {
           const mode = btn.getAttribute("data-sort");
           sortUsers(mode);
         });
       });
-
       $("users-table-body").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-action]");
         if (!btn) return;
@@ -1187,8 +1196,7 @@
 
       // Files
       $("files-student-select").addEventListener("change", (e) => {
-        const studentId = e.target.value;
-        loadFilesForStudent(studentId);
+        loadFilesForStudent(e.target.value);
       });
       $("upload-file-button").addEventListener("click", uploadFileForStudent);
       $("file-list").addEventListener("click", (event) => {
