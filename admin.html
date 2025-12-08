@@ -1,192 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard – Elliot's Mobile Music</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – Elliot's Mobile Music</title>
+  <link rel="icon" href="/favicon.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.png" />
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark-bg': '#1a1a2e',
-                        'brand-accent-light': '#00d084',
-                        'brand-accent-dark': '#00a36e',
-                        'brand-text-light': '#e0e0e0',
-                        'brand-text-mid': '#a0a0a0',
-                        'brand-highlight': '#ffb703',
-                        'card-bg': '#252538',
-                        'error-red': '#f87171',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                    },
-                }
-            }
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0a0a0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
+            'error-red': '#f87171',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
+          },
         }
-    </script>
+      }
+    }
+  </script>
 
-    <!-- Fonts -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
-        body {
-            background: #1a1a2e;
-            color: #e0e0e0;
-            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-        }
-        .card-glow {
-            box-shadow: 0 0 25px rgba(0, 208, 132, 0.12);
-        }
-        .hover-lift {
-            transition: transform 0.2s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-3px);
-        }
-    </style>
+  <!-- Google Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+    body {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      font-family: 'Inter', sans-serif;
+    }
+    .card-glow {
+      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.15),
+                  0 3px 10px rgba(0, 0, 0, 0.6);
+    }
+    .hover-lift {
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+    }
+    .badge {
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+  </style>
 
-    <!-- Lucide Icons -->
-    <script type="module">
-        import {
-            createIcons, User, Users, FileText, BookOpen, Calendar, Settings,
-            LogOut, ShieldCheck, FileEdit
-        } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+  <!-- Lucide Icons (static use only) -->
+  <script type="module">
+    import {
+      createIcons,
+      BarChart3,
+      Users,
+      Shield,
+      LogOut
+    } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+    createIcons({ icons: { BarChart3, Users, Shield, LogOut } });
+  </script>
 
-        createIcons({
-            icons: { User, Users, FileText, BookOpen, Calendar, Settings, LogOut, ShieldCheck, FileEdit }
-        });
-    </script>
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col text-brand-text-light">
 
-    <!-- HEADER BAR -->
-    <header class="w-full border-b border-brand-accent-dark/40 px-6 py-4 bg-brand-dark-bg/80 backdrop-blur flex justify-between items-center">
-        <h1 class="font-heading text-xl sm:text-2xl font-extrabold tracking-[0.18em] text-brand-highlight">
-            ADMIN DASHBOARD
-        </h1>
+  <!-- NAVIGATION (matches site) -->
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center space-x-2">
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+            <!-- Inline music icon -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round"
+                 class="w-5 h-5 text-brand-accent-light">
+              <circle cx="8" cy="18" r="4"></circle>
+              <path d="M12 18V2l7 4"></path>
+            </svg>
+          </span>
+          <span class="text-xs sm:text-sm md:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+            ELLIOT'S MOBILE MUSIC
+          </span>
+        </a>
 
-        <button id="logout-btn" class="flex items-center gap-2 bg-error-red/20 px-4 py-2 rounded-lg text-error-red hover:bg-error-red/30 transition">
-            <i data-lucide="log-out" class="w-5 h-5"></i>
+        <div class="hidden sm:flex sm:items-center sm:space-x-4 text-xs md:text-sm">
+          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+            HOME
+          </a>
+          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+            PRICING & FEES
+          </a>
+          <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+            AVAILABILITY
+          </a>
+          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+            CONTACT
+          </a>
+          <span id="nav-admin-email" class="hidden sm:inline text-[0.7rem] text-brand-text-mid px-3">
+            <!-- filled by JS -->
+          </span>
+          <button
+            id="logout-button"
+            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-[0.75rem] font-medium hover:bg-brand-accent-dark hover:text-brand-dark-bg hover-lift"
+          >
+            <i data-lucide="log-out" class="w-4 h-4"></i>
             Logout
-        </button>
-    </header>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-6xl mx-auto px-6 py-10">
-
-        <!-- WELCOME SECTION -->
-        <div class="mb-10">
-            <h2 class="text-3xl font-heading font-bold text-brand-accent-light">
-                Welcome, Elliot 👋
-            </h2>
-            <p class="text-brand-text-mid mt-2">
-                Manage your entire mobile music business from one place.
-            </p>
+          </button>
         </div>
 
-        <!-- DASHBOARD GRID -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Mobile: just logout -->
+        <div class="sm:hidden">
+          <button
+            id="logout-button-mobile"
+            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-xs font-medium hover:bg-brand-accent-dark hover:text-brand-dark-bg"
+          >
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-            <!-- Students -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light hover-lift">
-                <i data-lucide="users" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Students</h3>
-                <p class="text-brand-text-mid text-sm mt-1">View & manage all student profiles.</p>
-            </a>
+  <!-- MAIN -->
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
 
-            <!-- Contracts -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light hover-lift">
-                <i data-lucide="file-text" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Contracts</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Upload, sign & track lesson agreements.</p>
-            </a>
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <p class="text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-2">
+          ADMIN CONTROL PANEL
+        </p>
+        <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
+          Admin Dashboard
+        </h1>
+        <p class="text-sm sm:text-base text-brand-text-mid mt-1">
+          Manage students, roles and access to your learning portal.
+        </p>
+        <p class="text-[0.7rem] text-brand-text-mid mt-1">
+          Tip: use the search + filters below to quickly find a student by name, email or notes.
+        </p>
+      </div>
+      <div class="flex flex-col items-start md:items-end text-xs text-brand-text-mid">
+        <span id="admin-welcome" class="mb-1">
+          <!-- “Logged in as …” -->
+        </span>
+        <span id="admin-last-login" class="text-[0.7rem]">
+          <!-- Last login from auth, if available -->
+        </span>
+      </div>
+    </section>
 
-            <!-- Subscriptions -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light hover-lift">
-                <i data-lucide="shield-check" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Subscriptions</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Manage monthly student subscriptions.</p>
-            </a>
+    <!-- Analytics row -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
+        <div>
+          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
+            Total Users
+          </p>
+          <p id="metric-total-users" class="text-2xl font-extrabold text-brand-text-light">–</p>
+          <p class="text-[0.7rem] text-brand-text-mid mt-1">
+            Includes both students and admins.
+          </p>
+        </div>
+        <div class="ml-3">
+          <i data-lucide="users" class="w-8 h-8 text-brand-accent-light"></i>
+        </div>
+      </div>
 
-            <!-- Invoices -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light hover-lift">
-                <i data-lucide="file-edit" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Invoices</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Track payments & download invoices.</p>
-            </a>
+      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
+        <div>
+          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
+            Active Students
+          </p>
+          <p id="metric-students" class="text-2xl font-extrabold text-brand-text-light">–</p>
+          <p class="text-[0.7rem] text-brand-text-mid mt-1">
+            role = <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">student</span>
+          </p>
+        </div>
+        <div class="ml-3">
+          <i data-lucide="bar-chart-3" class="w-8 h-8 text-brand-highlight"></i>
+        </div>
+      </div>
 
-            <!-- Lesson Schedule -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-light hover-lift">
-                <i data-lucide="calendar" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Lessons</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Manage weekly teaching timetable.</p>
-            </a>
+      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
+        <div>
+          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
+            Admin Accounts
+          </p>
+          <p id="metric-admins" class="text-2xl font-extrabold text-brand-text-light">–</p>
+          <p class="text-[0.7rem] text-brand-text-mid mt-1">
+            role = <span class="badge bg-brand-highlight/10 text-brand-highlight border border-brand-highlight/50">admin</span>
+          </p>
+        </div>
+        <div class="ml-3">
+          <i data-lucide="shield" class="w-8 h-8 text-brand-highlight"></i>
+        </div>
+      </div>
+    </section>
 
-            <!-- Resources -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-accent-dark hover-lift">
-                <i data-lucide="book-open" class="w-10 h-10 text-brand-accent-light mb-4"></i>
-                <h3 class="text-xl font-bold">Resources</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Upload lesson sheets, videos & PDF content.</p>
-            </a>
-
-            <!-- System Settings -->
-            <a href="#" class="block bg-card-bg p-6 rounded-xl card-glow border-t-4 border-brand-highlight hover-lift">
-                <i data-lucide="settings" class="w-10 h-10 text-brand-highlight mb-4"></i>
-                <h3 class="text-xl font-bold text-brand-highlight">Settings</h3>
-                <p class="text-brand-text-mid text-sm mt-1">Admin controls & advanced options.</p>
-            </a>
-
+    <!-- Search + Filters -->
+    <section class="bg-card-bg/90 rounded-2xl p-4 sm:p-5 border border-brand-accent-dark/60 card-glow">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+        <div class="w-full md:w-1/2">
+          <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
+            Search users
+          </label>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Search by name, email, role or notes…"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+          />
+          <p class="text-[0.65rem] text-brand-text-mid mt-1">
+            Fuzzy search: typing “har” can find “Harry” or “Harrison”.
+          </p>
         </div>
 
-    </main>
+        <div class="flex flex-wrap items-end gap-3">
+          <div>
+            <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
+              Sort by
+            </label>
+            <select
+              id="sort-select"
+              class="px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            >
+              <option value="created_desc">Newest first</option>
+              <option value="created_asc">Oldest first</option>
+              <option value="name_asc">Name A → Z</option>
+              <option value="name_desc">Name Z → A</option>
+              <option value="role_asc">Role (admin → student)</option>
+              <option value="role_desc">Role (student → admin)</option>
+            </select>
+          </div>
 
-    <script>
-        const supabaseClient = supabase.createClient(
-    "https://gorrhpliwhpznmdqhzjo.supabase.co",
-    "sb_publishable_DrVhz18850mZTf9WPrTyig_zV-j419E"
-);
+          <div>
+            <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
+              Role filter
+            </label>
+            <select
+              id="role-filter"
+              class="px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            >
+              <option value="all">All roles</option>
+              <option value="student">Students only</option>
+              <option value="admin">Admins only</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-        // ===========================
-        // 🔐 1) Check Access
-        // ===========================
-        async function checkAccess() {
-            const { data } = await supabaseClient.auth.getSession();
+      <!-- Table wrapper -->
+      <div class="mt-3 border border-brand-accent-dark/60 rounded-xl overflow-hidden bg-brand-dark-bg/80">
+        <div class="max-h-[480px] overflow-y-auto">
+          <table class="min-w-full text-sm">
+            <thead class="bg-brand-dark-bg/90 border-b border-brand-accent-dark/60 sticky top-0 z-10">
+              <tr class="text-xs text-brand-text-mid uppercase tracking-[0.18em]">
+                <th class="px-4 py-3 text-left">Name</th>
+                <th class="px-4 py-3 text-left">Email</th>
+                <th class="px-4 py-3 text-left">Role</th>
+                <th class="px-4 py-3 text-left">Created</th>
+                <th class="px-4 py-3 text-left hidden sm:table-cell">Notes</th>
+                <th class="px-4 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody" class="divide-y divide-brand-accent-dark/40">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
 
-            if (!data.session) {
-                window.location.href = "login.html";
-                return;
-            }
+        <div id="users-empty" class="hidden px-4 py-4 text-center text-sm text-brand-text-mid">
+          No users found. Try clearing the search or filters.
+        </div>
+      </div>
 
-            const user = data.session.user;
+      <p class="mt-2 text-[0.7rem] text-brand-text-mid">
+        Note: this table is built from your <code>profiles</code> table. Details like last login,
+        IP or lesson history can be added later if you store them in the database.
+      </p>
+    </section>
 
-            if (user.user_metadata.role !== "admin") {
-                window.location.href = "portal.html";
-            }
+    <!-- Simple resource upload panel (optional but powerful) -->
+    <section class="bg-card-bg/90 rounded-2xl p-4 sm:p-5 border border-brand-accent-dark/60 card-glow">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h2 class="font-heading text-lg sm:text-xl font-bold text-brand-text-light mb-1">
+            Upload student resources (optional)
+          </h2>
+          <p class="text-xs sm:text-sm text-brand-text-mid">
+            Choose a PDF / image / file to upload to a Supabase storage bucket named
+            <code class="text-[0.7rem] bg-brand-dark-bg/70 px-1.5 py-0.5 rounded">student-resources</code>.
+            You can then link these inside your student portal.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <input
+            id="resource-file"
+            type="file"
+            class="text-xs text-brand-text-mid bg-brand-dark-bg border border-brand-accent-dark/60 rounded-lg p-1.5"
+          />
+          <button
+            id="upload-button"
+            class="px-3 py-2 text-xs font-semibold rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg transition"
+          >
+            Upload resource
+          </button>
+        </div>
+      </div>
+      <p id="upload-status" class="mt-2 text-[0.7rem] text-brand-text-mid">
+        Bucket must exist in Supabase storage: <strong>student-resources</strong>.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-brand-text-mid py-6 mt-4">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">
+        Admin dashboard – for internal use only.
+      </p>
+    </div>
+  </footer>
+
+  <!-- MODAL: Edit user -->
+  <div
+    id="edit-modal"
+    class="fixed inset-0 z-[100] hidden modal-backdrop items-center justify-center"
+  >
+    <div class="bg-card-bg rounded-2xl max-w-md w-full mx-4 p-6 border border-brand-accent-dark/70 card-glow relative">
+      <button
+        id="edit-modal-close"
+        class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight text-sm"
+      >
+        ✕
+      </button>
+
+      <h3 class="font-heading text-xl font-bold text-brand-text-light mb-1">
+        Edit User
+      </h3>
+      <p class="text-xs text-brand-text-mid mb-4">
+        Update basic details. Advanced things like postcode/lesson length can be added later
+        by extending your <code>profiles</code> table.
+      </p>
+
+      <form id="edit-form" class="space-y-3">
+        <input type="hidden" id="edit-id" />
+
+        <div>
+          <label class="block text-xs font-medium text-brand-text-mid mb-1">
+            Email (read-only)
+          </label>
+          <input
+            id="edit-email"
+            type="email"
+            disabled
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light opacity-80"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-brand-text-mid mb-1">
+            Full name
+          </label>
+          <input
+            id="edit-fullname"
+            type="text"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            placeholder="Student name"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-brand-text-mid mb-1">
+            Role
+          </label>
+          <select
+            id="edit-role"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+          >
+            <option value="student">student</option>
+            <option value="admin">admin</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-between text-xs mt-2">
+          <div class="flex items-center gap-2">
+            <input id="edit-archived" type="checkbox" class="h-3 w-3" />
+            <label for="edit-archived" class="text-brand-text-mid">
+              Archived / inactive (requires <code>is_archived</code> column)
+            </label>
+          </div>
+        </div>
+
+        <div class="pt-3 flex flex-col sm:flex-row gap-2">
+          <button
+            type="submit"
+            class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold"
+          >
+            Save changes
+          </button>
+          <button
+            type="button"
+            id="reset-password-btn"
+            class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-brand-text-light text-xs hover:bg-brand-accent-dark/40"
+          >
+            Send password reset email
+          </button>
+        </div>
+
+        <p id="edit-status" class="mt-2 text-[0.7rem] text-brand-text-mid"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN JS -->
+  <script>
+    // ===================== SUPABASE CLIENT =====================
+    const supabaseClient = supabase.createClient(
+      "https://gorrhpliwhpzndqhzjo.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
+    );
+
+    // ===================== DOM ELEMENTS =====================
+    const navAdminEmailEl = document.getElementById('nav-admin-email');
+    const adminWelcomeEl = document.getElementById('admin-welcome');
+    const adminLastLoginEl = document.getElementById('admin-last-login');
+    const logoutBtn = document.getElementById('logout-button');
+    const logoutBtnMobile = document.getElementById('logout-button-mobile');
+
+    const metricTotalUsersEl = document.getElementById('metric-total-users');
+    const metricStudentsEl = document.getElementById('metric-students');
+    const metricAdminsEl = document.getElementById('metric-admins');
+
+    const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const roleFilter = document.getElementById('role-filter');
+    const usersTbody = document.getElementById('users-tbody');
+    const usersEmpty = document.getElementById('users-empty');
+
+    // Modal
+    const editModal = document.getElementById('edit-modal');
+    const editModalClose = document.getElementById('edit-modal-close');
+    const editForm = document.getElementById('edit-form');
+    const editIdInput = document.getElementById('edit-id');
+    const editEmailInput = document.getElementById('edit-email');
+    const editFullNameInput = document.getElementById('edit-fullname');
+    const editRoleSelect = document.getElementById('edit-role');
+    const editArchivedCheckbox = document.getElementById('edit-archived');
+    const editStatusEl = document.getElementById('edit-status');
+    const resetPasswordBtn = document.getElementById('reset-password-btn');
+
+    // Resource upload
+    const resourceFileInput = document.getElementById('resource-file');
+    const uploadButton = document.getElementById('upload-button');
+    const uploadStatus = document.getElementById('upload-status');
+
+    // ===================== STATE =====================
+    let allProfiles = [];
+    let currentAdminProfile = null;
+
+    // ===================== UTILITIES =====================
+    function simpleFuzzyMatch(haystack, needle) {
+      if (!haystack || !needle) return true;
+      const h = String(haystack).toLowerCase();
+      const n = String(needle).toLowerCase();
+      // Loose "contains" is enough for your use-case (har -> harry/harrison)
+      return h.includes(n);
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '–';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '–';
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function formatDateTime(iso) {
+      if (!iso) return '–';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '–';
+      return d.toLocaleString('en-GB', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    // ===================== AUTH GUARD =====================
+    async function ensureAdmin() {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data.user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = data.user;
+
+      // Load profile (role comes from profiles table)
+      const { data: profile, error: pError } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (pError || !profile) {
+        alert('No profile record found for this user. You may need to create a row in profiles.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      if (profile.role !== 'admin') {
+        // Not an admin – send to portal
+        window.location.href = 'portal.html';
+        return;
+      }
+
+      // Store for later
+      currentAdminProfile = profile;
+
+      // Update header
+      navAdminEmailEl.textContent = user.email || '';
+      navAdminEmailEl.classList.remove('hidden');
+      adminWelcomeEl.textContent = `Logged in as: ${user.email}`;
+      adminLastLoginEl.textContent = user.last_sign_in_at
+        ? `Last login: ${formatDateTime(user.last_sign_in_at)}`
+        : '';
+
+      // Continue loading dashboard
+      await loadProfiles();
+    }
+
+    // ===================== LOAD PROFILES + ANALYTICS =====================
+    async function loadProfiles() {
+      const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading profiles:', error);
+        alert('Could not load profiles. Check your RLS policies and profiles table.');
+        return;
+      }
+
+      allProfiles = data || [];
+      updateAnalytics();
+      renderTable();
+    }
+
+    function updateAnalytics() {
+      const total = allProfiles.length;
+      const admins = allProfiles.filter(p => p.role === 'admin').length;
+      const students = allProfiles.filter(p => p.role === 'student').length;
+
+      metricTotalUsersEl.textContent = total;
+      metricAdminsEl.textContent = admins;
+      metricStudentsEl.textContent = students;
+    }
+
+    // ===================== TABLE RENDERING =====================
+    function getFilteredAndSortedProfiles() {
+      const search = searchInput.value.trim().toLowerCase();
+      const roleFilterValue = roleFilter.value;
+
+      let filtered = allProfiles.filter(p => {
+        // Role filter
+        if (roleFilterValue !== 'all' && p.role !== roleFilterValue) {
+          return false;
         }
 
-        checkAccess();
+        // Fuzzy search across full_name, email, role, and notes if exists
+        if (!search) return true;
 
-        // ===========================
-        // 🚪 2) Logout
-        // ===========================
-        document.getElementById("logout-btn").addEventListener("click", async () => {
-            await supabaseClient.auth.signOut();
-            window.location.href = "login.html";
+        const fields = [
+          p.full_name,
+          p.username,
+          p.email,
+          p.role,
+          p.notes // optional future column
+        ];
+
+        return fields.some(field => simpleFuzzyMatch(field, search));
+      });
+
+      const sortValue = sortSelect.value;
+      filtered.sort((a, b) => {
+        const nameA = (a.full_name || a.username || '').toLowerCase();
+        const nameB = (b.full_name || b.username || '').toLowerCase();
+        const roleA = (a.role || '').toLowerCase();
+        const roleB = (b.role || '').toLowerCase();
+        const createdA = a.created_at || '';
+        const createdB = b.created_at || '';
+
+        switch (sortValue) {
+          case 'created_asc':
+            return createdA.localeCompare(createdB);
+          case 'created_desc':
+            return createdB.localeCompare(createdA);
+          case 'name_asc':
+            return nameA.localeCompare(nameB);
+          case 'name_desc':
+            return nameB.localeCompare(nameA);
+          case 'role_asc':
+            return roleA.localeCompare(roleB);
+          case 'role_desc':
+            return roleB.localeCompare(roleA);
+          default:
+            return 0;
+        }
+      });
+
+      return filtered;
+    }
+
+    function renderTable() {
+      const profiles = getFilteredAndSortedProfiles();
+
+      usersTbody.innerHTML = '';
+
+      if (!profiles.length) {
+        usersEmpty.classList.remove('hidden');
+        return;
+      }
+      usersEmpty.classList.add('hidden');
+
+      for (const p of profiles) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-card-bg cursor-default';
+
+        const name = p.full_name || p.username || '–';
+        const email = p.email || p.raw_user_meta_data?.email || '–';
+        const created = formatDate(p.created_at);
+        const notes = p.notes || '';
+
+        const roleBadgeClass =
+          p.role === 'admin'
+            ? 'bg-brand-highlight/10 text-brand-highlight border-brand-highlight/60'
+            : 'bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/60';
+
+        const archivedFlag = p.is_archived ? '<span class="ml-2 text-[0.6rem] text-error-red uppercase tracking-[0.15em]">ARCHIVED</span>' : '';
+
+        tr.innerHTML = `
+          <td class="px-4 py-3 align-middle">
+            <div class="flex flex-col">
+              <span class="font-semibold text-brand-text-light text-sm">${name}</span>
+              <span class="text-[0.7rem] text-brand-text-mid">ID: ${p.id.slice(0, 8)}…</span>
+            </div>
+          </td>
+          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid">
+            ${email}
+          </td>
+          <td class="px-4 py-3 align-middle">
+            <span class="badge border ${roleBadgeClass}">
+              ${p.role || 'unknown'}
+            </span>
+            ${archivedFlag}
+          </td>
+          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid">
+            ${created}
+          </td>
+          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid hidden sm:table-cell">
+            ${notes ? notes : '<span class="opacity-60">–</span>'}
+          </td>
+          <td class="px-4 py-3 align-middle text-right">
+            <button
+              class="inline-flex items-center px-3 py-1.5 text-[0.7rem] rounded-lg bg-brand-accent-light/90 hover:bg-brand-accent-dark text-brand-dark-bg font-semibold"
+              data-profile-id="${p.id}"
+            >
+              Manage
+            </button>
+          </td>
+        `;
+
+        usersTbody.appendChild(tr);
+      }
+
+      // Wire up "Manage" buttons
+      usersTbody.querySelectorAll('button[data-profile-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-profile-id');
+          const profile = allProfiles.find(p => p.id === id);
+          if (profile) openEditModal(profile);
         });
-    </script>
+      });
+    }
 
+    // ===================== MODAL HANDLERS =====================
+    function openEditModal(profile) {
+      editIdInput.value = profile.id;
+      editEmailInput.value = profile.email || profile.raw_user_meta_data?.email || '';
+      editFullNameInput.value = profile.full_name || profile.username || '';
+      editRoleSelect.value = profile.role || 'student';
+      editArchivedCheckbox.checked = !!profile.is_archived;
+      editStatusEl.textContent = '';
+      editModal.classList.remove('hidden');
+      editModal.classList.add('flex');
+    }
+
+    function closeEditModal() {
+      editModal.classList.add('hidden');
+      editModal.classList.remove('flex');
+    }
+
+    editModalClose.addEventListener('click', closeEditModal);
+    editModal.addEventListener('click', (e) => {
+      if (e.target === editModal) closeEditModal();
+    });
+
+    // Save changes
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      editStatusEl.textContent = 'Saving…';
+
+      const id = editIdInput.value;
+      const full_name = editFullNameInput.value.trim();
+      const role = editRoleSelect.value;
+      const is_archived = editArchivedCheckbox.checked;
+
+      // Build update object safely (only known columns)
+      const updatePayload = { role };
+      if (full_name) updatePayload.full_name = full_name;
+      // Archive is optional – safe to try, error is handled
+      updatePayload.is_archived = is_archived;
+
+      const { error } = await supabaseClient
+        .from('profiles')
+        .update(updatePayload)
+        .eq('id', id);
+
+      if (error) {
+        console.error('Update error:', error);
+        editStatusEl.textContent = 'Could not save changes. Check console for details.';
+        editStatusEl.style.color = '#f87171';
+        return;
+      }
+
+      editStatusEl.textContent = 'Saved successfully.';
+      editStatusEl.style.color = '#00d084';
+
+      // Refresh local state
+      await loadProfiles();
+      // Close after a short delay
+      setTimeout(closeEditModal, 600);
+    });
+
+    // Password reset
+    resetPasswordBtn.addEventListener('click', async () => {
+      const email = editEmailInput.value.trim();
+      if (!email) {
+        editStatusEl.textContent = 'No email address found for this user.';
+        editStatusEl.style.color = '#f87171';
+        return;
+      }
+
+      editStatusEl.textContent = 'Sending password reset email…';
+      editStatusEl.style.color = '#a0a0a0';
+
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/reset.html'
+      });
+
+      if (error) {
+        console.error('Reset password error:', error);
+        editStatusEl.textContent = 'Could not send reset email. Check Supabase Auth settings.';
+        editStatusEl.style.color = '#f87171';
+        return;
+      }
+
+      editStatusEl.textContent = `Password reset email sent to ${email}.`;
+      editStatusEl.style.color = '#00d084';
+    });
+
+    // ===================== RESOURCE UPLOAD =====================
+    uploadButton.addEventListener('click', async () => {
+      const file = resourceFileInput.files[0];
+      if (!file) {
+        uploadStatus.textContent = 'Please choose a file first.';
+        uploadStatus.style.color = '#f87171';
+        return;
+      }
+
+      uploadStatus.textContent = 'Uploading…';
+      uploadStatus.style.color = '#a0a0a0';
+
+      const safeName = file.name.replace(/\s+/g, '-').toLowerCase();
+      const path = `admin-uploads/${Date.now()}-${safeName}`;
+
+      const { data, error } = await supabaseClient
+        .storage
+        .from('student-resources')
+        .upload(path, file);
+
+      if (error) {
+        console.error('Upload error:', error);
+        uploadStatus.textContent = 'Upload failed. Make sure bucket "student-resources" exists.';
+        uploadStatus.style.color = '#f87171';
+        return;
+      }
+
+      uploadStatus.textContent = `Uploaded successfully as: ${data.path}`;
+      uploadStatus.style.color = '#00d084';
+      resourceFileInput.value = '';
+    });
+
+    // ===================== SEARCH / FILTER EVENTS =====================
+    searchInput.addEventListener('input', () => renderTable());
+    sortSelect.addEventListener('change', () => renderTable());
+    roleFilter.addEventListener('change', () => renderTable());
+
+    // ===================== LOGOUT =====================
+    async function handleLogout() {
+      await supabaseClient.auth.signOut();
+      window.location.href = 'login.html';
+    }
+
+    logoutBtn.addEventListener('click', handleLogout);
+    logoutBtnMobile.addEventListener('click', handleLogout);
+
+    // ===================== INIT =====================
+    (async function initAdmin() {
+      await ensureAdmin();
+    })();
+  </script>
 </body>
 </html>
