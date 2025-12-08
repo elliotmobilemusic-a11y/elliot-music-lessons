@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login – Elliot's Mobile Music Lessons</title>
+    <link rel="icon" href="/favicon.png" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark-bg': '#1a1a2e',
+                        'brand-accent-light': '#00d084',
+                        'brand-accent-dark': '#00a36e',
+                        'brand-text-light': '#e0e0e0',
+                        'brand-text-mid': '#a0a0a0',
+                        'brand-highlight': '#ffb703',
+                        'card-bg': '#252538',
+                        'error-red': '#f87171',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+        body {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            font-family: 'Inter', sans-serif;
+        }
+        .card-glow {
+            box-shadow: 0 0 30px rgba(0, 208, 132, 0.15);
+        }
+    </style>
+
+    <!-- Lucide Icons -->
+    <script type="module">
+        import { createIcons, Mail, Lock, ArrowRight, XCircle } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+        createIcons({ icons: { Mail, Lock, ArrowRight, XCircle } });
+    </script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Main Container -->
+    <main class="flex-grow flex items-center justify-center px-4 py-16">
+
+        <div class="w-full max-w-md bg-card-bg p-8 rounded-2xl card-glow border border-brand-accent-dark/40">
+
+            <!-- Header -->
+            <h1 class="text-3xl font-heading font-extrabold text-center mb-2 text-brand-highlight">
+                Log In
+            </h1>
+            <p class="text-center text-brand-text-mid mb-8">
+                Access your student or admin portal
+            </p>
+
+            <!-- Error Box -->
+            <div id="login-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500 text-error-red text-sm flex items-start gap-2">
+                <i data-lucide="x-circle" class="w-5 h-5 mt-0.5"></i>
+                <span id="login-error-msg"></span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-5">
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
+                        <i data-lucide="mail" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
+                        <input type="email" id="email" class="w-full p-3 bg-transparent focus:outline-none" placeholder="you@example.com" required />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Password</label>
+                    <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
+                        <i data-lucide="lock" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
+                        <input type="password" id="password" class="w-full p-3 bg-transparent focus:outline-none" placeholder="••••••••" required />
+                    </div>
+                </div>
+
+                <button
+                    id="login-button"
+                    class="w-full py-3 bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-bold rounded-lg transition flex items-center justify-center gap-2"
+                >
+                    <span>Log In</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+
+                <p class="text-center text-xs text-brand-text-mid">
+                    Forgot your password?  
+                    <a href="#" id="reset-link" class="text-brand-accent-light underline hover:text-white">Reset it</a>
+                </p>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        const supabaseClient = supabase.createClient(
+            "sb_publishable_DrVhz18850mZTf9WPrTyig_zV-j419E",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
+        );
+
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-button');
+
+        const errBox = document.getElementById('login-error');
+        const errMsg = document.getElementById('login-error-msg');
+
+        function showError(msg) {
+            errMsg.textContent = msg;
+            errBox.classList.remove('hidden');
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            errBox.classList.add('hidden');
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = "Logging in…";
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                showError(error.message);
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
+                return;
+            }
+
+            // Fetch profile to determine role
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', data.user.id)
+                .single();
+
+            if (!profile) {
+                showError("Profile not found.");
+                return;
+            }
+
+            if (profile.role === 'admin') {
+                window.location.href = "admin.html";
+            } else {
+                window.location.href = "portal.html";
+            }
+        });
+    </script>
+
+</body>
+</html>
