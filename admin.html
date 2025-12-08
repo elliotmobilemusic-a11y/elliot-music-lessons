@@ -467,31 +467,93 @@
     </div>
   </footer>
 
-  <!-- Quill + Supabase + Admin Logic -->
-  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/index.js";
+ <!-- Quill + Supabase + Admin Logic -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-    // 🔐 Your Supabase project
-    const supabase = createClient(
-    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"; // <-- paste your anon key here
+<script type="module">
+  /* ================================
+     IMPORT SUPABASE CLIENT
+  ================================== */
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/index.js";
 
-    );
+  /* ================================
+     SUPABASE CONFIG
+  ================================== */
+  const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+  const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-    console.log("Supabase connected:", supabase);
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // UI refs
-    const adminUserLine = document.getElementById("admin-user-line");
-    const globalError = document.getElementById("global-error");
+  console.log("%cSupabase connected", "color:#00ff9d;font-weight:bold;");
 
-    // Tabs
-    const tabButtons = document.querySelectorAll(".tab-btn");
-    const tabSections = {
-      users: document.getElementById("tab-users"),
-      newsletters: document.getElementById("tab-newsletters"),
-      files: document.getElementById("tab-files"),
-    };
+  /* ================================
+     ELEMENT REFERENCES
+  ================================== */
+  const adminUserLine = document.getElementById("admin-user-line");
+  const globalError = document.getElementById("global-error");
+
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabSections = {
+    users: document.getElementById("tab-users"),
+    newsletters: document.getElementById("tab-newsletters"),
+    files: document.getElementById("tab-files"),
+  };
+
+  /* ================================
+     CHECK ADMIN STATUS ON LOAD
+  ================================== */
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.warn("No session. Redirecting to login…");
+    window.location.href = "login.html";
+  }
+
+  // Get role from profiles table
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, email")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profile.role !== "admin") {
+    console.warn("Not an admin. Redirecting…");
+    window.location.href = "portal.html";
+  }
+
+  // Show admin email
+  adminUserLine.textContent = profile.email;
+
+  /* ================================
+     TAB SWITCHING LOGIC
+  ================================== */
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.tab;
+
+      tabButtons.forEach((b) =>
+        b.classList.remove("bg-brand-accent-dark", "text-white")
+      );
+      btn.classList.add("bg-brand-accent-dark", "text-white");
+
+      Object.values(tabSections).forEach((sec) => sec.classList.add("hidden"));
+      tabSections[target].classList.remove("hidden");
+    });
+  });
+
+  /* ================================
+     INITIALISE NEWSLETTER EDITOR
+  ================================== */
+  const quill = new Quill("#newsletter-editor", {
+    theme: "snow",
+    placeholder: "Write a newsletter to your students...",
+  });
+
+  console.log("Quill editor ready.");
+
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
