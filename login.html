@@ -153,19 +153,13 @@
                 return;
             }
 
-            // Fetch profile to determine role
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', data.user.id)
-                .single();
+            // ⭐ OPTION A — Auth Metadata Role Check
+            const { data: session } = await supabaseClient.auth.getSession();
+            const user = session.session.user;
 
-            if (!profile) {
-                showError("Profile not found.");
-                return;
-            }
+            console.log("User metadata:", user.user_metadata);
 
-            if (profile.role === 'admin') {
+            if (user.user_metadata.role === "admin") {
                 window.location.href = "admin.html";
             } else {
                 window.location.href = "portal.html";
