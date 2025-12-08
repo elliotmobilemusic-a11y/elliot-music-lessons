@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – Elliot Wardill</title>
+    <link rel="icon" href="/favicon.png">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark-bg': '#1a1a2e',
+                        'brand-accent-light': '#00d084',
+                        'brand-accent-dark': '#00a36e',
+                        'brand-text-light': '#e0e0e0',
+                        'brand-text-mid': '#a0a0a0',
+                        'brand-highlight': '#ffb703',
+                        'card-bg': '#252538',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 0 20px rgba(0,208,132,0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script type="module">
+        import { createIcons, Users, FileText, Upload, LogOut, BarChart3, Mail } 
+        from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+        createIcons({ icons: { Users, FileText, Upload, LogOut, BarChart3, Mail } });
+    </script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            background-color: #1a1a2e;
+            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+            font-family: Inter, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-brand-text-light">
+
+<!-- NAVBAR -->
+<nav class="bg-brand-dark-bg p-4 border-b border-brand-accent-dark shadow-lg">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="font-heading text-2xl text-brand-highlight">Admin Dashboard</h1>
+
+        <button id="logout-btn" class="flex items-center text-sm bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+            <i data-lucide="log-out" class="w-4 h-4 mr-1"></i> Logout
+        </button>
+    </div>
+</nav>
+
+<!-- MAIN WRAPPER -->
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+    <!-- OVERVIEW CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+        <div class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+            <i data-lucide="users" class="w-8 h-8 text-brand-accent-light mb-3"></i>
+            <h2 class="text-xl font-heading">Students</h2>
+            <p id="count-students" class="text-3xl font-bold mt-2">0</p>
+        </div>
+
+        <div class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+            <i data-lucide="bar-chart-3" class="w-8 h-8 text-brand-accent-light mb-3"></i>
+            <h2 class="text-xl font-heading">Active Subs</h2>
+            <p id="count-subs" class="text-3xl font-bold mt-2">0</p>
+        </div>
+
+        <div class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+            <i data-lucide="mail" class="w-8 h-8 text-brand-highlight mb-3"></i>
+            <h2 class="text-xl font-heading">New Messages</h2>
+            <p id="count-messages" class="text-3xl font-bold mt-2">0</p>
+        </div>
+
+        <div class="bg-card-bg p-6 rounded-xl shadow-glow border border-brand-accent-dark">
+            <i data-lucide="file-text" class="w-8 h-8 text-brand-accent-light mb-3"></i>
+            <h2 class="text-xl font-heading">Resources</h2>
+            <p id="count-resources" class="text-3xl font-bold mt-2">0</p>
+        </div>
+
+    </div>
+
+    <!-- STUDENT LIST -->
+    <section class="mb-12">
+        <h2 class="font-heading text-3xl mb-4 flex items-center">
+            <i data-lucide="users" class="w-7 h-7 mr-2 text-brand-accent-light"></i>
+            Students
+        </h2>
+
+        <input 
+            id="search-students"
+            placeholder="Search students..."
+            class="w-full p-3 rounded-lg mb-4 bg-brand-dark-bg border border-brand-accent-dark focus:border-brand-accent-light"
+        />
+
+        <div id="student-list" class="space-y-3"></div>
+    </section>
+
+    <!-- RESOURCE MANAGER -->
+    <section class="mb-12">
+        <h2 class="font-heading text-3xl mb-4 flex items-center">
+            <i data-lucide="upload" class="w-7 h-7 mr-2 text-brand-accent-light"></i>
+            Resource Manager
+        </h2>
+
+        <input type="file" id="resource-upload" class="mb-4">
+
+        <button id="upload-btn" 
+            class="bg-brand-accent-light text-brand-dark-bg font-bold px-5 py-2 rounded-lg hover:bg-brand-accent-dark transition">
+            Upload Resource
+        </button>
+
+        <div id="resource-list" class="mt-6 space-y-3"></div>
+    </section>
+
+</div>
+
+
+<script>
+/* --------------------------
+   SUPABASE INIT
+--------------------------- */
+const supabase = supabase.createClient(
+    "YOUR_SUPABASE_URL",
+    "YOUR_SUPABASE_ANON_KEY"
+);
+
+/* --------------------------
+   AUTH CHECK
+--------------------------- */
+async function checkAdmin() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return window.location.href = "login.html";
+
+    // get role from profiles table
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+    if (!profile || profile.role !== "admin") {
+        return window.location.href = "portal.html";
+    }
+}
+checkAdmin();
+
+/* --------------------------
+   LOGOUT
+--------------------------- */
+document.getElementById("logout-btn").onclick = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+};
+
+/* --------------------------
+   LOAD STUDENTS
+--------------------------- */
+async function loadStudents() {
+    const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .order("full_name");
+
+    if (error) return console.error(error);
+
+    document.getElementById("count-students").textContent = data.length;
+
+    const list = document.getElementById("student-list");
+    list.innerHTML = "";
+
+    data.forEach(student => {
+        const card = document.createElement("div");
+        card.className =
+            "bg-card-bg p-4 rounded-xl border border-brand-accent-dark hover:border-brand-accent-light transition";
+
+        card.innerHTML = `
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-xl font-bold">${student.full_name || "No name"}</p>
+                    <p class="text-brand-text-mid">${student.email}</p>
+                </div>
+
+                <button class="px-4 py-2 bg-brand-accent-light text-brand-dark-bg rounded-lg font-bold hover:bg-brand-accent-dark"
+                        onclick="viewStudent('${student.id}')">
+                    View
+                </button>
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
+}
+loadStudents();
+
+/* --------------------------
+   VIEW A STUDENT (popup later)
+--------------------------- */
+function viewStudent(id) {
+    alert("Student view coming next → includes edit, notes, subscription status.");
+}
+
+/* --------------------------
+   RESOURCES
+--------------------------- */
+async function loadResources() {
+    const { data, error } = await supabase.storage
+        .from("resources")
+        .list("", { limit: 100 });
+
+    if (error) return console.error(error);
+
+    document.getElementById("count-resources").textContent = data.length;
+
+    const list = document.getElementById("resource-list");
+    list.innerHTML = "";
+
+    data.forEach(file => {
+        const item = document.createElement("div");
+        item.className = 
+            "bg-card-bg p-4 rounded-lg border border-brand-accent-dark flex justify-between items-center";
+
+        item.innerHTML = `
+            <p>${file.name}</p>
+            <button onclick="deleteResource('${file.name}')"
+                class="text-red-400 hover:text-red-600">Delete</button>
+        `;
+
+        list.appendChild(item);
+    });
+}
+loadResources();
+
+document.getElementById("upload-btn").onclick = async () => {
+    const fileInput = document.getElementById("resource-upload");
+    if (!fileInput.files.length) return alert("Choose a file first!");
+
+    const file = fileInput.files[0];
+
+    const { error } = await supabase.storage
+        .from("resources")
+        .upload(file.name, file, { upsert: true });
+
+    if (error) return alert(error.message);
+
+    alert("Uploaded!");
+    loadResources();
+};
+
+async function deleteResource(name) {
+    await supabase.storage.from("resources").remove([name]);
+    loadResources();
+}
+
+</script>
+
+</body>
+</html>
