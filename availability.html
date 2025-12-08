@@ -123,118 +123,140 @@
   </script>
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
-  <!-- NAVIGATION (matches home & pricing) -->
-  <nav
-    class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50"
-  >
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center space-x-2">
-          <span
-            class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50"
+<!-- NAVIGATION (matches home & pricing) -->
+<nav
+  class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50"
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <a href="index.html" class="flex items-center space-x-2">
+        <span
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50"
+        >
+          <!-- Fixed inline icon so it always shows -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-5 h-5 text-brand-accent-light"
           >
-            <!-- Fixed inline icon so it always shows -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-5 h-5 text-brand-accent-light"
-            >
-              <circle cx="8" cy="18" r="4"></circle>
-              <path d="M12 18V2l7 4"></path>
-            </svg>
-          </span>
-          <span
-            class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight"
-          >
-            ELLIOT'S MOBILE MUSIC
-          </span>
-        </a>
+            <circle cx="8" cy="18" r="4"></circle>
+            <path d="M12 18V2l7 4"></path>
+          </svg>
+        </span>
+        <span
+          class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight"
+        >
+          ELLIOT'S MOBILE MUSIC
+        </span>
+      </a>
 
-        <!-- Desktop nav -->
-        <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-          <a
-            href="index.html"
-            class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
-          >
-            HOME
-          </a>
-          <a
-            href="pricing.html"
-            class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
-          >
-            PRICING & FEES
-          </a>
-          <a
-            href="availability.html"
-            class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift"
-          >
-            AVAILABILITY
-          </a>
-          <a
-            href="contact.html"
-            class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
-          >
-            CONTACT
-          </a>
-        </div>
+      <!-- Desktop nav -->
+      <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
 
-        <!-- Mobile button -->
-        <div class="sm:hidden">
-          <button
-            id="mobile-menu-button"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
-          >
-            <svg
-              class="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile menu -->
-    <div class="sm:hidden hidden" id="mobile-menu">
-      <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
         <a
           href="index.html"
-          class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
-          >HOME</a
+          class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
         >
+          HOME
+        </a>
         <a
           href="pricing.html"
-          class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
-          >PRICING & FEES</a
+          class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
         >
+          PRICING & FEES
+        </a>
         <a
           href="availability.html"
-          class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium"
-          >AVAILABILITY</a
+          class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift"
         >
+          AVAILABILITY
+        </a>
         <a
           href="contact.html"
-          class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
-          >CONTACT</a
+          class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift"
         >
+          CONTACT
+        </a>
+
+        <!-- 🔥 LOGIN BUTTON -->
+        <a
+          href="login.html"
+          class="ml-2 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
+                 hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40 hover-lift"
+        >
+          LOGIN
+        </a>
+      </div>
+
+      <!-- Mobile button -->
+      <div class="sm:hidden">
+        <button
+          id="mobile-menu-button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
+        >
+          <svg
+            class="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
       </div>
     </div>
-  </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="sm:hidden hidden" id="mobile-menu">
+    <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
+      <a
+        href="index.html"
+        class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
+      >
+        HOME</a
+      >
+      <a
+        href="pricing.html"
+        class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
+      >
+        PRICING & FEES</a
+      >
+      <a
+        href="availability.html"
+        class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium"
+      >
+        AVAILABILITY</a
+      >
+      <a
+        href="contact.html"
+        class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium"
+      >
+        CONTACT</a
+      >
+
+      <!-- 🔥 LOGIN BUTTON (mobile) -->
+      <a
+        href="login.html"
+        class="block rounded-md mt-1 bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 text-center"
+      >
+        LOGIN
+      </a>
+    </div>
+  </div>
+</nav>
 
   <!-- MAIN -->
   <main class="flex-grow">
