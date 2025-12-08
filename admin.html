@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard – Elliot's Mobile Music</title>
-  <link rel="icon" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tailwind Config -->
   <script>
     tailwind.config = {
       theme: {
@@ -22,7 +20,6 @@
             'brand-text-mid': '#a0a0a0',
             'brand-highlight': '#ffb703',
             'card-bg': '#252538',
-            'error-red': '#f87171',
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -33,68 +30,63 @@
     }
   </script>
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
     body {
-      background: #1a1a2e;
+      font-family: 'Inter', sans-serif;
+      background-color: #1a1a2e;
       color: #e0e0e0;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-      font-family: 'Inter', sans-serif;
     }
     .card-glow {
-      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.15),
-                  0 3px 10px rgba(0, 0, 0, 0.6);
-    }
-    .hover-lift {
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.15s ease,
-        background-color 0.15s ease;
-    }
-    .hover-lift:hover {
-      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 208, 132, 0.15);
     }
     .badge {
+      display: inline-flex;
+      align-items: center;
       border-radius: 999px;
-      font-size: 0.7rem;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.65rem;
       font-weight: 600;
-      padding: 0.15rem 0.55rem;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-    }
-    .modal-backdrop {
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
     }
   </style>
 
-  <!-- Lucide Icons (static use only) -->
+  <!-- Lucide Icons -->
   <script type="module">
     import {
       createIcons,
-      BarChart3,
+      User,
       Users,
-      Shield,
-      LogOut
+      Mail,
+      FileText,
+      LogOut,
+      CheckCircle2,
+      Clock,
+      Upload,
+      Send,
+      Search,
+      Newspaper
     } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-    createIcons({ icons: { BarChart3, Users, Shield, LogOut } });
+
+    createIcons({
+      icons: { User, Users, Mail, FileText, LogOut, CheckCircle2, Clock, Upload, Send, Search, Newspaper }
+    });
   </script>
 
-  <!-- Supabase JS v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <!-- Quill WYSIWYG -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 </head>
-<body class="min-h-screen flex flex-col text-brand-text-light">
+<body class="min-h-screen flex flex-col">
 
-  <!-- NAVIGATION (matches site) -->
+  <!-- NAVIGATION (matches site, with Admin badge) -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-            <!-- Inline music icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
                  width="24" height="24" viewBox="0 0 24 24"
                  fill="none" stroke="currentColor"
@@ -105,751 +97,1097 @@
               <path d="M12 18V2l7 4"></path>
             </svg>
           </span>
-          <span class="text-xs sm:text-sm md:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+          <span class="text-xs sm:text-sm font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
             ELLIOT'S MOBILE MUSIC
           </span>
         </a>
 
         <div class="hidden sm:flex sm:items-center sm:space-x-4 text-xs md:text-sm">
-          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
             HOME
           </a>
-          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
             PRICING & FEES
           </a>
-          <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
             AVAILABILITY
           </a>
-          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
             CONTACT
           </a>
-          <span id="nav-admin-email" class="hidden sm:inline text-[0.7rem] text-brand-text-mid px-3">
-            <!-- filled by JS -->
+
+          <!-- Admin indicator + Logout -->
+          <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+            ADMIN
           </span>
-          <button
-            id="logout-button"
-            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-[0.75rem] font-medium hover:bg-brand-accent-dark hover:text-brand-dark-bg hover-lift"
-          >
+          <button id="logout-btn" class="inline-flex items-center gap-1 text-xs text-brand-text-mid hover:text-white">
             <i data-lucide="log-out" class="w-4 h-4"></i>
             Logout
           </button>
         </div>
 
-        <!-- Mobile: just logout -->
-        <div class="sm:hidden">
-          <button
-            id="logout-button-mobile"
-            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-xs font-medium hover:bg-brand-accent-dark hover:text-brand-dark-bg"
-          >
-            <i data-lucide="log-out" class="w-4 h-4"></i>
+        <!-- Mobile -->
+        <div class="sm:hidden flex items-center gap-3">
+          <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+            ADMIN
+          </span>
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="sm:hidden hidden" id="mobile-menu">
+      <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
+        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
+        <button id="mobile-logout-btn" class="block w-full text-left rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+          Logout
+        </button>
       </div>
     </div>
   </nav>
 
   <!-- MAIN -->
-  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
-
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
     <!-- Header -->
-    <section class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+    <section class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <p class="text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-2">
-          ADMIN CONTROL PANEL
-        </p>
-        <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
-          Admin Dashboard
+        <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-highlight">
+          Admin Control Panel
         </h1>
         <p class="text-sm sm:text-base text-brand-text-mid mt-1">
-          Manage students, roles and access to your learning portal.
+          Manage students, approve accounts, upload newsletters and resources – all from one place.
         </p>
-        <p class="text-[0.7rem] text-brand-text-mid mt-1">
-          Tip: use the search + filters below to quickly find a student by name, email or notes.
-        </p>
+        <p class="text-xs text-brand-text-mid mt-1" id="admin-user-line"></p>
       </div>
-      <div class="flex flex-col items-start md:items-end text-xs text-brand-text-mid">
-        <span id="admin-welcome" class="mb-1">
-          <!-- “Logged in as …” -->
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span class="badge bg-card-bg text-brand-text-mid border border-brand-accent-dark/40">
+          <i data-lucide="users" class="w-3 h-3 mr-1"></i> Users & Roles
         </span>
-        <span id="admin-last-login" class="text-[0.7rem]">
-          <!-- Last login from auth, if available -->
+        <span class="badge bg-card-bg text-brand-text-mid border border-brand-accent-dark/40">
+          <i data-lucide="newspaper" class="w-3 h-3 mr-1"></i> Newsletters
+        </span>
+        <span class="badge bg-card-bg text-brand-text-mid border border-brand-accent-dark/40">
+          <i data-lucide="file-text" class="w-3 h-3 mr-1"></i> Student Files
         </span>
       </div>
     </section>
 
-    <!-- Analytics row -->
-    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
-        <div>
-          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
-            Total Users
-          </p>
-          <p id="metric-total-users" class="text-2xl font-extrabold text-brand-text-light">–</p>
-          <p class="text-[0.7rem] text-brand-text-mid mt-1">
-            Includes both students and admins.
-          </p>
-        </div>
-        <div class="ml-3">
-          <i data-lucide="users" class="w-8 h-8 text-brand-accent-light"></i>
-        </div>
-      </div>
+    <!-- Tabs -->
+    <div class="mb-5 border-b border-brand-accent-dark/40">
+      <nav class="-mb-px flex flex-wrap gap-2" aria-label="Tabs">
+        <button data-tab="users"
+                class="tab-btn border-b-2 border-brand-accent-light text-brand-accent-light px-4 py-2 text-sm font-medium">
+          Students & Accounts
+        </button>
+        <button data-tab="newsletters"
+                class="tab-btn border-b-2 border-transparent text-brand-text-mid hover:text-white hover:border-brand-accent-light px-4 py-2 text-sm font-medium">
+          Newsletters
+        </button>
+        <button data-tab="files"
+                class="tab-btn border-b-2 border-transparent text-brand-text-mid hover:text-white hover:border-brand-accent-light px-4 py-2 text-sm font-medium">
+          Student Files
+        </button>
+      </nav>
+    </div>
 
-      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
-        <div>
-          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
-            Active Students
-          </p>
-          <p id="metric-students" class="text-2xl font-extrabold text-brand-text-light">–</p>
-          <p class="text-[0.7rem] text-brand-text-mid mt-1">
-            role = <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">student</span>
-          </p>
-        </div>
-        <div class="ml-3">
-          <i data-lucide="bar-chart-3" class="w-8 h-8 text-brand-highlight"></i>
-        </div>
-      </div>
+    <!-- TAB PANELS -->
 
-      <div class="bg-card-bg/90 rounded-xl p-4 border border-brand-accent-dark/60 card-glow hover-lift flex items-center justify-between">
-        <div>
-          <p class="text-[0.7rem] text-brand-text-mid uppercase tracking-[0.15em] mb-1">
-            Admin Accounts
-          </p>
-          <p id="metric-admins" class="text-2xl font-extrabold text-brand-text-light">–</p>
-          <p class="text-[0.7rem] text-brand-text-mid mt-1">
-            role = <span class="badge bg-brand-highlight/10 text-brand-highlight border border-brand-highlight/50">admin</span>
-          </p>
-        </div>
-        <div class="ml-3">
-          <i data-lucide="shield" class="w-8 h-8 text-brand-highlight"></i>
-        </div>
-      </div>
-    </section>
-
-    <!-- Search + Filters -->
-    <section class="bg-card-bg/90 rounded-2xl p-4 sm:p-5 border border-brand-accent-dark/60 card-glow">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-        <div class="w-full md:w-1/2">
-          <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
-            Search users
-          </label>
-          <input
-            id="search-input"
-            type="text"
-            placeholder="Search by name, email, role or notes…"
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-          />
-          <p class="text-[0.65rem] text-brand-text-mid mt-1">
-            Fuzzy search: typing “har” can find “Harry” or “Harrison”.
-          </p>
-        </div>
-
-        <div class="flex flex-wrap items-end gap-3">
+    <!-- USERS TAB -->
+    <section id="tab-users" class="space-y-4">
+      <div class="bg-card-bg p-4 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <div>
-            <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
-              Sort by
-            </label>
-            <select
-              id="sort-select"
-              class="px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-            >
-              <option value="created_desc">Newest first</option>
-              <option value="created_asc">Oldest first</option>
-              <option value="name_asc">Name A → Z</option>
-              <option value="name_desc">Name Z → A</option>
-              <option value="role_asc">Role (admin → student)</option>
-              <option value="role_desc">Role (student → admin)</option>
-            </select>
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-text-light">
+              Students & Accounts
+            </h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Approve new signups, change roles, and search through your users.
+            </p>
           </div>
-
-          <div>
-            <label class="block text-[0.7rem] font-semibold tracking-[0.18em] text-brand-text-mid uppercase mb-1">
-              Role filter
-            </label>
-            <select
-              id="role-filter"
-              class="px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/70 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-            >
+          <div class="flex gap-2 flex-wrap">
+            <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50 px-2">
+              <i data-lucide="search" class="w-4 h-4 text-brand-accent-light mr-1"></i>
+              <input id="user-search" type="text" placeholder="Search name or email..."
+                     class="bg-transparent text-xs sm:text-sm p-1.5 focus:outline-none w-40 sm:w-56" />
+            </div>
+            <select id="user-role-filter"
+                    class="bg-brand-dark-bg text-xs sm:text-sm border border-brand-accent-dark/50 rounded-lg px-2 py-1">
               <option value="all">All roles</option>
-              <option value="student">Students only</option>
-              <option value="admin">Admins only</option>
+              <option value="pending">Pending</option>
+              <option value="student">Students</option>
+              <option value="admin">Admins</option>
             </select>
           </div>
         </div>
-      </div>
 
-      <!-- Table wrapper -->
-      <div class="mt-3 border border-brand-accent-dark/60 rounded-xl overflow-hidden bg-brand-dark-bg/80">
-        <div class="max-h-[480px] overflow-y-auto">
-          <table class="min-w-full text-sm">
-            <thead class="bg-brand-dark-bg/90 border-b border-brand-accent-dark/60 sticky top-0 z-10">
-              <tr class="text-xs text-brand-text-mid uppercase tracking-[0.18em]">
-                <th class="px-4 py-3 text-left">Name</th>
-                <th class="px-4 py-3 text-left">Email</th>
-                <th class="px-4 py-3 text-left">Role</th>
-                <th class="px-4 py-3 text-left">Created</th>
-                <th class="px-4 py-3 text-left hidden sm:table-cell">Notes</th>
-                <th class="px-4 py-3 text-right">Actions</th>
+        <div class="overflow-x-auto rounded-lg border border-brand-accent-dark/40">
+          <table class="min-w-full text-xs sm:text-sm">
+            <thead class="bg-brand-dark-bg/70 text-brand-text-mid">
+              <tr>
+                <th class="px-3 py-2 text-left">Name</th>
+                <th class="px-3 py-2 text-left">Email (metadata)</th>
+                <th class="px-3 py-2 text-left">Role</th>
+                <th class="px-3 py-2 text-left">Created</th>
+                <th class="px-3 py-2 text-left">Actions</th>
               </tr>
             </thead>
-            <tbody id="users-tbody" class="divide-y divide-brand-accent-dark/40">
-              <!-- rows injected by JS -->
+            <tbody id="user-table-body" class="bg-brand-dark-bg/40">
+              <!-- Filled by JS -->
             </tbody>
           </table>
         </div>
 
-        <div id="users-empty" class="hidden px-4 py-4 text-center text-sm text-brand-text-mid">
-          No users found. Try clearing the search or filters.
-        </div>
+        <p id="user-table-empty" class="text-xs text-brand-text-mid mt-3 hidden">
+          No users match that filter yet.
+        </p>
       </div>
-
-      <p class="mt-2 text-[0.7rem] text-brand-text-mid">
-        Note: this table is built from your <code>profiles</code> table. Details like last login,
-        IP or lesson history can be added later if you store them in the database.
-      </p>
     </section>
 
-    <!-- Simple resource upload panel (optional but powerful) -->
-    <section class="bg-card-bg/90 rounded-2xl p-4 sm:p-5 border border-brand-accent-dark/60 card-glow">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-        <div>
-          <h2 class="font-heading text-lg sm:text-xl font-bold text-brand-text-light mb-1">
-            Upload student resources (optional)
-          </h2>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            Choose a PDF / image / file to upload to a Supabase storage bucket named
-            <code class="text-[0.7rem] bg-brand-dark-bg/70 px-1.5 py-0.5 rounded">student-resources</code>.
-            You can then link these inside your student portal.
-          </p>
-        </div>
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <input
-            id="resource-file"
-            type="file"
-            class="text-xs text-brand-text-mid bg-brand-dark-bg border border-brand-accent-dark/60 rounded-lg p-1.5"
-          />
-          <button
-            id="upload-button"
-            class="px-3 py-2 text-xs font-semibold rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg transition"
-          >
-            Upload resource
-          </button>
-        </div>
-      </div>
-      <p id="upload-status" class="mt-2 text-[0.7rem] text-brand-text-mid">
-        Bucket must exist in Supabase storage: <strong>student-resources</strong>.
-      </p>
-    </section>
+    <!-- NEWSLETTERS TAB -->
+    <section id="tab-newsletters" class="space-y-4 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_minmax(0,1fr)] gap-5 items-start">
 
-  </main>
+        <!-- Left: Editor -->
+        <div class="bg-card-bg p-4 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-text-light">
+                Newsletter Editor
+              </h2>
+              <p class="text-xs sm:text-sm text-brand-text-mid">
+                Create rich newsletters with images, formatting and instant portal display.
+              </p>
+            </div>
+            <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+              WYSIWYG
+            </span>
+          </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-gray-900 text-brand-text-mid py-6 mt-4">
-    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
-      <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-      <p class="mt-1 text-gray-500">
-        Admin dashboard – for internal use only.
-      </p>
-    </div>
-  </footer>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Title
+              </label>
+              <input id="nl-title" type="text"
+                     class="w-full bg-brand-dark-bg border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-1 focus:ring-brand-accent-light/60"
+                     placeholder="Autumn Term Update, Performance News, etc." />
+            </div>
 
-  <!-- MODAL: Edit user -->
-  <div
-    id="edit-modal"
-    class="fixed inset-0 z-[100] hidden modal-backdrop items-center justify-center"
-  >
-    <div class="bg-card-bg rounded-2xl max-w-md w-full mx-4 p-6 border border-brand-accent-dark/70 card-glow relative">
-      <button
-        id="edit-modal-close"
-        class="absolute top-3 right-3 text-brand-text-mid hover:text-brand-highlight text-sm"
-      >
-        ✕
-      </button>
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Tags (optional)
+              </label>
+              <input id="nl-tags" type="text"
+                     class="w-full bg-brand-dark-bg border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-1 focus:ring-brand-accent-light/60"
+                     placeholder="general, piano, singing..." />
+              <p class="text-[0.7rem] text-brand-text-mid mt-1">
+                Comma-separated. Useful later for filtering in the portal (e.g. "piano, exams").
+              </p>
+            </div>
 
-      <h3 class="font-heading text-xl font-bold text-brand-text-light mb-1">
-        Edit User
-      </h3>
-      <p class="text-xs text-brand-text-mid mb-4">
-        Update basic details. Advanced things like postcode/lesson length can be added later
-        by extending your <code>profiles</code> table.
-      </p>
+            <!-- Image upload (drag / click) -->
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Banner Image (optional)
+              </label>
+              <div id="nl-image-drop"
+                   class="border-2 border-dashed border-brand-accent-dark/60 bg-brand-dark-bg/80 rounded-lg px-3 py-4 text-center text-xs sm:text-sm text-brand-text-mid cursor-pointer">
+                <i data-lucide="upload" class="w-5 h-5 mx-auto mb-1 text-brand-accent-light"></i>
+                <p><span class="font-semibold">Click to select</span> or drag an image here.</p>
+                <input id="nl-image-input" type="file" accept="image/*" class="hidden" />
+                <p id="nl-image-filename" class="mt-1 text-[0.7rem] text-brand-text-mid"></p>
+              </div>
+            </div>
 
-      <form id="edit-form" class="space-y-3">
-        <input type="hidden" id="edit-id" />
+            <!-- Quill editor -->
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Content
+              </label>
+              <div id="nl-editor-toolbar" class="bg-brand-dark-bg rounded-t-lg border border-brand-accent-dark/60">
+                <!-- Quill toolbar will populate here -->
+              </div>
+              <div id="nl-editor"
+                   class="bg-brand-dark-bg border border-t-0 border-brand-accent-dark/60 rounded-b-lg text-sm h-64">
+              </div>
+              <p class="text-[0.7rem] text-brand-text-mid mt-1">
+                Use this area like a mini Word document – bold, headings, bullet lists, links and more.
+              </p>
+            </div>
 
-        <div>
-          <label class="block text-xs font-medium text-brand-text-mid mb-1">
-            Email (read-only)
-          </label>
-          <input
-            id="edit-email"
-            type="email"
-            disabled
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light opacity-80"
-          />
-        </div>
+            <!-- Buttons -->
+            <div class="flex flex-wrap gap-2 justify-end pt-2 border-t border-brand-accent-dark/40 mt-2">
+              <button id="nl-new-btn"
+                      class="px-3 py-2 text-xs sm:text-sm rounded-lg border border-brand-accent-dark/60 text-brand-text-mid hover:text-white hover:bg-brand-dark-bg">
+                New draft
+              </button>
+              <button id="nl-save-draft-btn"
+                      class="px-3 py-2 text-xs sm:text-sm rounded-lg bg-card-bg text-brand-text-light border border-brand-accent-dark/60 hover:bg-brand-dark-bg">
+                Save draft
+              </button>
+              <button id="nl-publish-btn"
+                      class="px-3 py-2 text-xs sm:text-sm rounded-lg bg-brand-accent-light text-brand-dark-bg font-semibold hover:bg-brand-accent-dark">
+                Publish
+              </button>
+              <button id="nl-unpublish-btn"
+                      class="px-3 py-2 text-xs sm:text-sm rounded-lg bg-yellow-500/80 text-brand-dark-bg font-semibold hover:bg-yellow-500">
+                Unpublish
+              </button>
+            </div>
 
-        <div>
-          <label class="block text-xs font-medium text-brand-text-mid mb-1">
-            Full name
-          </label>
-          <input
-            id="edit-fullname"
-            type="text"
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-            placeholder="Student name"
-          />
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-brand-text-mid mb-1">
-            Role
-          </label>
-          <select
-            id="edit-role"
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-          >
-            <option value="student">student</option>
-            <option value="admin">admin</option>
-          </select>
-        </div>
-
-        <div class="flex items-center justify-between text-xs mt-2">
-          <div class="flex items-center gap-2">
-            <input id="edit-archived" type="checkbox" class="h-3 w-3" />
-            <label for="edit-archived" class="text-brand-text-mid">
-              Archived / inactive (requires <code>is_archived</code> column)
-            </label>
+            <p id="nl-status-line" class="text-[0.7rem] text-brand-text-mid mt-1"></p>
           </div>
         </div>
 
-        <div class="pt-3 flex flex-col sm:flex-row gap-2">
-          <button
-            type="submit"
-            class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold"
-          >
-            Save changes
-          </button>
-          <button
-            type="button"
-            id="reset-password-btn"
-            class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-brand-text-light text-xs hover:bg-brand-accent-dark/40"
-          >
-            Send password reset email
-          </button>
+        <!-- Right: Preview + list -->
+        <div class="space-y-4">
+          <!-- Preview -->
+          <div class="bg-card-bg p-4 rounded-xl card-glow border border-brand-accent-dark/50">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-heading text-sm font-bold text-brand-text-light flex items-center gap-1">
+                <i data-lucide="file-text" class="w-4 h-4 text-brand-accent-light"></i> Live Preview
+              </h3>
+              <span class="text-[0.65rem] text-brand-text-mid">What students will roughly see</span>
+            </div>
+            <div id="nl-preview" class="bg-brand-dark-bg/70 rounded-lg p-3 text-sm max-h-72 overflow-y-auto">
+              <p class="text-brand-text-mid text-xs">
+                Start typing a title and content to see a preview here.
+              </p>
+            </div>
+          </div>
+
+          <!-- Existing newsletters -->
+          <div class="bg-card-bg p-4 rounded-xl card-glow border border-brand-accent-dark/50">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-heading text-sm font-bold text-brand-text-light flex items-center gap-1">
+                <i data-lucide="newspaper" class="w-4 h-4 text-brand-accent-light"></i> Existing Newsletters
+              </h3>
+              <button id="nl-refresh-btn"
+                      class="text-[0.7rem] text-brand-text-mid hover:text-brand-accent-light">
+                Refresh
+              </button>
+            </div>
+            <div id="nl-list" class="space-y-2 max-h-72 overflow-y-auto text-xs sm:text-sm">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILES TAB -->
+    <section id="tab-files" class="space-y-4 hidden">
+      <div class="bg-card-bg p-4 sm:p-6 rounded-xl card-glow border border-brand-accent-dark/50">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div>
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-brand-text-light">
+              Student Files & Resources
+            </h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Upload lesson sheets, PDFs or resources to a specific student. They’ll see them in their portal later.
+            </p>
+          </div>
         </div>
 
-        <p id="edit-status" class="mt-2 text-[0.7rem] text-brand-text-mid"></p>
-      </form>
+        <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_minmax(0,1fr)] gap-5">
+          <!-- Upload form -->
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Select Student
+              </label>
+              <select id="file-user-select"
+                      class="w-full bg-brand-dark-bg border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-1 focus:ring-brand-accent-light/60">
+                <option value="">Choose a student...</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                File to Upload
+              </label>
+              <div id="file-drop"
+                   class="border-2 border-dashed border-brand-accent-dark/60 bg-brand-dark-bg/80 rounded-lg px-3 py-4 text-center text-xs sm:text-sm text-brand-text-mid cursor-pointer">
+                <i data-lucide="upload" class="w-5 h-5 mx-auto mb-1 text-brand-accent-light"></i>
+                <p><span class="font-semibold">Click to select</span> or drag a PDF, image or document here.</p>
+                <input id="file-input" type="file" class="hidden" />
+                <p id="file-filename" class="mt-1 text-[0.7rem] text-brand-text-mid"></p>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">
+                Display Name
+              </label>
+              <input id="file-display-name" type="text"
+                     class="w-full bg-brand-dark-bg border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-1 focus:ring-brand-accent-light/60"
+                     placeholder="e.g. 'Week 3 – Chords Sheet', 'Warm-up Exercises'" />
+            </div>
+
+            <button id="file-upload-btn"
+                    class="w-full sm:w-auto px-4 py-2 bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-semibold rounded-lg text-sm">
+              Upload File to Student
+            </button>
+
+            <p id="file-status-line" class="text-[0.7rem] text-brand-text-mid"></p>
+          </div>
+
+          <!-- Recent uploads -->
+          <div>
+            <h3 class="font-heading text-sm font-bold text-brand-text-light mb-2">
+              Recent Uploads
+            </h3>
+            <div id="file-list" class="space-y-2 max-h-72 overflow-y-auto text-xs sm:text-sm">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global error/info line -->
+    <p id="global-error" class="mt-4 text-xs text-red-400 hidden"></p>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">DBS Checked & Insured. Admin panel for internal use only.</p>
     </div>
-  </div>
+  </footer>
 
-  <!-- MAIN ADMIN JS -->
-  <script>
-    // ===================== SUPABASE CLIENT =====================
-    const supabaseClient = supabase.createClient(
-    "https://gorrhpliwhpznmdqhzjo.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
-);
+  <!-- Quill + Supabase + Admin Logic -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/supabase.js";
 
+    // 🔐 Your Supabase project
+    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"; // <-- paste your anon key here
 
-    // ===================== DOM ELEMENTS =====================
-    const navAdminEmailEl = document.getElementById('nav-admin-email');
-    const adminWelcomeEl = document.getElementById('admin-welcome');
-    const adminLastLoginEl = document.getElementById('admin-last-login');
-    const logoutBtn = document.getElementById('logout-button');
-    const logoutBtnMobile = document.getElementById('logout-button-mobile');
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const metricTotalUsersEl = document.getElementById('metric-total-users');
-    const metricStudentsEl = document.getElementById('metric-students');
-    const metricAdminsEl = document.getElementById('metric-admins');
+    // UI refs
+    const adminUserLine = document.getElementById("admin-user-line");
+    const globalError = document.getElementById("global-error");
 
-    const searchInput = document.getElementById('search-input');
-    const sortSelect = document.getElementById('sort-select');
-    const roleFilter = document.getElementById('role-filter');
-    const usersTbody = document.getElementById('users-tbody');
-    const usersEmpty = document.getElementById('users-empty');
+    // Tabs
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabSections = {
+      users: document.getElementById("tab-users"),
+      newsletters: document.getElementById("tab-newsletters"),
+      files: document.getElementById("tab-files"),
+    };
 
-    // Modal
-    const editModal = document.getElementById('edit-modal');
-    const editModalClose = document.getElementById('edit-modal-close');
-    const editForm = document.getElementById('edit-form');
-    const editIdInput = document.getElementById('edit-id');
-    const editEmailInput = document.getElementById('edit-email');
-    const editFullNameInput = document.getElementById('edit-fullname');
-    const editRoleSelect = document.getElementById('edit-role');
-    const editArchivedCheckbox = document.getElementById('edit-archived');
-    const editStatusEl = document.getElementById('edit-status');
-    const resetPasswordBtn = document.getElementById('reset-password-btn');
-
-    // Resource upload
-    const resourceFileInput = document.getElementById('resource-file');
-    const uploadButton = document.getElementById('upload-button');
-    const uploadStatus = document.getElementById('upload-status');
-
-    // ===================== STATE =====================
-    let allProfiles = [];
-    let currentAdminProfile = null;
-
-    // ===================== UTILITIES =====================
-    function simpleFuzzyMatch(haystack, needle) {
-      if (!haystack || !needle) return true;
-      const h = String(haystack).toLowerCase();
-      const n = String(needle).toLowerCase();
-      // Loose "contains" is enough for your use-case (har -> harry/harrison)
-      return h.includes(n);
-    }
-
-    function formatDate(iso) {
-      if (!iso) return '–';
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return '–';
-      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
-
-    function formatDateTime(iso) {
-      if (!iso) return '–';
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return '–';
-      return d.toLocaleString('en-GB', {
-        day: '2-digit', month: 'short', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tab = btn.dataset.tab;
+        Object.keys(tabSections).forEach(key => {
+          if (key === tab) {
+            tabSections[key].classList.remove("hidden");
+          } else {
+            tabSections[key].classList.add("hidden");
+          }
+        });
+        tabButtons.forEach(b => {
+          if (b.dataset.tab === tab) {
+            b.classList.remove("text-brand-text-mid", "border-transparent");
+            b.classList.add("border-brand-accent-light", "text-brand-accent-light");
+          } else {
+            b.classList.add("text-brand-text-mid", "border-transparent");
+            b.classList.remove("border-brand-accent-light", "text-brand-accent-light");
+          }
+        });
       });
+    });
+
+    // Mobile menu
+    const mobileBtn = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
     }
 
-    // ===================== AUTH GUARD =====================
-    async function ensureAdmin() {
-      const { data, error } = await supabaseClient.auth.getUser();
-      if (error || !data.user) {
-        window.location.href = 'login.html';
-        return;
-      }
+    // Logout
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    }
+    document.getElementById("logout-btn")?.addEventListener("click", logout);
+    document.getElementById("mobile-logout-btn")?.addEventListener("click", logout);
 
+    // ===== AUTH GUARD (ensure admin) =====
+    async function requireAdmin() {
+      globalError.classList.add("hidden");
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) {
+        window.location.href = "login.html";
+        return null;
+      }
       const user = data.user;
 
-      // Load profile (role comes from profiles table)
-      const { data: profile, error: pError } = await supabaseClient
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
+      const { data: profile, error: profErr } = await supabase
+        .from("profiles")
+        .select("full_name, role, raw_user_meta_data")
+        .eq("id", user.id)
         .single();
 
-      if (pError || !profile) {
-        alert('No profile record found for this user. You may need to create a row in profiles.');
-        window.location.href = 'login.html';
-        return;
+      if (profErr || !profile) {
+        globalError.textContent = "Could not load your profile. Are you set as admin in Supabase?";
+        globalError.classList.remove("hidden");
+        return null;
       }
 
-      if (profile.role !== 'admin') {
-        // Not an admin – send to portal
-        window.location.href = 'portal.html';
-        return;
+      if (profile.role !== "admin") {
+        window.location.href = "portal.html";
+        return null;
       }
 
-      // Store for later
-      currentAdminProfile = profile;
+      const displayName = profile.full_name || user.email || "Admin";
+      adminUserLine.textContent = `Logged in as ${displayName} (admin)`;
 
-      // Update header
-      navAdminEmailEl.textContent = user.email || '';
-      navAdminEmailEl.classList.remove('hidden');
-      adminWelcomeEl.textContent = `Logged in as: ${user.email}`;
-      adminLastLoginEl.textContent = user.last_sign_in_at
-        ? `Last login: ${formatDateTime(user.last_sign_in_at)}`
-        : '';
-
-      // Continue loading dashboard
-      await loadProfiles();
+      return { user, profile };
     }
 
-    // ===================== LOAD PROFILES + ANALYTICS =====================
-    async function loadProfiles() {
-      const { data, error } = await supabaseClient
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
+    // ===== USERS TAB LOGIC =====
+    const userSearchInput = document.getElementById("user-search");
+    const userRoleFilter = document.getElementById("user-role-filter");
+    const userTableBody = document.getElementById("user-table-body");
+    const userTableEmpty = document.getElementById("user-table-empty");
+
+    let allProfiles = [];
+
+    async function loadUsers() {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, role, created_at, raw_user_meta_data")
+        .order("created_at", { ascending: true });
 
       if (error) {
-        console.error('Error loading profiles:', error);
-        alert('Could not load profiles. Check your RLS policies and profiles table.');
+        globalError.textContent = "Error loading users: " + error.message;
+        globalError.classList.remove("hidden");
         return;
       }
 
       allProfiles = data || [];
-      updateAnalytics();
-      renderTable();
+      renderUserTable();
     }
 
-    function updateAnalytics() {
-      const total = allProfiles.length;
-      const admins = allProfiles.filter(p => p.role === 'admin').length;
-      const students = allProfiles.filter(p => p.role === 'student').length;
-
-      metricTotalUsersEl.textContent = total;
-      metricAdminsEl.textContent = admins;
-      metricStudentsEl.textContent = students;
+    function fuzzyMatch(haystack, needle) {
+      if (!needle) return true;
+      haystack = (haystack || "").toLowerCase();
+      needle = needle.toLowerCase();
+      return haystack.includes(needle);
     }
 
-    // ===================== TABLE RENDERING =====================
-    function getFilteredAndSortedProfiles() {
-      const search = searchInput.value.trim().toLowerCase();
-      const roleFilterValue = roleFilter.value;
+    function renderUserTable() {
+      const query = userSearchInput.value.trim().toLowerCase();
+      const roleFilter = userRoleFilter.value;
 
-      let filtered = allProfiles.filter(p => {
-        // Role filter
-        if (roleFilterValue !== 'all' && p.role !== roleFilterValue) {
-          return false;
-        }
-
-        // Fuzzy search across full_name, email, role, and notes if exists
-        if (!search) return true;
-
-        const fields = [
-          p.full_name,
-          p.username,
-          p.email,
-          p.role,
-          p.notes // optional future column
-        ];
-
-        return fields.some(field => simpleFuzzyMatch(field, search));
+      let rows = allProfiles.map(p => {
+        const meta = p.raw_user_meta_data || {};
+        const email = meta.email || meta.email_address || "";
+        return { ...p, email };
       });
 
-      const sortValue = sortSelect.value;
-      filtered.sort((a, b) => {
-        const nameA = (a.full_name || a.username || '').toLowerCase();
-        const nameB = (b.full_name || b.username || '').toLowerCase();
-        const roleA = (a.role || '').toLowerCase();
-        const roleB = (b.role || '').toLowerCase();
-        const createdA = a.created_at || '';
-        const createdB = b.created_at || '';
-
-        switch (sortValue) {
-          case 'created_asc':
-            return createdA.localeCompare(createdB);
-          case 'created_desc':
-            return createdB.localeCompare(createdA);
-          case 'name_asc':
-            return nameA.localeCompare(nameB);
-          case 'name_desc':
-            return nameB.localeCompare(nameA);
-          case 'role_asc':
-            return roleA.localeCompare(roleB);
-          case 'role_desc':
-            return roleB.localeCompare(roleA);
-          default:
-            return 0;
-        }
+      rows = rows.filter(p => {
+        const inRole =
+          roleFilter === "all" ? true : (p.role || "pending") === roleFilter;
+        const txt = `${p.full_name || ""} ${p.email || ""}`;
+        const inSearch = fuzzyMatch(txt, query);
+        return inRole && inSearch;
       });
 
-      return filtered;
-    }
-
-    function renderTable() {
-      const profiles = getFilteredAndSortedProfiles();
-
-      usersTbody.innerHTML = '';
-
-      if (!profiles.length) {
-        usersEmpty.classList.remove('hidden');
+      userTableBody.innerHTML = "";
+      if (!rows.length) {
+        userTableEmpty.classList.remove("hidden");
         return;
       }
-      usersEmpty.classList.add('hidden');
+      userTableEmpty.classList.add("hidden");
 
-      for (const p of profiles) {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-card-bg cursor-default';
+      rows.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.className = "border-t border-brand-accent-dark/40";
 
-        const name = p.full_name || p.username || '–';
-        const email = p.email || p.raw_user_meta_data?.email || '–';
-        const created = formatDate(p.created_at);
-        const notes = p.notes || '';
+        const created = p.created_at
+          ? new Date(p.created_at).toLocaleDateString()
+          : "";
 
-        const roleBadgeClass =
-          p.role === 'admin'
-            ? 'bg-brand-highlight/10 text-brand-highlight border-brand-highlight/60'
-            : 'bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/60';
-
-        const archivedFlag = p.is_archived ? '<span class="ml-2 text-[0.6rem] text-error-red uppercase tracking-[0.15em]">ARCHIVED</span>' : '';
+        const role = p.role || "pending";
 
         tr.innerHTML = `
-          <td class="px-4 py-3 align-middle">
-            <div class="flex flex-col">
-              <span class="font-semibold text-brand-text-light text-sm">${name}</span>
-              <span class="text-[0.7rem] text-brand-text-mid">ID: ${p.id.slice(0, 8)}…</span>
+          <td class="px-3 py-2 align-top">
+            <div class="font-semibold text-brand-text-light text-xs sm:text-sm">
+              ${p.full_name || "(No name yet)"}
+            </div>
+            <div class="text-[0.7rem] text-brand-text-mid">ID: ${p.id.slice(0,8)}...</div>
+          </td>
+          <td class="px-3 py-2 align-top">
+            <div class="text-xs sm:text-sm text-brand-text-mid">
+              ${p.email || "(Email stored in auth only)"}
             </div>
           </td>
-          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid">
-            ${email}
+          <td class="px-3 py-2 align-top">
+            <select data-user-id="${p.id}" class="user-role-select bg-brand-dark-bg border border-brand-accent-dark/50 rounded-lg px-2 py-1 text-xs sm:text-sm">
+              <option value="pending" ${role === "pending" ? "selected" : ""}>Pending</option>
+              <option value="student" ${role === "student" ? "selected" : ""}>Student</option>
+              <option value="admin" ${role === "admin" ? "selected" : ""}>Admin</option>
+            </select>
           </td>
-          <td class="px-4 py-3 align-middle">
-            <span class="badge border ${roleBadgeClass}">
-              ${p.role || 'unknown'}
-            </span>
-            ${archivedFlag}
-          </td>
-          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid">
+          <td class="px-3 py-2 align-top text-xs text-brand-text-mid">
             ${created}
           </td>
-          <td class="px-4 py-3 align-middle text-xs text-brand-text-mid hidden sm:table-cell">
-            ${notes ? notes : '<span class="opacity-60">–</span>'}
-          </td>
-          <td class="px-4 py-3 align-middle text-right">
-            <button
-              class="inline-flex items-center px-3 py-1.5 text-[0.7rem] rounded-lg bg-brand-accent-light/90 hover:bg-brand-accent-dark text-brand-dark-bg font-semibold"
-              data-profile-id="${p.id}"
-            >
-              Manage
-            </button>
+          <td class="px-3 py-2 align-top">
+            <div class="flex flex-wrap gap-1">
+              <button data-approve-id="${p.id}"
+                      class="px-2 py-1 text-[0.7rem] rounded bg-brand-accent-light/90 text-brand-dark-bg hover:bg-brand-accent-dark">
+                Approve
+              </button>
+              <button data-make-admin-id="${p.id}"
+                      class="px-2 py-1 text-[0.7rem] rounded bg-card-bg text-brand-text-light border border-brand-accent-dark/60 hover:bg-brand-dark-bg">
+                Make admin
+              </button>
+            </div>
           </td>
         `;
+        userTableBody.appendChild(tr);
+      });
 
-        usersTbody.appendChild(tr);
-      }
+      // Wire role selects
+      document.querySelectorAll(".user-role-select").forEach(sel => {
+        sel.addEventListener("change", async e => {
+          const userId = sel.getAttribute("data-user-id");
+          const newRole = sel.value;
+          await updateUserRole(userId, newRole);
+        });
+      });
 
-      // Wire up "Manage" buttons
-      usersTbody.querySelectorAll('button[data-profile-id]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-profile-id');
-          const profile = allProfiles.find(p => p.id === id);
-          if (profile) openEditModal(profile);
+      document.querySelectorAll("[data-approve-id]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const userId = btn.getAttribute("data-approve-id");
+          await updateUserRole(userId, "student");
+        });
+      });
+
+      document.querySelectorAll("[data-make-admin-id]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const userId = btn.getAttribute("data-make-admin-id");
+          await updateUserRole(userId, "admin");
         });
       });
     }
 
-    // ===================== MODAL HANDLERS =====================
-    function openEditModal(profile) {
-      editIdInput.value = profile.id;
-      editEmailInput.value = profile.email || profile.raw_user_meta_data?.email || '';
-      editFullNameInput.value = profile.full_name || profile.username || '';
-      editRoleSelect.value = profile.role || 'student';
-      editArchivedCheckbox.checked = !!profile.is_archived;
-      editStatusEl.textContent = '';
-      editModal.classList.remove('hidden');
-      editModal.classList.add('flex');
-    }
-
-    function closeEditModal() {
-      editModal.classList.add('hidden');
-      editModal.classList.remove('flex');
-    }
-
-    editModalClose.addEventListener('click', closeEditModal);
-    editModal.addEventListener('click', (e) => {
-      if (e.target === editModal) closeEditModal();
-    });
-
-    // Save changes
-    editForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      editStatusEl.textContent = 'Saving…';
-
-      const id = editIdInput.value;
-      const full_name = editFullNameInput.value.trim();
-      const role = editRoleSelect.value;
-      const is_archived = editArchivedCheckbox.checked;
-
-      // Build update object safely (only known columns)
-      const updatePayload = { role };
-      if (full_name) updatePayload.full_name = full_name;
-      // Archive is optional – safe to try, error is handled
-      updatePayload.is_archived = is_archived;
-
-      const { error } = await supabaseClient
-        .from('profiles')
-        .update(updatePayload)
-        .eq('id', id);
+    async function updateUserRole(userId, role) {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ role })
+        .eq("id", userId);
 
       if (error) {
-        console.error('Update error:', error);
-        editStatusEl.textContent = 'Could not save changes. Check console for details.';
-        editStatusEl.style.color = '#f87171';
+        globalError.textContent = "Error updating role: " + error.message;
+        globalError.classList.remove("hidden");
         return;
       }
+      await loadUsers();
+    }
 
-      editStatusEl.textContent = 'Saved successfully.';
-      editStatusEl.style.color = '#00d084';
+    userSearchInput.addEventListener("input", renderUserTable);
+    userRoleFilter.addEventListener("change", renderUserTable);
 
-      // Refresh local state
-      await loadProfiles();
-      // Close after a short delay
-      setTimeout(closeEditModal, 600);
-    });
+    // ===== NEWSLETTERS TAB LOGIC =====
+    const NL_DRAFT_KEY = "ew_newsletter_draft";
 
-    // Password reset
-    resetPasswordBtn.addEventListener('click', async () => {
-      const email = editEmailInput.value.trim();
-      if (!email) {
-        editStatusEl.textContent = 'No email address found for this user.';
-        editStatusEl.style.color = '#f87171';
-        return;
-      }
+    const nlTitle = document.getElementById("nl-title");
+    const nlTags = document.getElementById("nl-tags");
+    const nlImageDrop = document.getElementById("nl-image-drop");
+    const nlImageInput = document.getElementById("nl-image-input");
+    const nlImageFilename = document.getElementById("nl-image-filename");
+    const nlPreview = document.getElementById("nl-preview");
+    const nlStatusLine = document.getElementById("nl-status-line");
+    const nlList = document.getElementById("nl-list");
+    const nlRefreshBtn = document.getElementById("nl-refresh-btn");
+    const nlNewBtn = document.getElementById("nl-new-btn");
+    const nlSaveDraftBtn = document.getElementById("nl-save-draft-btn");
+    const nlPublishBtn = document.getElementById("nl-publish-btn");
+    const nlUnpublishBtn = document.getElementById("nl-unpublish-btn");
 
-      editStatusEl.textContent = 'Sending password reset email…';
-      editStatusEl.style.color = '#a0a0a0';
+    let quill;
+    let currentNewsletterId = null;
+    let currentImageFile = null;
 
-      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/reset.html'
+    function initQuill() {
+      quill = new Quill("#nl-editor", {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link"],
+            [{ align: [] }],
+            ["clean"]
+          ]
+        }
       });
 
-      if (error) {
-        console.error('Reset password error:', error);
-        editStatusEl.textContent = 'Could not send reset email. Check Supabase Auth settings.';
-        editStatusEl.style.color = '#f87171';
-        return;
-      }
-
-      editStatusEl.textContent = `Password reset email sent to ${email}.`;
-      editStatusEl.style.color = '#00d084';
-    });
-
-    // ===================== RESOURCE UPLOAD =====================
-    uploadButton.addEventListener('click', async () => {
-      const file = resourceFileInput.files[0];
-      if (!file) {
-        uploadStatus.textContent = 'Please choose a file first.';
-        uploadStatus.style.color = '#f87171';
-        return;
-      }
-
-      uploadStatus.textContent = 'Uploading…';
-      uploadStatus.style.color = '#a0a0a0';
-
-      const safeName = file.name.replace(/\s+/g, '-').toLowerCase();
-      const path = `admin-uploads/${Date.now()}-${safeName}`;
-
-      const { data, error } = await supabaseClient
-        .storage
-        .from('student-resources')
-        .upload(path, file);
-
-      if (error) {
-        console.error('Upload error:', error);
-        uploadStatus.textContent = 'Upload failed. Make sure bucket "student-resources" exists.';
-        uploadStatus.style.color = '#f87171';
-        return;
-      }
-
-      uploadStatus.textContent = `Uploaded successfully as: ${data.path}`;
-      uploadStatus.style.color = '#00d084';
-      resourceFileInput.value = '';
-    });
-
-    // ===================== SEARCH / FILTER EVENTS =====================
-    searchInput.addEventListener('input', () => renderTable());
-    sortSelect.addEventListener('change', () => renderTable());
-    roleFilter.addEventListener('change', () => renderTable());
-
-    // ===================== LOGOUT =====================
-    async function handleLogout() {
-      await supabaseClient.auth.signOut();
-      window.location.href = 'login.html';
+      quill.on("text-change", () => {
+        updateNewsletterPreview();
+        saveDraftToLocalStorage();
+      });
     }
 
-    logoutBtn.addEventListener('click', handleLogout);
-    logoutBtnMobile.addEventListener('click', handleLogout);
+    function updateNewsletterPreview() {
+      const title = nlTitle.value.trim() || "Newsletter title...";
+      const html = quill.root.innerHTML;
+      const tags = (nlTags.value || "")
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
 
-    // ===================== INIT =====================
+      let imgHtml = "";
+      if (nlPreview.dataset.imageUrl) {
+        imgHtml = `<img src="${nlPreview.dataset.imageUrl}" alt="Newsletter image" class="w-full max-h-40 object-cover rounded mb-2" />`;
+      }
+
+      nlPreview.innerHTML = `
+        <h4 class="font-heading text-lg font-bold mb-1 text-brand-text-light">${title}</h4>
+        ${tags.length ? `<p class="text-[0.7rem] text-brand-text-mid mb-2">Tags: ${tags.join(", ")}</p>` : ""}
+        ${imgHtml}
+        <div class="ql-snow">
+          <div class="ql-editor text-sm">${html}</div>
+        </div>
+      `;
+    }
+
+    function saveDraftToLocalStorage() {
+      const payload = {
+        id: currentNewsletterId,
+        title: nlTitle.value,
+        tags: nlTags.value,
+        html: quill.root.innerHTML,
+        imageUrl: nlPreview.dataset.imageUrl || null,
+      };
+      localStorage.setItem(NL_DRAFT_KEY, JSON.stringify(payload));
+      nlStatusLine.textContent = "Draft auto-saved locally.";
+    }
+
+    function loadDraftFromLocalStorage() {
+      const raw = localStorage.getItem(NL_DRAFT_KEY);
+      if (!raw) return;
+      try {
+        const d = JSON.parse(raw);
+        currentNewsletterId = d.id || null;
+        nlTitle.value = d.title || "";
+        nlTags.value = d.tags || "";
+        quill.root.innerHTML = d.html || "";
+        if (d.imageUrl) {
+          nlPreview.dataset.imageUrl = d.imageUrl;
+          nlImageFilename.textContent = "(Using previously uploaded image)";
+        }
+        updateNewsletterPreview();
+        nlStatusLine.textContent = "Draft restored from previous session.";
+      } catch {
+        // ignore
+      }
+    }
+
+    function resetNewsletterForm() {
+      currentNewsletterId = null;
+      currentImageFile = null;
+      nlTitle.value = "";
+      nlTags.value = "";
+      quill.root.innerHTML = "";
+      nlPreview.dataset.imageUrl = "";
+      nlImageFilename.textContent = "";
+      nlPreview.innerHTML = `<p class="text-brand-text-mid text-xs">
+        Start typing a title and content to see a preview here.
+      </p>`;
+      nlStatusLine.textContent = "New draft started.";
+      saveDraftToLocalStorage();
+    }
+
+    // Drag & drop image
+    nlImageDrop.addEventListener("click", () => nlImageInput.click());
+    nlImageDrop.addEventListener("dragover", e => {
+      e.preventDefault();
+      nlImageDrop.classList.add("border-brand-accent-light");
+    });
+    nlImageDrop.addEventListener("dragleave", e => {
+      e.preventDefault();
+      nlImageDrop.classList.remove("border-brand-accent-light");
+    });
+    nlImageDrop.addEventListener("drop", e => {
+      e.preventDefault();
+      nlImageDrop.classList.remove("border-brand-accent-light");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        currentImageFile = e.dataTransfer.files[0];
+        nlImageFilename.textContent = currentImageFile.name;
+      }
+    });
+    nlImageInput.addEventListener("change", () => {
+      if (nlImageInput.files && nlImageInput.files[0]) {
+        currentImageFile = nlImageInput.files[0];
+        nlImageFilename.textContent = currentImageFile.name;
+      }
+    });
+
+    async function uploadNewsletterImageIfNeeded() {
+      if (!currentImageFile) {
+        return nlPreview.dataset.imageUrl || null;
+      }
+      const ext = currentImageFile.name.split(".").pop();
+      const path = `banner-${Date.now()}.${ext}`;
+      const { data, error } = await supabase
+        .storage
+        .from("newsletters")
+        .upload(path, currentImageFile, { upsert: true });
+
+      if (error) {
+        nlStatusLine.textContent = "Image upload failed: " + error.message;
+        return null;
+      }
+      const { data: pub } = supabase
+        .storage
+        .from("newsletters")
+        .getPublicUrl(path);
+
+      const url = pub.publicUrl;
+      nlPreview.dataset.imageUrl = url;
+      updateNewsletterPreview();
+      saveDraftToLocalStorage();
+      return url;
+    }
+
+    async function saveNewsletter(status) {
+      const title = nlTitle.value.trim();
+      const html = quill.root.innerHTML.trim();
+
+      if (!title || !html) {
+        nlStatusLine.textContent = "Title and content are required.";
+        return;
+      }
+
+      nlStatusLine.textContent = "Saving newsletter...";
+
+      const imageUrl = await uploadNewsletterImageIfNeeded();
+      const tagsRaw = (nlTags.value || "")
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
+
+      const basePayload = {
+        title,
+        content: html,
+        image_url: imageUrl,
+        tags: tagsRaw.length ? tagsRaw : null,
+        status,
+      };
+
+      let error;
+
+      if (currentNewsletterId) {
+        ({ error } = await supabase
+          .from("newsletters")
+          .update({ ...basePayload, updated_at: new Date().toISOString() })
+          .eq("id", currentNewsletterId));
+      } else {
+        const { data, error: insErr } = await supabase
+          .from("newsletters")
+          .insert(basePayload)
+          .select("id")
+          .single();
+
+        error = insErr;
+        if (!error && data) {
+          currentNewsletterId = data.id;
+        }
+      }
+
+      if (error) {
+        nlStatusLine.textContent = "Save failed: " + error.message;
+        return;
+      }
+
+      nlStatusLine.textContent =
+        status === "published"
+          ? "Newsletter published. Students will now see it in their portal."
+          : "Draft saved.";
+
+      saveDraftToLocalStorage();
+      await loadNewsletterList();
+    }
+
+    async function loadNewsletterList() {
+      const { data, error } = await supabase
+        .from("newsletters")
+        .select("id, title, status, created_at")
+        .order("created_at", { ascending: false });
+
+      nlList.innerHTML = "";
+      if (error) {
+        nlList.innerHTML = `<p class="text-red-400 text-xs">Error loading newsletters: ${error.message}</p>`;
+        return;
+      }
+
+      if (!data || !data.length) {
+        nlList.innerHTML = `<p class="text-xs text-brand-text-mid">No newsletters yet. Create your first one on the left.</p>`;
+        return;
+      }
+
+      data.forEach(n => {
+        const div = document.createElement("button");
+        div.type = "button";
+        div.className =
+          "w-full text-left px-3 py-2 rounded-lg border border-brand-accent-dark/50 bg-brand-dark-bg/70 hover:bg-brand-dark-bg text-xs sm:text-sm";
+        const date = n.created_at
+          ? new Date(n.created_at).toLocaleString()
+          : "";
+        const statusBadge =
+          n.status === "published"
+            ? `<span class="badge bg-brand-accent-light/15 text-brand-accent-light border border-brand-accent-light/50 ml-1">Published</span>`
+            : `<span class="badge bg-yellow-500/20 text-yellow-300 border border-yellow-500/60 ml-1">Draft</span>`;
+
+        div.innerHTML = `
+          <div class="font-semibold text-brand-text-light flex items-center justify-between gap-2">
+            <span class="truncate">${n.title}</span>
+          </div>
+          <div class="flex items-center justify-between mt-1 text-[0.7rem] text-brand-text-mid">
+            <span>${date}</span>
+            <span>${statusBadge}</span>
+          </div>
+        `;
+        div.addEventListener("click", () => loadNewsletterIntoEditor(n.id));
+        nlList.appendChild(div);
+      });
+    }
+
+    async function loadNewsletterIntoEditor(id) {
+      const { data, error } = await supabase
+        .from("newsletters")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error || !data) {
+        nlStatusLine.textContent = "Could not load newsletter.";
+        return;
+      }
+
+      currentNewsletterId = data.id;
+      nlTitle.value = data.title || "";
+      nlTags.value = (data.tags || []).join(", ");
+      quill.root.innerHTML = data.content || "";
+      nlPreview.dataset.imageUrl = data.image_url || "";
+      nlImageFilename.textContent = data.image_url ? "(Existing image in use)" : "";
+      updateNewsletterPreview();
+      saveDraftToLocalStorage();
+      nlStatusLine.textContent = `Loaded existing newsletter (${data.status}).`;
+    }
+
+    nlNewBtn.addEventListener("click", resetNewsletterForm);
+    nlSaveDraftBtn.addEventListener("click", () => saveNewsletter("draft"));
+    nlPublishBtn.addEventListener("click", () => saveNewsletter("published"));
+    nlUnpublishBtn.addEventListener("click", async () => {
+      if (!currentNewsletterId) {
+        nlStatusLine.textContent = "Open a newsletter first.";
+        return;
+      }
+      await saveNewsletter("draft");
+    });
+    nlRefreshBtn.addEventListener("click", loadNewsletterList);
+    nlTitle.addEventListener("input", () => {
+      updateNewsletterPreview();
+      saveDraftToLocalStorage();
+    });
+    nlTags.addEventListener("input", () => {
+      updateNewsletterPreview();
+      saveDraftToLocalStorage();
+    });
+
+    // ===== FILES TAB LOGIC =====
+    const fileUserSelect = document.getElementById("file-user-select");
+    const fileDrop = document.getElementById("file-drop");
+    const fileInput = document.getElementById("file-input");
+    const fileFilename = document.getElementById("file-filename");
+    const fileDisplayName = document.getElementById("file-display-name");
+    const fileUploadBtn = document.getElementById("file-upload-btn");
+    const fileStatusLine = document.getElementById("file-status-line");
+    const fileList = document.getElementById("file-list");
+
+    let currentFile = null;
+    let profilesForSelect = [];
+
+    function populateUserSelect() {
+      fileUserSelect.innerHTML =
+        '<option value="">Choose a student...</option>';
+      profilesForSelect
+        .filter(p => (p.role || "pending") !== "pending")
+        .forEach(p => {
+          const opt = document.createElement("option");
+          opt.value = p.id;
+          opt.textContent = p.full_name || p.id.slice(0, 8);
+          fileUserSelect.appendChild(opt);
+        });
+    }
+
+    fileDrop.addEventListener("click", () => fileInput.click());
+    fileDrop.addEventListener("dragover", e => {
+      e.preventDefault();
+      fileDrop.classList.add("border-brand-accent-light");
+    });
+    fileDrop.addEventListener("dragleave", e => {
+      e.preventDefault();
+      fileDrop.classList.remove("border-brand-accent-light");
+    });
+    fileDrop.addEventListener("drop", e => {
+      e.preventDefault();
+      fileDrop.classList.remove("border-brand-accent-light");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        currentFile = e.dataTransfer.files[0];
+        fileFilename.textContent = currentFile.name;
+      }
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files && fileInput.files[0]) {
+        currentFile = fileInput.files[0];
+        fileFilename.textContent = currentFile.name;
+      }
+    });
+
+    async function uploadStudentFile() {
+      const userId = fileUserSelect.value;
+      if (!userId) {
+        fileStatusLine.textContent = "Please pick a student first.";
+        return;
+      }
+      if (!currentFile) {
+        fileStatusLine.textContent = "Please choose a file to upload.";
+        return;
+      }
+
+      fileStatusLine.textContent = "Uploading file...";
+      const displayName =
+        fileDisplayName.value.trim() || currentFile.name;
+      const ext = currentFile.name.split(".").pop();
+      const path = `${userId}/${Date.now()}-${currentFile.name}`;
+
+      const { data, error } = await supabase
+        .storage
+        .from("student-files")
+        .upload(path, currentFile, { upsert: true });
+
+      if (error) {
+        fileStatusLine.textContent = "File upload failed: " + error.message;
+        return;
+      }
+
+      const { data: pub } = supabase
+        .storage
+        .from("student-files")
+        .getPublicUrl(path);
+
+      const url = pub.publicUrl;
+
+      const { error: insertErr } = await supabase
+        .from("student_files")
+        .insert({
+          user_id: userId,
+          file_name: displayName,
+          file_url: url
+        });
+
+      if (insertErr) {
+        fileStatusLine.textContent =
+          "File metadata save failed: " + insertErr.message;
+        return;
+      }
+
+      fileStatusLine.textContent = "File uploaded and saved.";
+      currentFile = null;
+      fileInput.value = "";
+      fileFilename.textContent = "";
+      fileDisplayName.value = "";
+
+      await loadRecentFiles();
+    }
+
+    fileUploadBtn.addEventListener("click", uploadStudentFile);
+
+    async function loadRecentFiles() {
+      const { data, error } = await supabase
+        .from("student_files")
+        .select("id, user_id, file_name, file_url, created_at")
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      fileList.innerHTML = "";
+      if (error) {
+        fileList.innerHTML = `<p class="text-xs text-red-400">Error loading files: ${error.message}</p>`;
+        return;
+      }
+
+      if (!data || !data.length) {
+        fileList.innerHTML = `<p class="text-xs text-brand-text-mid">No files uploaded yet.</p>`;
+        return;
+      }
+
+      data.forEach(f => {
+        const owner = profilesForSelect.find(p => p.id === f.user_id);
+        const ownerName = owner?.full_name || f.user_id.slice(0, 8);
+        const date = f.created_at
+          ? new Date(f.created_at).toLocaleString()
+          : "";
+
+        const div = document.createElement("div");
+        div.className =
+          "border border-brand-accent-dark/50 bg-brand-dark-bg/60 rounded-lg px-3 py-2";
+        div.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-brand-text-light">${f.file_name}</span>
+            <a href="${f.file_url}" target="_blank" class="text-brand-accent-light underline ml-2">
+              View
+            </a>
+          </div>
+          <div class="mt-1 text-[0.7rem] text-brand-text-mid flex justify-between">
+            <span>Student: ${ownerName}</span>
+            <span>${date}</span>
+          </div>
+        `;
+        fileList.appendChild(div);
+      });
+    }
+
+    // ===== INITIALISE ALL =====
     (async function initAdmin() {
-      await ensureAdmin();
+      const admin = await requireAdmin();
+      if (!admin) return;
+
+      // Quill
+      initQuill();
+      loadDraftFromLocalStorage();
+      updateNewsletterPreview();
+
+      // Users (also used to populate file student select)
+      await loadUsers();
+      profilesForSelect = allProfiles;
+      populateUserSelect();
+
+      // Newsletters
+      await loadNewsletterList();
+
+      // Files
+      await loadRecentFiles();
     })();
   </script>
 </body>
