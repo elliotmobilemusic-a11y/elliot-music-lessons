@@ -1,178 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In – Elliot's Mobile Music</title>
-    <link rel="icon" href="/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Elliot's Mobile Music Lessons</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
-    <!-- Tailwind (Safe for dev) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark-bg': '#1a1a2e',
-                        'brand-accent-light': '#00d084',
-                        'brand-accent-dark': '#00a36e',
-                        'brand-text-light': '#e0e0e0',
-                        'brand-text-mid': '#a0a0a0',
-                        'brand-highlight': '#ffb703',
-                        'card-bg': '#252538',
-                        'error-red': '#ef4444',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                    }
-                }
-            }
-        };
-    </script>
-
-    <!-- Google Fonts -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Montserrat:wght@700;800;900&display=swap');
-
-        body {
-            background: #1a1a2e;
-            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-            font-family: 'Inter', sans-serif;
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0a0a0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
+            'error-red': '#f87171',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
+          },
         }
-        .card-glow {
-            box-shadow: 0 0 25px rgba(0, 208, 132, 0.15);
-        }
-    </style>
+      }
+    }
+  </script>
 
-    <!-- Lucide Icons -->
-    <script type="module">
-        import { createIcons, Mail, Lock, ArrowRight, XCircle } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-        createIcons({ icons: { Mail, Lock, ArrowRight, XCircle } });
-    </script>
+  <!-- Fonts + basic styles -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+    body {
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      font-family: 'Inter', sans-serif;
+    }
+    .card-glow {
+      box-shadow: 0 0 30px rgba(0, 208, 132, 0.15);
+    }
+    .tab-active {
+      background-color: rgba(0, 208, 132, 0.12);
+      border-color: #00d084;
+      color: #e0e0e0;
+    }
+    .tab-inactive {
+      background-color: transparent;
+      border-color: transparent;
+      color: #a0a0a0;
+    }
+    .input-style {
+      background-color: #1a1a2e;
+      border-color: #44445c;
+      color: #e0e0e0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-style:focus {
+      outline: none;
+      border-color: #00d084;
+      box-shadow: 0 0 0 2px rgba(0, 208, 132, 0.5);
+    }
+    .input-error {
+      border-color: #f87171;
+      box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.5);
+    }
+  </style>
 
-    <!-- Supabase MUST load BEFORE client init -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- CREATE SUPABASE CLIENT (THE FIX) -->
-    <script>
-        const supabaseClient = supabase.createClient(
-    "https://gorrhpliwhpznmdqhzjo.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM"
-);
-
-    </script>
+  <!-- Supabase JS (v2 UMD build) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"></script>
 </head>
-
 <body class="min-h-screen flex flex-col">
 
-    <!-- Main Container -->
-    <main class="flex-grow flex items-center justify-center px-4 py-16">
-        <div class="w-full max-w-md bg-card-bg p-8 rounded-2xl card-glow border border-brand-accent-dark/40">
+  <!-- Simple top brand header -->
+  <header class="py-4">
+    <div class="max-w-6xl mx-auto px-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2">
+        <span
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50"
+        >
+          <!-- Inline music icon -->
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="24" height="24" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round"
+               class="w-5 h-5 text-brand-accent-light">
+            <circle cx="8" cy="18" r="4"></circle>
+            <path d="M12 18V2l7 4"></path>
+          </svg>
+        </span>
+        <span class="text-xs sm:text-sm md:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+          ELLIOT'S MOBILE MUSIC
+        </span>
+      </a>
+      <a
+        href="index.html"
+        class="hidden sm:inline-flex text-xs sm:text-sm text-brand-text-mid hover:text-white"
+      >
+        ← Back to main site
+      </a>
+    </div>
+  </header>
 
-            <h1 class="text-3xl font-heading font-extrabold text-center mb-2 text-brand-highlight">
-                Log In
-            </h1>
-            <p class="text-center text-brand-text-mid mb-8">
-                Access your student or admin dashboard
-            </p>
+  <!-- Main auth container -->
+  <main class="flex-grow flex items-center justify-center px-4 py-10 sm:py-16">
+    <div class="w-full max-w-lg bg-card-bg/95 border border-brand-accent-dark/50 rounded-2xl card-glow p-6 sm:p-8">
+      <!-- Title -->
+      <div class="text-center mb-6">
+        <p class="text-[0.7rem] font-semibold tracking-[0.25em] text-brand-highlight uppercase mb-2">
+          STUDENT & ADMIN PORTAL
+        </p>
+        <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light mb-1">
+          Sign in to your account
+        </h1>
+        <p class="text-sm text-brand-text-mid">
+          Parents can create an account. Elliot approves access before resources unlock.
+        </p>
+      </div>
 
-            <!-- Error Box -->
-            <div id="login-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500 text-error-red text-sm flex items-start gap-2">
-                <i data-lucide="x-circle" class="w-5 h-5 mt-0.5"></i>
-                <span id="login-error-msg"></span>
-            </div>
+      <!-- Tabs -->
+      <div class="flex mb-5 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/60 overflow-hidden">
+        <button
+          id="tab-login"
+          class="w-1/2 py-2.5 text-sm font-semibold border-b-2 tab-active border-brand-accent-light"
+          type="button"
+        >
+          Log In
+        </button>
+        <button
+          id="tab-signup"
+          class="w-1/2 py-2.5 text-sm font-semibold border-b-2 tab-inactive border-transparent"
+          type="button"
+        >
+          Create Account
+        </button>
+      </div>
 
-            <!-- Login Form -->
-            <form id="login-form" class="space-y-5">
+      <!-- Message box (errors / info) -->
+      <div
+        id="message-box"
+        class="hidden mb-4 rounded-lg border text-sm px-3 py-2"
+      ></div>
 
-                <!-- Email -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email</label>
-                    <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
-                        <i data-lucide="mail" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
-                        <input type="email" id="email" required class="w-full p-3 bg-transparent focus:outline-none" placeholder="you@example.com">
-                    </div>
-                </div>
-
-                <!-- Password -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Password</label>
-                    <div class="flex items-center bg-brand-dark-bg rounded-lg border border-brand-accent-dark/50">
-                        <i data-lucide="lock" class="w-5 h-5 ml-3 text-brand-accent-light"></i>
-                        <input type="password" id="password" required class="w-full p-3 bg-transparent focus:outline-none" placeholder="••••••••">
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button id="login-button"
-                    class="w-full py-3 bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-bold rounded-lg transition flex items-center justify-center gap-2">
-                    <span>Log In</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
-            </form>
-
+      <!-- LOGIN FORM -->
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="login-email" class="block text-sm font-medium mb-1">Email</label>
+          <input
+            id="login-email"
+            type="email"
+            required
+            class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+            placeholder="you@example.com"
+          />
         </div>
-    </main>
 
-    <!-- LOGIN LOGIC -->
-    <script>
-        const loginForm = document.getElementById("login-form");
-        const loginButton = document.getElementById("login-button");
-        const errorBox = document.getElementById("login-error");
-        const errorMsg = document.getElementById("login-error-msg");
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label for="login-password" class="block text-sm font-medium">Password</label>
+            <button
+              type="button"
+              id="toggle-login-password"
+              class="text-[0.7rem] text-brand-text-mid hover:text-brand-accent-light"
+            >
+              Show
+            </button>
+          </div>
+          <input
+            id="login-password"
+            type="password"
+            required
+            class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+            placeholder="••••••••"
+          />
+        </div>
 
-        function showError(msg) {
-            errorMsg.textContent = msg;
-            errorBox.classList.remove("hidden");
+        <button
+          id="login-button"
+          type="submit"
+          class="w-full mt-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg font-bold text-sm sm:text-base transition transform hover:scale-[1.01]"
+        >
+          <span id="login-button-label">Log In</span>
+        </button>
+
+        <p class="text-[0.75rem] text-brand-text-mid text-center">
+          Forgot your password?
+          <button
+            type="button"
+            id="reset-password-button"
+            class="underline text-brand-accent-light hover:text-white"
+          >
+            Send reset link
+          </button>
+        </p>
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="signup-form" class="space-y-4 hidden mt-1">
+        <p class="text-xs text-brand-text-mid mb-1">
+          New here? Create an account. Elliot will approve your access before you can see resources.
+        </p>
+
+        <div>
+          <label for="signup-name" class="block text-sm font-medium mb-1">
+            Your Name
+          </label>
+          <input
+            id="signup-name"
+            type="text"
+            required
+            class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+            placeholder="Parent or student name"
+          />
+        </div>
+
+        <div>
+          <label for="signup-email" class="block text-sm font-medium mb-1">
+            Email
+          </label>
+          <input
+            id="signup-email"
+            type="email"
+            required
+            class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="signup-password" class="block text-sm font-medium mb-1">
+              Password
+            </label>
+            <input
+              id="signup-password"
+              type="password"
+              required
+              minlength="8"
+              class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+              placeholder="At least 8 characters"
+            />
+          </div>
+          <div>
+            <label for="signup-password-confirm" class="block text-sm font-medium mb-1">
+              Confirm Password
+            </label>
+            <input
+              id="signup-password-confirm"
+              type="password"
+              required
+              minlength="8"
+              class="input-style w-full rounded-lg border px-3 py-2.5 text-sm"
+              placeholder="Repeat password"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="signup-notes" class="block text-sm font-medium mb-1">
+            Student details (optional)
+          </label>
+          <textarea
+            id="signup-notes"
+            rows="3"
+            class="input-style w-full rounded-lg border px-3 py-2 text-sm resize-none"
+            placeholder="e.g. Age, instrument (piano / singing), any goals or experience."
+          ></textarea>
+        </div>
+
+        <button
+          id="signup-button"
+          type="submit"
+          class="w-full mt-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-highlight hover:bg-brand-highlight/90 text-brand-dark-bg font-bold text-sm sm:text-base transition transform hover:scale-[1.01]"
+        >
+          <span id="signup-button-label">Create Account</span>
+        </button>
+
+        <p class="text-[0.7rem] text-brand-text-mid text-center mt-1">
+          After you sign up, you’ll get a confirmation email. Once Elliot approves your account,
+          you’ll be able to log in to the portal.
+        </p>
+      </form>
+
+      <!-- Small note for approval model -->
+      <div class="mt-6 text-[0.7rem] text-brand-text-mid bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-lg p-3">
+        <strong class="text-brand-highlight">How it works:</strong>
+        <ol class="list-decimal ml-4 mt-1 space-y-1">
+          <li>Create an account with your email.</li>
+          <li>Confirm your email using the link you receive.</li>
+          <li>Elliot marks your account as <strong>approved</strong> (student or admin).</li>
+          <li>You can then log in and access the portal.</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-brand-text-mid py-5 text-center text-xs sm:text-sm">
+    <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+  </footer>
+
+  <!-- APP LOGIC -->
+  <script>
+    // ---- Supabase client ----
+    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ---- Elements ----
+    const tabLogin = document.getElementById("tab-login");
+    const tabSignup = document.getElementById("tab-signup");
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const messageBox = document.getElementById("message-box");
+
+    const loginButton = document.getElementById("login-button");
+    const loginButtonLabel = document.getElementById("login-button-label");
+    const signupButton = document.getElementById("signup-button");
+    const signupButtonLabel = document.getElementById("signup-button-label");
+
+    const toggleLoginPassword = document.getElementById("toggle-login-password");
+    const loginPasswordInput = document.getElementById("login-password");
+    const resetPasswordButton = document.getElementById("reset-password-button");
+
+    // ---- Helpers: messages ----
+    function showMessage(type, text) {
+      messageBox.textContent = text;
+      messageBox.classList.remove("hidden");
+
+      messageBox.classList.remove(
+        "bg-red-900/40",
+        "border-red-500",
+        "text-error-red",
+        "bg-green-900/40",
+        "border-green-500",
+        "text-green-200",
+        "bg-brand-dark-bg/60",
+        "border-brand-accent-dark/50",
+        "text-brand-text-mid"
+      );
+
+      if (type === "error") {
+        messageBox.classList.add("bg-red-900/40", "border", "border-red-500", "text-error-red");
+      } else if (type === "success") {
+        messageBox.classList.add("bg-green-900/40", "border", "border-green-500", "text-green-200");
+      } else {
+        messageBox.classList.add(
+          "bg-brand-dark-bg/60",
+          "border",
+          "border-brand-accent-dark/50",
+          "text-brand-text-mid"
+        );
+      }
+    }
+
+    function clearMessage() {
+      messageBox.classList.add("hidden");
+      messageBox.textContent = "";
+    }
+
+    // ---- Tabs ----
+    function activateLoginTab() {
+      tabLogin.classList.add("tab-active", "border-brand-accent-light");
+      tabLogin.classList.remove("tab-inactive");
+      tabSignup.classList.remove("tab-active");
+      tabSignup.classList.add("tab-inactive");
+
+      loginForm.classList.remove("hidden");
+      signupForm.classList.add("hidden");
+      clearMessage();
+    }
+
+    function activateSignupTab() {
+      tabSignup.classList.add("tab-active", "border-brand-accent-light");
+      tabSignup.classList.remove("tab-inactive");
+      tabLogin.classList.remove("tab-active");
+      tabLogin.classList.add("tab-inactive");
+
+      signupForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      clearMessage();
+    }
+
+    tabLogin.addEventListener("click", activateLoginTab);
+    tabSignup.addEventListener("click", activateSignupTab);
+
+    // ---- Password show/hide ----
+    toggleLoginPassword.addEventListener("click", () => {
+      if (loginPasswordInput.type === "password") {
+        loginPasswordInput.type = "text";
+        toggleLoginPassword.textContent = "Hide";
+      } else {
+        loginPasswordInput.type = "password";
+        toggleLoginPassword.textContent = "Show";
+      }
+    });
+
+    // ---- Login submit ----
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearMessage();
+
+      const email = document.getElementById("login-email").value.trim();
+      const password = loginPasswordInput.value;
+
+      if (!email || !password) {
+        showMessage("error", "Please enter your email and password.");
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButtonLabel.textContent = "Logging in…";
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          showMessage("error", error.message || "Login failed.");
+          return;
         }
 
-        loginForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            errorBox.classList.add("hidden");
+        if (!data.user) {
+          showMessage("error", "No user returned from Supabase. Please try again.");
+          return;
+        }
 
-            loginButton.disabled = true;
-            loginButton.innerHTML = "Logging in…";
+        // Fetch profile to determine role
+        const userId = data.user.id;
 
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
+        const { data: profile, error: profileError } = await supabaseClient
+          .from("profiles")
+          .select("id, role")
+          .eq("id", userId)
+          .maybeSingle();
 
-            // Sign in
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
+        if (profileError) {
+          console.warn("Profile fetch error:", profileError);
+        }
 
-            if (error) {
-                showError(error.message);
-                loginButton.disabled = false;
-                loginButton.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
-                return;
-            }
+        const role = profile?.role || null;
 
-            // Fetch profile
-            const { data: profile, error: profileError } = await supabaseClient
-                .from("profiles")
-                .select("*")
-                .eq("id", data.user.id)
-                .single();
+        if (role === "admin") {
+          window.location.href = "admin.html";
+        } else if (role === "student") {
+          window.location.href = "portal.html";
+        } else {
+          // Pending/unapproved or missing profile
+          showMessage(
+            "info",
+            "You have successfully logged in, but your account is still awaiting approval. Elliot will enable student access for you soon."
+          );
+          await supabaseClient.auth.signOut();
+        }
+      } catch (err) {
+        console.error(err);
+        showMessage("error", "Unexpected error during login. Please try again.");
+      } finally {
+        loginButton.disabled = false;
+        loginButtonLabel.textContent = "Log In";
+      }
+    });
 
-            if (!profile || profileError) {
-                showError("Your profile could not be loaded.");
-                loginButton.disabled = false;
-                loginButton.innerHTML = `Log In <i data-lucide="arrow-right"></i>`;
-                return;
-            }
+    // ---- Signup submit (mixed model: open but pending) ----
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearMessage();
 
-            // Redirect based on role
-            if (profile.role === "admin") {
-                window.location.href = "admin.html";
-            } else {
-                window.location.href = "portal.html";
-            }
+      const name = document.getElementById("signup-name").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const passwordConfirm = document.getElementById("signup-password-confirm").value;
+      const notes = document.getElementById("signup-notes").value.trim();
+
+      if (!name || !email || !password || !passwordConfirm) {
+        showMessage("error", "Please fill in all required fields.");
+        return;
+      }
+
+      if (password.length < 8) {
+        showMessage("error", "Password must be at least 8 characters long.");
+        return;
+      }
+
+      if (password !== passwordConfirm) {
+        showMessage("error", "Passwords do not match.");
+        return;
+      }
+
+      signupButton.disabled = true;
+      signupButtonLabel.textContent = "Creating account…";
+
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: name,
+              signup_notes: notes,
+            },
+          },
         });
-    </script>
 
+        if (error) {
+          showMessage("error", error.message || "Sign-up failed.");
+          return;
+        }
+
+        // Mixed model: user must confirm email, and you must approve role.
+        showMessage(
+          "success",
+          "Account created! Please check your email to confirm your address. Once Elliot approves your account, you’ll be able to log in as a student."
+        );
+
+        signupForm.reset();
+        activateLoginTab();
+      } catch (err) {
+        console.error(err);
+        showMessage("error", "Unexpected error during sign-up. Please try again.");
+      } finally {
+        signupButton.disabled = false;
+        signupButtonLabel.textContent = "Create Account";
+      }
+    });
+
+    // ---- Forgot password ----
+    resetPasswordButton.addEventListener("click", async () => {
+      clearMessage();
+      const email = prompt("Enter your email address to receive a reset link:");
+
+      if (!email) return;
+
+      try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email.trim());
+        if (error) {
+          showMessage("error", error.message || "Could not send reset email.");
+        } else {
+          showMessage(
+            "success",
+            "If that email exists, a password reset link has been sent. Please check your inbox."
+          );
+        }
+      } catch (err) {
+        console.error(err);
+        showMessage("error", "Unexpected error sending reset email.");
+      }
+    });
+
+    // Default tab = login
+    activateLoginTab();
+  </script>
 </body>
 </html>
