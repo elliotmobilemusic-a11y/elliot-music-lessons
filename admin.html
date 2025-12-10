@@ -798,38 +798,42 @@
     }
 
     async function saveNewsletter(published) {
-      hideGlobalError();
-      const title = $("newsletter-title").value.trim();
-      const html = quill.root.innerHTML.trim();
+  hideGlobalError();
 
-      if (!title && !html) {
-        showGlobalError("Cannot save an empty newsletter. Please add a title or some content.");
-        return;
-      }
+  const title = $("newsletter-title").value.trim();
+  const html = quill.root.innerHTML.trim();
 
-      const payload = {
-        title: title || "(Untitled)",
-        content_html: html || "",
-        published: !!published,
-      };
+  if (!title && !html) {
+    showGlobalError("Cannot save an empty newsletter.");
+    return;
+  }
 
-      if (currentNewsletterId) {
-        payload.id = currentNewsletterId;
-      }
+  const payload = {
+    title: title || "(Untitled)",
+    content_html: html || "",
+    published: !!published,
+    updated_at: new Date().toISOString()
+  };
 
-      const { data, error } = await supabaseClient
-        .from("newsletters")
-        .upsert(payload)
-        .select()
-        .single();
+  if (currentNewsletterId) {
+    payload.id = currentNewsletterId;
+  }
 
-      if (error) {
-        console.error(error);
-        showGlobalError("Failed to save newsletter. Check RLS for the newsletters table.");
-        return;
-      }
+  const { data, error } = await supabaseClient
+    .from("newsletters")
+    .upsert(payload)
+    .select()
+    .single();
 
-      currentNewsletterId = data.id;
+  if (error) {
+    console.error(error);
+    showGlobalError("Failed to save newsletter. Check RLS.");
+    return;
+  }
+
+  currentNewsletterId = data.id;
+  await loadNewsletters();
+}
 
       // If published true → call Edge Function for email notifications (Mixed setup)
       if (published) {
