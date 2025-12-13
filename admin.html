@@ -65,6 +65,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-weight: 700;
+      border-width: 1px;
     }
 
     /* Quill styling */
@@ -86,12 +87,8 @@
     }
 
     /* Scrollbars */
-    .scroll-skinny::-webkit-scrollbar {
-      width: 6px;
-    }
-    .scroll-skinny::-webkit-scrollbar-track {
-      background: rgba(37, 37, 56, 0.8);
-    }
+    .scroll-skinny::-webkit-scrollbar { width: 6px; }
+    .scroll-skinny::-webkit-scrollbar-track { background: rgba(37, 37, 56, 0.8); }
     .scroll-skinny::-webkit-scrollbar-thumb {
       background: rgba(0, 208, 132, 0.6);
       border-radius: 999px;
@@ -102,15 +99,17 @@
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-  <!-- Supabase JS (UMD, same pattern as login.html) -->
+  <!-- Supabase JS (UMD) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body class="min-h-screen flex flex-col">
 
   <!-- NAVIGATION -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
+
         <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
@@ -129,7 +128,7 @@
           </span>
         </a>
 
-        <!-- Right: admin pill + logout -->
+        <!-- Right -->
         <div class="flex items-center space-x-3 text-xs sm:text-sm">
           <span
             id="admin-user-pill"
@@ -188,22 +187,13 @@
 
     <!-- Tabs -->
     <div class="mb-6 flex flex-wrap gap-2">
-      <button
-        class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold"
-        data-tab="users"
-      >
+      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="users">
         👤 Students & Profiles
       </button>
-      <button
-        class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold"
-        data-tab="newsletters"
-      >
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="newsletters">
         📰 Newsletters
       </button>
-      <button
-        class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold"
-        data-tab="files"
-      >
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">
         📁 Files per Student
       </button>
     </div>
@@ -240,7 +230,7 @@
           <span class="text-brand-text-mid">
             Profiles are synced from Supabase <span class="hidden sm:inline">(`profiles` table)</span>.
           </span>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
             ROLE: student / admin / pending
           </span>
         </div>
@@ -255,9 +245,7 @@
                 <th class="px-4 py-3 text-right font-semibold text-brand-text-mid">Actions</th>
               </tr>
             </thead>
-            <tbody id="users-table-body" class="divide-y divide-[#333355]">
-              <!-- JS fills -->
-            </tbody>
+            <tbody id="users-table-body" class="divide-y divide-[#333355]"></tbody>
           </table>
         </div>
       </div>
@@ -277,15 +265,13 @@
                 Write updates that will appear on student portals.
               </p>
             </div>
-            <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+            <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
               DRAFT / PUBLISH
             </span>
           </div>
 
           <div class="mb-3">
-            <label class="text-xs font-semibold text-brand-text-mid mb-1 block">
-              Title
-            </label>
+            <label class="text-xs font-semibold text-brand-text-mid mb-1 block">Title</label>
             <input
               id="newsletter-title"
               type="text"
@@ -295,9 +281,7 @@
           </div>
 
           <div class="mb-3">
-            <label class="text-xs font-semibold text-brand-text-mid mb-1 block">
-              Content
-            </label>
+            <label class="text-xs font-semibold text-brand-text-mid mb-1 block">Content</label>
             <div id="newsletter-editor"></div>
           </div>
 
@@ -341,9 +325,7 @@
                 Refresh
               </button>
             </div>
-            <div id="newsletter-list" class="space-y-2 max-h-56 overflow-y-auto scroll-skinny text-xs sm:text-sm">
-              <!-- JS fills -->
-            </div>
+            <div id="newsletter-list" class="space-y-2 max-h-56 overflow-y-auto scroll-skinny text-xs sm:text-sm"></div>
           </div>
 
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
@@ -376,7 +358,7 @@
               Use this for sheet music, lesson plans, PDFs or backing tracks tied to a specific student.
             </p>
           </div>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
+          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
             Storage: student_files
           </span>
         </div>
@@ -397,9 +379,7 @@
             </p>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-brand-text-mid mb-1">
-              File
-            </label>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">File</label>
             <input
               id="file-input"
               type="file"
@@ -431,9 +411,7 @@
           </span>
         </div>
         <div id="file-list" class="space-y-2 max-h-72 overflow-y-auto scroll-skinny text-xs sm:text-sm">
-          <p class="text-brand-text-mid text-sm">
-            Select a student above to view their attached files.
-          </p>
+          <p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>
         </div>
       </div>
     </section>
@@ -451,17 +429,18 @@
 
   <!-- ADMIN LOGIC -->
   <script>
-    // 🔐 Supabase config – SAME as working login.html
+    // 🔐 Supabase config
     const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
-
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Global state
     let currentAdminUser = null;
     let currentAdminProfile = null;
+
     let allProfiles = [];
     let filteredProfiles = [];
+
     let quill = null;
     let currentNewsletterId = null;
 
@@ -469,12 +448,15 @@
 
     function showGlobalError(message) {
       const box = $("global-error");
+      if (!box) return;
       box.textContent = message;
       box.classList.remove("hidden");
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function hideGlobalError() {
       const box = $("global-error");
+      if (!box) return;
       box.classList.add("hidden");
       box.textContent = "";
     }
@@ -499,10 +481,12 @@
 
     // 1) AUTH + ADMIN CHECK
     async function ensureAdmin() {
+      hideGlobalError();
+
       const { data, error } = await supabaseClient.auth.getUser();
-      if (error || !data || !data.user) {
+      if (error || !data?.user) {
         window.location.href = "login.html";
-        return;
+        return false;
       }
 
       currentAdminUser = data.user;
@@ -514,16 +498,16 @@
         .single();
 
       if (profileError || !profile) {
+        console.error(profileError);
         showGlobalError("Your profile could not be loaded. Make sure a row exists in the profiles table.");
-        return;
+        return false;
       }
 
       currentAdminProfile = profile;
 
       if (profile.role !== "admin") {
-        // Logged in but no admin role → student portal
         window.location.href = "portal.html";
-        return;
+        return false;
       }
 
       const pill = $("admin-user-pill");
@@ -532,15 +516,18 @@
         pill.innerHTML = `
           <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
           <span>${name}</span>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 ml-2">ADMIN</span>
+          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40 ml-2">ADMIN</span>
         `;
         pill.classList.remove("hidden");
       }
+
+      return true;
     }
 
     // 2) USERS
     async function loadProfiles() {
       hideGlobalError();
+
       const { data, error } = await supabaseClient
         .from("profiles")
         .select("*");
@@ -553,6 +540,7 @@
 
       allProfiles = Array.isArray(data) ? data : [];
       filteredProfiles = [...allProfiles];
+
       renderUsersTable();
       updateUserStats();
       populateStudentSelect();
@@ -560,8 +548,7 @@
 
     function updateUserStats() {
       $("stat-total-users").textContent = allProfiles.length.toString();
-      const admins = allProfiles.filter((p) => p.role === "admin").length;
-      $("stat-admins").textContent = admins.toString();
+      $("stat-admins").textContent = allProfiles.filter((p) => p.role === "admin").length.toString();
     }
 
     function renderUsersTable() {
@@ -597,7 +584,7 @@
             <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${created}</div>
           </td>
           <td class="px-4 py-3 align-top">
-            <span class="pill-badge border ${roleColor}">
+            <span class="pill-badge ${roleColor}">
               ${role.toUpperCase()}
             </span>
           </td>
@@ -647,13 +634,7 @@
         filteredProfiles = [...allProfiles];
       } else {
         filteredProfiles = allProfiles.filter((p) => {
-          const combo = [
-            p.full_name,
-            p.username,
-            p.email,
-            p.role,
-            p.id,
-          ]
+          const combo = [p.full_name, p.username, p.email, p.role, p.id]
             .filter(Boolean)
             .join(" ")
             .toLowerCase();
@@ -681,6 +662,13 @@
 
     async function updateUserRole(id, role) {
       hideGlobalError();
+
+      // Safety: stop self-demotion
+      if (currentAdminUser?.id === id && role !== "admin") {
+        showGlobalError("You can’t remove your own admin role from here.");
+        return;
+      }
+
       const { error } = await supabaseClient
         .from("profiles")
         .update({ role })
@@ -691,6 +679,7 @@
         showGlobalError("Failed to update role. Check RLS on profiles table.");
         return;
       }
+
       await loadProfiles();
     }
 
@@ -712,39 +701,47 @@
 
       quill.on("text-change", updateNewsletterPreview);
       $("newsletter-title").addEventListener("input", updateNewsletterPreview);
+      updateNewsletterPreview();
     }
 
     function updateNewsletterPreview() {
       const title = $("newsletter-title").value.trim();
-      const html = quill.root.innerHTML.trim();
+      const html = (quill?.root?.innerHTML || "").trim();
       $("newsletter-preview-title").textContent = title || "(Title will appear here)";
       $("newsletter-preview-body").innerHTML = html || "Start typing in the editor to see a preview...";
     }
 
     async function loadNewsletters() {
       hideGlobalError();
+
       const listEl = $("newsletter-list");
       listEl.innerHTML = `<p class="text-brand-text-mid text-sm">Loading newsletters…</p>`;
 
-      const { data, error } = await supabaseClient
+      // Try ordered by created_at. If your table doesn't have created_at, we fall back.
+      let res = await supabaseClient
         .from("newsletters")
         .select("*")
         .order("created_at", { ascending: false });
+
+      if (res.error) {
+        res = await supabaseClient.from("newsletters").select("*");
+      }
+
+      const { data, error } = res;
 
       if (error) {
         console.error(error);
         listEl.innerHTML = `
           <p class="text-error-red text-sm">
-            Could not load newsletters. Ensure the <code>newsletters</code> table exists with:
-            id (uuid), title (text), content_html (text), created_at (timestamp), published (boolean).
+            Could not load newsletters. Ensure RLS allows admin reads on <code>newsletters</code>.
           </p>
         `;
         return;
       }
 
-      $("stat-newsletters").textContent = data.length.toString();
+      $("stat-newsletters").textContent = (data?.length || 0).toString();
 
-      if (!data.length) {
+      if (!data?.length) {
         listEl.innerHTML = `
           <p class="text-brand-text-mid text-sm">
             No newsletters yet. Write one on the left and click “Save Draft” or “Publish”.
@@ -754,29 +751,35 @@
       }
 
       listEl.innerHTML = "";
+
       data.forEach((n) => {
-        const item = document.createElement("button");
-        item.type = "button";
-        item.className =
-          "newsletter-item w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition";
-        item.dataset.id = n.id;
+        const row = document.createElement("div");
+        row.className =
+          "newsletter-item w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition cursor-pointer";
+        row.dataset.id = n.id;
 
         const statusBadge = n.published
-          ? `<span class="pill-badge bg-brand-accent-light/15 text-brand-accent-light border border-brand-accent-light/40 ml-2">PUBLISHED</span>`
-          : `<span class="pill-badge bg-yellow-500/10 text-yellow-300 border border-yellow-500/40 ml-2">DRAFT</span>`;
+          ? `<span class="pill-badge bg-brand-accent-light/15 text-brand-accent-light border-brand-accent-light/40 ml-2">PUBLISHED</span>`
+          : `<span class="pill-badge bg-yellow-500/10 text-yellow-300 border-yellow-500/40 ml-2">DRAFT</span>`;
 
-        item.innerHTML = `
-          <div class="flex items-center justify-between gap-3">
-            <div>
-              <div class="font-semibold text-brand-text-light flex items-center">
-                ${n.title || "(Untitled)"} ${statusBadge}
+        row.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="font-semibold text-brand-text-light flex flex-wrap items-center gap-2">
+                <span class="truncate">${n.title || "(Untitled)"}</span>
+                ${statusBadge}
               </div>
               <div class="text-[0.7rem] text-brand-text-mid mt-0.5">
                 ${formatDate(n.created_at)}
               </div>
+              <div class="text-[0.7rem] text-brand-text-mid mt-0.5 opacity-70">
+                Click to load into editor
+              </div>
             </div>
-            <div class="flex flex-col items-end gap-1 text-[0.7rem]">
+
+            <div class="flex flex-col items-end gap-1 text-[0.7rem] shrink-0">
               <button
+                type="button"
                 class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
                 data-action="toggle-publish"
                 data-id="${n.id}"
@@ -784,6 +787,7 @@
                 ${n.published ? "Unpublish" : "Publish"}
               </button>
               <button
+                type="button"
                 class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
                 data-action="delete-newsletter"
                 data-id="${n.id}"
@@ -793,65 +797,87 @@
             </div>
           </div>
         `;
-        listEl.appendChild(item);
+
+        listEl.appendChild(row);
+      });
+    }
+
+    function setNewsletterButtonsDisabled(disabled) {
+      ["newsletter-save-draft", "newsletter-publish", "newsletter-clear"].forEach((id) => {
+        const el = $(id);
+        if (!el) return;
+        el.disabled = disabled;
+        el.classList.toggle("opacity-60", disabled);
+        el.classList.toggle("cursor-not-allowed", disabled);
       });
     }
 
     async function saveNewsletter(published) {
-  hideGlobalError();
+      hideGlobalError();
 
-  const title = $("newsletter-title").value.trim();
-  const html = quill.root.innerHTML.trim();
+      const title = $("newsletter-title").value.trim();
+      const html = (quill?.root?.innerHTML || "").trim();
 
-  if (!title && !html) {
-    showGlobalError("Cannot save an empty newsletter.");
-    return;
-  }
-
-  const payload = {
-    title: title || "(Untitled)",
-    content_html: html || "",
-    published: !!published,
-    updated_at: new Date().toISOString()
-  };
-
-  if (currentNewsletterId) {
-    payload.id = currentNewsletterId;
-  }
-
-  const { data, error } = await supabaseClient
-    .from("newsletters")
-    .upsert(payload)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(error);
-    showGlobalError("Failed to save newsletter. Check RLS.");
-    return;
-  }
-
-  currentNewsletterId = data.id;
-  await loadNewsletters();
-}
-
-      // If published true → call Edge Function for email notifications (Mixed setup)
-      if (published) {
-        try {
-          await supabaseClient.functions.invoke("newsletter-notify", {
-            body: {
-              newsletter_id: data.id,
-              title: data.title,
-              content_html: data.content_html,
-            },
-          });
-        } catch (fnErr) {
-          console.warn("newsletter-notify function failed or not deployed yet:", fnErr);
-          // We don't block the UI; newsletter is still saved & published.
-        }
+      if (!title && !html) {
+        showGlobalError("Cannot save an empty newsletter.");
+        return;
       }
 
-      await loadNewsletters();
+      const payload = {
+        title: title || "(Untitled)",
+        content_html: html || "",
+        published: !!published,
+      };
+
+      setNewsletterButtonsDisabled(true);
+
+      let savedRow = null;
+
+      try {
+        if (currentNewsletterId) {
+          const { data, error } = await supabaseClient
+            .from("newsletters")
+            .update(payload)
+            .eq("id", currentNewsletterId)
+            .select()
+            .single();
+
+          if (error) throw error;
+          savedRow = data;
+        } else {
+          const { data, error } = await supabaseClient
+            .from("newsletters")
+            .insert(payload)
+            .select()
+            .single();
+
+          if (error) throw error;
+          savedRow = data;
+          currentNewsletterId = data.id;
+        }
+
+        // If published true → call Edge Function for email notifications (non-blocking)
+        if (published && savedRow?.id) {
+          try {
+            await supabaseClient.functions.invoke("newsletter-notify", {
+              body: {
+                newsletter_id: savedRow.id,
+                title: savedRow.title,
+                content_html: savedRow.content_html,
+              },
+            });
+          } catch (fnErr) {
+            console.warn("newsletter-notify function failed or not deployed yet:", fnErr);
+          }
+        }
+
+        await loadNewsletters();
+      } catch (err) {
+        console.error(err);
+        showGlobalError("Failed to save newsletter. Check RLS and table columns.");
+      } finally {
+        setNewsletterButtonsDisabled(false);
+      }
     }
 
     function clearNewsletterEditor() {
@@ -863,6 +889,7 @@
 
     async function toggleNewsletterPublish(id) {
       hideGlobalError();
+
       const { data, error } = await supabaseClient
         .from("newsletters")
         .select("id, published, title, content_html")
@@ -870,6 +897,7 @@
         .single();
 
       if (error || !data) {
+        console.error(error);
         showGlobalError("Could not toggle publish state — row not found.");
         return;
       }
@@ -888,7 +916,6 @@
       }
 
       if (newState) {
-        // Just published → notify via Edge function
         try {
           await supabaseClient.functions.invoke("newsletter-notify", {
             body: {
@@ -927,29 +954,9 @@
       await loadNewsletters();
     }
 
-    function handleNewsletterListClick(event) {
-      const target = event.target;
-      const item = target.closest(".newsletter-item");
-      if (!item) return;
-
-      const id = item.dataset.id;
-      const actionBtn = target.closest("button[data-action]");
-      if (actionBtn) {
-        const action = actionBtn.dataset.action;
-        const nId = actionBtn.dataset.id;
-        if (action === "toggle-publish") {
-          toggleNewsletterPublish(nId);
-        } else if (action === "delete-newsletter") {
-          deleteNewsletter(nId);
-        }
-        return;
-      }
-
-      loadNewsletterIntoEditor(id);
-    }
-
     async function loadNewsletterIntoEditor(id) {
       hideGlobalError();
+
       const { data, error } = await supabaseClient
         .from("newsletters")
         .select("*")
@@ -964,8 +971,31 @@
 
       currentNewsletterId = data.id;
       $("newsletter-title").value = data.title || "";
-      quill.root.innerHTML = data.content_html || "";
+
+      // Use Quill API instead of innerHTML assignment
+      if (quill) {
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(data.content_html || "");
+      }
+
       updateNewsletterPreview();
+    }
+
+    function handleNewsletterListClick(event) {
+      const actionBtn = event.target.closest("button[data-action]");
+      if (actionBtn) {
+        const action = actionBtn.dataset.action;
+        const nId = actionBtn.dataset.id;
+        if (action === "toggle-publish") toggleNewsletterPublish(nId);
+        if (action === "delete-newsletter") deleteNewsletter(nId);
+        return;
+      }
+
+      const item = event.target.closest(".newsletter-item");
+      if (!item) return;
+
+      const id = item.dataset.id;
+      if (id) loadNewsletterIntoEditor(id);
     }
 
     // 4) FILES (Storage: student_files)
@@ -977,7 +1007,6 @@
       select.innerHTML = `<option value="">Select a student...</option>`;
 
       const students = allProfiles.filter((p) => p.role !== "admin");
-
       students.forEach((p) => {
         const opt = document.createElement("option");
         opt.value = p.id;
@@ -986,9 +1015,7 @@
         select.appendChild(opt);
       });
 
-      if (students.some((p) => p.id === previous)) {
-        select.value = previous;
-      }
+      if (students.some((p) => p.id === previous)) select.value = previous;
     }
 
     async function loadFilesForStudent(studentId) {
@@ -1025,39 +1052,57 @@
         }
 
         listEl.innerHTML = "";
-        data.forEach((file) => {
-          const fullPath = `${studentId}/${file.name}`;
-          const { data: pub } = supabaseClient.storage
-            .from("student_files")
-            .getPublicUrl(fullPath);
-          const url = pub?.publicUrl || "#";
 
-          const row = document.createElement("div");
-          row.className =
-            "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
-          row.innerHTML = `
-            <div class="text-[0.8rem] sm:text-xs">
-              <div class="font-semibold text-brand-text-light break-all">${file.name}</div>
-            </div>
-            <div class="flex items-center gap-2 text-[0.7rem]">
-              <a
-                href="${url}"
-                target="_blank"
-                class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
-              >
-                View / Download
-              </a>
-              <button
-                class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
-                data-file="${file.name}"
-                data-student="${studentId}"
-              >
-                Delete
-              </button>
-            </div>
-          `;
-          listEl.appendChild(row);
-        });
+        const rows = await Promise.all(
+          data.map(async (file) => {
+            const fullPath = `${studentId}/${file.name}`;
+
+            // Prefer signed URLs (private buckets), fallback to public URL if bucket is public
+            let url = "#";
+            const signed = await supabaseClient.storage
+              .from("student_files")
+              .createSignedUrl(fullPath, 60 * 60);
+
+            if (!signed.error && signed.data?.signedUrl) {
+              url = signed.data.signedUrl;
+            } else {
+              const { data: pub } = supabaseClient.storage
+                .from("student_files")
+                .getPublicUrl(fullPath);
+              url = pub?.publicUrl || "#";
+            }
+
+            const row = document.createElement("div");
+            row.className =
+              "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
+            row.innerHTML = `
+              <div class="text-[0.8rem] sm:text-xs min-w-0">
+                <div class="font-semibold text-brand-text-light break-all">${file.name}</div>
+              </div>
+              <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
+                <a
+                  href="${url}"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
+                >
+                  View / Download
+                </a>
+                <button
+                  type="button"
+                  class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
+                  data-file="${file.name}"
+                  data-student="${studentId}"
+                >
+                  Delete
+                </button>
+              </div>
+            `;
+            return row;
+          })
+        );
+
+        rows.forEach((r) => listEl.appendChild(r));
       } catch (err) {
         console.error(err);
         listEl.innerHTML =
@@ -1067,6 +1112,7 @@
 
     async function uploadFileForStudent() {
       hideGlobalError();
+
       const studentId = $("files-student-select").value;
       const input = $("file-input");
       const file = input.files[0];
@@ -1080,11 +1126,12 @@
         return;
       }
 
-      const path = `${studentId}/${Date.now()}-${file.name}`;
+      const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
+      const path = `${studentId}/${Date.now()}-${safeName}`;
 
       const { error } = await supabaseClient.storage
         .from("student_files")
-        .upload(path, file);
+        .upload(path, file, { upsert: false });
 
       if (error) {
         console.error(error);
@@ -1099,6 +1146,7 @@
     async function deleteFile(studentId, fileName) {
       hideGlobalError();
       if (!confirm("Delete this file for this student?")) return;
+
       const fullPath = `${studentId}/${fileName}`;
       const { error } = await supabaseClient.storage
         .from("student_files")
@@ -1109,6 +1157,7 @@
         showGlobalError("Failed to delete file from storage.");
         return;
       }
+
       await loadFilesForStudent(studentId);
     }
 
@@ -1122,11 +1171,8 @@
 
       Object.entries(sections).forEach(([key, el]) => {
         if (!el) return;
-        if (key === tabName) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        if (key === tabName) el.classList.remove("hidden");
+        else el.classList.add("hidden");
       });
 
       document.querySelectorAll(".tab-btn").forEach((btn) => {
@@ -1143,34 +1189,34 @@
 
     // 6) INIT
     document.addEventListener("DOMContentLoaded", async () => {
+      // If signed out in another tab, bounce
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        if (!session) window.location.href = "login.html";
+      });
+
       // Logout
       $("logout-button").addEventListener("click", async () => {
         await supabaseClient.auth.signOut();
         window.location.href = "login.html";
       });
 
-      // Enforce admin + load base data
-      await ensureAdmin();
-      if (!currentAdminUser || !currentAdminProfile || currentAdminProfile.role !== "admin") {
-        return;
-      }
+      // Enforce admin
+      const ok = await ensureAdmin();
+      if (!ok) return;
 
       // Tabs
       document.querySelectorAll(".tab-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const tab = btn.getAttribute("data-tab");
-          switchTab(tab);
+          switchTab(btn.getAttribute("data-tab"));
         });
       });
 
       // Users: search + sort + role actions
       $("user-search").addEventListener("input", applyUserSearchAndSort);
       document.querySelectorAll(".user-sort").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const mode = btn.getAttribute("data-sort");
-          sortUsers(mode);
-        });
+        btn.addEventListener("click", () => sortUsers(btn.getAttribute("data-sort")));
       });
+
       $("users-table-body").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-action]");
         if (!btn) return;
@@ -1178,13 +1224,9 @@
         const id = btn.dataset.id;
         if (!id) return;
 
-        if (action === "approve-student") {
-          updateUserRole(id, "student");
-        } else if (action === "make-admin") {
-          updateUserRole(id, "admin");
-        } else if (action === "make-student") {
-          updateUserRole(id, "student");
-        }
+        if (action === "approve-student") updateUserRole(id, "student");
+        if (action === "make-admin") updateUserRole(id, "admin");
+        if (action === "make-student") updateUserRole(id, "student");
       });
 
       await loadProfiles();
@@ -1192,6 +1234,7 @@
       // Newsletters
       await initNewsletterEditor();
       await loadNewsletters();
+
       $("newsletter-save-draft").addEventListener("click", () => saveNewsletter(false));
       $("newsletter-publish").addEventListener("click", () => saveNewsletter(true));
       $("newsletter-clear").addEventListener("click", clearNewsletterEditor);
@@ -1199,10 +1242,9 @@
       $("newsletter-list").addEventListener("click", handleNewsletterListClick);
 
       // Files
-      $("files-student-select").addEventListener("change", (e) => {
-        loadFilesForStudent(e.target.value);
-      });
+      $("files-student-select").addEventListener("change", (e) => loadFilesForStudent(e.target.value));
       $("upload-file-button").addEventListener("click", uploadFileForStudent);
+
       $("file-list").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-file][data-student]");
         if (!btn) return;
