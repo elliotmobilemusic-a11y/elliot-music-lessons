@@ -1,280 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Portal – Elliot’s Mobile Music Lessons</title>
-    <link rel="icon" href="/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal – Elliot’s Mobile Music</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GitHub Pages friendly favicon path -->
+  <link rel="icon" href="./favicon.png" />
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark-bg': '#1a1a2e',
-                        'brand-accent-light': '#00d084',
-                        'brand-accent-dark': '#00a36e',
-                        'brand-text-light': '#e0e0e0',
-                        'brand-text-mid': '#a0a0a0',
-                        'brand-highlight': '#ffb703',
-                        'card-bg': '#252538',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+  <!-- Tailwind (CDN ok for now) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "brand-dark-bg": "#1a1a2e",
+            "brand-accent-light": "#00d084",
+            "brand-accent-dark": "#00a36e",
+            "brand-text-light": "#e0e0e0",
+            "brand-text-mid": "#a0a0a0",
+            "brand-highlight": "#ffb703",
+            "card-bg": "#252538",
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            heading: ["Montserrat", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
 
-        body {
-            background: #1a1a2e;
-            color: #e0e0e0;
-            background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-        }
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
 
-        .card-glow {
-            box-shadow: 0 0 35px rgba(0, 208, 132, 0.15);
-        }
+    body {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+    }
 
-        .modal-bg {
-            backdrop-filter: blur(6px);
-            background: rgba(0,0,0,0.5);
-        }
-    </style>
+    .card-glow { box-shadow: 0 0 35px rgba(0, 208, 132, 0.15); }
+    .modal-bg { backdrop-filter: blur(6px); background: rgba(0,0,0,0.55); }
+    .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) { text-decoration: underline; }
+  </style>
 
-    <!-- Lucide Icons -->
-    <script type="module">
-        import { createIcons, LogOut, Mail, Newspaper } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-        createIcons({ icons: { LogOut, Mail, Newspaper } });
-    </script>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- DOMPurify for safe HTML rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 
+  <!-- Lucide icons -->
+  <script type="module">
+    import { createIcons, LogOut, Newspaper, FolderOpen, BadgePoundSterling, Calendar, ClipboardList, Upload, MessageSquare } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+    createIcons({ icons: { LogOut, Newspaper, FolderOpen, BadgePoundSterling, Calendar, ClipboardList, Upload, MessageSquare } });
+  </script>
 </head>
+
 <body class="min-h-screen flex flex-col">
 
-<!-- NAVIGATION -->
-<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center space-x-2">
-            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                     fill="none" stroke="currentColor" stroke-width="2"
-                     class="w-5 h-5 text-brand-accent-light">
-                     <circle cx="8" cy="18" r="4"></circle>
-                     <path d="M12 18V2l7 4"></path>
-                </svg>
-            </span>
-            <span class="font-heading tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
-                STUDENT PORTAL
-            </span>
-        </a>
+  <!-- NAV -->
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-accent-light">
+            <circle cx="8" cy="18" r="4"></circle>
+            <path d="M12 18V2l7 4"></path>
+          </svg>
+        </span>
+        <span class="font-heading tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
+          STUDENT PORTAL
+        </span>
+      </a>
 
-        <button id="logout-btn" class="flex items-center gap-1 text-brand-text-light hover:text-white">
-            <i data-lucide="log-out" class="w-5 h-5"></i>
-            Logout
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:block text-right">
+          <div id="student-name" class="text-sm text-brand-text-light font-semibold">Loading…</div>
+          <div id="student-email" class="text-xs text-brand-text-mid"></div>
+        </div>
+
+        <button id="logout-btn" class="flex items-center gap-2 text-brand-text-light hover:text-white">
+          <i data-lucide="log-out" class="w-5 h-5"></i>
+          <span class="hidden sm:inline">Logout</span>
         </button>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<!-- MAIN -->
-<main class="max-w-4xl mx-auto px-4 py-10 flex-grow">
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-grow">
 
-    <h1 class="text-center font-heading text-4xl sm:text-5xl font-extrabold text-brand-accent-light mb-10">
-        Your Newsletters
-    </h1>
+    <!-- Welcome -->
+    <section class="bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 class="font-heading text-2xl sm:text-3xl text-brand-accent-light">Welcome 👋</h1>
+          <p class="text-brand-text-mid mt-1">
+            Here you’ll find the latest newsletters and your lesson files/resources.
+          </p>
+        </div>
+        <div class="text-xs text-brand-text-mid">
+          <span class="inline-flex items-center gap-2 bg-brand-dark-bg/60 border border-brand-accent-dark/30 rounded-full px-3 py-1">
+            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+            Student dashboard
+          </span>
+        </div>
+      </div>
+    </section>
 
-    <!-- Where newsletters appear -->
-    <div id="newsletter-list" class="space-y-6"></div>
+    <!-- Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-    <!-- Empty State -->
-    <div id="no-newsletters" class="hidden text-center text-brand-text-mid mt-10">
-        <i data-lucide="newspaper" class="w-10 h-10 mx-auto mb-3"></i>
-        <p>No newsletters have been published yet.</p>
+      <!-- Newsletters -->
+      <section class="lg:col-span-2 bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <i data-lucide="newspaper" class="w-5 h-5 text-brand-accent-light"></i>
+            <h2 class="font-heading text-xl text-brand-highlight">Latest Newsletters</h2>
+          </div>
+          <div id="newsletters-status" class="text-xs text-brand-text-mid"></div>
+        </div>
+
+        <div id="newsletter-list" class="space-y-3"></div>
+
+        <div id="no-newsletters" class="hidden text-center text-brand-text-mid py-10">
+          <i data-lucide="newspaper" class="w-10 h-10 mx-auto mb-3"></i>
+          <p>No newsletters have been published yet.</p>
+        </div>
+
+        <div id="newsletters-error" class="hidden mt-4 text-sm text-red-300 bg-red-950/30 border border-red-500/30 rounded-xl p-3"></div>
+      </section>
+
+      <!-- Files + placeholders -->
+      <aside class="bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow">
+
+        <!-- Files -->
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="folder-open" class="w-5 h-5 text-brand-accent-light"></i>
+          <h2 class="font-heading text-xl text-brand-highlight">Your Files</h2>
+        </div>
+
+        <div id="files-status" class="text-xs text-brand-text-mid mb-3"></div>
+        <div id="files-list" class="space-y-2"></div>
+
+        <div id="no-files" class="hidden text-center text-brand-text-mid py-6">
+          <p>No files found yet.</p>
+          <p class="text-xs mt-1">Your teacher will add resources here.</p>
+        </div>
+
+        <div id="files-error" class="hidden mt-4 text-sm text-red-300 bg-red-950/30 border border-red-500/30 rounded-xl p-3"></div>
+
+        <!-- Future features placeholders -->
+        <div class="mt-6 pt-5 border-t border-brand-accent-dark/30 space-y-3">
+          <div class="text-xs text-brand-text-mid">Coming soon</div>
+
+          <!-- Marker: Payment status -->
+          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="badge-pound-sterling" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Payment Status</div>
+            </div>
+            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
+          </div>
+
+          <!-- Marker: Lesson schedule -->
+          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Lesson Schedule</div>
+            </div>
+            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
+          </div>
+
+          <!-- Marker: Practice notes -->
+          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Practice Notes</div>
+            </div>
+            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
+          </div>
+
+          <!-- Marker: Homework uploads -->
+          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="upload" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Homework Uploads</div>
+            </div>
+            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 3).</div>
+          </div>
+
+          <!-- Marker: Parent messaging -->
+          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="message-square" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Parent Messaging</div>
+            </div>
+            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 3).</div>
+          </div>
+        </div>
+      </aside>
     </div>
+  </main>
 
-</main>
-
-<!-- Newsletter Modal -->
-<div id="newsletter-modal" class="hidden fixed inset-0 modal-bg z-50 flex items-center justify-center p-4">
-    <div class="bg-card-bg max-w-2xl w-full p-6 rounded-xl card-glow border border-brand-accent-dark/40 relative overflow-y-auto max-h-[90vh]">
-        <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white">
-            ✕
-        </button>
-        <h2 id="modal-title" class="text-3xl font-heading font-bold mb-4 text-brand-accent-light"></h2>
-        <div id="modal-content" class="prose prose-invert max-w-none"></div>
+  <!-- Newsletter Modal -->
+  <div id="newsletter-modal" class="hidden fixed inset-0 modal-bg z-50 flex items-center justify-center p-4">
+    <div class="bg-card-bg max-w-2xl w-full p-6 rounded-2xl card-glow border border-brand-accent-dark/40 relative overflow-y-auto max-h-[90vh]">
+      <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white" aria-label="Close">✕</button>
+      <h2 id="modal-title" class="text-2xl sm:text-3xl font-heading font-bold mb-2 text-brand-accent-light"></h2>
+      <div id="modal-date" class="text-xs text-brand-text-mid mb-4"></div>
+      <div id="modal-content" class="prose prose-invert max-w-none"></div>
     </div>
-</div>
+  </div>
 
-<script>
-  // ✅ Supabase config (use your real keys)
-  const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
+  <script>
+    /************************************************************
+     * SUPABASE CONFIG
+     ************************************************************/
+    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-  // ✅ IMPORTANT: don't name this "supabase" (it clashes with the global)
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Public bucket name
+    const STUDENT_FILES_BUCKET = "student_files";
 
-  // DOM refs
-  const newsletterList = document.getElementById("newsletter-list");
-  const noNewsletters = document.getElementById("no-newsletters");
+    // IMPORTANT: don't call this "supabase" (it clashes with the global)
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const modal = document.getElementById("newsletter-modal");
-  const modalTitle = document.getElementById("modal-title");
-  const modalContent = document.getElementById("modal-content");
-  const closeModal = document.getElementById("close-modal");
+    /************************************************************
+     * DOM REFS
+     ************************************************************/
+    const elStudentName = document.getElementById("student-name");
+    const elStudentEmail = document.getElementById("student-email");
 
-  closeModal.onclick = function () {
-    modal.classList.add("hidden");
-  };
+    const logoutBtn = document.getElementById("logout-btn");
 
-  // ✅ Auth protection (basic: must be logged in)
-  async function protectRoute() {
-    const res = await supabaseClient.auth.getUser();
-    const user = res && res.data ? res.data.user : null;
+    const newsletterList = document.getElementById("newsletter-list");
+    const noNewsletters = document.getElementById("no-newsletters");
+    const newslettersStatus = document.getElementById("newsletters-status");
+    const newslettersError = document.getElementById("newsletters-error");
 
-    if (!user) {
-      window.location.href = "login.html";
-      return null;
+    const filesList = document.getElementById("files-list");
+    const noFiles = document.getElementById("no-files");
+    const filesStatus = document.getElementById("files-status");
+    const filesError = document.getElementById("files-error");
+
+    const modal = document.getElementById("newsletter-modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalDate = document.getElementById("modal-date");
+    const modalContent = document.getElementById("modal-content");
+    const closeModal = document.getElementById("close-modal");
+
+    /************************************************************
+     * HELPERS
+     ************************************************************/
+    function go(url) { window.location.href = url; }
+
+    function fmtDate(iso) {
+      try {
+        return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      } catch (e) {
+        return "";
+      }
     }
 
-    // ✅ Role check from your profiles table (profiles.id = auth.users.id)
-    const profileRes = await supabaseClient
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (profileRes.error || !profileRes.data) {
-      await supabaseClient.auth.signOut();
-      window.location.href = "login.html";
-      return null;
+    function showError(el, msg) {
+      el.textContent = msg;
+      el.classList.remove("hidden");
     }
 
-    if (profileRes.data.role === "admin") {
-      window.location.href = "admin.html";
-      return null;
+    function clearError(el) {
+      el.textContent = "";
+      el.classList.add("hidden");
     }
 
-    if (profileRes.data.role !== "student") {
-      window.location.href = "login.html";
-      return null;
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-    return user;
-  }
+    /************************************************************
+     * AUTH + ROLE PROTECTION
+     ************************************************************/
+    async function protectRouteAndGetUser() {
+      const userRes = await supabaseClient.auth.getUser();
+      const user = userRes && userRes.data ? userRes.data.user : null;
 
-  // ✅ Load newsletters (published only, newest first)
-  async function loadNewsletters() {
-    newsletterList.innerHTML = "";
-    noNewsletters.classList.add("hidden");
+      // Not logged in
+      if (!user) {
+        go("login.html");
+        return null;
+      }
 
-    const res = await supabaseClient
-      .from("newsletters")
-      .select("id, title, content_html, created_at")
-      .eq("published", true)
-      .order("created_at", { ascending: false });
+      // profiles.id is auth.users.id (you confirmed via schema)
+      const profileRes = await supabaseClient
+        .from("profiles")
+        .select("role, full_name, email, status")
+        .eq("id", user.id)
+        .maybeSingle();
 
-    if (res.error) {
-      console.error("Newsletters error:", res.error);
-      noNewsletters.classList.remove("hidden");
-      noNewsletters.textContent = "Couldn’t load newsletters.";
-      return;
+      if (profileRes.error || !profileRes.data) {
+        console.error("Profile error:", profileRes.error);
+        await supabaseClient.auth.signOut();
+        go("login.html");
+        return null;
+      }
+
+      const profile = profileRes.data;
+
+      // Admins go back to admin page
+      if (profile.role === "admin") {
+        go("admin.html");
+        return null;
+      }
+
+      // Only students allowed
+      if (profile.role !== "student") {
+        go("login.html");
+        return null;
+      }
+
+      // Optional: block inactive/paused
+      if (profile.status && profile.status !== "active") {
+        await supabaseClient.auth.signOut();
+        go("login.html");
+        return null;
+      }
+
+      // Fill header
+      elStudentName.textContent = profile.full_name ? profile.full_name : "Student";
+      elStudentEmail.textContent = user.email || profile.email || "";
+
+      return { user, profile };
     }
 
-    const newsletters = res.data || [];
+    /************************************************************
+     * NEWSLETTERS (published only)
+     ************************************************************/
+    async function loadNewsletters() {
+      clearError(newslettersError);
+      newslettersStatus.textContent = "Loading…";
+      newsletterList.innerHTML = "";
+      noNewsletters.classList.add("hidden");
 
-    if (newsletters.length === 0) {
-      noNewsletters.classList.remove("hidden");
-      return;
-    }
+      const res = await supabaseClient
+        .from("newsletters")
+        .select("id, title, content_html, created_at")
+        .eq("published", true)
+        .order("created_at", { ascending: false });
 
-    newsletters.forEach(function (n) {
-      const card = document.createElement("div");
-      card.className =
-        "bg-card-bg p-5 rounded-xl border border-brand-accent-dark/40 card-glow hover:scale-[1.01] transition cursor-pointer";
+      newslettersStatus.textContent = "";
 
-      card.innerHTML = `
-        <h2 class="text-2xl font-heading text-brand-accent-light mb-2">${n.title || "Untitled"}</h2>
-        <p class="text-brand-text-mid text-sm">${new Date(n.created_at).toLocaleDateString()}</p>
-      `;
+      if (res.error) {
+        console.error("Newsletters error:", res.error);
+        showError(newslettersError, "Couldn’t load newsletters. (RLS policy may be missing)");
+        return;
+      }
 
-      card.onclick = function () {
-        modalTitle.textContent = n.title || "Untitled";
-        // If you have DOMPurify loaded, use it. Otherwise this will still work but less safe.
-        if (window.DOMPurify) {
-          modalContent.innerHTML = window.DOMPurify.sanitize(n.content_html || "");
-        } else {
-          modalContent.innerHTML = n.content_html || "";
-        }
-        modal.classList.remove("hidden");
-      };
+      const newsletters = res.data || [];
 
-      newsletterList.appendChild(card);
-    });
-  }
+      if (newsletters.length === 0) {
+        noNewsletters.classList.remove("hidden");
+        return;
+      }
 
-  // ✅ Logout
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) {
-    logoutBtn.onclick = async function () {
-      await supabaseClient.auth.signOut();
-      window.location.href = "login.html";
-    };
-  }
+      newsletters.forEach(function (n) {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className =
+          "w-full text-left bg-brand-dark-bg/40 p-4 rounded-xl border border-brand-accent-dark/35 hover:border-brand-accent-light/50 transition card-glow";
 
-  // ✅ Init
-  async function init() {
-    const user = await protectRoute();
-    if (!user) return;
-    await loadNewsletters();
-  }
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="text-lg font-heading text-brand-accent-light">${escapeHtml(n.title || "Untitled")}</div>
+              <div class="text-xs text-brand-text-mid mt-1">${fmtDate(n.created_at)}</div>
+            </div>
+            <div class="text-xs text-brand-text-mid">Open</div>
+          </div>
+        `;
 
-  init();
-
-        }
-
-        newsletters.forEach(n => {
-            const card = document.createElement("div");
-            card.className = "bg-card-bg p-5 rounded-xl border border-brand-accent-dark/40 card-glow hover:scale-[1.01] transition cursor-pointer";
-            card.innerHTML = `
-                <h2 class="text-2xl font-heading text-brand-accent-light mb-2">${n.title}</h2>
-                <p class="text-brand-text-mid text-sm">${new Date(n.created_at).toLocaleDateString()}</p>
-            `;
-            card.onclick = () => {
-                modalTitle.textContent = n.title;
-                modalContent.innerHTML = n.content_html;
-                modal.classList.remove("hidden");
-            };
-
-            newsletterList.appendChild(card);
+        card.addEventListener("click", function () {
+          openNewsletterModal(n);
         });
+
+        newsletterList.appendChild(card);
+      });
     }
 
-    async function protectRoute() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-            window.location.href = "login.html";
-        }
+    function openNewsletterModal(newsletter) {
+      modalTitle.textContent = newsletter.title || "Untitled";
+      modalDate.textContent = fmtDate(newsletter.created_at);
+
+      // Safe HTML rendering
+      modalContent.innerHTML = window.DOMPurify
+        ? window.DOMPurify.sanitize(newsletter.content_html || "")
+        : (newsletter.content_html || "");
+
+      modal.classList.remove("hidden");
     }
 
-    document.getElementById("logout-btn").onclick = async () => {
-        await supabase.auth.signOut();
-        window.location.href = "login.html";
-    };
+    function closeNewsletterModal() {
+      modal.classList.add("hidden");
+      modalTitle.textContent = "";
+      modalDate.textContent = "";
+      modalContent.innerHTML = "";
+    }
 
-    protectRoute();
-    loadNewsletters();
-</script>
+    /************************************************************
+     * STUDENT FILES (PUBLIC BUCKET)
+     ************************************************************/
+    async function loadStudentFiles(userId) {
+      clearError(filesError);
+      filesStatus.textContent = "Loading…";
+      filesList.innerHTML = "";
+      noFiles.classList.add("hidden");
 
+      const listRes = await supabaseClient.storage
+        .from(STUDENT_FILES_BUCKET)
+        .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
+
+      filesStatus.textContent = "";
+
+      if (listRes.error) {
+        console.error("Files list error:", listRes.error);
+        showError(filesError, "Couldn’t load files. (Storage policy may be missing)");
+        return;
+      }
+
+      const items = listRes.data || [];
+
+      if (items.length === 0) {
+        noFiles.classList.remove("hidden");
+        return;
+      }
+
+      items.forEach(function (file) {
+        const path = userId + "/" + file.name;
+        const publicUrlRes = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(path);
+        const publicUrl = publicUrlRes && publicUrlRes.data ? publicUrlRes.data.publicUrl : "#";
+
+        const row = document.createElement("div");
+        row.className = "bg-brand-dark-bg/40 border border-brand-accent-dark/30 rounded-xl p-3";
+
+        row.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="font-semibold text-brand-text-light truncate">${escapeHtml(file.name)}</div>
+              <div class="text-xs text-brand-text-mid mt-1">
+                ${file.updated_at ? ("Updated " + fmtDate(file.updated_at)) : ""}
+              </div>
+            </div>
+
+            <div class="flex gap-2 shrink-0">
+              <a class="text-xs px-3 py-1 rounded-lg border border-brand-accent-dark/40 hover:border-brand-accent-light/60"
+                 href="${publicUrl}" target="_blank" rel="noopener noreferrer">
+                View
+              </a>
+              <a class="text-xs px-3 py-1 rounded-lg bg-brand-accent-light/15 border border-brand-accent-light/40 hover:bg-brand-accent-light/20"
+                 href="${publicUrl}" download>
+                Download
+              </a>
+            </div>
+          </div>
+        `;
+
+        filesList.appendChild(row);
+      });
+    }
+
+    /************************************************************
+     * LOGOUT + EVENTS
+     ************************************************************/
+    function wireUpUI() {
+      logoutBtn.addEventListener("click", async function () {
+        await supabaseClient.auth.signOut();
+        go("login.html");
+      });
+
+      closeModal.addEventListener("click", closeNewsletterModal);
+
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeNewsletterModal();
+      });
+
+      // If signed out in another tab
+      supabaseClient.auth.onAuthStateChange(function (event) {
+        if (event === "SIGNED_OUT") go("login.html");
+      });
+    }
+
+    /************************************************************
+     * INIT
+     ************************************************************/
+    async function init() {
+      wireUpUI();
+
+      const ctx = await protectRouteAndGetUser();
+      if (!ctx) return;
+
+      await loadNewsletters();
+      await loadStudentFiles(ctx.user.id);
+    }
+
+    init();
+  </script>
 </body>
 </html>
