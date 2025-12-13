@@ -31,7 +31,6 @@
     }
   </script>
 
-  <!-- Fonts + Quill CSS -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
 
@@ -42,16 +41,13 @@
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
 
-    .card-glow {
-      box-shadow: 0 0 30px rgba(0, 208, 132, 0.15);
-    }
+    .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
 
     .tab-active {
       border-color: #00d084;
       background-color: rgba(0, 208, 132, 0.1);
       color: #e0e0e0;
     }
-
     .tab-inactive {
       border-color: rgba(160, 160, 190, 0.3);
       background-color: transparent;
@@ -82,9 +78,7 @@
       color: #e0e0e0;
       min-height: 180px;
     }
-    .ql-editor {
-      min-height: 180px;
-    }
+    .ql-editor { min-height: 180px; }
 
     /* Scrollbars */
     .scroll-skinny::-webkit-scrollbar { width: 6px; }
@@ -92,6 +86,12 @@
     .scroll-skinny::-webkit-scrollbar-thumb {
       background: rgba(0, 208, 132, 0.6);
       border-radius: 999px;
+    }
+
+    /* Modal/Drawer overlay */
+    .overlay {
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
     }
   </style>
 
@@ -109,7 +109,6 @@
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
-
         <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
@@ -159,19 +158,25 @@
       <p class="text-[0.7rem] tracking-[0.22em] font-semibold text-brand-highlight uppercase mb-2">
         Internal Control Panel
       </p>
+
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
             Admin Dashboard
           </h1>
           <p class="text-sm sm:text-base text-brand-text-mid mt-1 max-w-xl">
-            Manage students, newsletters, and shared resources from one place.
+            Manage students, newsletters, next lessons and shared resources from one place.
           </p>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
             <p class="text-brand-text-mid">Total Profiles</p>
             <p id="stat-total-users" class="text-lg font-bold text-brand-accent-light">–</p>
+          </div>
+          <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
+            <p class="text-brand-text-mid">Students</p>
+            <p id="stat-students" class="text-lg font-bold text-brand-accent-light">–</p>
           </div>
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
             <p class="text-brand-text-mid">Admins</p>
@@ -190,6 +195,9 @@
       <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="users">
         👤 Students & Profiles
       </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">
+        📅 Schedule
+      </button>
       <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="newsletters">
         📰 Newsletters
       </button>
@@ -200,18 +208,19 @@
 
     <!-- TAB: USERS -->
     <section id="tab-users" class="space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
         <div class="flex-1">
           <label class="block text-xs font-semibold text-brand-text-mid mb-1">
-            Search students/admins
+            Search profiles
           </label>
           <input
             id="user-search"
             type="text"
-            placeholder="Name, email, role, id..."
+            placeholder="Name, email, phone, role, instrument, id..."
             class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
           />
         </div>
+
         <div class="flex flex-wrap gap-2 text-xs">
           <button class="user-sort px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light" data-sort="name-asc">
             A–Z
@@ -219,34 +228,71 @@
           <button class="user-sort px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light" data-sort="name-desc">
             Z–A
           </button>
+          <button class="user-sort px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light" data-sort="next-lesson">
+            Next lesson
+          </button>
           <button class="user-sort px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light" data-sort="role">
-            By Role
+            By role
           </button>
         </div>
       </div>
 
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow overflow-hidden">
-        <div class="px-4 py-3 border-b border-brand-accent-dark/50 flex justify-between items-center text-xs">
+        <div class="px-4 py-3 border-b border-brand-accent-dark/50 flex justify-between items-center text-xs gap-3">
           <span class="text-brand-text-mid">
-            Profiles are synced from Supabase <span class="hidden sm:inline">(`profiles` table)</span>.
+            Edit student info + next lesson + weekly slot (stored on <code>profiles</code>).
           </span>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
-            ROLE: student / admin / pending
-          </span>
+
+          <div class="flex items-center gap-2">
+            <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
+              ADMIN CONTROL
+            </span>
+          </div>
         </div>
 
-        <div class="max-h-[420px] overflow-y-auto scroll-skinny">
+        <div class="max-h-[460px] overflow-y-auto scroll-skinny">
           <table class="min-w-full text-xs sm:text-sm">
             <thead class="bg-brand-dark-bg/70 sticky top-0 z-10">
               <tr>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Name / Email</th>
+                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Student</th>
                 <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Role</th>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">ID (short)</th>
+                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Next lesson</th>
+                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Weekly slot</th>
                 <th class="px-4 py-3 text-right font-semibold text-brand-text-mid">Actions</th>
               </tr>
             </thead>
             <tbody id="users-table-body" class="divide-y divide-[#333355]"></tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: SCHEDULE -->
+    <section id="tab-schedule" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Upcoming Lessons</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Sorted by <code>profiles.next_lesson_at</code>. “Mark done” will advance weekly students to the next slot.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button id="schedule-refresh" class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light">
+              Refresh
+            </button>
+            <button id="schedule-show-all" class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light">
+              Show all
+            </button>
+            <button id="schedule-next-14" class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/40 hover:border-brand-accent-light">
+              Next 14 days
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div id="schedule-list" class="space-y-2 max-h-[420px] overflow-y-auto scroll-skinny"></div>
         </div>
       </div>
     </section>
@@ -258,12 +304,8 @@
         <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
           <div class="flex items-center justify-between mb-3 gap-3">
             <div>
-              <h2 class="font-heading text-xl font-bold text-brand-text-light">
-                Newsletter Editor
-              </h2>
-              <p class="text-xs text-brand-text-mid">
-                Write updates that will appear on student portals.
-              </p>
+              <h2 class="font-heading text-xl font-bold text-brand-text-light">Newsletter Editor</h2>
+              <p class="text-xs text-brand-text-mid">Write updates that will appear on student portals.</p>
             </div>
             <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
               DRAFT / PUBLISH
@@ -307,7 +349,7 @@
           </div>
 
           <p class="mt-3 text-[0.7rem] text-brand-text-mid">
-            Drafts are saved to the <code>newsletters</code> table. Published entries can be shown on the student portal homepage.
+            Published entries should be shown on the student portal homepage.
           </p>
         </div>
 
@@ -315,9 +357,7 @@
         <div class="space-y-4">
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
             <div class="flex items-center justify-between mb-3">
-              <h3 class="font-heading text-lg font-bold text-brand-text-light">
-                Previous Newsletters
-              </h3>
+              <h3 class="font-heading text-lg font-bold text-brand-text-light">Previous Newsletters</h3>
               <button
                 id="newsletter-refresh"
                 class="text-xs px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
@@ -329,16 +369,9 @@
           </div>
 
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-            <h3 class="font-heading text-lg font-bold text-brand-text-light mb-2">
-              Live Preview
-            </h3>
-            <h4 id="newsletter-preview-title" class="text-sm font-semibold text-brand-highlight mb-1">
-              (Title will appear here)
-            </h4>
-            <div
-              id="newsletter-preview-body"
-              class="prose prose-invert max-w-none text-xs sm:text-sm text-brand-text-mid"
-            >
+            <h3 class="font-heading text-lg font-bold text-brand-text-light mb-2">Live Preview</h3>
+            <h4 id="newsletter-preview-title" class="text-sm font-semibold text-brand-highlight mb-1">(Title will appear here)</h4>
+            <div id="newsletter-preview-body" class="prose prose-invert max-w-none text-xs sm:text-sm text-brand-text-mid">
               Start typing in the editor to see a preview...
             </div>
           </div>
@@ -351,11 +384,9 @@
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <div>
-            <h2 class="font-heading text-xl font-bold text-brand-text-light">
-              Upload Files for a Student
-            </h2>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Upload Files for a Student</h2>
             <p class="text-xs sm:text-sm text-brand-text-mid">
-              Use this for sheet music, lesson plans, PDFs or backing tracks tied to a specific student.
+              Sheet music, lesson plans, PDFs, backing tracks etc. stored as <code>student_files/{student_id}/</code>.
             </p>
           </div>
           <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
@@ -365,19 +396,16 @@
 
         <div class="grid grid-cols-1 md:grid-cols-[1.2fr_minmax(0,1fr)] gap-4">
           <div>
-            <label class="block text-xs font-semibold text-brand-text-mid mb-1">
-              Choose student profile
-            </label>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Choose student profile</label>
             <select
               id="files-student-select"
               class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
             >
               <option value="">Select a student...</option>
             </select>
-            <p class="text-[0.7rem] text-brand-text-mid mt-1">
-              List is based on entries in the <code>profiles</code> table.
-            </p>
+            <p class="text-[0.7rem] text-brand-text-mid mt-1">List comes from <code>profiles</code>.</p>
           </div>
+
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">File</label>
             <input
@@ -403,12 +431,8 @@
 
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="font-heading text-lg font-bold text-brand-text-light">
-            Files for Selected Student
-          </h3>
-          <span class="text-[0.7rem] text-brand-text-mid">
-            Only files for the chosen student are shown.
-          </span>
+          <h3 class="font-heading text-lg font-bold text-brand-text-light">Files for Selected Student</h3>
+          <span class="text-[0.7rem] text-brand-text-mid">Signed URLs used (works with private bucket).</span>
         </div>
         <div id="file-list" class="space-y-2 max-h-72 overflow-y-auto scroll-skinny text-xs sm:text-sm">
           <p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>
@@ -421,15 +445,179 @@
   <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
     <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
       <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-      <p class="mt-2 text-gray-500">
-        Internal admin area — not visible to parents or students.
-      </p>
+      <p class="mt-2 text-gray-500">Internal admin area — not visible to parents or students.</p>
     </div>
   </footer>
 
+  <!-- EDIT STUDENT DRAWER -->
+  <div id="edit-overlay" class="hidden fixed inset-0 z-[100] overlay"></div>
+
+  <aside
+    id="edit-drawer"
+    class="hidden fixed top-0 right-0 h-full w-full sm:w-[520px] z-[101]
+           bg-brand-dark-bg border-l border-brand-accent-dark/60 shadow-2xl"
+  >
+    <div class="h-full flex flex-col">
+      <div class="px-5 py-4 border-b border-brand-accent-dark/50 flex items-start justify-between gap-4">
+        <div>
+          <h3 class="font-heading text-xl font-extrabold text-brand-text-light">Edit Student</h3>
+          <p class="text-xs text-brand-text-mid mt-1" id="edit-subtitle">—</p>
+        </div>
+        <button
+          id="edit-close"
+          class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto scroll-skinny px-5 py-5 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Full name</label>
+            <input id="edit-full-name" type="text"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="Student name" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Instrument</label>
+            <input id="edit-instrument" type="text"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="Piano / Singing / Guitar..." />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Email (profile)</label>
+            <input id="edit-email" type="email"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="parent@email.com" />
+            <p class="text-[0.7rem] text-brand-text-mid mt-1">
+              This edits <code>profiles.email</code> (not Supabase Auth email).
+            </p>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Phone</label>
+            <input id="edit-phone" type="tel"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="07..." />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Status</label>
+            <select id="edit-status"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Lesson duration (minutes)</label>
+            <input id="edit-duration" type="number" min="10" step="5"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="30" />
+          </div>
+        </div>
+
+        <div class="bg-card-bg/70 border border-brand-accent-dark/50 rounded-xl p-4">
+          <div class="flex items-center justify-between gap-3">
+            <h4 class="font-heading text-base font-bold text-brand-text-light">Next Lesson</h4>
+            <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">VISIBLE TO STUDENT</span>
+          </div>
+
+          <div class="mt-3">
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Next lesson date/time</label>
+            <input id="edit-next-lesson" type="datetime-local"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+            <p class="text-[0.7rem] text-brand-text-mid mt-1">
+              Stored in <code>profiles.next_lesson_at</code>.
+            </p>
+          </div>
+
+          <div class="mt-4 border-t border-brand-accent-dark/40 pt-4">
+            <div class="flex items-center justify-between">
+              <h4 class="font-heading text-base font-bold text-brand-text-light">Weekly Slot</h4>
+              <label class="inline-flex items-center gap-2 text-xs text-brand-text-mid">
+                <input id="edit-weekly-enabled" type="checkbox" class="accent-brand-accent-light" />
+                Weekly recurring
+              </label>
+            </div>
+
+            <div id="weekly-fields" class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 hidden">
+              <div>
+                <label class="block text-xs font-semibold text-brand-text-mid mb-1">Day of week</label>
+                <select id="edit-weekly-day"
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+                  <option value="1">Monday</option>
+                  <option value="2">Tuesday</option>
+                  <option value="3">Wednesday</option>
+                  <option value="4">Thursday</option>
+                  <option value="5">Friday</option>
+                  <option value="6">Saturday</option>
+                  <option value="0">Sunday</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-brand-text-mid mb-1">Time</label>
+                <input id="edit-weekly-time" type="time"
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+              </div>
+
+              <div class="sm:col-span-2 flex flex-wrap gap-2 pt-1">
+                <button id="edit-calc-next"
+                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+                  Calculate next lesson from weekly slot
+                </button>
+                <button id="edit-clear-next"
+                  class="px-3 py-2 rounded-lg bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40 text-xs font-semibold">
+                  Clear next lesson
+                </button>
+              </div>
+
+              <p class="sm:col-span-2 text-[0.7rem] text-brand-text-mid">
+                Weekly slot is stored in <code>profiles.weekly_day</code> + <code>profiles.weekly_time</code> + <code>profiles.weekly_enabled</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-brand-text-mid mb-1">Admin notes (private)</label>
+          <textarea id="edit-notes" rows="4"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            placeholder="Anything helpful: goals, parent preferences, cancellations, etc."></textarea>
+          <p class="text-[0.7rem] text-brand-text-mid mt-1">
+            Stored as <code>profiles.admin_notes</code> (only show to admin).
+          </p>
+        </div>
+      </div>
+
+      <div class="px-5 py-4 border-t border-brand-accent-dark/50 flex items-center justify-between gap-3">
+        <button id="edit-cancel"
+          class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-sm font-semibold">
+          Cancel
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button id="edit-save"
+            class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
   <!-- ADMIN LOGIC -->
   <script>
-    // 🔐 Supabase config
+    // ============================
+    // Supabase config
+    // ============================
     const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -443,6 +631,12 @@
 
     let quill = null;
     let currentNewsletterId = null;
+
+    // Drawer editing state
+    let editProfileId = null;
+
+    // Schedule filter
+    let scheduleMode = "14"; // "14" or "all"
 
     const $ = (id) => document.getElementById(id);
 
@@ -466,6 +660,7 @@
       const d = new Date(value);
       if (isNaN(d.getTime())) return "–";
       return d.toLocaleString("en-GB", {
+        weekday: "short",
         year: "numeric",
         month: "short",
         day: "2-digit",
@@ -479,7 +674,65 @@
       return id.slice(0, 8) + "…";
     }
 
-    // 1) AUTH + ADMIN CHECK
+    function toDatetimeLocalValue(isoString) {
+      if (!isoString) return "";
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return "";
+      const pad = (n) => String(n).padStart(2, "0");
+      const yyyy = d.getFullYear();
+      const mm = pad(d.getMonth() + 1);
+      const dd = pad(d.getDate());
+      const hh = pad(d.getHours());
+      const mi = pad(d.getMinutes());
+      return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+    }
+
+    function fromDatetimeLocalValue(localValue) {
+      if (!localValue) return null;
+      // datetime-local gives local time; new Date(localValue) treats it as local and converts to ISO
+      const d = new Date(localValue);
+      if (isNaN(d.getTime())) return null;
+      return d.toISOString();
+    }
+
+    function normalizePhone(phone) {
+      if (!phone) return "";
+      return String(phone).trim();
+    }
+
+    function safeText(s) {
+      return (s ?? "").toString();
+    }
+
+    // ============================
+    // Weekly helper
+    // ============================
+    function computeNextOccurrence(weeklyDay, weeklyTime) {
+      // weeklyDay: 0-6 (Sun-Sat), weeklyTime: "HH:MM"
+      if (weeklyDay === null || weeklyDay === undefined) return null;
+      if (!weeklyTime || !weeklyTime.includes(":")) return null;
+
+      const [hh, mm] = weeklyTime.split(":").map((x) => parseInt(x, 10));
+      if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
+
+      const now = new Date();
+      const target = new Date(now);
+      target.setSeconds(0, 0);
+      target.setHours(hh, mm, 0, 0);
+
+      const currentDay = now.getDay(); // 0-6
+      let deltaDays = (weeklyDay - currentDay + 7) % 7;
+
+      // If it's the same day but time already passed, jump 7 days
+      if (deltaDays === 0 && target <= now) deltaDays = 7;
+
+      target.setDate(target.getDate() + deltaDays);
+      return target;
+    }
+
+    // ============================
+    // AUTH + ADMIN CHECK
+    // ============================
     async function ensureAdmin() {
       hideGlobalError();
 
@@ -524,7 +777,9 @@
       return true;
     }
 
-    // 2) USERS
+    // ============================
+    // PROFILES
+    // ============================
     async function loadProfiles() {
       hideGlobalError();
 
@@ -534,21 +789,44 @@
 
       if (error) {
         console.error(error);
-        showGlobalError("Could not load profiles from Supabase. Check the profiles table and RLS policies.");
+        showGlobalError("Could not load profiles from Supabase. Check the profiles table + RLS policies.");
         return;
       }
 
       allProfiles = Array.isArray(data) ? data : [];
       filteredProfiles = [...allProfiles];
 
+      updateStats();
       renderUsersTable();
-      updateUserStats();
       populateStudentSelect();
+      renderSchedule();
     }
 
-    function updateUserStats() {
+    function updateStats() {
       $("stat-total-users").textContent = allProfiles.length.toString();
-      $("stat-admins").textContent = allProfiles.filter((p) => p.role === "admin").length.toString();
+      const admins = allProfiles.filter((p) => (p.role || "student") === "admin").length;
+      const students = allProfiles.filter((p) => (p.role || "student") !== "admin").length;
+      $("stat-admins").textContent = admins.toString();
+      $("stat-students").textContent = students.toString();
+    }
+
+    function roleBadge(role) {
+      const r = (role || "student").toLowerCase();
+      if (r === "admin") return `<span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">ADMIN</span>`;
+      if (r === "pending") return `<span class="pill-badge bg-yellow-500/10 text-yellow-300 border-yellow-500/50">PENDING</span>`;
+      return `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">STUDENT</span>`;
+    }
+
+    function weeklyBadge(p) {
+      if (!p.weekly_enabled) return `<span class="text-[0.7rem] text-brand-text-mid">—</span>`;
+      const day = Number(p.weekly_day);
+      const time = p.weekly_time || "";
+      const map = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      return `
+        <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
+          ${map[day] || "?"} ${time || ""}
+        </span>
+      `;
     }
 
     function renderUsersTable() {
@@ -558,8 +836,8 @@
       if (!filteredProfiles.length) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="4" class="px-4 py-4 text-center text-brand-text-mid text-sm">
-              No profiles found yet. Students appear here once an account/profile is created.
+            <td colspan="5" class="px-4 py-4 text-center text-brand-text-mid text-sm">
+              No profiles found yet.
             </td>
           </tr>
         `;
@@ -569,57 +847,67 @@
       filteredProfiles.forEach((p) => {
         const displayName = p.full_name || p.username || "(no name set)";
         const email = p.email || "";
-        const role = p.role || "student";
-        const created = formatDate(p.created_at || p.updated_at);
+        const phone = p.phone || "";
+        const role = (p.role || "student").toLowerCase();
 
-        let roleColor = "bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40";
-        if (role === "admin") roleColor = "bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60";
-        if (role === "pending") roleColor = "bg-yellow-500/10 text-yellow-300 border-yellow-500/50";
+        const nextLesson = p.next_lesson_at ? formatDate(p.next_lesson_at) : "—";
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="px-4 py-3 align-top">
-            <div class="font-semibold text-brand-text-light">${displayName}</div>
-            ${email ? `<div class="text-[0.7rem] text-brand-text-mid mt-0.5">${email}</div>` : ""}
-            <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${created}</div>
+            <div class="font-semibold text-brand-text-light">${safeText(displayName)}</div>
+            <div class="text-[0.7rem] text-brand-text-mid mt-0.5 flex flex-col gap-0.5">
+              ${email ? `<a class="hover:text-brand-accent-light" href="mailto:${encodeURIComponent(email)}">${safeText(email)}</a>` : `<span class="opacity-70">(no email)</span>`}
+              ${phone ? `<a class="hover:text-brand-accent-light" href="tel:${encodeURIComponent(phone)}">${safeText(phone)}</a>` : ``}
+              ${p.instrument ? `<span class="opacity-80">🎵 ${safeText(p.instrument)}</span>` : ``}
+              ${p.status ? `<span class="opacity-80">• ${safeText(p.status)}</span>` : ``}
+            </div>
           </td>
+
           <td class="px-4 py-3 align-top">
-            <span class="pill-badge ${roleColor}">
-              ${role.toUpperCase()}
-            </span>
+            ${roleBadge(role)}
           </td>
+
           <td class="px-4 py-3 align-top text-brand-text-mid">
-            ${shortId(p.id)}
+            <div class="text-xs sm:text-sm">${safeText(nextLesson)}</div>
           </td>
+
+          <td class="px-4 py-3 align-top">
+            ${weeklyBadge(p)}
+          </td>
+
           <td class="px-4 py-3 align-top text-right">
             <div class="inline-flex flex-wrap gap-1 justify-end">
+              <button
+                class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
+                data-action="edit"
+                data-id="${p.id}"
+              >
+                Edit
+              </button>
+
               ${
                 role === "pending"
                   ? `<button
                       class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
                       data-action="approve-student"
                       data-id="${p.id}"
-                    >
-                      Approve
-                    </button>`
+                    >Approve</button>`
                   : ""
               }
+
               ${
                 role !== "admin"
                   ? `<button
                       class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
                       data-action="make-admin"
                       data-id="${p.id}"
-                    >
-                      Make admin
-                    </button>`
+                    >Make admin</button>`
                   : `<button
                       class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
                       data-action="make-student"
                       data-id="${p.id}"
-                    >
-                      Make student
-                    </button>`
+                    >Make student</button>`
               }
             </div>
           </td>
@@ -628,16 +916,15 @@
       });
     }
 
-    function applyUserSearchAndSort() {
+    function applyUserSearch() {
       const term = $("user-search").value.toLowerCase().trim();
       if (!term) {
         filteredProfiles = [...allProfiles];
       } else {
         filteredProfiles = allProfiles.filter((p) => {
-          const combo = [p.full_name, p.username, p.email, p.role, p.id]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
+          const combo = [
+            p.full_name, p.username, p.email, p.phone, p.role, p.instrument, p.status, p.id
+          ].filter(Boolean).join(" ").toLowerCase();
           return combo.includes(term);
         });
       }
@@ -648,15 +935,25 @@
       filteredProfiles.sort((a, b) => {
         const nameA = (a.full_name || a.username || "").toLowerCase();
         const nameB = (b.full_name || b.username || "").toLowerCase();
+
         if (mode === "name-asc") return nameA.localeCompare(nameB);
         if (mode === "name-desc") return nameB.localeCompare(nameA);
+
+        if (mode === "next-lesson") {
+          const da = a.next_lesson_at ? new Date(a.next_lesson_at).getTime() : Infinity;
+          const db = b.next_lesson_at ? new Date(b.next_lesson_at).getTime() : Infinity;
+          return da - db;
+        }
+
         if (mode === "role") {
           const rA = (a.role || "student").toLowerCase();
           const rB = (b.role || "student").toLowerCase();
           return rA.localeCompare(rB);
         }
+
         return 0;
       });
+
       renderUsersTable();
     }
 
@@ -683,7 +980,224 @@
       await loadProfiles();
     }
 
-    // 3) NEWSLETTERS
+    // ============================
+    // EDIT DRAWER
+    // ============================
+    function openEditDrawer(profile) {
+      editProfileId = profile.id;
+
+      $("edit-subtitle").innerHTML = `
+        <span class="text-brand-text-mid">ID:</span> <span class="text-brand-text-light">${shortId(profile.id)}</span>
+      `;
+
+      $("edit-full-name").value = profile.full_name || "";
+      $("edit-instrument").value = profile.instrument || "";
+      $("edit-email").value = profile.email || "";
+      $("edit-phone").value = profile.phone || "";
+      $("edit-status").value = profile.status || "active";
+      $("edit-duration").value = profile.lesson_duration_min ?? "";
+
+      $("edit-next-lesson").value = toDatetimeLocalValue(profile.next_lesson_at);
+
+      $("edit-weekly-enabled").checked = !!profile.weekly_enabled;
+      $("edit-weekly-day").value = (profile.weekly_day ?? 1).toString();
+      $("edit-weekly-time").value = profile.weekly_time || "";
+
+      $("edit-notes").value = profile.admin_notes || "";
+
+      toggleWeeklyFields();
+
+      $("edit-overlay").classList.remove("hidden");
+      $("edit-drawer").classList.remove("hidden");
+    }
+
+    function closeEditDrawer() {
+      editProfileId = null;
+      $("edit-overlay").classList.add("hidden");
+      $("edit-drawer").classList.add("hidden");
+    }
+
+    function toggleWeeklyFields() {
+      const enabled = $("edit-weekly-enabled").checked;
+      const box = $("weekly-fields");
+      if (enabled) box.classList.remove("hidden");
+      else box.classList.add("hidden");
+    }
+
+    async function saveEditDrawer() {
+      hideGlobalError();
+
+      if (!editProfileId) return;
+
+      const payload = {
+        full_name: $("edit-full-name").value.trim() || null,
+        instrument: $("edit-instrument").value.trim() || null,
+        email: $("edit-email").value.trim() || null,
+        phone: normalizePhone($("edit-phone").value),
+        status: $("edit-status").value || "active",
+        lesson_duration_min: $("edit-duration").value ? Number($("edit-duration").value) : null,
+        next_lesson_at: fromDatetimeLocalValue($("edit-next-lesson").value),
+        weekly_enabled: $("edit-weekly-enabled").checked,
+        weekly_day: $("edit-weekly-enabled").checked ? Number($("edit-weekly-day").value) : null,
+        weekly_time: $("edit-weekly-enabled").checked ? ($("edit-weekly-time").value || null) : null,
+        admin_notes: $("edit-notes").value.trim() || null,
+        updated_at: new Date().toISOString(),
+      };
+
+      const saveBtn = $("edit-save");
+      saveBtn.disabled = true;
+      saveBtn.classList.add("opacity-60", "cursor-not-allowed");
+
+      try {
+        const { error } = await supabaseClient
+          .from("profiles")
+          .update(payload)
+          .eq("id", editProfileId);
+
+        if (error) {
+          console.error(error);
+          showGlobalError("Failed to save student changes. Check RLS + columns exist on profiles.");
+          return;
+        }
+
+        closeEditDrawer();
+        await loadProfiles();
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.classList.remove("opacity-60", "cursor-not-allowed");
+      }
+    }
+
+    function calcNextLessonFromWeekly() {
+      const enabled = $("edit-weekly-enabled").checked;
+      if (!enabled) {
+        showGlobalError("Enable “Weekly recurring” first.");
+        return;
+      }
+
+      const day = Number($("edit-weekly-day").value);
+      const time = $("edit-weekly-time").value;
+
+      const next = computeNextOccurrence(day, time);
+      if (!next) {
+        showGlobalError("Please set a valid weekly day + time.");
+        return;
+      }
+
+      $("edit-next-lesson").value = toDatetimeLocalValue(next.toISOString());
+    }
+
+    function clearNextLesson() {
+      $("edit-next-lesson").value = "";
+    }
+
+    // ============================
+    // SCHEDULE TAB
+    // ============================
+    function getUpcomingProfiles() {
+      const students = allProfiles.filter((p) => (p.role || "student") !== "admin");
+      const withNext = students
+        .filter((p) => p.next_lesson_at)
+        .map((p) => ({ ...p, _nextMs: new Date(p.next_lesson_at).getTime() }))
+        .filter((p) => Number.isFinite(p._nextMs))
+        .sort((a, b) => a._nextMs - b._nextMs);
+
+      if (scheduleMode === "all") return withNext;
+
+      const now = Date.now();
+      const limit = now + (14 * 24 * 60 * 60 * 1000);
+      return withNext.filter((p) => p._nextMs >= now && p._nextMs <= limit);
+    }
+
+    function renderSchedule() {
+      const list = $("schedule-list");
+      if (!list) return;
+
+      const items = getUpcomingProfiles();
+      if (!items.length) {
+        list.innerHTML = `
+          <div class="px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-brand-text-mid text-sm">
+            No upcoming lessons found. Add <code>next_lesson_at</code> to a student in the Users tab.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = "";
+      items.forEach((p) => {
+        const name = p.full_name || p.username || "(no name)";
+        const when = formatDate(p.next_lesson_at);
+
+        const weekly = p.weekly_enabled
+          ? `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">WEEKLY</span>`
+          : `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">ONE-OFF</span>`;
+
+        const row = document.createElement("div");
+        row.className = "px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 flex items-start justify-between gap-3";
+        row.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="font-semibold text-brand-text-light">${safeText(name)}</div>
+              ${weekly}
+              ${p.instrument ? `<span class="text-[0.7rem] text-brand-text-mid">🎵 ${safeText(p.instrument)}</span>` : ""}
+            </div>
+            <div class="text-sm text-brand-text-mid mt-1">${safeText(when)}</div>
+            ${p.weekly_enabled && p.weekly_time ? `<div class="text-[0.7rem] text-brand-text-mid mt-1 opacity-80">Slot: ${p.weekly_day} @ ${p.weekly_time}</div>` : ""}
+          </div>
+
+          <div class="flex flex-col items-end gap-2 shrink-0">
+            <button
+              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold"
+              data-action="schedule-edit"
+              data-id="${p.id}"
+            >
+              Edit
+            </button>
+
+            <button
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold"
+              data-action="schedule-done"
+              data-id="${p.id}"
+            >
+              Mark done
+            </button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    async function markLessonDone(profileId) {
+      hideGlobalError();
+
+      const p = allProfiles.find((x) => x.id === profileId);
+      if (!p) return;
+
+      let nextISO = null;
+
+      if (p.weekly_enabled && (p.weekly_day !== null && p.weekly_day !== undefined) && p.weekly_time) {
+        const next = computeNextOccurrence(Number(p.weekly_day), p.weekly_time);
+        if (next) nextISO = next.toISOString();
+      }
+
+      // If weekly, bump to the next calculated slot; if not weekly, clear the next lesson
+      const { error } = await supabaseClient
+        .from("profiles")
+        .update({ next_lesson_at: nextISO, updated_at: new Date().toISOString() })
+        .eq("id", profileId);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to update next lesson. Check RLS + profiles columns.");
+        return;
+      }
+
+      await loadProfiles();
+    }
+
+    // ============================
+    // NEWSLETTERS
+    // ============================
     async function initNewsletterEditor() {
       quill = new Quill("#newsletter-editor", {
         theme: "snow",
@@ -713,40 +1227,24 @@
 
     async function loadNewsletters() {
       hideGlobalError();
-
       const listEl = $("newsletter-list");
       listEl.innerHTML = `<p class="text-brand-text-mid text-sm">Loading newsletters…</p>`;
 
-      // Try ordered by created_at. If your table doesn't have created_at, we fall back.
-      let res = await supabaseClient
+      const { data, error } = await supabaseClient
         .from("newsletters")
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (res.error) {
-        res = await supabaseClient.from("newsletters").select("*");
-      }
-
-      const { data, error } = res;
-
       if (error) {
         console.error(error);
-        listEl.innerHTML = `
-          <p class="text-error-red text-sm">
-            Could not load newsletters. Ensure RLS allows admin reads on <code>newsletters</code>.
-          </p>
-        `;
+        listEl.innerHTML = `<p class="text-error-red text-sm">Could not load newsletters. Check RLS.</p>`;
         return;
       }
 
       $("stat-newsletters").textContent = (data?.length || 0).toString();
 
       if (!data?.length) {
-        listEl.innerHTML = `
-          <p class="text-brand-text-mid text-sm">
-            No newsletters yet. Write one on the left and click “Save Draft” or “Publish”.
-          </p>
-        `;
+        listEl.innerHTML = `<p class="text-brand-text-mid text-sm">No newsletters yet.</p>`;
         return;
       }
 
@@ -766,14 +1264,11 @@
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
               <div class="font-semibold text-brand-text-light flex flex-wrap items-center gap-2">
-                <span class="truncate">${n.title || "(Untitled)"}</span>
+                <span class="truncate">${safeText(n.title || "(Untitled)")}</span>
                 ${statusBadge}
               </div>
               <div class="text-[0.7rem] text-brand-text-mid mt-0.5">
                 ${formatDate(n.created_at)}
-              </div>
-              <div class="text-[0.7rem] text-brand-text-mid mt-0.5 opacity-70">
-                Click to load into editor
               </div>
             </div>
 
@@ -797,7 +1292,6 @@
             </div>
           </div>
         `;
-
         listEl.appendChild(row);
       });
     }
@@ -827,6 +1321,7 @@
         title: title || "(Untitled)",
         content_html: html || "",
         published: !!published,
+        updated_at: new Date().toISOString(),
       };
 
       setNewsletterButtonsDisabled(true);
@@ -856,7 +1351,7 @@
           currentNewsletterId = data.id;
         }
 
-        // If published true → call Edge Function for email notifications (non-blocking)
+        // Non-blocking: notify function (optional)
         if (published && savedRow?.id) {
           try {
             await supabaseClient.functions.invoke("newsletter-notify", {
@@ -874,7 +1369,7 @@
         await loadNewsletters();
       } catch (err) {
         console.error(err);
-        showGlobalError("Failed to save newsletter. Check RLS and table columns.");
+        showGlobalError("Failed to save newsletter. Check RLS + table columns.");
       } finally {
         setNewsletterButtonsDisabled(false);
       }
@@ -897,7 +1392,6 @@
         .single();
 
       if (error || !data) {
-        console.error(error);
         showGlobalError("Could not toggle publish state — row not found.");
         return;
       }
@@ -906,7 +1400,7 @@
 
       const { error: updateError } = await supabaseClient
         .from("newsletters")
-        .update({ published: newState })
+        .update({ published: newState, updated_at: new Date().toISOString() })
         .eq("id", id);
 
       if (updateError) {
@@ -972,7 +1466,6 @@
       currentNewsletterId = data.id;
       $("newsletter-title").value = data.title || "";
 
-      // Use Quill API instead of innerHTML assignment
       if (quill) {
         quill.setContents([]);
         quill.clipboard.dangerouslyPasteHTML(data.content_html || "");
@@ -998,7 +1491,9 @@
       if (id) loadNewsletterIntoEditor(id);
     }
 
-    // 4) FILES (Storage: student_files)
+    // ============================
+    // FILES (Storage: student_files)
+    // ============================
     function populateStudentSelect() {
       const select = $("files-student-select");
       if (!select) return;
@@ -1006,7 +1501,8 @@
       const previous = select.value;
       select.innerHTML = `<option value="">Select a student...</option>`;
 
-      const students = allProfiles.filter((p) => p.role !== "admin");
+      const students = allProfiles.filter((p) => (p.role || "student") !== "admin");
+
       students.forEach((p) => {
         const opt = document.createElement("option");
         opt.value = p.id;
@@ -1020,34 +1516,27 @@
 
     async function loadFilesForStudent(studentId) {
       const listEl = $("file-list");
+
       if (!studentId) {
-        listEl.innerHTML =
-          '<p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>';
+        listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>';
         return;
       }
 
-      listEl.innerHTML =
-        '<p class="text-brand-text-mid text-sm">Loading files from storage…</p>';
+      listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Loading files…</p>';
 
       try {
         const { data, error } = await supabaseClient.storage
           .from("student_files")
-          .list(studentId + "/", {
-            limit: 100,
-            offset: 0,
-            sortBy: { column: "name", order: "asc" },
-          });
+          .list(studentId + "/", { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } });
 
         if (error) {
           console.error(error);
-          listEl.innerHTML =
-            '<p class="text-error-red text-sm">Could not list files. Ensure the <code>student_files</code> bucket exists and storage policies allow admin access.</p>';
+          listEl.innerHTML = '<p class="text-error-red text-sm">Could not list files. Check bucket + storage policies.</p>';
           return;
         }
 
-        if (!data || !data.length) {
-          listEl.innerHTML =
-            '<p class="text-brand-text-mid text-sm">No files uploaded yet for this student.</p>';
+        if (!data?.length) {
+          listEl.innerHTML = '<p class="text-brand-text-mid text-sm">No files uploaded yet for this student.</p>';
           return;
         }
 
@@ -1057,18 +1546,12 @@
           data.map(async (file) => {
             const fullPath = `${studentId}/${file.name}`;
 
-            // Prefer signed URLs (private buckets), fallback to public URL if bucket is public
             let url = "#";
-            const signed = await supabaseClient.storage
-              .from("student_files")
-              .createSignedUrl(fullPath, 60 * 60);
-
+            const signed = await supabaseClient.storage.from("student_files").createSignedUrl(fullPath, 60 * 60);
             if (!signed.error && signed.data?.signedUrl) {
               url = signed.data.signedUrl;
             } else {
-              const { data: pub } = supabaseClient.storage
-                .from("student_files")
-                .getPublicUrl(fullPath);
+              const { data: pub } = supabaseClient.storage.from("student_files").getPublicUrl(fullPath);
               url = pub?.publicUrl || "#";
             }
 
@@ -1077,23 +1560,16 @@
               "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
             row.innerHTML = `
               <div class="text-[0.8rem] sm:text-xs min-w-0">
-                <div class="font-semibold text-brand-text-light break-all">${file.name}</div>
+                <div class="font-semibold text-brand-text-light break-all">${safeText(file.name)}</div>
               </div>
               <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
-                <a
-                  href="${url}"
-                  target="_blank"
-                  rel="noreferrer"
-                  class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
-                >
+                <a href="${url}" target="_blank" rel="noreferrer"
+                   class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
                   View / Download
                 </a>
-                <button
-                  type="button"
+                <button type="button"
                   class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
-                  data-file="${file.name}"
-                  data-student="${studentId}"
-                >
+                  data-file="${file.name}" data-student="${studentId}">
                   Delete
                 </button>
               </div>
@@ -1105,8 +1581,7 @@
         rows.forEach((r) => listEl.appendChild(r));
       } catch (err) {
         console.error(err);
-        listEl.innerHTML =
-          '<p class="text-error-red text-sm">Unexpected error while loading files.</p>';
+        listEl.innerHTML = '<p class="text-error-red text-sm">Unexpected error while loading files.</p>';
       }
     }
 
@@ -1115,23 +1590,15 @@
 
       const studentId = $("files-student-select").value;
       const input = $("file-input");
-      const file = input.files[0];
+      const file = input.files?.[0];
 
-      if (!studentId) {
-        showGlobalError("Please choose a student before uploading.");
-        return;
-      }
-      if (!file) {
-        showGlobalError("Please select a file to upload.");
-        return;
-      }
+      if (!studentId) return showGlobalError("Please choose a student before uploading.");
+      if (!file) return showGlobalError("Please select a file to upload.");
 
       const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
       const path = `${studentId}/${Date.now()}-${safeName}`;
 
-      const { error } = await supabaseClient.storage
-        .from("student_files")
-        .upload(path, file, { upsert: false });
+      const { error } = await supabaseClient.storage.from("student_files").upload(path, file, { upsert: false });
 
       if (error) {
         console.error(error);
@@ -1148,9 +1615,7 @@
       if (!confirm("Delete this file for this student?")) return;
 
       const fullPath = `${studentId}/${fileName}`;
-      const { error } = await supabaseClient.storage
-        .from("student_files")
-        .remove([fullPath]);
+      const { error } = await supabaseClient.storage.from("student_files").remove([fullPath]);
 
       if (error) {
         console.error(error);
@@ -1161,10 +1626,13 @@
       await loadFilesForStudent(studentId);
     }
 
-    // 5) TABS
+    // ============================
+    // TABS
+    // ============================
     function switchTab(tabName) {
       const sections = {
         users: $("tab-users"),
+        schedule: $("tab-schedule"),
         newsletters: $("tab-newsletters"),
         files: $("tab-files"),
       };
@@ -1187,7 +1655,9 @@
       });
     }
 
-    // 6) INIT
+    // ============================
+    // INIT
+    // ============================
     document.addEventListener("DOMContentLoaded", async () => {
       // If signed out in another tab, bounce
       supabaseClient.auth.onAuthStateChange((_event, session) => {
@@ -1206,13 +1676,11 @@
 
       // Tabs
       document.querySelectorAll(".tab-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          switchTab(btn.getAttribute("data-tab"));
-        });
+        btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
       });
 
-      // Users: search + sort + role actions
-      $("user-search").addEventListener("input", applyUserSearchAndSort);
+      // Users: search + sort + row actions
+      $("user-search").addEventListener("input", applyUserSearch);
       document.querySelectorAll(".user-sort").forEach((btn) => {
         btn.addEventListener("click", () => sortUsers(btn.getAttribute("data-sort")));
       });
@@ -1220,6 +1688,7 @@
       $("users-table-body").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-action]");
         if (!btn) return;
+
         const action = btn.dataset.action;
         const id = btn.dataset.id;
         if (!id) return;
@@ -1227,8 +1696,45 @@
         if (action === "approve-student") updateUserRole(id, "student");
         if (action === "make-admin") updateUserRole(id, "admin");
         if (action === "make-student") updateUserRole(id, "student");
+
+        if (action === "edit") {
+          const p = allProfiles.find((x) => x.id === id);
+          if (p) openEditDrawer(p);
+        }
       });
 
+      // Drawer controls
+      $("edit-overlay").addEventListener("click", closeEditDrawer);
+      $("edit-close").addEventListener("click", closeEditDrawer);
+      $("edit-cancel").addEventListener("click", closeEditDrawer);
+      $("edit-save").addEventListener("click", saveEditDrawer);
+
+      $("edit-weekly-enabled").addEventListener("change", toggleWeeklyFields);
+      $("edit-calc-next").addEventListener("click", calcNextLessonFromWeekly);
+      $("edit-clear-next").addEventListener("click", clearNextLesson);
+
+      // Schedule actions
+      $("schedule-refresh").addEventListener("click", () => renderSchedule());
+      $("schedule-show-all").addEventListener("click", () => { scheduleMode = "all"; renderSchedule(); });
+      $("schedule-next-14").addEventListener("click", () => { scheduleMode = "14"; renderSchedule(); });
+
+      $("schedule-list").addEventListener("click", (event) => {
+        const btn = event.target.closest("button[data-action]");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+
+        if (action === "schedule-edit") {
+          const p = allProfiles.find((x) => x.id === id);
+          if (p) openEditDrawer(p);
+        }
+
+        if (action === "schedule-done") {
+          markLessonDone(id);
+        }
+      });
+
+      // Load base data
       await loadProfiles();
 
       // Newsletters
@@ -1244,7 +1750,6 @@
       // Files
       $("files-student-select").addEventListener("change", (e) => loadFilesForStudent(e.target.value));
       $("upload-file-button").addEventListener("click", uploadFileForStudent);
-
       $("file-list").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-file][data-student]");
         if (!btn) return;
