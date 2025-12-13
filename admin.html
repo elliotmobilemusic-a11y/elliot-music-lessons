@@ -457,8 +457,162 @@
     class="hidden fixed top-0 right-0 h-full w-full sm:w-[520px] z-[101]
            bg-brand-dark-bg border-l border-brand-accent-dark/60 shadow-2xl"
   >
-    <!-- (drawer HTML unchanged from your version; keep it in your file if you had extra fields) -->
-    <!-- For brevity, keep your original drawer markup exactly as-is here. -->
+    <!-- (drawer HTML unchanged) -->
+    <div class="h-full flex flex-col">
+      <div class="px-5 py-4 border-b border-brand-accent-dark/50 flex items-start justify-between gap-4">
+        <div>
+          <h3 class="font-heading text-xl font-extrabold text-brand-text-light">Edit Student</h3>
+          <p class="text-xs text-brand-text-mid mt-1" id="edit-subtitle">—</p>
+        </div>
+        <button
+          id="edit-close"
+          class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto scroll-skinny px-5 py-5 space-y-4">
+        <!-- (inputs unchanged) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Full name</label>
+            <input id="edit-full-name" type="text"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="Student name" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Instrument</label>
+            <input id="edit-instrument" type="text"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="Piano / Singing / Guitar..." />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Email (profile)</label>
+            <input id="edit-email" type="email"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="parent@email.com" />
+            <p class="text-[0.7rem] text-brand-text-mid mt-1">
+              This edits <code>profiles.email</code> (not Supabase Auth email).
+            </p>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Phone</label>
+            <input id="edit-phone" type="tel"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="07..." />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Status</label>
+            <select id="edit-status"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Lesson duration (minutes)</label>
+            <input id="edit-duration" type="number" min="10" step="5"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              placeholder="30" />
+          </div>
+        </div>
+
+        <div class="bg-card-bg/70 border border-brand-accent-dark/50 rounded-xl p-4">
+          <div class="flex items-center justify-between gap-3">
+            <h4 class="font-heading text-base font-bold text-brand-text-light">Next Lesson</h4>
+            <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">VISIBLE TO STUDENT</span>
+          </div>
+
+          <div class="mt-3">
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Next lesson date/time</label>
+            <input id="edit-next-lesson" type="datetime-local"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+            <p class="text-[0.7rem] text-brand-text-mid mt-1">
+              Stored in <code>profiles.next_lesson_at</code>.
+            </p>
+          </div>
+
+          <div class="mt-4 border-t border-brand-accent-dark/40 pt-4">
+            <div class="flex items-center justify-between">
+              <h4 class="font-heading text-base font-bold text-brand-text-light">Weekly Slot</h4>
+              <label class="inline-flex items-center gap-2 text-xs text-brand-text-mid">
+                <input id="edit-weekly-enabled" type="checkbox" class="accent-brand-accent-light" />
+                Weekly recurring
+              </label>
+            </div>
+
+            <div id="weekly-fields" class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 hidden">
+              <div>
+                <label class="block text-xs font-semibold text-brand-text-mid mb-1">Day of week</label>
+                <select id="edit-weekly-day"
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+                  <option value="1">Monday</option>
+                  <option value="2">Tuesday</option>
+                  <option value="3">Wednesday</option>
+                  <option value="4">Thursday</option>
+                  <option value="5">Friday</option>
+                  <option value="6">Saturday</option>
+                  <option value="0">Sunday</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-brand-text-mid mb-1">Time</label>
+                <input id="edit-weekly-time" type="time"
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+              </div>
+
+              <div class="sm:col-span-2 flex flex-wrap gap-2 pt-1">
+                <button id="edit-calc-next"
+                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+                  Calculate next lesson from weekly slot
+                </button>
+                <button id="edit-clear-next"
+                  class="px-3 py-2 rounded-lg bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40 text-xs font-semibold">
+                  Clear next lesson
+                </button>
+              </div>
+
+              <p class="sm:col-span-2 text-[0.7rem] text-brand-text-mid">
+                Weekly slot is stored in <code>profiles.weekly_day</code> + <code>profiles.weekly_time</code> + <code>profiles.weekly_enabled</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-brand-text-mid mb-1">Admin notes (private)</label>
+          <textarea id="edit-notes" rows="4"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            placeholder="Anything helpful: goals, parent preferences, cancellations, etc."></textarea>
+          <p class="text-[0.7rem] text-brand-text-mid mt-1">
+            Stored as <code>profiles.admin_notes</code> (only show to admin).
+          </p>
+        </div>
+      </div>
+
+      <div class="px-5 py-4 border-t border-brand-accent-dark/50 flex items-center justify-between gap-3">
+        <button id="edit-cancel"
+          class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-sm font-semibold">
+          Cancel
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button id="edit-save"
+            class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <!-- ADMIN LOGIC -->
@@ -470,11 +624,13 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ===== Redirect helper (cannot be redeclared) =====
-    if (!window.__emmRedirect) window.__emmRedirect = { active: false };
+    // ============================
+    // Redirect loop protection (GLOBAL, single instance)
+    // ============================
+    if (!window.__emmRedirectState) window.__emmRedirectState = { active: false };
     function safeRedirect(url) {
-      if (window.__emmRedirect.active) return;
-      window.__emmRedirect.active = true;
+      if (window.__emmRedirectState.active) return;
+      window.__emmRedirectState.active = true;
       window.location.replace(url);
     }
 
@@ -576,8 +732,8 @@
 
       const currentDay = now.getDay();
       let deltaDays = (weeklyDay - currentDay + 7) % 7;
-
       if (deltaDays === 0 && target <= now) deltaDays = 7;
+
       target.setDate(target.getDate() + deltaDays);
       return target;
     }
@@ -617,7 +773,7 @@
 
       const pill = $("admin-user-pill");
       if (pill) {
-        const name = profile.full_name || currentAdminUser.email || "Admin user";
+        const name = profile.full_name || profile.username || currentAdminUser.email || "Admin user";
         pill.innerHTML = `
           <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
           <span>${name}</span>
@@ -630,7 +786,7 @@
     }
 
     // ============================
-    // PROFILES (same logic as your original)
+    // PROFILES
     // ============================
     async function loadProfiles() {
       hideGlobalError();
@@ -665,6 +821,7 @@
     function roleBadge(role) {
       const r = (role || "student").toLowerCase();
       if (r === "admin") return `<span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">ADMIN</span>`;
+      if (r === "pending") return `<span class="pill-badge bg-yellow-500/10 text-yellow-300 border-yellow-500/50">PENDING</span>`;
       return `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">STUDENT</span>`;
     }
 
@@ -696,10 +853,11 @@
       }
 
       filteredProfiles.forEach((p) => {
-        const displayName = p.full_name || "(no name set)";
+        const displayName = p.full_name || p.username || "(no name set)";
         const email = p.email || "";
         const phone = p.phone || "";
         const role = (p.role || "student").toLowerCase();
+
         const nextLesson = p.next_lesson_at ? formatDate(p.next_lesson_at) : "—";
 
         const tr = document.createElement("tr");
@@ -737,6 +895,16 @@
               </button>
 
               ${
+                role === "pending"
+                  ? `<button
+                      class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
+                      data-action="approve-student"
+                      data-id="${p.id}"
+                    >Approve</button>`
+                  : ""
+              }
+
+              ${
                 role !== "admin"
                   ? `<button
                       class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
@@ -758,11 +926,13 @@
 
     function applyUserSearch() {
       const term = $("user-search").value.toLowerCase().trim();
-      if (!term) filteredProfiles = [...allProfiles];
-      else {
+      if (!term) {
+        filteredProfiles = [...allProfiles];
+      } else {
         filteredProfiles = allProfiles.filter((p) => {
-          const combo = [p.full_name, p.email, p.phone, p.role, p.instrument, p.status, p.id]
-            .filter(Boolean).join(" ").toLowerCase();
+          const combo = [
+            p.full_name, p.username, p.email, p.phone, p.role, p.instrument, p.status, p.id
+          ].filter(Boolean).join(" ").toLowerCase();
           return combo.includes(term);
         });
       }
@@ -771,8 +941,8 @@
 
     function sortUsers(mode) {
       filteredProfiles.sort((a, b) => {
-        const nameA = (a.full_name || "").toLowerCase();
-        const nameB = (b.full_name || "").toLowerCase();
+        const nameA = (a.full_name || a.username || "").toLowerCase();
+        const nameB = (b.full_name || b.username || "").toLowerCase();
 
         if (mode === "name-asc") return nameA.localeCompare(nameB);
         if (mode === "name-desc") return nameB.localeCompare(nameA);
@@ -818,120 +988,223 @@
     }
 
     // ============================
-    // FILES (Storage: student_files)
+    // EDIT DRAWER
     // ============================
-    function populateStudentSelect() {
-      const select = $("files-student-select");
-      if (!select) return;
+    function openEditDrawer(profile) {
+      editProfileId = profile.id;
 
-      const previous = select.value;
-      select.innerHTML = `<option value="">Select a student...</option>`;
+      $("edit-subtitle").innerHTML = `
+        <span class="text-brand-text-mid">ID:</span> <span class="text-brand-text-light">${shortId(profile.id)}</span>
+      `;
 
-      const students = allProfiles.filter((p) => (p.role || "student") !== "admin");
-      students.forEach((p) => {
-        const opt = document.createElement("option");
-        opt.value = p.id;
-        const name = p.full_name || "(no name)";
-        opt.textContent = `${name} — ${shortId(p.id)}`;
-        select.appendChild(opt);
-      });
+      $("edit-full-name").value = profile.full_name || "";
+      $("edit-instrument").value = profile.instrument || "";
+      $("edit-email").value = profile.email || "";
+      $("edit-phone").value = profile.phone || "";
+      $("edit-status").value = profile.status || "active";
+      $("edit-duration").value = profile.lesson_duration_min ?? "";
 
-      if (students.some((p) => p.id === previous)) select.value = previous;
+      $("edit-next-lesson").value = toDatetimeLocalValue(profile.next_lesson_at);
+
+      $("edit-weekly-enabled").checked = !!profile.weekly_enabled;
+      $("edit-weekly-day").value = (profile.weekly_day ?? 1).toString();
+      $("edit-weekly-time").value = profile.weekly_time || "";
+
+      $("edit-notes").value = profile.admin_notes || "";
+
+      toggleWeeklyFields();
+
+      $("edit-overlay").classList.remove("hidden");
+      $("edit-drawer").classList.remove("hidden");
     }
 
-    async function loadFilesForStudent(studentId) {
-      const listEl = $("file-list");
-      if (!studentId) {
-        listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>';
-        return;
-      }
+    function closeEditDrawer() {
+      editProfileId = null;
+      $("edit-overlay").classList.add("hidden");
+      $("edit-drawer").classList.add("hidden");
+    }
 
-      listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Loading files…</p>';
+    function toggleWeeklyFields() {
+      const enabled = $("edit-weekly-enabled").checked;
+      const box = $("weekly-fields");
+      if (enabled) box.classList.remove("hidden");
+      else box.classList.add("hidden");
+    }
+
+    async function saveEditDrawer() {
+      hideGlobalError();
+      if (!editProfileId) return;
+
+      const payload = {
+        full_name: $("edit-full-name").value.trim() || null,
+        instrument: $("edit-instrument").value.trim() || null,
+        email: $("edit-email").value.trim() || null,
+        phone: normalizePhone($("edit-phone").value),
+        status: $("edit-status").value || "active",
+        lesson_duration_min: $("edit-duration").value ? Number($("edit-duration").value) : null,
+        next_lesson_at: fromDatetimeLocalValue($("edit-next-lesson").value),
+        weekly_enabled: $("edit-weekly-enabled").checked,
+        weekly_day: $("edit-weekly-enabled").checked ? Number($("edit-weekly-day").value) : null,
+        weekly_time: $("edit-weekly-enabled").checked ? ($("edit-weekly-time").value || null) : null,
+        admin_notes: $("edit-notes").value.trim() || null,
+        updated_at: new Date().toISOString(),
+      };
+
+      const saveBtn = $("edit-save");
+      saveBtn.disabled = true;
+      saveBtn.classList.add("opacity-60", "cursor-not-allowed");
 
       try {
-        const { data, error } = await supabaseClient.storage
-          .from("student_files")
-          .list(studentId + "/", { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } });
+        const { error } = await supabaseClient
+          .from("profiles")
+          .update(payload)
+          .eq("id", editProfileId);
 
         if (error) {
           console.error(error);
-          listEl.innerHTML = '<p class="text-error-red text-sm">Could not list files. Check bucket + storage policies.</p>';
+          showGlobalError("Failed to save student changes. Check RLS + columns exist on profiles.");
           return;
         }
 
-        if (!data?.length) {
-          listEl.innerHTML = '<p class="text-brand-text-mid text-sm">No files uploaded yet for this student.</p>';
-          return;
-        }
-
-        listEl.innerHTML = "";
-
-        const rows = await Promise.all(
-          data.map(async (file) => {
-            const fullPath = `${studentId}/${file.name}`;
-
-            let url = "#";
-            const signed = await supabaseClient.storage.from("student_files").createSignedUrl(fullPath, 60 * 60);
-            if (!signed.error && signed.data?.signedUrl) url = signed.data.signedUrl;
-            else {
-              const { data: pub } = supabaseClient.storage.from("student_files").getPublicUrl(fullPath);
-              url = pub?.publicUrl || "#";
-            }
-
-            const row = document.createElement("div");
-            row.className =
-              "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
-            row.innerHTML = `
-              <div class="text-[0.8rem] sm:text-xs min-w-0">
-                <div class="font-semibold text-brand-text-light break-all">${safeText(file.name)}</div>
-              </div>
-              <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
-                <a href="${url}" target="_blank" rel="noreferrer"
-                   class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
-                  View / Download
-                </a>
-              </div>
-            `;
-            return row;
-          })
-        );
-
-        rows.forEach((r) => listEl.appendChild(r));
-      } catch (err) {
-        console.error(err);
-        listEl.innerHTML = '<p class="text-error-red text-sm">Unexpected error while loading files.</p>';
+        closeEditDrawer();
+        await loadProfiles();
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.classList.remove("opacity-60", "cursor-not-allowed");
       }
     }
 
-    async function uploadFileForStudent() {
-      hideGlobalError();
-
-      const studentId = $("files-student-select").value;
-      const input = $("file-input");
-      const file = input.files?.[0];
-
-      if (!studentId) return showGlobalError("Please choose a student before uploading.");
-      if (!file) return showGlobalError("Please select a file to upload.");
-
-      const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
-      const path = `${studentId}/${Date.now()}-${safeName}`;
-
-      const { error } = await supabaseClient.storage.from("student_files").upload(path, file, { upsert: false });
-
-      if (error) {
-        console.error(error);
-        showGlobalError("File upload failed. Check storage policies and bucket name.");
+    function calcNextLessonFromWeekly() {
+      const enabled = $("edit-weekly-enabled").checked;
+      if (!enabled) {
+        showGlobalError("Enable “Weekly recurring” first.");
         return;
       }
 
-      input.value = "";
-      await loadFilesForStudent(studentId);
+      const day = Number($("edit-weekly-day").value);
+      const time = $("edit-weekly-time").value;
+
+      const next = computeNextOccurrence(day, time);
+      if (!next) {
+        showGlobalError("Please set a valid weekly day + time.");
+        return;
+      }
+
+      $("edit-next-lesson").value = toDatetimeLocalValue(next.toISOString());
+    }
+
+    function clearNextLesson() {
+      $("edit-next-lesson").value = "";
     }
 
     // ============================
-    // NEWSLETTERS (same as your original)
+    // SCHEDULE TAB
+    // ============================
+    function getUpcomingProfiles() {
+      const students = allProfiles.filter((p) => (p.role || "student") !== "admin");
+      const withNext = students
+        .filter((p) => p.next_lesson_at)
+        .map((p) => ({ ...p, _nextMs: new Date(p.next_lesson_at).getTime() }))
+        .filter((p) => Number.isFinite(p._nextMs))
+        .sort((a, b) => a._nextMs - b._nextMs);
+
+      if (scheduleMode === "all") return withNext;
+
+      const now = Date.now();
+      const limit = now + (14 * 24 * 60 * 60 * 1000);
+      return withNext.filter((p) => p._nextMs >= now && p._nextMs <= limit);
+    }
+
+    function renderSchedule() {
+      const list = $("schedule-list");
+      if (!list) return;
+
+      const items = getUpcomingProfiles();
+      if (!items.length) {
+        list.innerHTML = `
+          <div class="px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-brand-text-mid text-sm">
+            No upcoming lessons found. Add <code>next_lesson_at</code> to a student in the Users tab.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = "";
+      items.forEach((p) => {
+        const name = p.full_name || p.username || "(no name)";
+        const when = formatDate(p.next_lesson_at);
+
+        const weekly = p.weekly_enabled
+          ? `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">WEEKLY</span>`
+          : `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">ONE-OFF</span>`;
+
+        const row = document.createElement("div");
+        row.className = "px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 flex items-start justify-between gap-3";
+        row.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="font-semibold text-brand-text-light">${safeText(name)}</div>
+              ${weekly}
+              ${p.instrument ? `<span class="text-[0.7rem] text-brand-text-mid">🎵 ${safeText(p.instrument)}</span>` : ""}
+            </div>
+            <div class="text-sm text-brand-text-mid mt-1">${safeText(when)}</div>
+            ${p.weekly_enabled && p.weekly_time ? `<div class="text-[0.7rem] text-brand-text-mid mt-1 opacity-80">Slot: ${p.weekly_day} @ ${p.weekly_time}</div>` : ""}
+          </div>
+
+          <div class="flex flex-col items-end gap-2 shrink-0">
+            <button
+              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold"
+              data-action="schedule-edit"
+              data-id="${p.id}"
+            >
+              Edit
+            </button>
+
+            <button
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold"
+              data-action="schedule-done"
+              data-id="${p.id}"
+            >
+              Mark done
+            </button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    async function markLessonDone(profileId) {
+      hideGlobalError();
+
+      const p = allProfiles.find((x) => x.id === profileId);
+      if (!p) return;
+
+      let nextISO = null;
+
+      if (p.weekly_enabled && (p.weekly_day !== null && p.weekly_day !== undefined) && p.weekly_time) {
+        const next = computeNextOccurrence(Number(p.weekly_day), p.weekly_time);
+        if (next) nextISO = next.toISOString();
+      }
+
+      const { error } = await supabaseClient
+        .from("profiles")
+        .update({ next_lesson_at: nextISO, updated_at: new Date().toISOString() })
+        .eq("id", profileId);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to update next lesson. Check RLS + profiles columns.");
+        return;
+      }
+
+      await loadProfiles();
+    }
+
+    // ============================
+    // NEWSLETTERS
     // ============================
     async function initNewsletterEditor() {
+      if (quill) return; // guard
       quill = new Quill("#newsletter-editor", {
         theme: "snow",
         placeholder: "Write your newsletter here…",
@@ -1004,10 +1277,358 @@
                 ${formatDate(n.created_at)}
               </div>
             </div>
+
+            <div class="flex flex-col items-end gap-1 text-[0.7rem] shrink-0">
+              <button
+                type="button"
+                class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light"
+                data-action="toggle-publish"
+                data-id="${n.id}"
+              >
+                ${n.published ? "Unpublish" : "Publish"}
+              </button>
+              <button
+                type="button"
+                class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
+                data-action="delete-newsletter"
+                data-id="${n.id}"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         `;
         listEl.appendChild(row);
       });
+    }
+
+    function setNewsletterButtonsDisabled(disabled) {
+      ["newsletter-save-draft", "newsletter-publish", "newsletter-clear"].forEach((id) => {
+        const el = $(id);
+        if (!el) return;
+        el.disabled = disabled;
+        el.classList.toggle("opacity-60", disabled);
+        el.classList.toggle("cursor-not-allowed", disabled);
+      });
+    }
+
+    async function saveNewsletter(published) {
+      hideGlobalError();
+
+      const title = $("newsletter-title").value.trim();
+      const html = (quill?.root?.innerHTML || "").trim();
+
+      if (!title && !html) {
+        showGlobalError("Cannot save an empty newsletter.");
+        return;
+      }
+
+      const payload = {
+        title: title || "(Untitled)",
+        content_html: html || "",
+        published: !!published,
+        updated_at: new Date().toISOString(),
+      };
+
+      setNewsletterButtonsDisabled(true);
+
+      let savedRow = null;
+
+      try {
+        if (currentNewsletterId) {
+          const { data, error } = await supabaseClient
+            .from("newsletters")
+            .update(payload)
+            .eq("id", currentNewsletterId)
+            .select()
+            .single();
+
+          if (error) throw error;
+          savedRow = data;
+        } else {
+          const { data, error } = await supabaseClient
+            .from("newsletters")
+            .insert(payload)
+            .select()
+            .single();
+
+          if (error) throw error;
+          savedRow = data;
+          currentNewsletterId = data.id;
+        }
+
+        if (published && savedRow?.id) {
+          try {
+            await supabaseClient.functions.invoke("newsletter-notify", {
+              body: {
+                newsletter_id: savedRow.id,
+                title: savedRow.title,
+                content_html: savedRow.content_html,
+              },
+            });
+          } catch (fnErr) {
+            console.warn("newsletter-notify function failed or not deployed yet:", fnErr);
+          }
+        }
+
+        await loadNewsletters();
+      } catch (err) {
+        console.error(err);
+        showGlobalError("Failed to save newsletter. Check RLS + table columns.");
+      } finally {
+        setNewsletterButtonsDisabled(false);
+      }
+    }
+
+    function clearNewsletterEditor() {
+      currentNewsletterId = null;
+      $("newsletter-title").value = "";
+      if (quill) quill.setContents([]);
+      updateNewsletterPreview();
+    }
+
+    async function toggleNewsletterPublish(id) {
+      hideGlobalError();
+
+      const { data, error } = await supabaseClient
+        .from("newsletters")
+        .select("id, published, title, content_html")
+        .eq("id", id)
+        .single();
+
+      if (error || !data) {
+        showGlobalError("Could not toggle publish state — row not found.");
+        return;
+      }
+
+      const newState = !data.published;
+
+      const { error: updateError } = await supabaseClient
+        .from("newsletters")
+        .update({ published: newState, updated_at: new Date().toISOString() })
+        .eq("id", id);
+
+      if (updateError) {
+        console.error(updateError);
+        showGlobalError("Failed to update publish state.");
+        return;
+      }
+
+      if (newState) {
+        try {
+          await supabaseClient.functions.invoke("newsletter-notify", {
+            body: {
+              newsletter_id: data.id,
+              title: data.title,
+              content_html: data.content_html,
+            },
+          });
+        } catch (err) {
+          console.warn("newsletter-notify function failed or not deployed yet:", err);
+        }
+      }
+
+      await loadNewsletters();
+    }
+
+    async function deleteNewsletter(id) {
+      hideGlobalError();
+      if (!confirm("Delete this newsletter permanently?")) return;
+
+      const { error } = await supabaseClient
+        .from("newsletters")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to delete newsletter.");
+        return;
+      }
+
+      if (currentNewsletterId === id) {
+        clearNewsletterEditor();
+      }
+
+      await loadNewsletters();
+    }
+
+    async function loadNewsletterIntoEditor(id) {
+      hideGlobalError();
+
+      const { data, error } = await supabaseClient
+        .from("newsletters")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error || !data) {
+        console.error(error);
+        showGlobalError("Could not load that newsletter.");
+        return;
+      }
+
+      currentNewsletterId = data.id;
+      $("newsletter-title").value = data.title || "";
+
+      if (quill) {
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(data.content_html || "");
+      }
+
+      updateNewsletterPreview();
+    }
+
+    function handleNewsletterListClick(event) {
+      const actionBtn = event.target.closest("button[data-action]");
+      if (actionBtn) {
+        const action = actionBtn.dataset.action;
+        const nId = actionBtn.dataset.id;
+        if (action === "toggle-publish") toggleNewsletterPublish(nId);
+        if (action === "delete-newsletter") deleteNewsletter(nId);
+        return;
+      }
+
+      const item = event.target.closest(".newsletter-item");
+      if (!item) return;
+
+      const id = item.dataset.id;
+      if (id) loadNewsletterIntoEditor(id);
+    }
+
+    // ============================
+    // FILES (Storage: student_files)
+    // ============================
+    function populateStudentSelect() {
+      const select = $("files-student-select");
+      if (!select) return;
+
+      const previous = select.value;
+      select.innerHTML = `<option value="">Select a student...</option>`;
+
+      const students = allProfiles.filter((p) => (p.role || "student") !== "admin");
+
+      students.forEach((p) => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        const name = p.full_name || p.username || "(no name)";
+        opt.textContent = `${name} — ${shortId(p.id)}`;
+        select.appendChild(opt);
+      });
+
+      if (students.some((p) => p.id === previous)) select.value = previous;
+    }
+
+    async function loadFilesForStudent(studentId) {
+      const listEl = $("file-list");
+
+      if (!studentId) {
+        listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>';
+        return;
+      }
+
+      listEl.innerHTML = '<p class="text-brand-text-mid text-sm">Loading files…</p>';
+
+      try {
+        const { data, error } = await supabaseClient.storage
+          .from("student_files")
+          .list(studentId + "/", { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } });
+
+        if (error) {
+          console.error(error);
+          listEl.innerHTML = '<p class="text-error-red text-sm">Could not list files. Check bucket + storage policies.</p>';
+          return;
+        }
+
+        if (!data?.length) {
+          listEl.innerHTML = '<p class="text-brand-text-mid text-sm">No files uploaded yet for this student.</p>';
+          return;
+        }
+
+        listEl.innerHTML = "";
+
+        const rows = await Promise.all(
+          data.map(async (file) => {
+            const fullPath = `${studentId}/${file.name}`;
+
+            let url = "#";
+            const signed = await supabaseClient.storage.from("student_files").createSignedUrl(fullPath, 60 * 60);
+            if (!signed.error && signed.data?.signedUrl) {
+              url = signed.data.signedUrl;
+            } else {
+              const { data: pub } = supabaseClient.storage.from("student_files").getPublicUrl(fullPath);
+              url = pub?.publicUrl || "#";
+            }
+
+            const row = document.createElement("div");
+            row.className =
+              "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
+            row.innerHTML = `
+              <div class="text-[0.8rem] sm:text-xs min-w-0">
+                <div class="font-semibold text-brand-text-light break-all">${safeText(file.name)}</div>
+              </div>
+              <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
+                <a href="${url}" target="_blank" rel="noreferrer"
+                   class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
+                  View / Download
+                </a>
+                <button type="button"
+                  class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
+                  data-file="${file.name}" data-student="${studentId}">
+                  Delete
+                </button>
+              </div>
+            `;
+            return row;
+          })
+        );
+
+        rows.forEach((r) => listEl.appendChild(r));
+      } catch (err) {
+        console.error(err);
+        listEl.innerHTML = '<p class="text-error-red text-sm">Unexpected error while loading files.</p>';
+      }
+    }
+
+    async function uploadFileForStudent() {
+      hideGlobalError();
+
+      const studentId = $("files-student-select").value;
+      const input = $("file-input");
+      const file = input.files?.[0];
+
+      if (!studentId) return showGlobalError("Please choose a student before uploading.");
+      if (!file) return showGlobalError("Please select a file to upload.");
+
+      const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
+      const path = `${studentId}/${Date.now()}-${safeName}`;
+
+      const { error } = await supabaseClient.storage.from("student_files").upload(path, file, { upsert: false });
+
+      if (error) {
+        console.error(error);
+        showGlobalError("File upload failed. Check storage policies and bucket name.");
+        return;
+      }
+
+      input.value = "";
+      await loadFilesForStudent(studentId);
+    }
+
+    async function deleteFile(studentId, fileName) {
+      hideGlobalError();
+      if (!confirm("Delete this file for this student?")) return;
+
+      const fullPath = `${studentId}/${fileName}`;
+      const { error } = await supabaseClient.storage.from("student_files").remove([fullPath]);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to delete file from storage.");
+        return;
+      }
+
+      await loadFilesForStudent(studentId);
     }
 
     // ============================
@@ -1043,14 +1664,14 @@
     // INIT (FIXED)
     // ============================
     document.addEventListener("DOMContentLoaded", async () => {
-      // ✅ HARD session check FIRST (prevents loop)
+      // ✅ HARD session check first (prevents false redirect loop)
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (!session) {
         safeRedirect("login.html");
         return;
       }
 
-      // ✅ Redirect only on REAL sign-out events
+      // ✅ Redirect ONLY on real sign-out events (not on initial load)
       supabaseClient.auth.onAuthStateChange((event) => {
         if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
           safeRedirect("login.html");
@@ -1086,9 +1707,45 @@
         const id = btn.dataset.id;
         if (!id) return;
 
+        if (action === "approve-student") updateUserRole(id, "student");
         if (action === "make-admin") updateUserRole(id, "admin");
         if (action === "make-student") updateUserRole(id, "student");
-        // NOTE: your edit drawer functions are in your full version; keep them as-is.
+
+        if (action === "edit") {
+          const p = allProfiles.find((x) => x.id === id);
+          if (p) openEditDrawer(p);
+        }
+      });
+
+      // Drawer controls
+      $("edit-overlay").addEventListener("click", closeEditDrawer);
+      $("edit-close").addEventListener("click", closeEditDrawer);
+      $("edit-cancel").addEventListener("click", closeEditDrawer);
+      $("edit-save").addEventListener("click", saveEditDrawer);
+
+      $("edit-weekly-enabled").addEventListener("change", toggleWeeklyFields);
+      $("edit-calc-next").addEventListener("click", calcNextLessonFromWeekly);
+      $("edit-clear-next").addEventListener("click", clearNextLesson);
+
+      // Schedule actions
+      $("schedule-refresh").addEventListener("click", () => renderSchedule());
+      $("schedule-show-all").addEventListener("click", () => { scheduleMode = "all"; renderSchedule(); });
+      $("schedule-next-14").addEventListener("click", () => { scheduleMode = "14"; renderSchedule(); });
+
+      $("schedule-list").addEventListener("click", (event) => {
+        const btn = event.target.closest("button[data-action]");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+
+        if (action === "schedule-edit") {
+          const p = allProfiles.find((x) => x.id === id);
+          if (p) openEditDrawer(p);
+        }
+
+        if (action === "schedule-done") {
+          markLessonDone(id);
+        }
       });
 
       // Load base data
@@ -1097,11 +1754,21 @@
       // Newsletters
       await initNewsletterEditor();
       await loadNewsletters();
+
+      $("newsletter-save-draft").addEventListener("click", () => saveNewsletter(false));
+      $("newsletter-publish").addEventListener("click", () => saveNewsletter(true));
+      $("newsletter-clear").addEventListener("click", clearNewsletterEditor);
       $("newsletter-refresh").addEventListener("click", loadNewsletters);
+      $("newsletter-list").addEventListener("click", handleNewsletterListClick);
 
       // Files
       $("files-student-select").addEventListener("change", (e) => loadFilesForStudent(e.target.value));
       $("upload-file-button").addEventListener("click", uploadFileForStudent);
+      $("file-list").addEventListener("click", (event) => {
+        const btn = event.target.closest("button[data-file][data-student]");
+        if (!btn) return;
+        deleteFile(btn.dataset.student, btn.dataset.file);
+      });
 
       // Default tab
       switchTab("users");
