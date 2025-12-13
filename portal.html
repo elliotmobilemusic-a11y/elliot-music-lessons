@@ -2,55 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Student Portal – Elliot's Mobile Music</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Portal – Elliot’s Mobile Music</title>
-  <link rel="icon" href="./favicon.png" type="image/png" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind CDN (dev) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            "brand-dark-bg": "#1a1a2e",
-            "brand-accent-light": "#00d084",
-            "brand-accent-dark": "#00a36e",
-            "brand-text-light": "#e0e0e0",
-            "brand-text-mid": "#a0a0a0",
-            "brand-highlight": "#ffb703",
-            "card-bg": "#252538",
-            "error-red": "#f87171",
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0a0a0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
+            'error-red': '#f87171',
           },
           fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            heading: ["Montserrat", "sans-serif"],
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
           },
-        },
-      },
-    };
+        }
+      }
+    }
   </script>
 
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
     body {
-      font-family: Inter, sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
       color: #e0e0e0;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
+
     .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
 
-    .tab-active {
-      border-color: #00d084;
-      background-color: rgba(0, 208, 132, 0.1);
-      color: #e0e0e0;
-    }
-    .tab-inactive {
-      border-color: rgba(160, 160, 190, 0.3);
-      background-color: transparent;
-      color: #a0a0a0;
-    }
+    .tab-active { border-color: #00d084; background-color: rgba(0, 208, 132, 0.1); color: #e0e0e0; }
+    .tab-inactive { border-color: rgba(160, 160, 190, 0.3); background-color: transparent; color: #a0a0a0; }
 
     .pill-badge {
       border-radius: 999px;
@@ -58,78 +52,102 @@
       font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      font-weight: 700;
+      font-weight: 800;
       border-width: 1px;
+      white-space: nowrap;
     }
 
     .scroll-skinny::-webkit-scrollbar { width: 6px; }
     .scroll-skinny::-webkit-scrollbar-track { background: rgba(37, 37, 56, 0.8); }
-    .scroll-skinny::-webkit-scrollbar-thumb {
-      background: rgba(0, 208, 132, 0.6);
-      border-radius: 999px;
-    }
+    .scroll-skinny::-webkit-scrollbar-thumb { background: rgba(0, 208, 132, 0.6); border-radius: 999px; }
 
-    .modal-bg {
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
-    }
+    .overlay { background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); }
 
+    .toast-wrap {
+      position: fixed; right: 14px; bottom: 14px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .toast {
+      background: rgba(37,37,56,0.95);
+      border: 1px solid rgba(0,163,110,0.45);
+      border-radius: 14px;
+      padding: 10px 12px;
+      max-width: 360px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+    .toast-title { font-size: 0.78rem; font-weight: 900; color: #e0e0e0; }
+    .toast-msg { font-size: 0.75rem; color: #a0a0a0; margin-top: 2px; line-height: 1.35; }
+
+    .skeleton { position: relative; overflow: hidden; background: rgba(26,26,46,0.6); border: 1px solid rgba(0,163,110,0.25); border-radius: 12px; }
+    .skeleton::after {
+      content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+    /* Prose link tweak */
     .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) { text-decoration: underline; }
   </style>
 
-  <!-- Supabase JS v2 -->
+  <!-- Supabase JS (UMD v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Safe HTML rendering -->
+  <!-- DOMPurify -->
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
-
-  <!-- Lucide Icons -->
-  <script type="module">
-    import { createIcons, LogOut, Newspaper, FolderOpen, Calendar, ClipboardList, MessageSquare, BadgePoundSterling } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-    createIcons({ icons: { LogOut, Newspaper, FolderOpen, Calendar, ClipboardList, MessageSquare, BadgePoundSterling } });
-  </script>
 </head>
 
 <body class="min-h-screen flex flex-col">
 
+  <!-- Toasts -->
+  <div id="toast-wrap" class="toast-wrap"></div>
+
   <!-- NAV -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center space-x-2">
+      <div class="flex justify-between items-center h-16 gap-3">
+        <a href="portal.html" class="flex items-center space-x-2 min-w-0">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
             <svg xmlns="http://www.w3.org/2000/svg"
               width="24" height="24" viewBox="0 0 24 24"
               fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
               class="w-5 h-5 text-brand-accent-light">
               <circle cx="8" cy="18" r="4"></circle>
               <path d="M12 18V2l7 4"></path>
             </svg>
           </span>
-          <span class="text-xs sm:text-sm font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-            ELLIOT'S MOBILE MUSIC – PORTAL
-          </span>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-heading font-extrabold tracking-[0.18em] text-brand-highlight truncate">
+              ELLIOT'S MOBILE MUSIC
+            </div>
+            <div class="text-[0.7rem] text-brand-text-mid tracking-[0.2em] uppercase">Student Portal</div>
+          </div>
         </a>
 
-        <div class="flex items-center space-x-3 text-xs sm:text-sm">
-          <span
-            id="student-user-pill"
-            class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid"
-          >
-            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
-            <span>Logged in…</span>
+        <div class="flex items-center gap-2 text-xs sm:text-sm">
+          <span id="net-pill" class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid">
+            <span id="net-dot" class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+            <span id="net-text">Online</span>
           </span>
 
-          <button
-            id="logout-btn"
-            class="px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:bg-brand-accent-dark hover:text-brand-dark-bg text-xs font-semibold transition"
-          >
-            <span class="inline-flex items-center gap-2">
-              <i data-lucide="log-out" class="w-4 h-4"></i>
-              Log out
-            </span>
+          <button id="install-btn"
+            class="hidden px-3 py-1 rounded-lg bg-card-bg border border-brand-highlight/50 text-brand-highlight hover:bg-brand-highlight hover:text-brand-dark-bg text-xs font-semibold transition">
+            Install
+          </button>
+
+          <a id="admin-link" href="admin.html"
+             class="hidden px-3 py-1 rounded-lg bg-card-bg border border-brand-highlight/50 text-brand-highlight hover:bg-brand-highlight hover:text-brand-dark-bg text-xs font-semibold transition">
+            Admin
+          </a>
+
+          <span id="user-pill" class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid">
+            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+            <span>Loading…</span>
+          </span>
+
+          <button id="logout-button"
+            class="px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:bg-brand-accent-dark hover:text-brand-dark-bg text-xs font-semibold transition">
+            Log out
           </button>
         </div>
       </div>
@@ -138,42 +156,42 @@
 
   <!-- MAIN -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-grow">
-    <!-- Global error banner -->
+
+    <!-- Global Error -->
     <div id="global-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-error-red text-error-red text-sm"></div>
 
     <!-- Header -->
     <header class="mb-6 sm:mb-8">
       <p class="text-[0.7rem] tracking-[0.22em] font-semibold text-brand-highlight uppercase mb-2">
-        Student Dashboard
+        Your lessons, updates & files
       </p>
 
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
-            Welcome, <span id="welcome-name" class="text-brand-accent-light">Student</span>
+            Welcome, <span id="welcome-name" class="text-brand-accent-light">…</span>
           </h1>
           <p id="welcome-sub" class="text-sm sm:text-base text-brand-text-mid mt-1 max-w-xl">
-            Your newsletters, resources, and lesson details — all in one place.
+            Loading your portal…
           </p>
         </div>
 
-        <!-- mini profile stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
-            <p class="text-brand-text-mid">Instrument</p>
-            <p id="stat-instrument" class="text-lg font-bold text-brand-accent-light">–</p>
+            <p class="text-brand-text-mid">Next Lesson</p>
+            <p id="stat-next" class="text-sm font-bold text-brand-highlight">–</p>
           </div>
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
-            <p class="text-brand-text-mid">Duration</p>
-            <p id="stat-duration" class="text-lg font-bold text-brand-accent-light">–</p>
+            <p class="text-brand-text-mid">Unread</p>
+            <p id="stat-unread" class="text-sm font-bold text-brand-accent-light">–</p>
           </div>
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
-            <p class="text-brand-text-mid">Next lesson</p>
-            <p id="stat-next" class="text-lg font-bold text-brand-highlight">–</p>
+            <p class="text-brand-text-mid">Files</p>
+            <p id="stat-files" class="text-sm font-bold text-brand-accent-light">–</p>
           </div>
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
             <p class="text-brand-text-mid">Status</p>
-            <p id="stat-status" class="text-lg font-bold text-brand-accent-light">–</p>
+            <p id="stat-status" class="text-sm font-bold text-brand-accent-light">–</p>
           </div>
         </div>
       </div>
@@ -182,200 +200,449 @@
     <!-- Tabs -->
     <div class="mb-6 flex flex-wrap gap-2">
       <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="home">
-        📰 Home
+        🏠 Home
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="news">
+        📰 Newsletters <span id="tab-unread-pill" class="hidden ml-2 pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">0</span>
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">
+        📁 Your Files
       </button>
       <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">
         📅 Schedule
       </button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">
-        📁 Files
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="notifications">
+        🔔 Notifications <span id="tab-alert-pill" class="hidden ml-2 pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">0</span>
       </button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="practice">
-        📝 Practice
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="account">
+        👤 Account
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="support">
+        💬 Support
       </button>
     </div>
 
-    <!-- HOME TAB -->
+    <!-- HOME -->
     <section id="tab-home" class="space-y-4">
-      <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_minmax(0,1fr)] gap-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-        <!-- Newsletters -->
+        <!-- Next lesson -->
         <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-          <div class="flex items-center justify-between mb-3 gap-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="newspaper" class="w-5 h-5 text-brand-accent-light"></i>
-              <h2 class="font-heading text-xl font-bold text-brand-text-light">Latest Newsletters</h2>
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-heading text-xl font-bold text-brand-text-light">Next Lesson</h2>
+              <p class="text-xs sm:text-sm text-brand-text-mid">Live updates when Elliot changes your schedule.</p>
             </div>
-            <span id="newsletters-status" class="text-xs text-brand-text-mid"></span>
+            <span id="badge-weekly" class="hidden pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">WEEKLY</span>
           </div>
 
-          <div id="newsletter-list" class="space-y-2 max-h-[520px] overflow-y-auto scroll-skinny"></div>
-
-          <div id="no-newsletters" class="hidden text-center text-brand-text-mid py-8">
-            <p>No newsletters have been published yet.</p>
-          </div>
-
-          <div id="newsletters-error" class="hidden mt-4 text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3"></div>
-        </div>
-
-        <!-- Quick cards -->
-        <div class="space-y-4">
-
-          <!-- Next lesson card (mirrors admin “Next Lesson is visible to student”) -->
-          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-            <div class="flex items-center justify-between">
-              <h3 class="font-heading text-lg font-bold text-brand-text-light">Next Lesson</h3>
-              <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
-                VISIBLE TO STUDENT
-              </span>
-            </div>
+          <div class="mt-4 space-y-2">
+            <div class="text-sm text-brand-text-mid">Date & time</div>
+            <div id="next-lesson" class="text-lg font-bold text-brand-highlight">–</div>
 
             <div class="mt-3">
-              <div class="text-sm text-brand-text-mid">Scheduled for</div>
-              <div id="next-lesson-text" class="text-xl font-bold text-brand-highlight mt-1">–</div>
+              <div class="text-sm text-brand-text-mid">Countdown</div>
+              <div id="countdown" class="text-sm font-semibold text-brand-text-light">–</div>
+            </div>
 
-              <div id="weekly-badge-wrap" class="mt-3"></div>
-
-              <div class="mt-4 flex flex-wrap gap-2">
-                <button id="btn-add-calendar"
-                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
-                  disabled
-                >
-                  Add to calendar (.ics)
-                </button>
-              </div>
-
-              <p class="mt-3 text-[0.7rem] text-brand-text-mid">
-                This comes from <code>profiles.next_lesson_at</code> + weekly fields.
-              </p>
+            <div id="weekly-slot-wrap" class="hidden mt-4 pt-4 border-t border-brand-accent-dark/40">
+              <div class="text-sm text-brand-text-mid">Weekly slot</div>
+              <div id="weekly-slot" class="text-sm font-semibold text-brand-text-light">–</div>
+              <div id="weekly-preview" class="text-[0.75rem] text-brand-text-mid mt-1"></div>
             </div>
           </div>
 
-          <!-- Future: Payment status (placeholder) -->
-          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-            <div class="flex items-center gap-2">
-              <i data-lucide="badge-pound-sterling" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Payment Status</div>
-              <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button id="btn-ics"
+              class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled>
+              Add to calendar (.ics)
+            </button>
+
+            <button id="refresh-home"
+              class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Refresh
+            </button>
+
+            <button id="jump-files"
+              class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Open Files
+            </button>
+          </div>
+        </div>
+
+        <!-- Latest newsletter -->
+        <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="font-heading text-xl font-bold text-brand-text-light">Latest Update</h2>
+              <p class="text-xs sm:text-sm text-brand-text-mid">Newest published newsletter (with unread tracking).</p>
             </div>
-            <p class="text-xs text-brand-text-mid mt-2">
-              Marker: plug in your future <code>payments</code> table here (paid/unpaid, last invoice, etc).
-            </p>
+            <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">UPDATES</span>
           </div>
 
-          <!-- Future: Messaging (placeholder) -->
-          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-            <div class="flex items-center gap-2">
-              <i data-lucide="message-square" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Parent Messaging</div>
-              <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
-            </div>
-            <p class="text-xs text-brand-text-mid mt-2">
-              Marker: a <code>messages</code> table + notifications can plug in here later.
-            </p>
+          <div class="mt-4" id="latest-news">
+            <div class="skeleton h-24"></div>
           </div>
 
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button id="jump-news"
+              class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+              View all newsletters
+            </button>
+
+            <button id="mark-all-read"
+              class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Mark all read
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="tab-news" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-end justify-between gap-3 flex-wrap">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Newsletters</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">Real-time: new newsletters appear instantly.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="news-search" type="text" placeholder="Search newsletters..."
+              class="w-56 max-w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-xs focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30" />
+            <button id="news-refresh"
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <div id="news-list" class="mt-4 space-y-2 max-h-[520px] overflow-y-auto scroll-skinny">
+          <div class="skeleton h-16"></div>
+          <div class="skeleton h-16"></div>
+          <div class="skeleton h-16"></div>
         </div>
       </div>
     </section>
 
-    <!-- SCHEDULE TAB -->
+    <!-- FILES -->
+    <section id="tab-files" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-end justify-between gap-3 flex-wrap">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Your Files</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">Signed links + copy link + type tags.</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input id="files-search" type="text" placeholder="Search files..."
+              class="w-56 max-w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-xs focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30" />
+            <button id="files-refresh"
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <div id="files-list" class="mt-4 space-y-2 max-h-[520px] overflow-y-auto scroll-skinny">
+          <div class="skeleton h-14"></div>
+          <div class="skeleton h-14"></div>
+          <div class="skeleton h-14"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
     <section id="tab-schedule" class="hidden space-y-4">
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-        <div class="flex items-center justify-between gap-3">
+        <div class="flex items-start justify-between gap-3 flex-wrap">
           <div>
-            <h2 class="font-heading text-xl font-bold text-brand-text-light">Lesson Schedule</h2>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Schedule</h2>
             <p class="text-xs sm:text-sm text-brand-text-mid">
-              Uses <code>profiles.next_lesson_at</code> and weekly slot fields (if enabled).
+              Shows your next lesson + (if weekly enabled) a 4-week forecast.
             </p>
           </div>
-          <span id="schedule-pill" class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
-            STUDENT VIEW
-          </span>
+          <div class="flex gap-2">
+            <button id="sched-copy"
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Copy next lesson
+            </button>
+            <button id="sched-ics"
+              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled>
+              Download .ics
+            </button>
+          </div>
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
             <div class="text-xs text-brand-text-mid">Next lesson</div>
-            <div id="schedule-next" class="text-lg font-bold text-brand-highlight mt-1">–</div>
+            <div id="sched-next" class="text-lg font-bold text-brand-highlight mt-1">–</div>
             <div class="mt-2 text-xs text-brand-text-mid">
-              Duration: <span id="schedule-duration" class="text-brand-text-light font-semibold">–</span>
+              Duration: <span id="sched-duration" class="text-brand-text-light font-semibold">–</span>
+            </div>
+            <div class="mt-2 text-xs text-brand-text-mid">
+              Countdown: <span id="sched-countdown" class="text-brand-text-light font-semibold">–</span>
             </div>
           </div>
 
           <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
             <div class="text-xs text-brand-text-mid">Weekly slot</div>
-            <div id="schedule-weekly" class="text-lg font-bold text-brand-accent-light mt-1">–</div>
+            <div id="sched-weekly" class="text-lg font-bold text-brand-accent-light mt-1">–</div>
             <p class="mt-2 text-[0.7rem] text-brand-text-mid">
-              If weekly is enabled, this is stored in <code>weekly_day</code> + <code>weekly_time</code>.
+              Stored in <code>profiles.weekly_day</code> + <code>profiles.weekly_time</code> + <code>profiles.weekly_enabled</code>.
             </p>
           </div>
         </div>
+
+        <div class="mt-4 bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
+          <div class="flex items-center justify-between gap-3">
+            <div class="font-semibold text-brand-text-light">Next 4 weeks (forecast)</div>
+            <span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">CALCULATED</span>
+          </div>
+          <div id="sched-forecast" class="mt-3 space-y-2 text-sm text-brand-text-mid">
+            <div class="text-brand-text-mid">–</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- FILES TAB -->
-    <section id="tab-files" class="hidden space-y-4">
+    <!-- NOTIFICATIONS -->
+    <section id="tab-notifications" class="hidden space-y-4">
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2">
-            <i data-lucide="folder-open" class="w-5 h-5 text-brand-accent-light"></i>
-            <h2 class="font-heading text-xl font-bold text-brand-text-light">Your Files</h2>
+        <div class="flex items-start justify-between gap-3 flex-wrap">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Notifications</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Smart alerts: schedule changes, new newsletters, new files. (No extra DB tables needed.)
+            </p>
           </div>
-          <span id="files-status" class="text-xs text-brand-text-mid"></span>
+          <div class="flex gap-2">
+            <button id="alerts-clear"
+              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Mark all seen
+            </button>
+            <button id="alerts-refresh"
+              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+              Refresh
+            </button>
+          </div>
         </div>
 
-        <p class="text-xs sm:text-sm text-brand-text-mid mb-4">
-          Files are stored as <code>student_files/{your_user_id}/filename</code>.
-        </p>
+        <div id="alerts-list" class="mt-4 space-y-2">
+          <div class="skeleton h-16"></div>
+          <div class="skeleton h-16"></div>
+        </div>
+      </div>
 
-        <div id="files-list" class="space-y-2 max-h-[520px] overflow-y-auto scroll-skinny"></div>
-
-        <div id="no-files" class="hidden text-center text-brand-text-mid py-8">
-          <p>No files uploaded yet.</p>
-          <p class="text-xs mt-1">Elliot will add resources here.</p>
+      <!-- Optional: change request system -->
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Request a Change</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Ask Elliot to update details (time, instrument, contact info). Uses an optional table if you enable it.
+            </p>
+          </div>
+          <span id="req-status-pill" class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">OPTIONAL</span>
         </div>
 
-        <div id="files-error" class="hidden mt-4 text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3"></div>
+        <div id="req-disabled" class="hidden mt-4 text-sm text-brand-text-mid bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
+          Change requests aren’t enabled yet (no DB table). You can still contact Elliot in the Support tab.
+        </div>
+
+        <form id="req-form" class="hidden mt-4 space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">Category</label>
+              <select id="req-category"
+                class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30">
+                <option value="schedule">Schedule</option>
+                <option value="details">Details</option>
+                <option value="billing">Billing</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-text-mid mb-1">Urgency</label>
+              <select id="req-urgency"
+                class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30">
+                <option value="normal">Normal</option>
+                <option value="important">Important</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-brand-text-mid mb-1">Message</label>
+            <textarea id="req-message" rows="4" placeholder="Explain what you want changing..."
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30"></textarea>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button id="req-submit" type="submit"
+              class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+              Send request
+            </button>
+            <button id="req-clear" type="button"
+              class="px-4 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+              Clear
+            </button>
+          </div>
+
+          <div id="req-feedback" class="hidden text-sm"></div>
+        </form>
       </div>
     </section>
 
-    <!-- PRACTICE TAB (placeholder structure) -->
-    <section id="tab-practice" class="hidden space-y-4">
+    <!-- ACCOUNT -->
+    <section id="tab-account" class="hidden space-y-4">
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
-            <i data-lucide="clipboard-list" class="w-5 h-5 text-brand-accent-light"></i>
-            <h2 class="font-heading text-xl font-bold text-brand-text-light">Practice Notes</h2>
+        <div class="flex items-start justify-between gap-3 flex-wrap">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Account</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">Profile details (read-only here).</p>
           </div>
-          <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
+          <button id="copy-profile"
+            class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+            Copy summary
+          </button>
         </div>
 
-        <p class="text-xs sm:text-sm text-brand-text-mid mt-3">
-          Marker: when you add a <code>practice_notes</code> table, fetch + render notes here.
-        </p>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">Name</div>
+            <div id="acc-name" class="mt-1 text-sm font-semibold text-brand-text-light">–</div>
+          </div>
 
-        <div class="mt-4 bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4 text-sm text-brand-text-mid">
-          Example future items:
-          <ul class="list-disc ml-5 mt-2">
-            <li>Warmup targets</li>
-            <li>Song goals</li>
-            <li>Tempo goals</li>
-            <li>Homework uploads (Phase 3)</li>
-          </ul>
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">Instrument</div>
+            <div id="acc-instrument" class="mt-1 text-sm font-semibold text-brand-text-light">–</div>
+          </div>
+
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">Email</div>
+            <div id="acc-email" class="mt-1 text-sm font-semibold text-brand-text-light break-all">–</div>
+          </div>
+
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">Phone</div>
+            <div id="acc-phone" class="mt-1 text-sm font-semibold text-brand-text-light break-all">–</div>
+          </div>
+
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">Status</div>
+            <div id="acc-status" class="mt-1 text-sm font-semibold text-brand-text-light">–</div>
+          </div>
+
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-lg p-3">
+            <div class="text-[0.7rem] uppercase tracking-[0.18em] text-brand-text-mid">User ID</div>
+            <div id="acc-id" class="mt-1 text-sm font-semibold text-brand-text-light break-all">–</div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-[0.75rem] text-brand-text-mid">
+          Need to change details? Use Notifications → Request a Change (if enabled), or Support.
+        </div>
+      </div>
+
+      <!-- Diagnostics -->
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-start justify-between gap-3 flex-wrap">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Diagnostics</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">For debugging if anything fails.</p>
+          </div>
+          <button id="diag-copy"
+            class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold">
+            Copy diagnostics
+          </button>
+        </div>
+
+        <div id="diag-box" class="mt-4 text-xs text-brand-text-mid bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4 whitespace-pre-wrap">
+          –
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="tab-support" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <h2 class="font-heading text-xl font-bold text-brand-text-light">Support</h2>
+        <p class="text-xs sm:text-sm text-brand-text-mid">Quick contact options.</p>
+
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <a href="tel:07368975144"
+            class="px-4 py-3 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/50 hover:border-brand-accent-light">
+            <div class="font-semibold text-brand-text-light">Call Elliot</div>
+            <div class="text-xs text-brand-text-mid mt-1">07368 975144</div>
+          </a>
+
+          <a href="sms:07368975144"
+            class="px-4 py-3 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/50 hover:border-brand-accent-light">
+            <div class="font-semibold text-brand-text-light">Text Elliot</div>
+            <div class="text-xs text-brand-text-mid mt-1">Send an SMS</div>
+          </a>
+
+          <a id="email-eliot" href="#"
+            class="px-4 py-3 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/50 hover:border-brand-accent-light">
+            <div class="font-semibold text-brand-text-light">Email</div>
+            <div class="text-xs text-brand-text-mid mt-1">Pre-filled subject & details</div>
+          </a>
+
+          <button id="support-copy"
+            class="text-left px-4 py-3 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/50 hover:border-brand-accent-light">
+            <div class="font-semibold text-brand-text-light">Copy support message</div>
+            <div class="text-xs text-brand-text-mid mt-1">Copies your ID + next lesson + issue</div>
+          </button>
+        </div>
+
+        <div class="mt-4 text-[0.75rem] text-brand-text-mid">
+          Tip: if something looks wrong (missing files/newsletters), send Elliot your Diagnostics (Account tab).
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Newsletter Modal -->
-  <div id="newsletter-modal" class="hidden fixed inset-0 modal-bg z-50 flex items-center justify-center p-4">
-    <div class="bg-card-bg max-w-2xl w-full p-6 rounded-2xl card-glow border border-brand-accent-dark/40 relative overflow-y-auto max-h-[90vh]">
-      <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white" aria-label="Close">✕</button>
-      <h2 id="modal-title" class="text-2xl sm:text-3xl font-heading font-bold mb-2 text-brand-accent-light"></h2>
-      <div id="modal-date" class="text-xs text-brand-text-mid mb-4"></div>
-      <div id="modal-content" class="prose prose-invert max-w-none"></div>
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-brand-text-mid py-6 mt-8 flex-shrink-0">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+      <p class="mt-2 text-gray-500">Student portal — secure access.</p>
+    </div>
+  </footer>
+
+  <!-- NEWSLETTER MODAL -->
+  <div id="news-overlay" class="hidden fixed inset-0 z-[100] overlay"></div>
+  <div id="news-modal" class="hidden fixed inset-x-0 bottom-0 sm:inset-0 z-[101] sm:flex sm:items-center sm:justify-center">
+    <div class="w-full sm:max-w-3xl sm:mx-4 bg-brand-dark-bg border border-brand-accent-dark/60 shadow-2xl rounded-t-2xl sm:rounded-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-brand-accent-dark/50 flex items-start justify-between gap-4">
+        <div class="min-w-0">
+          <h3 id="modal-title" class="font-heading text-lg sm:text-xl font-extrabold text-brand-text-light truncate">Newsletter</h3>
+          <p id="modal-date" class="text-xs text-brand-text-mid mt-1">–</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="modal-share"
+            class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold">
+            Share
+          </button>
+          <button id="modal-print"
+            class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold">
+            Print
+          </button>
+          <button id="modal-close"
+            class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold">
+            Close
+          </button>
+        </div>
+      </div>
+      <div id="modal-body" class="px-5 py-5 max-h-[70vh] overflow-y-auto scroll-skinny prose prose-invert max-w-none text-sm text-brand-text-mid">
+        –
+      </div>
     </div>
   </div>
 
@@ -387,10 +654,34 @@
     const SUPABASE_ANON_KEY =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-    const STUDENT_FILES_BUCKET = "student_files"; // public bucket (as you confirmed)
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    /************************************************************
+     * Redirect protection (global)
+     ************************************************************/
+    if (!window.__emmRedirectState) window.__emmRedirectState = { active: false };
+    function safeRedirect(url) {
+      if (window.__emmRedirectState.active) return;
+      window.__emmRedirectState.active = true;
+      window.location.replace(url);
+    }
+
     const $ = (id) => document.getElementById(id);
+
+    const state = {
+      user: null,
+      profile: null,
+      newsletters: [],
+      files: [],
+      countdownTimer: null,
+      realtime: { channel: null },
+      readMap: loadReadMap(),
+      alerts: [],
+      lastSeen: loadLastSeen(),
+      beforeInstallPrompt: null,
+      requestsEnabled: false,
+      openedNewsletter: null
+    };
 
     /************************************************************
      * UI helpers
@@ -410,7 +701,23 @@
       box.textContent = "";
     }
 
-    function go(url) { window.location.href = url; }
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toast(title, msg, ms = 2600) {
+      const wrap = $("toast-wrap");
+      const el = document.createElement("div");
+      el.className = "toast";
+      el.innerHTML = `<div class="toast-title">${escapeHtml(title)}</div><div class="toast-msg">${escapeHtml(msg)}</div>`;
+      wrap.appendChild(el);
+      setTimeout(() => el.remove(), ms);
+    }
 
     function formatDate(value) {
       if (!value) return "–";
@@ -426,38 +733,88 @@
       });
     }
 
-    function escapeHtml(str) {
-      return String(str ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function weeklyLabel(dayNum, timeStr) {
+      const map = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const day = map[Number(dayNum)];
+      if (!day || !timeStr) return "–";
+      return `${day} at ${timeStr}`;
     }
 
-    function weeklyBadgeHtml(profile) {
-      if (!profile.weekly_enabled) {
-        return `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">ONE-OFF</span>`;
-      }
-      const day = Number(profile.weekly_day);
-      const time = profile.weekly_time || "";
-      const map = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-      return `
-        <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
-          WEEKLY • ${map[day] || "?"} ${escapeHtml(time)}
-        </span>
-      `;
+    function fileType(name) {
+      const ext = (name.split(".").pop() || "").toLowerCase();
+      if (["pdf"].includes(ext)) return "PDF";
+      if (["mp3","wav","m4a","aac"].includes(ext)) return "AUDIO";
+      if (["png","jpg","jpeg","webp","gif"].includes(ext)) return "IMAGE";
+      if (["doc","docx"].includes(ext)) return "DOC";
+      if (["ppt","pptx"].includes(ext)) return "SLIDES";
+      if (["zip","rar","7z"].includes(ext)) return "ZIP";
+      return ext ? ext.toUpperCase() : "FILE";
+    }
+
+    function lockScroll(lock) {
+      document.documentElement.style.overflow = lock ? "hidden" : "";
+      document.body.style.overflow = lock ? "hidden" : "";
     }
 
     /************************************************************
-     * Tabs (mirrors your admin style)
+     * Local read/unread tracking (newsletters)
+     ************************************************************/
+    function loadReadMap() {
+      try {
+        const raw = localStorage.getItem("emm_read_newsletters");
+        return raw ? JSON.parse(raw) : {};
+      } catch { return {}; }
+    }
+    function saveReadMap() {
+      try { localStorage.setItem("emm_read_newsletters", JSON.stringify(state.readMap)); } catch {}
+    }
+    function markRead(id) {
+      state.readMap[String(id)] = true;
+      saveReadMap();
+      updateUnreadUI();
+    }
+    function markAllRead() {
+      state.newsletters.forEach(n => { state.readMap[String(n.id)] = true; });
+      saveReadMap();
+      updateUnreadUI();
+      renderNewsList();
+      renderLatestCard();
+      toast("Done", "All newsletters marked as read");
+    }
+    function isRead(id) {
+      return !!state.readMap[String(id)];
+    }
+    function unreadCount() {
+      return state.newsletters.filter(n => !isRead(n.id)).length;
+    }
+
+    /************************************************************
+     * Local “last seen” tracking (alerts)
+     ************************************************************/
+    function loadLastSeen() {
+      try {
+        const raw = localStorage.getItem("emm_last_seen");
+        return raw ? JSON.parse(raw) : { next_lesson_at: null, latest_news_at: null, files_sig: null, alerts_seen_at: null };
+      } catch {
+        return { next_lesson_at: null, latest_news_at: null, files_sig: null, alerts_seen_at: null };
+      }
+    }
+    function saveLastSeen() {
+      try { localStorage.setItem("emm_last_seen", JSON.stringify(state.lastSeen)); } catch {}
+    }
+
+    /************************************************************
+     * Tabs
      ************************************************************/
     function switchTab(tabName) {
       const sections = {
         home: $("tab-home"),
-        schedule: $("tab-schedule"),
+        news: $("tab-news"),
         files: $("tab-files"),
-        practice: $("tab-practice"),
+        schedule: $("tab-schedule"),
+        notifications: $("tab-notifications"),
+        account: $("tab-account"),
+        support: $("tab-support"),
       };
 
       Object.entries(sections).forEach(([key, el]) => {
@@ -468,259 +825,120 @@
 
       document.querySelectorAll(".tab-btn").forEach((btn) => {
         const name = btn.getAttribute("data-tab");
-        if (name === tabName) {
-          btn.classList.remove("tab-inactive");
-          btn.classList.add("tab-active");
-        } else {
-          btn.classList.remove("tab-active");
-          btn.classList.add("tab-inactive");
-        }
+        btn.classList.toggle("tab-active", name === tabName);
+        btn.classList.toggle("tab-inactive", name !== tabName);
       });
     }
 
     /************************************************************
-     * AUTH + ROLE PROTECTION
-     * profiles.id FK -> auth.users.id (your schema confirms)
+     * Modal (newsletter)
      ************************************************************/
-    async function ensureStudent() {
-      hideGlobalError();
+    function openModal(n) {
+      state.openedNewsletter = n;
 
-      const { data, error } = await supabaseClient.auth.getUser();
-      if (error || !data?.user) {
-        go("login.html");
-        return null;
-      }
-
-      const user = data.user;
-
-      const { data: profile, error: profileError } = await supabaseClient
-        .from("profiles")
-        .select("id, full_name, email, role, status, instrument, lesson_duration_min, next_lesson_at, weekly_enabled, weekly_day, weekly_time")
-        .eq("id", user.id)
-        .single();
-
-      if (profileError || !profile) {
-        console.error(profileError);
-        showGlobalError("Your profile could not be loaded. Make sure your profiles row exists.");
-        return null;
-      }
-
-      if (profile.role === "admin") {
-        go("admin.html");
-        return null;
-      }
-
-      if (profile.role !== "student") {
-        go("login.html");
-        return null;
-      }
-
-      // Optional lockout (matches your admin statuses)
-      if (profile.status && profile.status !== "active") {
-        await supabaseClient.auth.signOut();
-        go("login.html");
-        return null;
-      }
-
-      // UI pills/header
-      const name = profile.full_name || user.email || "Student";
-      $("welcome-name").textContent = name;
-
-      const pill = $("student-user-pill");
-      if (pill) {
-        pill.innerHTML = `
-          <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
-          <span>${escapeHtml(profile.full_name || user.email || "Student")}</span>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40 ml-2">STUDENT</span>
-        `;
-        pill.classList.remove("hidden");
-      }
-
-      // Stats
-      $("stat-instrument").textContent = profile.instrument ? profile.instrument : "–";
-      $("stat-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + "m") : "–";
-      $("stat-next").textContent = profile.next_lesson_at ? "✓" : "–";
-      $("stat-status").textContent = profile.status ? profile.status : "–";
-
-      // Next lesson cards
-      const nextText = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "Not set yet";
-      $("next-lesson-text").textContent = nextText;
-      $("schedule-next").textContent = nextText;
-
-      $("schedule-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + " minutes") : "–";
-
-      $("weekly-badge-wrap").innerHTML = weeklyBadgeHtml(profile);
-
-      // schedule weekly
-      if (profile.weekly_enabled) {
-        const map = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        const dayName = map[Number(profile.weekly_day)] || "–";
-        $("schedule-weekly").textContent = (profile.weekly_time ? (dayName + " at " + profile.weekly_time) : dayName);
-      } else {
-        $("schedule-weekly").textContent = "Not weekly";
-      }
-
-      // Calendar button
-      const btnCal = $("btn-add-calendar");
-      if (btnCal) {
-        if (profile.next_lesson_at) {
-          btnCal.disabled = false;
-          btnCal.onclick = function () {
-            downloadLessonICS(profile);
-          };
-        } else {
-          btnCal.disabled = true;
-        }
-      }
-
-      return { user, profile };
-    }
-
-    /************************************************************
-     * NEWSLETTERS (published only, newest first)
-     ************************************************************/
-    async function loadNewsletters() {
-      const listEl = $("newsletter-list");
-      const emptyEl = $("no-newsletters");
-      const statusEl = $("newsletters-status");
-      const errEl = $("newsletters-error");
-
-      // reset
-      listEl.innerHTML = "";
-      emptyEl.classList.add("hidden");
-      errEl.classList.add("hidden");
-      errEl.textContent = "";
-      statusEl.textContent = "Loading…";
-
-      const { data, error } = await supabaseClient
-        .from("newsletters")
-        .select("id, title, content_html, created_at")
-        .eq("published", true)
-        .order("created_at", { ascending: false });
-
-      statusEl.textContent = "";
-
-      if (error) {
-        console.error(error);
-        errEl.textContent = "Could not load newsletters (check RLS policy for published newsletters).";
-        errEl.classList.remove("hidden");
-        return;
-      }
-
-      if (!data || !data.length) {
-        emptyEl.classList.remove("hidden");
-        return;
-      }
-
-      data.forEach((n) => {
-        const item = document.createElement("button");
-        item.type = "button";
-        item.className =
-          "w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition";
-
-        item.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="font-semibold text-brand-text-light truncate">${escapeHtml(n.title || "(Untitled)")}</div>
-              <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${formatDate(n.created_at)}</div>
-            </div>
-            <div class="text-[0.7rem] text-brand-text-mid shrink-0">Open</div>
-          </div>
-        `;
-
-        item.addEventListener("click", () => openNewsletterModal(n));
-        listEl.appendChild(item);
-      });
-    }
-
-    function openNewsletterModal(n) {
-      $("modal-title").textContent = n.title || "(Untitled)";
+      $("modal-title").textContent = n.title || "Newsletter";
       $("modal-date").textContent = formatDate(n.created_at);
 
       const safe = window.DOMPurify
         ? window.DOMPurify.sanitize(n.content_html || "", { USE_PROFILES: { html: true } })
         : (n.content_html || "");
 
-      $("modal-content").innerHTML = safe;
-      $("newsletter-modal").classList.remove("hidden");
+      $("modal-body").innerHTML = safe || "<p>No content.</p>";
+
+      $("news-overlay").classList.remove("hidden");
+      $("news-modal").classList.remove("hidden");
+      lockScroll(true);
+
+      markRead(n.id);
+      renderNewsList();
+      renderLatestCard();
     }
 
-    function closeNewsletterModal() {
-      $("newsletter-modal").classList.add("hidden");
-      $("modal-title").textContent = "";
-      $("modal-date").textContent = "";
-      $("modal-content").innerHTML = "";
+    function closeModal() {
+      $("news-overlay").classList.add("hidden");
+      $("news-modal").classList.add("hidden");
+      lockScroll(false);
+      state.openedNewsletter = null;
+    }
+
+    async function shareNewsletter() {
+      const n = state.openedNewsletter;
+      if (!n) return;
+
+      const title = n.title || "Newsletter";
+      const text = `Elliot's Mobile Music update:\n${title}\n${formatDate(n.created_at)}`;
+
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: "Newsletter", text });
+          toast("Shared", "Sent via share sheet");
+        } else {
+          await navigator.clipboard.writeText(text);
+          toast("Copied", "Share text copied to clipboard");
+        }
+      } catch {
+        toast("Share", "Couldn’t share on this device");
+      }
+    }
+
+    function printNewsletter() {
+      const n = state.openedNewsletter;
+      if (!n) return;
+
+      const w = window.open("", "_blank");
+      if (!w) return toast("Popup blocked", "Allow popups to print");
+
+      w.document.write(`
+        <html><head><title>${escapeHtml(n.title || "Newsletter")}</title>
+          <meta charset="UTF-8" />
+          <style>
+            body { font-family: Arial, sans-serif; padding: 24px; }
+            h1 { font-size: 20px; margin: 0 0 8px; }
+            .meta { color: #666; font-size: 12px; margin-bottom: 16px; }
+          </style>
+        </head><body>
+          <h1>${escapeHtml(n.title || "Newsletter")}</h1>
+          <div class="meta">${escapeHtml(formatDate(n.created_at))}</div>
+          <div>${n.content_html || ""}</div>
+        </body></html>
+      `);
+      w.document.close();
+      w.focus();
+      w.print();
+      w.close();
     }
 
     /************************************************************
-     * FILES (public bucket)
+     * Countdown + ICS
      ************************************************************/
-    async function loadStudentFiles(userId) {
-      const listEl = $("files-list");
-      const emptyEl = $("no-files");
-      const statusEl = $("files-status");
-      const errEl = $("files-error");
+    function humanCountdown(targetIso) {
+      if (!targetIso) return "–";
+      const t = new Date(targetIso).getTime();
+      if (!Number.isFinite(t)) return "–";
+      const now = Date.now();
+      let diff = t - now;
+      if (diff <= 0) return "It’s time 🎵";
 
-      listEl.innerHTML = "";
-      emptyEl.classList.add("hidden");
-      errEl.classList.add("hidden");
-      errEl.textContent = "";
-      statusEl.textContent = "Loading…";
-
-      const { data, error } = await supabaseClient.storage
-        .from(STUDENT_FILES_BUCKET)
-        .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
-
-      statusEl.textContent = "";
-
-      if (error) {
-        console.error(error);
-        errEl.textContent = "Could not list your files (check storage policies).";
-        errEl.classList.remove("hidden");
-        return;
-      }
-
-      if (!data || !data.length) {
-        emptyEl.classList.remove("hidden");
-        return;
-      }
-
-      data.forEach((file) => {
-        const path = userId + "/" + file.name;
-        const pub = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(path);
-        const url = pub?.data?.publicUrl || "#";
-
-        const row = document.createElement("div");
-        row.className =
-          "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
-
-        row.innerHTML = `
-          <div class="text-[0.8rem] sm:text-xs min-w-0">
-            <div class="font-semibold text-brand-text-light break-all">${escapeHtml(file.name)}</div>
-            <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${file.updated_at ? ("Updated " + formatDate(file.updated_at)) : ""}</div>
-          </div>
-          <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
-            <a href="${url}" target="_blank" rel="noreferrer"
-              class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
-              View
-            </a>
-            <a href="${url}" download
-              class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg font-semibold hover:bg-brand-accent-dark">
-              Download
-            </a>
-          </div>
-        `;
-        listEl.appendChild(row);
-      });
+      const sec = Math.floor(diff / 1000);
+      const days = Math.floor(sec / 86400);
+      const hrs = Math.floor((sec % 86400) / 3600);
+      const mins = Math.floor((sec % 3600) / 60);
+      return `${days ? days + "d " : ""}${hrs}h ${mins}m`;
     }
 
-    /************************************************************
-     * CALENDAR (.ics) download for next lesson
-     ************************************************************/
+    function startCountdown(iso) {
+      if (state.countdownTimer) clearInterval(state.countdownTimer);
+      $("countdown").textContent = humanCountdown(iso);
+      $("sched-countdown").textContent = humanCountdown(iso);
+
+      state.countdownTimer = setInterval(() => {
+        $("countdown").textContent = humanCountdown(iso);
+        $("sched-countdown").textContent = humanCountdown(iso);
+      }, 20000);
+    }
+
     function pad2(n) { return String(n).padStart(2, "0"); }
-
     function toICSDate(dt) {
-      // Convert to UTC format YYYYMMDDTHHMMSSZ
       const d = new Date(dt);
       return (
         d.getUTCFullYear() +
@@ -734,22 +952,17 @@
       );
     }
 
-    function downloadLessonICS(profile) {
-      if (!profile.next_lesson_at) return;
-
-      const start = new Date(profile.next_lesson_at);
-      const durMin = profile.lesson_duration_min ? Number(profile.lesson_duration_min) : 30;
-      const end = new Date(start.getTime() + durMin * 60 * 1000);
-
-      const uid = (profile.id || "lesson") + "-" + Date.now() + "@elliots-mobile-music";
+    function downloadICS(startIso, durationMin = 30) {
+      const start = new Date(startIso);
+      const end = new Date(start.getTime() + (Number(durationMin) || 30) * 60 * 1000);
+      const uid = (state.profile?.id || "lesson") + "-" + Date.now() + "@elliots-mobile-music";
       const title = "Music lesson – Elliot’s Mobile Music";
       const desc = "Lesson scheduled via Elliot’s Mobile Music portal.";
-      const location = ""; // add if you ever store addresses
 
       const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Elliots Mobile Music//Student Portal//EN
+PRODID:-//Elliots Mobile Music//Portal//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
@@ -759,7 +972,6 @@ DTSTART:${toICSDate(start)}
 DTEND:${toICSDate(end)}
 SUMMARY:${title}
 DESCRIPTION:${desc}
-LOCATION:${location}
 END:VEVENT
 END:VCALENDAR`;
 
@@ -774,16 +986,723 @@ END:VCALENDAR`;
       a.remove();
 
       URL.revokeObjectURL(url);
+      toast("Calendar", "Downloaded .ics file");
+    }
+
+    /************************************************************
+     * Weekly forecast helper (no DB writes)
+     ************************************************************/
+    function computeNextOccurrence(weeklyDay, weeklyTime, fromDate = new Date()) {
+      if (weeklyDay === null || weeklyDay === undefined) return null;
+      if (!weeklyTime || !weeklyTime.includes(":")) return null;
+
+      const [hh, mm] = weeklyTime.split(":").map((x) => parseInt(x, 10));
+      if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
+
+      const now = new Date(fromDate);
+      const target = new Date(now);
+      target.setSeconds(0, 0);
+      target.setHours(hh, mm, 0, 0);
+
+      const currentDay = now.getDay();
+      let deltaDays = (weeklyDay - currentDay + 7) % 7;
+      if (deltaDays === 0 && target <= now) deltaDays = 7;
+
+      target.setDate(target.getDate() + deltaDays);
+      return target;
+    }
+
+    function weeklyForecast(profile) {
+      if (!profile?.weekly_enabled || profile.weekly_day === null || !profile.weekly_time) return [];
+      const results = [];
+      let cursor = new Date();
+      for (let i = 0; i < 4; i++) {
+        const next = computeNextOccurrence(Number(profile.weekly_day), profile.weekly_time, cursor);
+        if (!next) break;
+        results.push(next.toISOString());
+        cursor = new Date(next.getTime() + 60 * 1000);
+      }
+      return results;
+    }
+
+    /************************************************************
+     * Newsletters
+     ************************************************************/
+    async function loadPublishedNewsletters() {
+      const list = $("news-list");
+      list.innerHTML = `<div class="skeleton h-16"></div><div class="skeleton h-16"></div><div class="skeleton h-16"></div>`;
+      $("latest-news").innerHTML = `<div class="skeleton h-24"></div>`;
+
+      const { data, error } = await supabaseClient
+        .from("newsletters")
+        .select("id, title, content_html, created_at, published")
+        .eq("published", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        list.innerHTML = `<div class="text-error-red text-sm">Could not load newsletters.</div>`;
+        $("latest-news").innerHTML = `<div class="text-error-red text-sm">Could not load latest update.</div>`;
+        return;
+      }
+
+      state.newsletters = Array.isArray(data) ? data : [];
+      updateUnreadUI();
+      renderNewsList();
+      renderLatestCard();
+    }
+
+    function renderLatestCard() {
+      const box = $("latest-news");
+
+      if (!state.newsletters.length) {
+        box.innerHTML = `<div class="text-brand-text-mid text-sm">No updates yet.</div>`;
+        return;
+      }
+
+      const n = state.newsletters[0];
+      const newBadge = !isRead(n.id)
+        ? `<span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60 ml-2">NEW</span>`
+        : "";
+
+      box.innerHTML = `
+        <div class="font-semibold text-brand-text-light flex items-center flex-wrap gap-2">
+          <span>${escapeHtml(n.title || "Update")}</span>
+          ${newBadge}
+        </div>
+        <div class="text-[0.75rem] text-brand-text-mid mt-1">${formatDate(n.created_at)}</div>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold"
+            data-open-news="${escapeHtml(n.id)}">
+            Open update
+          </button>
+        </div>
+      `;
+    }
+
+    function renderNewsList() {
+      const list = $("news-list");
+      const q = ($("news-search").value || "").toLowerCase().trim();
+
+      const filtered = !q
+        ? state.newsletters
+        : state.newsletters.filter(n =>
+            (n.title || "").toLowerCase().includes(q) ||
+            (n.content_html || "").toLowerCase().includes(q)
+          );
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="text-brand-text-mid text-sm">No newsletters found.</div>`;
+        return;
+      }
+
+      list.innerHTML = "";
+      filtered.forEach((n) => {
+        const badge = !isRead(n.id)
+          ? `<span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60 ml-2">NEW</span>`
+          : "";
+
+        const item = document.createElement("div");
+        item.className = "px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 hover:border-brand-accent-light transition";
+        item.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="font-semibold text-brand-text-light truncate flex items-center gap-2">
+                <span class="truncate">${escapeHtml(n.title || "Newsletter")}</span>
+                ${badge}
+              </div>
+              <div class="text-[0.75rem] text-brand-text-mid mt-1">${formatDate(n.created_at)}</div>
+            </div>
+            <button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold shrink-0"
+              data-open-news="${escapeHtml(n.id)}">
+              Open
+            </button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function updateUnreadUI() {
+      const u = unreadCount();
+      $("stat-unread").textContent = String(u);
+
+      const pill = $("tab-unread-pill");
+      if (u > 0) {
+        pill.textContent = String(u);
+        pill.classList.remove("hidden");
+      } else {
+        pill.classList.add("hidden");
+      }
+    }
+
+    /************************************************************
+     * Files (Storage: student_files)
+     ************************************************************/
+    async function loadMyFiles() {
+      const list = $("files-list");
+      list.innerHTML = `<div class="skeleton h-14"></div><div class="skeleton h-14"></div><div class="skeleton h-14"></div>`;
+
+      if (!state.user?.id) {
+        list.innerHTML = `<div class="text-error-red text-sm">Not signed in.</div>`;
+        $("stat-files").textContent = "–";
+        return;
+      }
+
+      const folder = state.user.id + "/";
+
+      const { data, error } = await supabaseClient.storage
+        .from("student_files")
+        .list(folder, { limit: 200, offset: 0, sortBy: { column: "name", order: "asc" } });
+
+      if (error) {
+        console.error(error);
+        list.innerHTML = `<div class="text-error-red text-sm">Could not load files. Check bucket + storage policies.</div>`;
+        $("stat-files").textContent = "–";
+        return;
+      }
+
+      state.files = (data || []).filter(f => f.name && !f.name.endsWith("/"));
+      $("stat-files").textContent = String(state.files.length);
+
+      renderFilesList();
+    }
+
+    async function buildSignedUrl(path) {
+      const signed = await supabaseClient.storage.from("student_files").createSignedUrl(path, 60 * 60);
+      if (!signed.error && signed.data?.signedUrl) return signed.data.signedUrl;
+
+      const { data: pub } = supabaseClient.storage.from("student_files").getPublicUrl(path);
+      return pub?.publicUrl || "#";
+    }
+
+    async function renderFilesList() {
+      const list = $("files-list");
+      const q = ($("files-search").value || "").toLowerCase().trim();
+
+      const filtered = !q ? state.files : state.files.filter(f => (f.name || "").toLowerCase().includes(q));
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="text-brand-text-mid text-sm">${state.files.length ? "No files found." : "No files yet."}</div>`;
+        return;
+      }
+
+      list.innerHTML = "";
+
+      // sequential to avoid hammering createSignedUrl
+      for (const file of filtered) {
+        const fullPath = `${state.user.id}/${file.name}`;
+        const url = await buildSignedUrl(fullPath);
+
+        const type = fileType(file.name);
+        const updated = file.updated_at ? formatDate(file.updated_at) : "";
+        const size = file?.metadata?.size ? `${Math.round(file.metadata.size / 1024)} KB` : "";
+
+        const row = document.createElement("div");
+        row.className = "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50";
+
+        row.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">${escapeHtml(type)}</span>
+              <div class="font-semibold text-brand-text-light break-all text-sm">${escapeHtml(file.name)}</div>
+            </div>
+            <div class="text-[0.75rem] text-brand-text-mid mt-1">
+              ${updated ? "Updated " + escapeHtml(updated) : ""}${updated && size ? " • " : ""}${size ? escapeHtml(size) : ""}
+            </div>
+          </div>
+          <div class="shrink-0 flex items-center gap-2">
+            <button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 hover:border-brand-accent-light text-brand-text-mid text-xs font-semibold"
+              data-copy="${escapeHtml(url)}">
+              Copy link
+            </button>
+            <a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"
+              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+              View / Download
+            </a>
+          </div>
+        `;
+        list.appendChild(row);
+      }
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Copied", "Link copied (may expire after 1 hour).");
+      } catch {
+        toast("Copy failed", "Clipboard blocked by browser.");
+      }
+    }
+
+    /************************************************************
+     * Profile load + UI bind
+     ************************************************************/
+    async function loadProfile() {
+      hideGlobalError();
+
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data?.user) {
+        safeRedirect("login.html");
+        return null;
+      }
+
+      state.user = data.user;
+
+      const { data: profile, error: profileError } = await supabaseClient
+        .from("profiles")
+        .select("id, full_name, username, email, phone, role, status, instrument, lesson_duration_min, next_lesson_at, weekly_enabled, weekly_day, weekly_time")
+        .eq("id", state.user.id)
+        .single();
+
+      if (profileError || !profile) {
+        console.error(profileError);
+        showGlobalError("Your profile could not be loaded. Please contact Elliot.");
+        return null;
+      }
+
+      state.profile = profile;
+
+      // status lockout (matches admin)
+      if (profile.status && profile.status !== "active") {
+        await supabaseClient.auth.signOut();
+        showGlobalError("Your account is not active right now. Please contact Elliot.");
+        safeRedirect("login.html");
+        return null;
+      }
+
+      const displayName = profile.full_name || profile.username || state.user.email || "Student";
+
+      $("welcome-name").textContent = displayName;
+      $("welcome-sub").textContent = profile.instrument
+        ? `Your portal for ${profile.instrument} lessons.`
+        : "Your portal for lessons and resources.";
+
+      $("stat-status").textContent = profile.status || "–";
+
+      const pill = $("user-pill");
+      pill.innerHTML = `<span class="w-2 h-2 rounded-full bg-brand-accent-light"></span><span>${escapeHtml(displayName)}</span>`;
+      pill.classList.remove("hidden");
+
+      // admin shortcut
+      if ((profile.role || "student").toLowerCase() === "admin") $("admin-link").classList.remove("hidden");
+      else $("admin-link").classList.add("hidden");
+
+      // next lesson
+      const next = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "Not set yet";
+      $("next-lesson").textContent = next;
+      $("stat-next").textContent = profile.next_lesson_at ? next : "–";
+
+      // schedule tab mirrors
+      $("sched-next").textContent = next;
+      $("sched-duration").textContent = profile.lesson_duration_min ? `${profile.lesson_duration_min} minutes` : "–";
+
+      startCountdown(profile.next_lesson_at || null);
+
+      // ICS buttons
+      const btnIcs = $("btn-ics");
+      const btnSchedIcs = $("sched-ics");
+
+      if (profile.next_lesson_at) {
+        btnIcs.disabled = false;
+        btnSchedIcs.disabled = false;
+        btnIcs.onclick = () => downloadICS(profile.next_lesson_at, profile.lesson_duration_min || 30);
+        btnSchedIcs.onclick = () => downloadICS(profile.next_lesson_at, profile.lesson_duration_min || 30);
+      } else {
+        btnIcs.disabled = true;
+        btnSchedIcs.disabled = true;
+        btnIcs.onclick = null;
+        btnSchedIcs.onclick = null;
+      }
+
+      // weekly
+      if (profile.weekly_enabled && profile.weekly_time != null && profile.weekly_day != null) {
+        $("badge-weekly").classList.remove("hidden");
+        $("weekly-slot-wrap").classList.remove("hidden");
+        $("weekly-slot").textContent = weeklyLabel(profile.weekly_day, profile.weekly_time);
+
+        const nxt = computeNextOccurrence(Number(profile.weekly_day), profile.weekly_time);
+        $("weekly-preview").textContent = nxt ? `Next weekly slot: ${formatDate(nxt.toISOString())}` : "";
+
+        $("sched-weekly").textContent = weeklyLabel(profile.weekly_day, profile.weekly_time);
+      } else {
+        $("badge-weekly").classList.add("hidden");
+        $("weekly-slot-wrap").classList.add("hidden");
+        $("weekly-preview").textContent = "";
+        $("sched-weekly").textContent = "Not weekly";
+      }
+
+      // forecast list
+      const forecast = weeklyForecast(profile);
+      $("sched-forecast").innerHTML = forecast.length
+        ? forecast.map(iso => `<div class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50">${escapeHtml(formatDate(iso))}</div>`).join("")
+        : `<div class="text-brand-text-mid">Enable weekly slot to see a forecast.</div>`;
+
+      // account
+      $("acc-name").textContent = displayName;
+      $("acc-instrument").textContent = profile.instrument || "–";
+      $("acc-email").textContent = profile.email || state.user.email || "–";
+      $("acc-phone").textContent = profile.phone || "–";
+      $("acc-status").textContent = profile.status || "–";
+      $("acc-id").textContent = profile.id || state.user.id || "–";
+
+      // support email prefill (uses profile email if set)
+      const supportTo = "elliotsmobilemusic@gmail.com"; // change if you want
+      const subj = encodeURIComponent("Portal support");
+      const body = encodeURIComponent(buildSupportMessage("Hi Elliot,\n\nI need help with..."));
+      $("email-eliot").href = `mailto:${supportTo}?subject=${subj}&body=${body}`;
+
+      // diagnostics
+      updateDiagnostics();
+
+      return profile;
+    }
+
+    function updateDiagnostics() {
+      const p = state.profile || {};
+      const u = state.user || {};
+      const diag = {
+        time: new Date().toISOString(),
+        online: navigator.onLine,
+        user_id: u.id || null,
+        email: u.email || null,
+        profile_id: p.id || null,
+        role: p.role || null,
+        status: p.status || null,
+        instrument: p.instrument || null,
+        next_lesson_at: p.next_lesson_at || null,
+        weekly_enabled: !!p.weekly_enabled,
+        weekly_day: p.weekly_day ?? null,
+        weekly_time: p.weekly_time ?? null,
+        newsletters_loaded: state.newsletters.length,
+        files_loaded: state.files.length
+      };
+      $("diag-box").textContent = JSON.stringify(diag, null, 2);
+    }
+
+    /************************************************************
+     * Smart alerts (no DB needed)
+     ************************************************************/
+    function buildAlerts() {
+      const alerts = [];
+      const p = state.profile;
+
+      const latestNewsAt = state.newsletters[0]?.created_at || null;
+      const currentNext = p?.next_lesson_at || null;
+
+      // schedule changed
+      if (currentNext && state.lastSeen.next_lesson_at && currentNext !== state.lastSeen.next_lesson_at) {
+        alerts.push({
+          type: "schedule",
+          title: "Schedule updated",
+          msg: `Your next lesson changed to ${formatDate(currentNext)}.`,
+          at: new Date().toISOString()
+        });
+      }
+
+      // new newsletter
+      if (latestNewsAt && state.lastSeen.latest_news_at && latestNewsAt !== state.lastSeen.latest_news_at) {
+        alerts.push({
+          type: "news",
+          title: "New newsletter",
+          msg: "A new update has been published.",
+          at: new Date().toISOString()
+        });
+      }
+
+      // files signature
+      const sig = state.files.map(f => `${f.name}:${f.updated_at || ""}`).join("|");
+      if (sig && state.lastSeen.files_sig && sig !== state.lastSeen.files_sig) {
+        alerts.push({
+          type: "files",
+          title: "New/updated files",
+          msg: "Your files list has changed (new upload or update).",
+          at: new Date().toISOString()
+        });
+      }
+
+      // unread reminders
+      const u = unreadCount();
+      if (u > 0) {
+        alerts.push({
+          type: "unread",
+          title: "Unread newsletters",
+          msg: `You have ${u} unread newsletter${u === 1 ? "" : "s"}.`,
+          at: new Date().toISOString()
+        });
+      }
+
+      state.alerts = alerts;
+      renderAlerts();
+      updateAlertPill();
+      updateDiagnostics();
+    }
+
+    function renderAlerts() {
+      const box = $("alerts-list");
+      if (!state.alerts.length) {
+        box.innerHTML = `<div class="text-brand-text-mid text-sm">No new alerts right now.</div>`;
+        return;
+      }
+
+      box.innerHTML = state.alerts.map(a => `
+        <div class="px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="font-semibold text-brand-text-light">${escapeHtml(a.title)}</div>
+              <div class="text-sm text-brand-text-mid mt-1">${escapeHtml(a.msg)}</div>
+            </div>
+            <span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">${escapeHtml(a.type)}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function updateAlertPill() {
+      const count = state.alerts.length;
+      const pill = $("tab-alert-pill");
+      if (count > 0) {
+        pill.textContent = String(count);
+        pill.classList.remove("hidden");
+      } else {
+        pill.classList.add("hidden");
+      }
+    }
+
+    function markAlertsSeen() {
+      state.lastSeen.alerts_seen_at = new Date().toISOString();
+      // reset baselines so the same alerts don’t keep firing
+      state.lastSeen.next_lesson_at = state.profile?.next_lesson_at || null;
+      state.lastSeen.latest_news_at = state.newsletters[0]?.created_at || null;
+      state.lastSeen.files_sig = state.files.map(f => `${f.name}:${f.updated_at || ""}`).join("|");
+      saveLastSeen();
+
+      state.alerts = [];
+      renderAlerts();
+      updateAlertPill();
+      toast("Seen", "Notifications cleared");
+    }
+
+    /************************************************************
+     * Optional: Change requests table detection + submit
+     ************************************************************/
+    async function detectRequestsTable() {
+      // If table doesn't exist or no perms, we disable UI silently.
+      try {
+        const { error } = await supabaseClient.from("portal_requests").select("id").limit(1);
+        if (error) {
+          state.requestsEnabled = false;
+        } else {
+          state.requestsEnabled = true;
+        }
+      } catch {
+        state.requestsEnabled = false;
+      }
+
+      const form = $("req-form");
+      const disabled = $("req-disabled");
+      if (state.requestsEnabled) {
+        form.classList.remove("hidden");
+        disabled.classList.add("hidden");
+        $("req-status-pill").textContent = "ENABLED";
+        $("req-status-pill").className = "pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40";
+      } else {
+        form.classList.add("hidden");
+        disabled.classList.remove("hidden");
+        $("req-status-pill").textContent = "OPTIONAL";
+        $("req-status-pill").className = "pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60";
+      }
+    }
+
+    async function submitRequest(e) {
+      e.preventDefault();
+      if (!state.requestsEnabled) return;
+
+      const msg = ($("req-message").value || "").trim();
+      const cat = $("req-category").value;
+      const urg = $("req-urgency").value;
+
+      const feedback = $("req-feedback");
+      feedback.classList.add("hidden");
+      feedback.textContent = "";
+
+      if (!msg) {
+        feedback.className = "text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3";
+        feedback.textContent = "Please write a message.";
+        feedback.classList.remove("hidden");
+        return;
+      }
+
+      const btn = $("req-submit");
+      btn.disabled = true;
+      btn.classList.add("opacity-60", "cursor-not-allowed");
+
+      try {
+        const payload = {
+          user_id: state.user.id,
+          category: cat,
+          urgency: urg,
+          message: msg,
+          created_at: new Date().toISOString(),
+          status: "open"
+        };
+
+        const { error } = await supabaseClient.from("portal_requests").insert(payload);
+        if (error) {
+          console.error(error);
+          feedback.className = "text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3";
+          feedback.textContent = "Could not send request (check RLS/table setup).";
+          feedback.classList.remove("hidden");
+          return;
+        }
+
+        feedback.className = "text-sm text-brand-accent-light bg-brand-accent-light/10 border border-brand-accent-light/40 rounded-lg p-3";
+        feedback.textContent = "Request sent ✅";
+        feedback.classList.remove("hidden");
+        $("req-message").value = "";
+        toast("Sent", "Change request submitted");
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("opacity-60", "cursor-not-allowed");
+      }
+    }
+
+    function clearRequestForm() {
+      $("req-message").value = "";
+      const feedback = $("req-feedback");
+      feedback.classList.add("hidden");
+      feedback.textContent = "";
+    }
+
+    /************************************************************
+     * Realtime (advanced)
+     ************************************************************/
+    function stopRealtime() {
+      try {
+        if (state.realtime.channel) supabaseClient.removeChannel(state.realtime.channel);
+      } catch {}
+      state.realtime.channel = null;
+    }
+
+    function startRealtime() {
+      stopRealtime();
+      if (!state.user?.id) return;
+
+      // NOTE: Requires Realtime enabled for these tables.
+      const ch = supabaseClient.channel("portal-realtime");
+
+      // profile changes for THIS user
+      ch.on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "profiles",
+        filter: `id=eq.${state.user.id}`
+      }, async () => {
+        toast("Updated", "Your profile was updated");
+        await loadProfile();
+        buildAlerts();
+      });
+
+      // newsletters published changes (any)
+      ch.on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "newsletters"
+      }, async () => {
+        // refresh published list
+        await loadPublishedNewsletters();
+        buildAlerts();
+        toast("News", "Newsletters updated");
+      });
+
+      ch.subscribe((status) => {
+        // silent; useful for debug
+      });
+
+      state.realtime.channel = ch;
+    }
+
+    /************************************************************
+     * Network indicator + PWA install
+     ************************************************************/
+    function updateNetworkPill() {
+      const dot = $("net-dot");
+      const text = $("net-text");
+      const pill = $("net-pill");
+
+      pill.classList.remove("hidden");
+      if (navigator.onLine) {
+        dot.className = "w-2 h-2 rounded-full bg-brand-accent-light";
+        text.textContent = "Online";
+      } else {
+        dot.className = "w-2 h-2 rounded-full bg-error-red";
+        text.textContent = "Offline";
+      }
+    }
+
+    /************************************************************
+     * Support helpers
+     ************************************************************/
+    function buildSupportMessage(prefix = "Hi Elliot,") {
+      const p = state.profile || {};
+      const id = p.id || state.user?.id || "unknown";
+      const name = p.full_name || p.username || state.user?.email || "Student";
+      const next = p.next_lesson_at ? formatDate(p.next_lesson_at) : "Not set";
+      return `${prefix}\n\nName: ${name}\nUser ID: ${id}\nNext lesson: ${next}\n\nIssue:\n`;
+    }
+
+    async function copySupportMessage() {
+      const text = buildSupportMessage();
+      await copyText(text);
+    }
+
+    async function copyProfileSummary() {
+      const p = state.profile || {};
+      const summary =
+`Name: ${p.full_name || p.username || state.user?.email || "Student"}
+Instrument: ${p.instrument || "–"}
+Email: ${p.email || state.user?.email || "–"}
+Phone: ${p.phone || "–"}
+Status: ${p.status || "–"}
+Next lesson: ${p.next_lesson_at ? formatDate(p.next_lesson_at) : "Not set"}
+Weekly: ${p.weekly_enabled ? weeklyLabel(p.weekly_day, p.weekly_time) : "Not weekly"}
+User ID: ${p.id || state.user?.id || "–"}`;
+
+      await copyText(summary);
+    }
+
+    async function copyDiagnostics() {
+      await copyText($("diag-box").textContent || "");
+    }
+
+    async function copyNextLesson() {
+      const p = state.profile || {};
+      const text = p.next_lesson_at ? `Next lesson: ${formatDate(p.next_lesson_at)}` : "Next lesson not set yet.";
+      await copyText(text);
     }
 
     /************************************************************
      * INIT
      ************************************************************/
     document.addEventListener("DOMContentLoaded", async () => {
-      // Close modal
-      $("close-modal").addEventListener("click", closeNewsletterModal);
-      $("newsletter-modal").addEventListener("click", (e) => {
-        if (e.target === $("newsletter-modal")) closeNewsletterModal();
+      // HARD session check FIRST
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        safeRedirect("login.html");
+        return;
+      }
+
+      // Only redirect on real sign-out/auth failure events
+      supabaseClient.auth.onAuthStateChange((event) => {
+        if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
+          safeRedirect("login.html");
+        }
+      });
+
+      // Logout
+      $("logout-button").addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        safeRedirect("login.html");
       });
 
       // Tabs
@@ -791,24 +1710,129 @@ END:VCALENDAR`;
         btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
       });
 
-      // Logout
-      $("logout-btn").addEventListener("click", async () => {
-        await supabaseClient.auth.signOut();
-        go("login.html");
+      // Modal close UX
+      $("news-overlay").addEventListener("click", closeModal);
+      $("modal-close").addEventListener("click", closeModal);
+      $("modal-share").addEventListener("click", shareNewsletter);
+      $("modal-print").addEventListener("click", printNewsletter);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
       });
 
-      // If signed out in another tab
-      supabaseClient.auth.onAuthStateChange((_event, session) => {
-        if (!session) go("login.html");
+      // Home quick actions
+      $("jump-files").addEventListener("click", () => switchTab("files"));
+      $("jump-news").addEventListener("click", () => switchTab("news"));
+      $("mark-all-read").addEventListener("click", markAllRead);
+
+      // Refresh buttons
+      $("refresh-home").addEventListener("click", async () => {
+        toast("Refreshing", "Updating your portal...");
+        await loadProfile();
+        await loadPublishedNewsletters();
+        await loadMyFiles();
+        buildAlerts();
+        startRealtime();
+      });
+      $("news-refresh").addEventListener("click", async () => {
+        toast("Refreshing", "Updating newsletters...");
+        await loadPublishedNewsletters();
+        buildAlerts();
+      });
+      $("files-refresh").addEventListener("click", async () => {
+        toast("Refreshing", "Updating files...");
+        await loadMyFiles();
+        buildAlerts();
       });
 
-      // Enforce student + load core data
-      const ctx = await ensureStudent();
-      if (!ctx) return;
+      // Search inputs
+      $("news-search").addEventListener("input", renderNewsList);
+      $("files-search").addEventListener("input", renderFilesList);
 
-      // Phase 1 features (working now)
-      await loadNewsletters();
-      await loadStudentFiles(ctx.user.id);
+      // Delegated open newsletter
+      $("latest-news").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-open-news]");
+        if (!btn) return;
+        const id = btn.getAttribute("data-open-news");
+        const n = state.newsletters.find(x => String(x.id) === String(id));
+        if (n) openModal(n);
+      });
+      $("news-list").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-open-news]");
+        if (!btn) return;
+        const id = btn.getAttribute("data-open-news");
+        const n = state.newsletters.find(x => String(x.id) === String(id));
+        if (n) openModal(n);
+      });
+
+      // File copy link
+      $("files-list").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-copy]");
+        if (!btn) return;
+        copyText(btn.getAttribute("data-copy"));
+      });
+
+      // Notifications buttons
+      $("alerts-clear").addEventListener("click", markAlertsSeen);
+      $("alerts-refresh").addEventListener("click", async () => {
+        await loadProfile();
+        await loadPublishedNewsletters();
+        await loadMyFiles();
+        buildAlerts();
+        toast("Updated", "Notifications refreshed");
+      });
+
+      // Schedule actions
+      $("sched-copy").addEventListener("click", copyNextLesson);
+
+      // Account actions
+      $("copy-profile").addEventListener("click", copyProfileSummary);
+      $("diag-copy").addEventListener("click", copyDiagnostics);
+
+      // Support
+      $("support-copy").addEventListener("click", copySupportMessage);
+
+      // Network indicator
+      updateNetworkPill();
+      window.addEventListener("online", () => { updateNetworkPill(); toast("Online", "Connection restored"); });
+      window.addEventListener("offline", () => { updateNetworkPill(); toast("Offline", "Some features may be limited"); });
+
+      // PWA install prompt
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        state.beforeInstallPrompt = e;
+        $("install-btn").classList.remove("hidden");
+      });
+      $("install-btn").addEventListener("click", async () => {
+        if (!state.beforeInstallPrompt) return;
+        state.beforeInstallPrompt.prompt();
+        const choice = await state.beforeInstallPrompt.userChoice;
+        if (choice?.outcome === "accepted") toast("Installed", "Portal added to your device");
+        state.beforeInstallPrompt = null;
+        $("install-btn").classList.add("hidden");
+      });
+
+      // Change requests
+      $("req-form").addEventListener("submit", submitRequest);
+      $("req-clear").addEventListener("click", clearRequestForm);
+
+      // Initial load
+      await loadProfile();
+      await loadPublishedNewsletters();
+      await loadMyFiles();
+      await detectRequestsTable();
+
+      // build alerts baselines + show alerts
+      buildAlerts();
+
+      // record baselines first time
+      if (!state.lastSeen.next_lesson_at && state.profile?.next_lesson_at) state.lastSeen.next_lesson_at = state.profile.next_lesson_at;
+      if (!state.lastSeen.latest_news_at && state.newsletters[0]?.created_at) state.lastSeen.latest_news_at = state.newsletters[0].created_at;
+      if (!state.lastSeen.files_sig) state.lastSeen.files_sig = state.files.map(f => `${f.name}:${f.updated_at || ""}`).join("|");
+      saveLastSeen();
+
+      // realtime
+      startRealtime();
 
       // Default tab
       switchTab("home");
