@@ -797,10 +797,20 @@ END:VCALENDAR`;
         go("login.html");
       });
 
-      // If signed out in another tab
-      supabaseClient.auth.onAuthStateChange((_event, session) => {
-        if (!session) go("login.html");
-      });
+      let isRedirecting = false;
+function safeRedirect(url) {
+  if (isRedirecting) return;
+  isRedirecting = true;
+  window.location.replace(url);
+}
+
+// Only redirect on actual sign-out / auth failure events.
+// (Prevents loops caused by initial session being null briefly.)
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
+    safeRedirect("login.html");
+  }
+});
 
       // Enforce student + load core data
       const ctx = await ensureStudent();
