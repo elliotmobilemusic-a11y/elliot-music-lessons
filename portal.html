@@ -40,6 +40,7 @@
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
     .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
+
     .tab-active {
       border-color: #00d084;
       background-color: rgba(0, 208, 132, 0.1);
@@ -50,6 +51,7 @@
       background-color: transparent;
       color: #a0a0a0;
     }
+
     .pill-badge {
       border-radius: 999px;
       padding: 0.1rem 0.6rem;
@@ -59,16 +61,19 @@
       font-weight: 700;
       border-width: 1px;
     }
+
     .scroll-skinny::-webkit-scrollbar { width: 6px; }
     .scroll-skinny::-webkit-scrollbar-track { background: rgba(37, 37, 56, 0.8); }
     .scroll-skinny::-webkit-scrollbar-thumb {
       background: rgba(0, 208, 132, 0.6);
       border-radius: 999px;
     }
+
     .modal-bg {
       background: rgba(0,0,0,0.55);
       backdrop-filter: blur(6px);
     }
+
     .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) { text-decoration: underline; }
   </style>
 
@@ -80,8 +85,8 @@
 
   <!-- Lucide Icons -->
   <script type="module">
-    import { createIcons, LogOut, Newspaper, FolderOpen, ClipboardList, MessageSquare, BadgePoundSterling } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-    createIcons({ icons: { LogOut, Newspaper, FolderOpen, ClipboardList, MessageSquare, BadgePoundSterling } });
+    import { createIcons, LogOut, Newspaper, FolderOpen, Calendar, ClipboardList, MessageSquare, BadgePoundSterling } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+    createIcons({ icons: { LogOut, Newspaper, FolderOpen, Calendar, ClipboardList, MessageSquare, BadgePoundSterling } });
   </script>
 </head>
 
@@ -133,8 +138,10 @@
 
   <!-- MAIN -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-grow">
+    <!-- Global error banner -->
     <div id="global-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-error-red text-error-red text-sm"></div>
 
+    <!-- Header -->
     <header class="mb-6 sm:mb-8">
       <p class="text-[0.7rem] tracking-[0.22em] font-semibold text-brand-highlight uppercase mb-2">
         Student Dashboard
@@ -150,6 +157,7 @@
           </p>
         </div>
 
+        <!-- mini profile stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
             <p class="text-brand-text-mid">Instrument</p>
@@ -173,15 +181,25 @@
 
     <!-- Tabs -->
     <div class="mb-6 flex flex-wrap gap-2">
-      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="home">📰 Home</button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">📅 Schedule</button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">📁 Files</button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="practice">📝 Practice</button>
+      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="home">
+        📰 Home
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">
+        📅 Schedule
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">
+        📁 Files
+      </button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="practice">
+        📝 Practice
+      </button>
     </div>
 
     <!-- HOME TAB -->
     <section id="tab-home" class="space-y-4">
       <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_minmax(0,1fr)] gap-5">
+
+        <!-- Newsletters -->
         <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
           <div class="flex items-center justify-between mb-3 gap-3">
             <div class="flex items-center gap-2">
@@ -200,41 +218,63 @@
           <div id="newsletters-error" class="hidden mt-4 text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3"></div>
         </div>
 
+        <!-- Quick cards -->
         <div class="space-y-4">
+
+          <!-- Next lesson card (mirrors admin “Next Lesson is visible to student”) -->
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
             <div class="flex items-center justify-between">
               <h3 class="font-heading text-lg font-bold text-brand-text-light">Next Lesson</h3>
-              <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">VISIBLE TO STUDENT</span>
+              <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
+                VISIBLE TO STUDENT
+              </span>
             </div>
 
             <div class="mt-3">
               <div class="text-sm text-brand-text-mid">Scheduled for</div>
               <div id="next-lesson-text" class="text-xl font-bold text-brand-highlight mt-1">–</div>
-              <div id="weekly-badge-wrap" class="mt-3"></div>
-            </div>
 
-            <p class="mt-3 text-[0.7rem] text-brand-text-mid">
-              This comes from <code>profiles.next_lesson_at</code> + weekly fields.
-            </p>
+              <div id="weekly-badge-wrap" class="mt-3"></div>
+
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button id="btn-add-calendar"
+                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled
+                >
+                  Add to calendar (.ics)
+                </button>
+              </div>
+
+              <p class="mt-3 text-[0.7rem] text-brand-text-mid">
+                This comes from <code>profiles.next_lesson_at</code> + weekly fields.
+              </p>
+            </div>
           </div>
 
+          <!-- Future: Payment status (placeholder) -->
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
             <div class="flex items-center gap-2">
               <i data-lucide="badge-pound-sterling" class="w-4 h-4 text-brand-accent-light"></i>
               <div class="font-semibold">Payment Status</div>
               <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
             </div>
-            <p class="text-xs text-brand-text-mid mt-2">Marker: future <code>payments</code> table here.</p>
+            <p class="text-xs text-brand-text-mid mt-2">
+              Marker: plug in your future <code>payments</code> table here (paid/unpaid, last invoice, etc).
+            </p>
           </div>
 
+          <!-- Future: Messaging (placeholder) -->
           <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
             <div class="flex items-center gap-2">
               <i data-lucide="message-square" class="w-4 h-4 text-brand-accent-light"></i>
               <div class="font-semibold">Parent Messaging</div>
               <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
             </div>
-            <p class="text-xs text-brand-text-mid mt-2">Marker: future <code>messages</code> table here.</p>
+            <p class="text-xs text-brand-text-mid mt-2">
+              Marker: a <code>messages</code> table + notifications can plug in here later.
+            </p>
           </div>
+
         </div>
       </div>
     </section>
@@ -249,7 +289,9 @@
               Uses <code>profiles.next_lesson_at</code> and weekly slot fields (if enabled).
             </p>
           </div>
-          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">STUDENT VIEW</span>
+          <span id="schedule-pill" class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
+            STUDENT VIEW
+          </span>
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -265,7 +307,7 @@
             <div class="text-xs text-brand-text-mid">Weekly slot</div>
             <div id="schedule-weekly" class="text-lg font-bold text-brand-accent-light mt-1">–</div>
             <p class="mt-2 text-[0.7rem] text-brand-text-mid">
-              Stored in <code>weekly_day</code> + <code>weekly_time</code> when enabled.
+              If weekly is enabled, this is stored in <code>weekly_day</code> + <code>weekly_time</code>.
             </p>
           </div>
         </div>
@@ -298,7 +340,7 @@
       </div>
     </section>
 
-    <!-- PRACTICE TAB -->
+    <!-- PRACTICE TAB (placeholder structure) -->
     <section id="tab-practice" class="hidden space-y-4">
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
         <div class="flex items-center justify-between gap-3">
@@ -310,10 +352,21 @@
         </div>
 
         <p class="text-xs sm:text-sm text-brand-text-mid mt-3">
-          Marker: future <code>practice_notes</code> table here.
+          Marker: when you add a <code>practice_notes</code> table, fetch + render notes here.
         </p>
+
+        <div class="mt-4 bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4 text-sm text-brand-text-mid">
+          Example future items:
+          <ul class="list-disc ml-5 mt-2">
+            <li>Warmup targets</li>
+            <li>Song goals</li>
+            <li>Tempo goals</li>
+            <li>Homework uploads (Phase 3)</li>
+          </ul>
+        </div>
       </div>
     </section>
+
   </main>
 
   <!-- Newsletter Modal -->
@@ -334,21 +387,10 @@
     const SUPABASE_ANON_KEY =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-    const STUDENT_FILES_BUCKET = "student_files"; // public bucket
+    const STUDENT_FILES_BUCKET = "student_files"; // public bucket (as you confirmed)
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const $ = (id) => document.getElementById(id);
-
-    /************************************************************
-     * Redirect helper (cannot be redeclared)
-     ************************************************************/
-    if (!window.__emmRedirect) window.__emmRedirect = { active: false };
-
-    function safeRedirect(url) {
-      if (window.__emmRedirect.active) return;
-      window.__emmRedirect.active = true;
-      window.location.replace(url);
-    }
 
     /************************************************************
      * UI helpers
@@ -367,6 +409,8 @@
       box.classList.add("hidden");
       box.textContent = "";
     }
+
+    function go(url) { window.location.href = url; }
 
     function formatDate(value) {
       if (!value) return "–";
@@ -406,7 +450,7 @@
     }
 
     /************************************************************
-     * Tabs
+     * Tabs (mirrors your admin style)
      ************************************************************/
     function switchTab(tabName) {
       const sections = {
@@ -436,13 +480,14 @@
 
     /************************************************************
      * AUTH + ROLE PROTECTION
+     * profiles.id FK -> auth.users.id (your schema confirms)
      ************************************************************/
     async function ensureStudent() {
       hideGlobalError();
 
       const { data, error } = await supabaseClient.auth.getUser();
       if (error || !data?.user) {
-        safeRedirect("login.html");
+        go("login.html");
         return null;
       }
 
@@ -461,21 +506,23 @@
       }
 
       if (profile.role === "admin") {
-        safeRedirect("admin.html");
+        go("admin.html");
         return null;
       }
 
       if (profile.role !== "student") {
-        safeRedirect("login.html");
+        go("login.html");
         return null;
       }
 
+      // Optional lockout (matches your admin statuses)
       if (profile.status && profile.status !== "active") {
         await supabaseClient.auth.signOut();
-        safeRedirect("login.html");
+        go("login.html");
         return null;
       }
 
+      // UI pills/header
       const name = profile.full_name || user.email || "Student";
       $("welcome-name").textContent = name;
 
@@ -489,18 +536,22 @@
         pill.classList.remove("hidden");
       }
 
+      // Stats
       $("stat-instrument").textContent = profile.instrument ? profile.instrument : "–";
       $("stat-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + "m") : "–";
-      $("stat-next").textContent = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "–";
+      $("stat-next").textContent = profile.next_lesson_at ? "✓" : "–";
       $("stat-status").textContent = profile.status ? profile.status : "–";
 
+      // Next lesson cards
       const nextText = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "Not set yet";
       $("next-lesson-text").textContent = nextText;
       $("schedule-next").textContent = nextText;
 
       $("schedule-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + " minutes") : "–";
+
       $("weekly-badge-wrap").innerHTML = weeklyBadgeHtml(profile);
 
+      // schedule weekly
       if (profile.weekly_enabled) {
         const map = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         const dayName = map[Number(profile.weekly_day)] || "–";
@@ -509,11 +560,24 @@
         $("schedule-weekly").textContent = "Not weekly";
       }
 
+      // Calendar button
+      const btnCal = $("btn-add-calendar");
+      if (btnCal) {
+        if (profile.next_lesson_at) {
+          btnCal.disabled = false;
+          btnCal.onclick = function () {
+            downloadLessonICS(profile);
+          };
+        } else {
+          btnCal.disabled = true;
+        }
+      }
+
       return { user, profile };
     }
 
     /************************************************************
-     * NEWSLETTERS (published only)
+     * NEWSLETTERS (published only, newest first)
      ************************************************************/
     async function loadNewsletters() {
       const listEl = $("newsletter-list");
@@ -521,6 +585,7 @@
       const statusEl = $("newsletters-status");
       const errEl = $("newsletters-error");
 
+      // reset
       listEl.innerHTML = "";
       emptyEl.classList.add("hidden");
       errEl.classList.add("hidden");
@@ -604,7 +669,7 @@
 
       const { data, error } = await supabaseClient.storage
         .from(STUDENT_FILES_BUCKET)
-        .list(`${userId}/`, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
+        .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
 
       statusEl.textContent = "";
 
@@ -621,7 +686,7 @@
       }
 
       data.forEach((file) => {
-        const path = `${userId}/${file.name}`;
+        const path = userId + "/" + file.name;
         const pub = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(path);
         const url = pub?.data?.publicUrl || "#";
 
@@ -650,21 +715,75 @@
     }
 
     /************************************************************
-     * INIT (single, clean, no duplicate vars, no broken brackets)
+     * CALENDAR (.ics) download for next lesson
+     ************************************************************/
+    function pad2(n) { return String(n).padStart(2, "0"); }
+
+    function toICSDate(dt) {
+      // Convert to UTC format YYYYMMDDTHHMMSSZ
+      const d = new Date(dt);
+      return (
+        d.getUTCFullYear() +
+        pad2(d.getUTCMonth() + 1) +
+        pad2(d.getUTCDate()) +
+        "T" +
+        pad2(d.getUTCHours()) +
+        pad2(d.getUTCMinutes()) +
+        pad2(d.getUTCSeconds()) +
+        "Z"
+      );
+    }
+
+    function downloadLessonICS(profile) {
+      if (!profile.next_lesson_at) return;
+
+      const start = new Date(profile.next_lesson_at);
+      const durMin = profile.lesson_duration_min ? Number(profile.lesson_duration_min) : 30;
+      const end = new Date(start.getTime() + durMin * 60 * 1000);
+
+      const uid = (profile.id || "lesson") + "-" + Date.now() + "@elliots-mobile-music";
+      const title = "Music lesson – Elliot’s Mobile Music";
+      const desc = "Lesson scheduled via Elliot’s Mobile Music portal.";
+      const location = ""; // add if you ever store addresses
+
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Elliots Mobile Music//Student Portal//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${toICSDate(new Date())}
+DTSTART:${toICSDate(start)}
+DTEND:${toICSDate(end)}
+SUMMARY:${title}
+DESCRIPTION:${desc}
+LOCATION:${location}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "lesson.ics";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(url);
+    }
+
+    /************************************************************
+     * INIT
      ************************************************************/
     document.addEventListener("DOMContentLoaded", async () => {
-      // ✅ Hard session check FIRST
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (!session) {
-        safeRedirect("login.html");
-        return;
-      }
-
-      // ✅ Redirect only on REAL sign out events
-      supabaseClient.auth.onAuthStateChange((event) => {
-        if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
-          safeRedirect("login.html");
-        }
+      // Close modal
+      $("close-modal").addEventListener("click", closeNewsletterModal);
+      $("newsletter-modal").addEventListener("click", (e) => {
+        if (e.target === $("newsletter-modal")) closeNewsletterModal();
       });
 
       // Tabs
@@ -675,22 +794,23 @@
       // Logout
       $("logout-btn").addEventListener("click", async () => {
         await supabaseClient.auth.signOut();
-        safeRedirect("login.html");
+        go("login.html");
       });
 
-      // Modal close
-      $("close-modal").addEventListener("click", closeNewsletterModal);
-      $("newsletter-modal").addEventListener("click", (e) => {
-        if (e.target === $("newsletter-modal")) closeNewsletterModal();
+      // If signed out in another tab
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        if (!session) go("login.html");
       });
 
-      // Enforce student + load data
+      // Enforce student + load core data
       const ctx = await ensureStudent();
       if (!ctx) return;
 
+      // Phase 1 features (working now)
       await loadNewsletters();
       await loadStudentFiles(ctx.user.id);
 
+      // Default tab
       switchTab("home");
     });
   </script>
