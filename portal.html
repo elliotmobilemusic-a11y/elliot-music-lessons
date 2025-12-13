@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>Student Portal – Elliot’s Mobile Music</title>
   <link rel="icon" href="./favicon.png" type="image/png" />
 
@@ -33,12 +36,23 @@
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
+
+    :root{
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+      --safe-right: env(safe-area-inset-right);
+    }
+
     body {
       font-family: Inter, sans-serif;
       background-color: #1a1a2e;
       color: #e0e0e0;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      padding-left: var(--safe-left);
+      padding-right: var(--safe-right);
     }
+
     .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
 
     .tab-active {
@@ -77,6 +91,7 @@
     .modal-bg {
       background: rgba(0,0,0,0.55);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) { text-decoration: underline; }
@@ -90,6 +105,26 @@
       border-radius: .75rem;
     }
     @keyframes sk { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+
+    /* mobile tap targets */
+    .tap {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* mobile drawer */
+    .drawer {
+      transform: translateX(100%);
+      transition: transform 220ms ease;
+    }
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    /* bottom nav safe area */
+    .safe-bottom-pad {
+      padding-bottom: calc(0.75rem + var(--safe-bottom));
+    }
   </style>
 
   <!-- Supabase JS v2 -->
@@ -98,7 +133,7 @@
   <!-- Safe HTML rendering -->
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 
-  <!-- Lucide Icons (loaded once; we render icons after DOM is ready) -->
+  <!-- Lucide Icons -->
   <script type="module">
     import {
       createIcons,
@@ -110,12 +145,20 @@
       RefreshCcw,
       Search,
       Bell,
-      CheckCircle2
+      CheckCircle2,
+      Menu,
+      X,
+      Wifi,
+      WifiOff,
+      Home
     } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
 
     window.__lucide = {
       createIcons,
-      icons: { LogOut, Newspaper, FolderOpen, Calendar, BadgePoundSterling, RefreshCcw, Search, Bell, CheckCircle2 }
+      icons: {
+        LogOut, Newspaper, FolderOpen, Calendar, BadgePoundSterling,
+        RefreshCcw, Search, Bell, CheckCircle2, Menu, X, Wifi, WifiOff, Home
+      }
     };
   </script>
 </head>
@@ -123,7 +166,7 @@
 <body class="min-h-screen flex flex-col">
 
   <!-- NAV -->
-  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50" style="padding-top: var(--safe-top);">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <a href="index.html" class="flex items-center space-x-2">
@@ -143,7 +186,14 @@
           </span>
         </a>
 
-        <div class="flex items-center space-x-3 text-xs sm:text-sm">
+        <div class="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm">
+          <!-- Net status -->
+          <span id="net-pill"
+            class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid">
+            <i data-lucide="wifi" class="w-4 h-4 text-brand-accent-light"></i>
+            <span id="net-text">Online</span>
+          </span>
+
           <span
             id="student-user-pill"
             class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid"
@@ -152,19 +202,99 @@
             <span>Logged in…</span>
           </span>
 
+          <!-- Desktop logout -->
           <button
             id="logout-btn"
-            class="px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:bg-brand-accent-dark hover:text-brand-dark-bg text-xs font-semibold transition"
+            class="hidden sm:inline-flex px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:bg-brand-accent-dark hover:text-brand-dark-bg text-xs font-semibold transition tap"
           >
             <span class="inline-flex items-center gap-2">
               <i data-lucide="log-out" class="w-4 h-4"></i>
               Log out
             </span>
           </button>
+
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-btn"
+            class="sm:hidden inline-flex items-center justify-center p-2 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:border-brand-accent-light tap"
+            aria-label="Open menu"
+            aria-controls="mobile-drawer"
+            aria-expanded="false"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
         </div>
       </div>
     </div>
   </nav>
+
+  <!-- Mobile drawer overlay -->
+  <div id="drawer-overlay" class="hidden fixed inset-0 z-[60] modal-bg"></div>
+
+  <!-- Mobile drawer -->
+  <aside
+    id="mobile-drawer"
+    class="drawer fixed top-0 right-0 h-full w-[86vw] max-w-[360px] z-[61]
+           bg-brand-dark-bg border-l border-brand-accent-dark/60 shadow-2xl"
+    style="padding-top: var(--safe-top); padding-bottom: var(--safe-bottom);"
+    aria-hidden="true"
+  >
+    <div class="h-full flex flex-col">
+      <div class="px-4 py-4 border-b border-brand-accent-dark/50 flex items-center justify-between gap-3">
+        <div class="min-w-0">
+          <div class="text-xs tracking-[0.22em] font-semibold text-brand-highlight uppercase">Portal Menu</div>
+          <div id="mobile-user" class="text-sm text-brand-text-light font-semibold truncate">—</div>
+        </div>
+        <button id="drawer-close" class="p-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid tap" aria-label="Close menu">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="px-4 py-4 space-y-2">
+        <button class="w-full text-left px-3 py-3 rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light tap"
+                data-mobile-tab="home">
+          <span class="inline-flex items-center gap-2">
+            <i data-lucide="home" class="w-4 h-4 text-brand-accent-light"></i>
+            <span class="font-semibold">Home</span>
+          </span>
+        </button>
+
+        <button class="w-full text-left px-3 py-3 rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light tap"
+                data-mobile-tab="schedule">
+          <span class="inline-flex items-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-brand-accent-light"></i>
+            <span class="font-semibold">Schedule</span>
+          </span>
+        </button>
+
+        <button class="w-full text-left px-3 py-3 rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light tap"
+                data-mobile-tab="files">
+          <span class="inline-flex items-center gap-2">
+            <i data-lucide="folder-open" class="w-4 h-4 text-brand-accent-light"></i>
+            <span class="font-semibold">Files</span>
+          </span>
+        </button>
+
+        <div class="mt-3 p-3 rounded-xl bg-card-bg/70 border border-brand-accent-dark/50">
+          <div class="text-xs text-brand-text-mid">Connection</div>
+          <div class="mt-1 flex items-center gap-2">
+            <i id="mobile-net-icon" data-lucide="wifi" class="w-4 h-4 text-brand-accent-light"></i>
+            <span id="mobile-net-text" class="text-sm text-brand-text-light font-semibold">Online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-auto px-4 py-4 border-t border-brand-accent-dark/50">
+        <button id="mobile-logout"
+          class="w-full px-4 py-3 rounded-xl bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold tap">
+          <span class="inline-flex items-center gap-2">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            Log out
+          </span>
+        </button>
+      </div>
+    </div>
+  </aside>
 
   <!-- MAIN -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-grow">
@@ -209,15 +339,15 @@
       </div>
     </header>
 
-    <!-- Tabs (NO practice/homework yet) -->
-    <div class="mb-6 flex flex-wrap gap-2">
-      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="home">
+    <!-- Tabs (desktop + tablet) -->
+    <div class="mb-6 hidden sm:flex flex-wrap gap-2">
+      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold tap" data-tab="home">
         📰 Home
       </button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold tap" data-tab="schedule">
         📅 Schedule
       </button>
-      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold tap" data-tab="files">
         📁 Files
       </button>
     </div>
@@ -241,7 +371,7 @@
 
             <div class="flex items-center gap-2 shrink-0">
               <button id="newsletters-refresh"
-                class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light">
+                class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light tap">
                 <span class="inline-flex items-center gap-2">
                   <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
                   Refresh
@@ -258,11 +388,11 @@
               </span>
               <input id="newsletter-search" type="text" placeholder="Search newsletters..."
                 class="w-full pl-10 pr-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm
-                       focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30" />
+                       focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30 tap" />
             </div>
 
             <button id="mark-all-read"
-              class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light">
+              class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light tap">
               <span class="inline-flex items-center gap-2">
                 <i data-lucide="check-circle2" class="w-4 h-4"></i>
                 Mark all read
@@ -304,7 +434,7 @@
 
               <div class="mt-4 flex flex-wrap gap-2">
                 <button id="btn-add-calendar"
-                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold disabled:opacity-60 disabled:cursor-not-allowed tap"
                   disabled
                 >
                   Add to calendar (.ics)
@@ -395,7 +525,7 @@
 
           <div class="flex items-center gap-2 shrink-0">
             <button id="files-refresh"
-              class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light">
+              class="px-3 py-2 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-xs text-brand-text-mid hover:border-brand-accent-light tap">
               <span class="inline-flex items-center gap-2">
                 <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
                 Refresh
@@ -411,12 +541,12 @@
             </span>
             <input id="file-search" type="text" placeholder="Search files..."
               class="w-full pl-10 pr-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm
-                     focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30" />
+                     focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30 tap" />
           </div>
           <div class="flex gap-2">
             <select id="file-sort"
               class="px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm
-                     focus:outline-none focus:border-brand-accent-light">
+                     focus:outline-none focus:border-brand-accent-light tap">
               <option value="updated_desc">Newest</option>
               <option value="updated_asc">Oldest</option>
               <option value="name_asc">Name A–Z</option>
@@ -446,7 +576,7 @@
   <!-- Newsletter Modal -->
   <div id="newsletter-modal" class="hidden fixed inset-0 modal-bg z-50 flex items-center justify-center p-4">
     <div class="bg-card-bg max-w-2xl w-full p-6 rounded-2xl card-glow border border-brand-accent-dark/40 relative overflow-y-auto max-h-[90vh]">
-      <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white" aria-label="Close">✕</button>
+      <button id="close-modal" class="absolute top-3 right-3 text-brand-text-mid hover:text-white tap" aria-label="Close">✕</button>
       <h2 id="modal-title" class="text-2xl sm:text-3xl font-heading font-bold mb-2 text-brand-accent-light"></h2>
       <div id="modal-date" class="text-xs text-brand-text-mid mb-4"></div>
       <div id="modal-content" class="prose prose-invert max-w-none"></div>
@@ -455,9 +585,36 @@
 
   <!-- Realtime Toast -->
   <div id="toast"
-    class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-[9999]
+    class="hidden fixed bottom-20 sm:bottom-5 left-1/2 -translate-x-1/2 z-[9999]
            px-4 py-2 rounded-full bg-card-bg/95 border border-brand-accent-dark/60
            text-xs text-brand-text-light shadow-lg backdrop-blur">
+  </div>
+
+  <!-- Mobile bottom nav (phone) -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-[55] bg-brand-dark-bg/90 backdrop-blur border-t border-brand-accent-dark/40 safe-bottom-pad">
+    <div class="max-w-6xl mx-auto px-4 py-2 grid grid-cols-3 gap-2">
+      <button class="mobile-tab tap rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 text-brand-text-mid px-3 py-2"
+              data-tab="home" aria-label="Home">
+        <div class="flex flex-col items-center gap-1">
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <div class="text-[0.65rem] font-semibold">Home</div>
+        </div>
+      </button>
+      <button class="mobile-tab tap rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 text-brand-text-mid px-3 py-2"
+              data-tab="schedule" aria-label="Schedule">
+        <div class="flex flex-col items-center gap-1">
+          <i data-lucide="calendar" class="w-5 h-5"></i>
+          <div class="text-[0.65rem] font-semibold">Schedule</div>
+        </div>
+      </button>
+      <button class="mobile-tab tap rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 text-brand-text-mid px-3 py-2"
+              data-tab="files" aria-label="Files">
+        <div class="flex flex-col items-center gap-1">
+          <i data-lucide="folder-open" class="w-5 h-5"></i>
+          <div class="text-[0.65rem] font-semibold">Files</div>
+        </div>
+      </button>
+    </div>
   </div>
 
   <script>
@@ -482,7 +639,6 @@
       isRedirecting = true;
       window.location.replace(url);
     }
-    function go(url) { window.location.href = url; }
 
     /************************************************************
      * UI helpers
@@ -549,8 +705,38 @@
     }
 
     /************************************************************
+     * Mobile drawer controls
+     ************************************************************/
+    function openDrawer() {
+      $("drawer-overlay")?.classList.remove("hidden");
+      $("mobile-drawer")?.classList.add("open");
+      $("mobile-drawer")?.setAttribute("aria-hidden", "false");
+      $("mobile-menu-btn")?.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
+    function closeDrawer() {
+      $("drawer-overlay")?.classList.add("hidden");
+      $("mobile-drawer")?.classList.remove("open");
+      $("mobile-drawer")?.setAttribute("aria-hidden", "true");
+      $("mobile-menu-btn")?.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+
+    /************************************************************
      * Tabs
      ************************************************************/
+    function highlightMobileBottomNav(tabName) {
+      document.querySelectorAll(".mobile-tab").forEach((btn) => {
+        const name = btn.getAttribute("data-tab");
+        const active = name === tabName;
+        btn.classList.toggle("border-brand-accent-light", active);
+        btn.classList.toggle("text-brand-text-light", active);
+        btn.classList.toggle("text-brand-text-mid", !active);
+        btn.classList.toggle("bg-brand-accent-light/10", active);
+        btn.classList.toggle("bg-brand-dark-bg/50", !active);
+      });
+    }
+
     function switchTab(tabName) {
       const sections = {
         home: $("tab-home"),
@@ -564,6 +750,7 @@
         else el.classList.add("hidden");
       });
 
+      // desktop tabs
       document.querySelectorAll(".tab-btn").forEach((btn) => {
         const name = btn.getAttribute("data-tab");
         if (name === tabName) {
@@ -574,6 +761,8 @@
           btn.classList.add("tab-inactive");
         }
       });
+
+      highlightMobileBottomNav(tabName);
     }
 
     /************************************************************
@@ -590,7 +779,7 @@
 
       const user = data.user;
 
-      // Try a strict select first; if the schema ever changes, fallback to "*"
+      // Try strict select first; fallback to "*" if schema differs
       let profile = null;
 
       const baseSelect = "id,full_name,username,email,phone,role,status,instrument,lesson_duration_min,next_lesson_at,weekly_enabled,weekly_day,weekly_time";
@@ -639,7 +828,7 @@
         return null;
       }
 
-      // User pill
+      // User pill (desktop)
       const pill = $("student-user-pill");
       if (pill) {
         pill.innerHTML = `
@@ -648,6 +837,11 @@
           <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40 ml-2">STUDENT</span>
         `;
         pill.classList.remove("hidden");
+      }
+
+      // Mobile drawer user
+      if ($("mobile-user")) {
+        $("mobile-user").textContent = profile.full_name || user.email || "Student";
       }
 
       return { user, profile };
@@ -693,9 +887,7 @@
     }
 
     /************************************************************
-     * NEWSLETTERS (published only, newest first)
-     * + Unread tracking (localStorage)
-     * + Search
+     * NEWSLETTERS
      ************************************************************/
     const READ_KEY = "emm_read_newsletters_v1";
     function getReadSet() {
@@ -751,7 +943,7 @@
         const item = document.createElement("button");
         item.type = "button";
         item.className =
-          "w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition";
+          "w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition tap";
 
         item.innerHTML = `
           <div class="flex items-start justify-between gap-3">
@@ -775,7 +967,6 @@
       const statusEl = $("newsletters-status");
       const errEl = $("newsletters-error");
 
-      // skeleton
       $("newsletter-list").innerHTML = `
         <div class="skeleton h-14"></div>
         <div class="skeleton h-14"></div>
@@ -824,7 +1015,6 @@
       read.add(n.id);
       saveReadSet(read);
       updateUnreadUI();
-      // refresh list so NEW badge disappears
       renderNewslettersList();
     }
 
@@ -837,7 +1027,6 @@
 
     /************************************************************
      * FILES (public bucket)
-     * + Search + Sort
      ************************************************************/
     let filesCache = [];
 
@@ -887,11 +1076,11 @@
           </div>
           <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
             <a href="${url}" target="_blank" rel="noreferrer"
-              class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
+              class="px-2 py-2 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light tap">
               View
             </a>
             <a href="${url}" download
-              class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg font-semibold hover:bg-brand-accent-dark">
+              class="px-2 py-2 rounded-md bg-brand-accent-light text-brand-dark-bg font-semibold hover:bg-brand-accent-dark tap">
               Download
             </a>
           </div>
@@ -1070,6 +1259,43 @@ END:VCALENDAR`;
     }
 
     /************************************************************
+     * Online/offline indicator
+     ************************************************************/
+    function setNetUI(online) {
+      const netPill = $("net-pill");
+      const netText = $("net-text");
+      const mobileText = $("mobile-net-text");
+      const mobileIcon = $("mobile-net-icon");
+
+      if (netPill) netPill.classList.remove("hidden");
+
+      const txt = online ? "Online" : "Offline";
+      if (netText) netText.textContent = txt;
+      if (mobileText) mobileText.textContent = txt;
+
+      // swap icon by toggling data-lucide (then re-render)
+      if (netPill) {
+        netPill.querySelector("i[data-lucide]")?.setAttribute("data-lucide", online ? "wifi" : "wifi-off");
+      }
+      if (mobileIcon) {
+        mobileIcon.setAttribute("data-lucide", online ? "wifi" : "wifi-off");
+      }
+
+      // recolour via class (simple)
+      const pillColor = online ? "text-brand-text-mid" : "text-error-red";
+      if (netPill) {
+        netPill.classList.remove("text-brand-text-mid", "text-error-red");
+        netPill.classList.add(pillColor);
+      }
+
+      // re-render icons (safe to call)
+      try { window.__lucide?.createIcons?.({ icons: window.__lucide.icons }); } catch {}
+
+      if (!online) showToast("You’re offline – some updates may pause", 2600);
+      if (online) showToast("Back online", 1600);
+    }
+
+    /************************************************************
      * INIT
      ************************************************************/
     document.addEventListener("DOMContentLoaded", async () => {
@@ -1081,6 +1307,11 @@ END:VCALENDAR`;
       } catch (e) {
         console.warn("Lucide init failed:", e);
       }
+
+      // Online/offline listeners
+      setNetUI(navigator.onLine);
+      window.addEventListener("online", () => setNetUI(true));
+      window.addEventListener("offline", () => setNetUI(false));
 
       // ✅ HARD session check FIRST (prevents redirect loop)
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -1096,23 +1327,49 @@ END:VCALENDAR`;
         }
       });
 
-      // Modal close
+      // Newsletter modal close
       $("close-modal")?.addEventListener("click", closeNewsletterModal);
       $("newsletter-modal")?.addEventListener("click", (e) => {
         if (e.target === $("newsletter-modal")) closeNewsletterModal();
       });
 
-      // Tabs
+      // Desktop tabs
       document.querySelectorAll(".tab-btn").forEach((btn) => {
         btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
       });
 
-      // Logout
-      $("logout-btn")?.addEventListener("click", async () => {
+      // Mobile bottom tabs
+      document.querySelectorAll(".mobile-tab").forEach((btn) => {
+        btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
+      });
+
+      // Mobile drawer open/close
+      $("mobile-menu-btn")?.addEventListener("click", openDrawer);
+      $("drawer-close")?.addEventListener("click", closeDrawer);
+      $("drawer-overlay")?.addEventListener("click", closeDrawer);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeDrawer();
+          closeNewsletterModal();
+        }
+      });
+
+      // Drawer tab buttons
+      document.querySelectorAll("[data-mobile-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          switchTab(btn.getAttribute("data-mobile-tab"));
+          closeDrawer();
+        });
+      });
+
+      // Logout (desktop + mobile)
+      async function doLogout() {
         cleanupRealtime();
         await supabaseClient.auth.signOut();
         safeRedirect("login.html");
-      });
+      }
+      $("logout-btn")?.addEventListener("click", doLogout);
+      $("mobile-logout")?.addEventListener("click", doLogout);
 
       // Newsletter controls
       $("newsletters-refresh")?.addEventListener("click", async () => {
@@ -1148,6 +1405,9 @@ END:VCALENDAR`;
       const ctx = await ensureStudent();
       if (!ctx) return;
       window.__ctx = ctx;
+
+      // Mobile drawer user name
+      if ($("mobile-user")) $("mobile-user").textContent = ctx.profile.full_name || ctx.user.email || "Student";
 
       // Initial UI sync
       applyProfileToUI(ctx.profile, ctx.user.email || "");
