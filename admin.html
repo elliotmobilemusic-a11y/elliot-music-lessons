@@ -457,7 +457,6 @@
     class="hidden fixed top-0 right-0 h-full w-full sm:w-[520px] z-[101]
            bg-brand-dark-bg border-l border-brand-accent-dark/60 shadow-2xl"
   >
-    <!-- (drawer HTML unchanged) -->
     <div class="h-full flex flex-col">
       <div class="px-5 py-4 border-b border-brand-accent-dark/50 flex items-start justify-between gap-4">
         <div>
@@ -473,7 +472,6 @@
       </div>
 
       <div class="flex-1 overflow-y-auto scroll-skinny px-5 py-5 space-y-4">
-        <!-- (inputs unchanged) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Full name</label>
@@ -515,6 +513,7 @@
               <option value="active">Active</option>
               <option value="paused">Paused</option>
               <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
             </select>
           </div>
           <div>
@@ -622,7 +621,14 @@
     // ============================
     const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ✅ IMPORTANT: bucket name must match Supabase Storage EXACTLY
+    // If your bucket is "student-files" or anything else, change it here.
+  const STUDENT_FILES_BUCKET = "STUDENT-FILES"; // <-- must match Supabase exactly
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      db: { schema: "public" },
+    });
 
     // ============================
     // Redirect loop protection (GLOBAL, single instance)
@@ -739,6 +745,104 @@
     }
 
     // ============================
+    // Suspend / Reactivate + Delete
+    // ============================
+    function isSuspendedStatus(status) {
+      const s = (status || "active").toLowerCase();
+      return s === "paused" || s === "inactive" || s === "suspended";
+    }
+
+    async function setStudentStatus(profileId, newStatus) {
+      hideGlobalError();
+
+      const { error } = await supabaseClient
+        .from("profiles")
+        .update({
+          status: newStatus,
+          ...(newStatus !== "active"
+            ? { next_lesson_at: null, weekly_enabled: false, weekly_day: null, weekly_time: null }
+            : {}),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", profileId);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to update student status. Check RLS + profiles columns.");
+        return;
+      }
+
+      await loadProfiles();
+    }
+
+    async function deleteStudent(profileId) {
+      hideGlobalError();
+
+      if (currentAdminUser?.id === profileId) {
+        showGlobalError("You can’t delete your own admin account from here.");
+        return;
+      }
+
+      const p = allProfiles.find((x) => x.id === profileId);
+      const name = p?.full_name || p?.username || p?.email || shortId(profileId);
+
+      if (!confirm(`Delete "${name}"?\n\nThis will:\n• Delete their profile row\n• Attempt to delete student files in ${STUDENT_FILES_BUCKET}/${profileId}/\n\nIt will NOT delete their Supabase Auth login (that requires a service-role Edge Function).`)) {
+        return;
+      }
+
+      // 1) Delete student folder contents (best effort)
+      try {
+        let offset = 0;
+        const limit = 100;
+        const toRemove = [];
+
+        while (true) {
+          const { data, error } = await supabaseClient.storage
+            .from(STUDENT_FILES_BUCKET)
+            .list(`${profileId}/`, { limit, offset });
+
+          if (error) {
+            console.warn("Could not list files for deletion:", error);
+            break;
+          }
+
+          if (!data || data.length === 0) break;
+
+          for (const f of data) {
+            if (f?.name) toRemove.push(`${profileId}/${f.name}`);
+          }
+
+          if (data.length < limit) break;
+          offset += limit;
+        }
+
+        if (toRemove.length) {
+          const { error: rmErr } = await supabaseClient.storage
+            .from(STUDENT_FILES_BUCKET)
+            .remove(toRemove);
+
+          if (rmErr) console.warn("Could not remove some files:", rmErr);
+        }
+      } catch (e) {
+        console.warn("Storage delete exception:", e);
+      }
+
+      // 2) Delete profile row
+      const { error } = await supabaseClient
+        .from("profiles")
+        .delete()
+        .eq("id", profileId);
+
+      if (error) {
+        console.error(error);
+        showGlobalError("Failed to delete student profile. Check RLS on profiles.");
+        return;
+      }
+
+      await loadProfiles();
+    }
+
+    // ============================
     // AUTH + ADMIN CHECK
     // ============================
     async function ensureAdmin() {
@@ -825,6 +929,15 @@
       return `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">STUDENT</span>`;
     }
 
+    function statusBadge(status) {
+      const s = (status || "active").toLowerCase();
+      if (s === "active") return `<span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">ACTIVE</span>`;
+      if (s === "paused") return `<span class="pill-badge bg-yellow-500/10 text-yellow-300 border-yellow-500/50">PAUSED</span>`;
+      if (s === "inactive") return `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">INACTIVE</span>`;
+      if (s === "suspended") return `<span class="pill-badge bg-red-900/40 text-error-red border-error-red/60">SUSPENDED</span>`;
+      return `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">${safeText(s).toUpperCase()}</span>`;
+    }
+
     function weeklyBadge(p) {
       if (!p.weekly_enabled) return `<span class="text-[0.7rem] text-brand-text-mid">—</span>`;
       const day = Number(p.weekly_day);
@@ -857,8 +970,8 @@
         const email = p.email || "";
         const phone = p.phone || "";
         const role = (p.role || "student").toLowerCase();
-
         const nextLesson = p.next_lesson_at ? formatDate(p.next_lesson_at) : "—";
+        const suspended = isSuspendedStatus(p.status);
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -868,7 +981,7 @@
               ${email ? `<a class="hover:text-brand-accent-light" href="mailto:${encodeURIComponent(email)}">${safeText(email)}</a>` : `<span class="opacity-70">(no email)</span>`}
               ${phone ? `<a class="hover:text-brand-accent-light" href="tel:${encodeURIComponent(phone)}">${safeText(phone)}</a>` : ``}
               ${p.instrument ? `<span class="opacity-80">🎵 ${safeText(p.instrument)}</span>` : ``}
-              ${p.status ? `<span class="opacity-80">• ${safeText(p.status)}</span>` : ``}
+              ${statusBadge(p.status)}
             </div>
           </td>
 
@@ -886,6 +999,7 @@
 
           <td class="px-4 py-3 align-top text-right">
             <div class="inline-flex flex-wrap gap-1 justify-end">
+
               <button
                 class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
                 data-action="edit"
@@ -894,28 +1008,51 @@
                 Edit
               </button>
 
-              ${
-                role === "pending"
-                  ? `<button
-                      class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
-                      data-action="approve-student"
-                      data-id="${p.id}"
-                    >Approve</button>`
-                  : ""
-              }
+              ${role !== "admin" ? `
+                <button
+                  class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                  data-action="toggle-suspend"
+                  data-id="${p.id}"
+                >
+                  ${suspended ? "Reactivate" : "Suspend"}
+                </button>
+              ` : ""}
 
-              ${
-                role !== "admin"
-                  ? `<button
-                      class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
-                      data-action="make-admin"
-                      data-id="${p.id}"
-                    >Make admin</button>`
-                  : `<button
-                      class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
-                      data-action="make-student"
-                      data-id="${p.id}"
-                    >Make student</button>`
+              ${role !== "admin" ? `
+                <button
+                  class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-[0.7rem] text-error-red hover:bg-red-900/40"
+                  data-action="delete-student"
+                  data-id="${p.id}"
+                >
+                  Delete
+                </button>
+              ` : ""}
+
+              ${role === "pending" ? `
+                <button
+                  class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
+                  data-action="approve-student"
+                  data-id="${p.id}"
+                >
+                  Approve
+                </button>
+              ` : ""}
+
+              ${role !== "admin"
+                ? `<button
+                    class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                    data-action="make-admin"
+                    data-id="${p.id}"
+                  >
+                    Make admin
+                  </button>`
+                : `<button
+                    class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                    data-action="make-student"
+                    data-id="${p.id}"
+                  >
+                    Make student
+                  </button>`
               }
             </div>
           </td>
@@ -975,7 +1112,7 @@
 
       const { error } = await supabaseClient
         .from("profiles")
-        .update({ role })
+        .update({ role, updated_at: new Date().toISOString() })
         .eq("id", id);
 
       if (error) {
@@ -1001,7 +1138,7 @@
       $("edit-instrument").value = profile.instrument || "";
       $("edit-email").value = profile.email || "";
       $("edit-phone").value = profile.phone || "";
-      $("edit-status").value = profile.status || "active";
+      $("edit-status").value = (profile.status || "active");
       $("edit-duration").value = profile.lesson_duration_min ?? "";
 
       $("edit-next-lesson").value = toDatetimeLocalValue(profile.next_lesson_at);
@@ -1035,17 +1172,20 @@
       hideGlobalError();
       if (!editProfileId) return;
 
+      const status = $("edit-status").value || "active";
+      const isSusp = isSuspendedStatus(status);
+
       const payload = {
         full_name: $("edit-full-name").value.trim() || null,
         instrument: $("edit-instrument").value.trim() || null,
         email: $("edit-email").value.trim() || null,
         phone: normalizePhone($("edit-phone").value),
-        status: $("edit-status").value || "active",
+        status,
         lesson_duration_min: $("edit-duration").value ? Number($("edit-duration").value) : null,
-        next_lesson_at: fromDatetimeLocalValue($("edit-next-lesson").value),
-        weekly_enabled: $("edit-weekly-enabled").checked,
-        weekly_day: $("edit-weekly-enabled").checked ? Number($("edit-weekly-day").value) : null,
-        weekly_time: $("edit-weekly-enabled").checked ? ($("edit-weekly-time").value || null) : null,
+        next_lesson_at: isSusp ? null : fromDatetimeLocalValue($("edit-next-lesson").value),
+        weekly_enabled: isSusp ? false : $("edit-weekly-enabled").checked,
+        weekly_day: (isSusp || !$("edit-weekly-enabled").checked) ? null : Number($("edit-weekly-day").value),
+        weekly_time: (isSusp || !$("edit-weekly-enabled").checked) ? null : ($("edit-weekly-time").value || null),
         admin_notes: $("edit-notes").value.trim() || null,
         updated_at: new Date().toISOString(),
       };
@@ -1148,7 +1288,6 @@
               ${p.instrument ? `<span class="text-[0.7rem] text-brand-text-mid">🎵 ${safeText(p.instrument)}</span>` : ""}
             </div>
             <div class="text-sm text-brand-text-mid mt-1">${safeText(when)}</div>
-            ${p.weekly_enabled && p.weekly_time ? `<div class="text-[0.7rem] text-brand-text-mid mt-1 opacity-80">Slot: ${p.weekly_day} @ ${p.weekly_time}</div>` : ""}
           </div>
 
           <div class="flex flex-col items-end gap-2 shrink-0">
@@ -1204,7 +1343,7 @@
     // NEWSLETTERS
     // ============================
     async function initNewsletterEditor() {
-      if (quill) return; // guard
+      if (quill) return;
       quill = new Quill("#newsletter-editor", {
         theme: "snow",
         placeholder: "Write your newsletter here…",
@@ -1531,12 +1670,15 @@
 
       try {
         const { data, error } = await supabaseClient.storage
-          .from("student_files")
+          .from(STUDENT_FILES_BUCKET)
           .list(studentId + "/", { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } });
 
         if (error) {
           console.error(error);
-          listEl.innerHTML = '<p class="text-error-red text-sm">Could not list files. Check bucket + storage policies.</p>';
+          const msg = (error?.message || "").toLowerCase().includes("bucket not found")
+            ? `Bucket not found: "${STUDENT_FILES_BUCKET}". Check Supabase Storage bucket name matches this constant.`
+            : "Could not list files. Check bucket + storage policies.";
+          listEl.innerHTML = `<p class="text-error-red text-sm">${msg}</p>`;
           return;
         }
 
@@ -1552,11 +1694,11 @@
             const fullPath = `${studentId}/${file.name}`;
 
             let url = "#";
-            const signed = await supabaseClient.storage.from("student_files").createSignedUrl(fullPath, 60 * 60);
+            const signed = await supabaseClient.storage.from(STUDENT_FILES_BUCKET).createSignedUrl(fullPath, 60 * 60);
             if (!signed.error && signed.data?.signedUrl) {
               url = signed.data.signedUrl;
             } else {
-              const { data: pub } = supabaseClient.storage.from("student_files").getPublicUrl(fullPath);
+              const { data: pub } = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(fullPath);
               url = pub?.publicUrl || "#";
             }
 
@@ -1603,11 +1745,14 @@
       const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
       const path = `${studentId}/${Date.now()}-${safeName}`;
 
-      const { error } = await supabaseClient.storage.from("student_files").upload(path, file, { upsert: false });
+      const { error } = await supabaseClient.storage.from(STUDENT_FILES_BUCKET).upload(path, file, { upsert: false });
 
       if (error) {
         console.error(error);
-        showGlobalError("File upload failed. Check storage policies and bucket name.");
+        const msg = (error?.message || "").toLowerCase().includes("bucket not found")
+          ? `Bucket not found: "${STUDENT_FILES_BUCKET}". Check Supabase Storage bucket name matches this constant.`
+          : "File upload failed. Check storage policies and bucket name.";
+        showGlobalError(msg);
         return;
       }
 
@@ -1620,7 +1765,7 @@
       if (!confirm("Delete this file for this student?")) return;
 
       const fullPath = `${studentId}/${fileName}`;
-      const { error } = await supabaseClient.storage.from("student_files").remove([fullPath]);
+      const { error } = await supabaseClient.storage.from(STUDENT_FILES_BUCKET).remove([fullPath]);
 
       if (error) {
         console.error(error);
@@ -1661,17 +1806,17 @@
     }
 
     // ============================
-    // INIT (FIXED)
+    // INIT
     // ============================
     document.addEventListener("DOMContentLoaded", async () => {
-      // ✅ HARD session check first (prevents false redirect loop)
+      // Session check first
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (!session) {
         safeRedirect("login.html");
         return;
       }
 
-      // ✅ Redirect ONLY on real sign-out events (not on initial load)
+      // Redirect ONLY on real sign-out events
       supabaseClient.auth.onAuthStateChange((event) => {
         if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
           safeRedirect("login.html");
@@ -1714,6 +1859,16 @@
         if (action === "edit") {
           const p = allProfiles.find((x) => x.id === id);
           if (p) openEditDrawer(p);
+        }
+
+        if (action === "toggle-suspend") {
+          const p = allProfiles.find((x) => x.id === id);
+          const suspended = isSuspendedStatus(p?.status);
+          setStudentStatus(id, suspended ? "active" : "paused");
+        }
+
+        if (action === "delete-student") {
+          deleteStudent(id);
         }
       });
 
