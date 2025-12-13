@@ -116,45 +116,132 @@
 </div>
 
 <script>
-    const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE"; // <-- replace this
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // ✅ Supabase config (use your real keys)
+  const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
+  const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-    const newsletterList = document.getElementById("newsletter-list");
-    const noNewsletters = document.getElementById("no-newsletters");
+  // ✅ IMPORTANT: don't name this "supabase" (it clashes with the global)
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const modal = document.getElementById("newsletter-modal");
-    const modalTitle = document.getElementById("modal-title");
-    const modalContent = document.getElementById("modal-content");
+  // DOM refs
+  const newsletterList = document.getElementById("newsletter-list");
+  const noNewsletters = document.getElementById("no-newsletters");
 
-    const closeModal = document.getElementById("close-modal");
+  const modal = document.getElementById("newsletter-modal");
+  const modalTitle = document.getElementById("modal-title");
+  const modalContent = document.getElementById("modal-content");
+  const closeModal = document.getElementById("close-modal");
 
-    closeModal.onclick = () => modal.classList.add("hidden");
+  closeModal.onclick = function () {
+    modal.classList.add("hidden");
+  };
 
-    async function loadNewsletters() {
-        const { data: newsletters, error } = await supabase
-            .from("newsletters")
-            .select("*")
-            .eq("published", true)
-            .order("created_at", { ascending: false });
+  // ✅ Auth protection (basic: must be logged in)
+  async function protectRoute() {
+    const res = await supabaseClient.auth.getUser();
+    const user = res && res.data ? res.data.user : null;
 
-        if (!newsletters || newsletters.length === 0) {
-            noNewsletters.classList.remove("hidden");
-            return;
+    if (!user) {
+      window.location.href = "login.html";
+      return null;
+    }
 
-            <section id="student-newsletters" class="space-y-4">
-  <h2 class="font-heading text-xl text-brand-highlight">Latest Newsletters</h2>
-  <div id="newsletter-list" class="space-y-3"></div>
-</section>
-    <h2 class="font-heading text-xl text-brand-highlight">Latest Newsletters</h2>
+    // ✅ Role check from your profiles table (profiles.id = auth.users.id)
+    const profileRes = await supabaseClient
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
 
-    <div id="newsletter-cards" class="space-y-3">
-        <!-- Filled by JS -->
-    </div>
-</section>
+    if (profileRes.error || !profileRes.data) {
+      await supabaseClient.auth.signOut();
+      window.location.href = "login.html";
+      return null;
+    }
 
+    if (profileRes.data.role === "admin") {
+      window.location.href = "admin.html";
+      return null;
+    }
 
-        
+    if (profileRes.data.role !== "student") {
+      window.location.href = "login.html";
+      return null;
+    }
+
+    return user;
+  }
+
+  // ✅ Load newsletters (published only, newest first)
+  async function loadNewsletters() {
+    newsletterList.innerHTML = "";
+    noNewsletters.classList.add("hidden");
+
+    const res = await supabaseClient
+      .from("newsletters")
+      .select("id, title, content_html, created_at")
+      .eq("published", true)
+      .order("created_at", { ascending: false });
+
+    if (res.error) {
+      console.error("Newsletters error:", res.error);
+      noNewsletters.classList.remove("hidden");
+      noNewsletters.textContent = "Couldn’t load newsletters.";
+      return;
+    }
+
+    const newsletters = res.data || [];
+
+    if (newsletters.length === 0) {
+      noNewsletters.classList.remove("hidden");
+      return;
+    }
+
+    newsletters.forEach(function (n) {
+      const card = document.createElement("div");
+      card.className =
+        "bg-card-bg p-5 rounded-xl border border-brand-accent-dark/40 card-glow hover:scale-[1.01] transition cursor-pointer";
+
+      card.innerHTML = `
+        <h2 class="text-2xl font-heading text-brand-accent-light mb-2">${n.title || "Untitled"}</h2>
+        <p class="text-brand-text-mid text-sm">${new Date(n.created_at).toLocaleDateString()}</p>
+      `;
+
+      card.onclick = function () {
+        modalTitle.textContent = n.title || "Untitled";
+        // If you have DOMPurify loaded, use it. Otherwise this will still work but less safe.
+        if (window.DOMPurify) {
+          modalContent.innerHTML = window.DOMPurify.sanitize(n.content_html || "");
+        } else {
+          modalContent.innerHTML = n.content_html || "";
+        }
+        modal.classList.remove("hidden");
+      };
+
+      newsletterList.appendChild(card);
+    });
+  }
+
+  // ✅ Logout
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.onclick = async function () {
+      await supabaseClient.auth.signOut();
+      window.location.href = "login.html";
+    };
+  }
+
+  // ✅ Init
+  async function init() {
+    const user = await protectRoute();
+    if (!user) return;
+    await loadNewsletters();
+  }
+
+  init();
+</script>
+
         }
 
         newsletters.forEach(n => {
