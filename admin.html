@@ -779,12 +779,36 @@ END:VCALENDAR`;
     /************************************************************
      * INIT
      ************************************************************/
-    document.addEventListener("DOMContentLoaded", async () => {
-      // Close modal
-      $("close-modal").addEventListener("click", closeNewsletterModal);
-      $("newsletter-modal").addEventListener("click", (e) => {
-        if (e.target === $("newsletter-modal")) closeNewsletterModal();
-      });
+    let isRedirecting = false;
+function safeRedirect(url) {
+  if (isRedirecting) return;
+  isRedirecting = true;
+  window.location.replace(url);
+}
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // ✅ HARD session check FIRST (prevents redirect loop)
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    safeRedirect("login.html");
+    return;
+  }
+
+  // ✅ auth listener: redirect ONLY on real sign-out events
+  supabaseClient.auth.onAuthStateChange((event) => {
+    if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
+      safeRedirect("login.html");
+    }
+  });
+
+  // Close modal (your existing code)
+  $("close-modal").addEventListener("click", closeNewsletterModal);
+  $("newsletter-modal").addEventListener("click", (e) => {
+    if (e.target === $("newsletter-modal")) closeNewsletterModal();
+  });
+
+  // ...keep the rest of your existing init code below...
+});
 
       // Tabs
       document.querySelectorAll(".tab-btn").forEach((btn) => {
