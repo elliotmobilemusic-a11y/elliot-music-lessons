@@ -34,11 +34,13 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
 
+    html { -webkit-text-size-adjust: 100%; }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
       color: #e0e0e0;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
@@ -62,6 +64,8 @@
       letter-spacing: 0.08em;
       font-weight: 700;
       border-width: 1px;
+      line-height: 1.25;
+      white-space: nowrap;
     }
 
     /* Quill styling */
@@ -81,7 +85,7 @@
     .ql-editor { min-height: 180px; }
 
     /* Scrollbars */
-    .scroll-skinny::-webkit-scrollbar { width: 6px; }
+    .scroll-skinny::-webkit-scrollbar { width: 6px; height: 6px; }
     .scroll-skinny::-webkit-scrollbar-track { background: rgba(37, 37, 56, 0.8); }
     .scroll-skinny::-webkit-scrollbar-thumb {
       background: rgba(0, 208, 132, 0.6);
@@ -213,11 +217,12 @@
           <label class="block text-xs font-semibold text-brand-text-mid mb-1">
             Search profiles
           </label>
+          <!-- Mobile-friendly input size (prevents iOS zoom) -->
           <input
             id="user-search"
             type="text"
             placeholder="Name, email, phone, role, instrument, id..."
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
           />
         </div>
 
@@ -250,19 +255,28 @@
           </div>
         </div>
 
-        <div class="max-h-[460px] overflow-y-auto scroll-skinny">
-          <table class="min-w-full text-xs sm:text-sm">
-            <thead class="bg-brand-dark-bg/70 sticky top-0 z-10">
-              <tr>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Student</th>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Role</th>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Next lesson</th>
-                <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Weekly slot</th>
-                <th class="px-4 py-3 text-right font-semibold text-brand-text-mid">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="users-table-body" class="divide-y divide-[#333355]"></tbody>
-          </table>
+        <!-- ONE ACTION ROOT (mobile cards + desktop table) -->
+        <div id="users-actions">
+          <!-- ✅ MOBILE VIEW: cards -->
+          <div id="users-cards" class="sm:hidden p-3 space-y-2 max-h-[560px] overflow-y-auto scroll-skinny"></div>
+
+          <!-- ✅ DESKTOP VIEW: table -->
+          <div class="hidden sm:block max-h-[460px] overflow-y-auto scroll-skinny">
+            <div class="overflow-x-auto">
+              <table class="min-w-[860px] w-full text-xs sm:text-sm">
+                <thead class="bg-brand-dark-bg/70 sticky top-0 z-10">
+                  <tr>
+                    <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Student</th>
+                    <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Role</th>
+                    <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Next lesson</th>
+                    <th class="px-4 py-3 text-left font-semibold text-brand-text-mid">Weekly slot</th>
+                    <th class="px-4 py-3 text-right font-semibold text-brand-text-mid">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body" class="divide-y divide-[#333355]"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -292,7 +306,7 @@
         </div>
 
         <div class="mt-4">
-          <div id="schedule-list" class="space-y-2 max-h-[420px] overflow-y-auto scroll-skinny"></div>
+          <div id="schedule-list" class="space-y-2 max-h-[520px] sm:max-h-[420px] overflow-y-auto scroll-skinny"></div>
         </div>
       </div>
     </section>
@@ -318,7 +332,7 @@
               id="newsletter-title"
               type="text"
               placeholder="e.g. January Piano Progress & Holiday Updates"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
             />
           </div>
 
@@ -399,7 +413,7 @@
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Choose student profile</label>
             <select
               id="files-student-select"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
             >
               <option value="">Select a student...</option>
             </select>
@@ -422,7 +436,7 @@
         <div class="mt-4">
           <button
             id="upload-file-button"
-            class="px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold"
+            class="w-full sm:w-auto px-4 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-sm font-semibold"
           >
             ⬆ Upload File for Student
           </button>
@@ -432,9 +446,9 @@
       <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
         <div class="flex items-center justify-between mb-2">
           <h3 class="font-heading text-lg font-bold text-brand-text-light">Files for Selected Student</h3>
-          <span class="text-[0.7rem] text-brand-text-mid">Signed URLs used (works with private bucket).</span>
+          <span class="text-[0.7rem] text-brand-text-mid hidden sm:inline">Signed URLs used (works with private bucket).</span>
         </div>
-        <div id="file-list" class="space-y-2 max-h-72 overflow-y-auto scroll-skinny text-xs sm:text-sm">
+        <div id="file-list" class="space-y-2 max-h-80 sm:max-h-72 overflow-y-auto scroll-skinny text-xs sm:text-sm">
           <p class="text-brand-text-mid text-sm">Select a student above to view their attached files.</p>
         </div>
       </div>
@@ -476,13 +490,13 @@
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Full name</label>
             <input id="edit-full-name" type="text"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
               placeholder="Student name" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Instrument</label>
             <input id="edit-instrument" type="text"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
               placeholder="Piano / Singing / Guitar..." />
           </div>
         </div>
@@ -491,7 +505,7 @@
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Email (profile)</label>
             <input id="edit-email" type="email"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
               placeholder="parent@email.com" />
             <p class="text-[0.7rem] text-brand-text-mid mt-1">
               This edits <code>profiles.email</code> (not Supabase Auth email).
@@ -500,7 +514,7 @@
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Phone</label>
             <input id="edit-phone" type="tel"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
               placeholder="07..." />
           </div>
         </div>
@@ -509,7 +523,7 @@
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Status</label>
             <select id="edit-status"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
               <option value="active">Active</option>
               <option value="paused">Paused</option>
               <option value="inactive">Inactive</option>
@@ -519,7 +533,7 @@
           <div>
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Lesson duration (minutes)</label>
             <input id="edit-duration" type="number" min="10" step="5"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
               placeholder="30" />
           </div>
         </div>
@@ -533,7 +547,7 @@
           <div class="mt-3">
             <label class="block text-xs font-semibold text-brand-text-mid mb-1">Next lesson date/time</label>
             <input id="edit-next-lesson" type="datetime-local"
-              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+              class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
             <p class="text-[0.7rem] text-brand-text-mid mt-1">
               Stored in <code>profiles.next_lesson_at</code>.
             </p>
@@ -552,7 +566,7 @@
               <div>
                 <label class="block text-xs font-semibold text-brand-text-mid mb-1">Day of week</label>
                 <select id="edit-weekly-day"
-                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
                   <option value="1">Monday</option>
                   <option value="2">Tuesday</option>
                   <option value="3">Wednesday</option>
@@ -566,16 +580,16 @@
               <div>
                 <label class="block text-xs font-semibold text-brand-text-mid mb-1">Time</label>
                 <input id="edit-weekly-time" type="time"
-                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
+                  class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40" />
               </div>
 
-              <div class="sm:col-span-2 flex flex-wrap gap-2 pt-1">
+              <div class="sm:col-span-2 flex flex-col sm:flex-row flex-wrap gap-2 pt-1">
                 <button id="edit-calc-next"
-                  class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
+                  class="w-full sm:w-auto px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold">
                   Calculate next lesson from weekly slot
                 </button>
                 <button id="edit-clear-next"
-                  class="px-3 py-2 rounded-lg bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40 text-xs font-semibold">
+                  class="w-full sm:w-auto px-3 py-2 rounded-lg bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40 text-xs font-semibold">
                   Clear next lesson
                 </button>
               </div>
@@ -590,7 +604,7 @@
         <div>
           <label class="block text-xs font-semibold text-brand-text-mid mb-1">Admin notes (private)</label>
           <textarea id="edit-notes" rows="4"
-            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            class="w-full px-3 py-2 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 text-base sm:text-sm focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
             placeholder="Anything helpful: goals, parent preferences, cancellations, etc."></textarea>
           <p class="text-[0.7rem] text-brand-text-mid mt-1">
             Stored as <code>profiles.admin_notes</code> (only show to admin).
@@ -623,8 +637,7 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
     // ✅ IMPORTANT: bucket name must match Supabase Storage EXACTLY
-    // If your bucket is "student-files" or anything else, change it here.
-  const STUDENT_FILES_BUCKET = "STUDENT-FILES"; // <-- must match Supabase exactly
+    const STUDENT_FILES_BUCKET = "STUDENT-FILES";
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       db: { schema: "public" },
@@ -909,7 +922,7 @@
       filteredProfiles = [...allProfiles];
 
       updateStats();
-      renderUsersTable();
+      renderUsers();          // ✅ renders mobile + desktop
       populateStudentSelect();
       renderSchedule();
     }
@@ -950,9 +963,12 @@
       `;
     }
 
-    function renderUsersTable() {
+    // ✅ ONE renderer: desktop table + mobile cards
+    function renderUsers() {
       const tbody = $("users-table-body");
+      const cards = $("users-cards");
       tbody.innerHTML = "";
+      cards.innerHTML = "";
 
       if (!filteredProfiles.length) {
         tbody.innerHTML = `
@@ -961,6 +977,11 @@
               No profiles found yet.
             </td>
           </tr>
+        `;
+        cards.innerHTML = `
+          <div class="px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 text-brand-text-mid text-sm text-center">
+            No profiles found yet.
+          </div>
         `;
         return;
       }
@@ -973,6 +994,7 @@
         const nextLesson = p.next_lesson_at ? formatDate(p.next_lesson_at) : "—";
         const suspended = isSuspendedStatus(p.status);
 
+        // ----- Desktop row -----
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="px-4 py-3 align-top">
@@ -999,58 +1021,37 @@
 
           <td class="px-4 py-3 align-top text-right">
             <div class="inline-flex flex-wrap gap-1 justify-end">
-
-              <button
-                class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
-                data-action="edit"
-                data-id="${p.id}"
-              >
-                Edit
-              </button>
+              <button class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
+                data-action="edit" data-id="${p.id}">Edit</button>
 
               ${role !== "admin" ? `
-                <button
-                  class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
-                  data-action="toggle-suspend"
-                  data-id="${p.id}"
-                >
+                <button class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                  data-action="toggle-suspend" data-id="${p.id}">
                   ${suspended ? "Reactivate" : "Suspend"}
                 </button>
               ` : ""}
 
               ${role !== "admin" ? `
-                <button
-                  class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-[0.7rem] text-error-red hover:bg-red-900/40"
-                  data-action="delete-student"
-                  data-id="${p.id}"
-                >
+                <button class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-[0.7rem] text-error-red hover:bg-red-900/40"
+                  data-action="delete-student" data-id="${p.id}">
                   Delete
                 </button>
               ` : ""}
 
               ${role === "pending" ? `
-                <button
-                  class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
-                  data-action="approve-student"
-                  data-id="${p.id}"
-                >
+                <button class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg text-[0.7rem] font-semibold"
+                  data-action="approve-student" data-id="${p.id}">
                   Approve
                 </button>
               ` : ""}
 
               ${role !== "admin"
-                ? `<button
-                    class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
-                    data-action="make-admin"
-                    data-id="${p.id}"
-                  >
+                ? `<button class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                    data-action="make-admin" data-id="${p.id}">
                     Make admin
                   </button>`
-                : `<button
-                    class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
-                    data-action="make-student"
-                    data-id="${p.id}"
-                  >
+                : `<button class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-[0.7rem] text-brand-text-mid hover:border-brand-accent-light"
+                    data-action="make-student" data-id="${p.id}">
                     Make student
                   </button>`
               }
@@ -1058,6 +1059,73 @@
           </td>
         `;
         tbody.appendChild(tr);
+
+        // ----- Mobile card -----
+        const card = document.createElement("div");
+        card.className = "rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/50 p-3";
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="font-semibold text-brand-text-light truncate">${safeText(displayName)}</div>
+              <div class="mt-1 flex flex-wrap items-center gap-2">
+                ${roleBadge(role)}
+                ${statusBadge(p.status)}
+                ${p.instrument ? `<span class="text-[0.7rem] text-brand-text-mid">🎵 ${safeText(p.instrument)}</span>` : ``}
+              </div>
+
+              <div class="mt-2 text-[0.8rem] text-brand-text-mid space-y-1">
+                <div><span class="opacity-80">Next lesson:</span> <span class="text-brand-text-light/90">${safeText(nextLesson)}</span></div>
+                <div><span class="opacity-80">Weekly slot:</span> ${weeklyBadge(p)}</div>
+                ${email ? `<div class="break-all"><span class="opacity-80">Email:</span> <a class="hover:text-brand-accent-light" href="mailto:${encodeURIComponent(email)}">${safeText(email)}</a></div>` : ``}
+                ${phone ? `<div><span class="opacity-80">Phone:</span> <a class="hover:text-brand-accent-light" href="tel:${encodeURIComponent(phone)}">${safeText(phone)}</a></div>` : ``}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+            <button class="px-3 py-2 rounded-lg bg-brand-accent-light text-brand-dark-bg font-semibold"
+              data-action="edit" data-id="${p.id}">
+              Edit
+            </button>
+
+            ${role !== "admin" ? `
+              <button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light font-semibold"
+                data-action="toggle-suspend" data-id="${p.id}">
+                ${suspended ? "Reactivate" : "Suspend"}
+              </button>
+            ` : `
+              <button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid opacity-60 cursor-not-allowed" disabled>
+                Admin
+              </button>
+            `}
+
+            ${role !== "admin" ? `
+              <button class="px-3 py-2 rounded-lg bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40 font-semibold col-span-2"
+                data-action="delete-student" data-id="${p.id}">
+                Delete student
+              </button>
+            ` : ""}
+
+            ${role === "pending" ? `
+              <button class="px-3 py-2 rounded-lg bg-brand-accent-light text-brand-dark-bg font-semibold col-span-2"
+                data-action="approve-student" data-id="${p.id}">
+                Approve
+              </button>
+            ` : ""}
+
+            ${role !== "admin"
+              ? `<button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light font-semibold col-span-2"
+                   data-action="make-admin" data-id="${p.id}">
+                   Make admin
+                 </button>`
+              : `<button class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light font-semibold col-span-2"
+                   data-action="make-student" data-id="${p.id}">
+                   Make student
+                 </button>`
+            }
+          </div>
+        `;
+        cards.appendChild(card);
       });
     }
 
@@ -1073,7 +1141,7 @@
           return combo.includes(term);
         });
       }
-      renderUsersTable();
+      renderUsers();
     }
 
     function sortUsers(mode) {
@@ -1099,7 +1167,7 @@
         return 0;
       });
 
-      renderUsersTable();
+      renderUsers();
     }
 
     async function updateUserRole(id, role) {
@@ -1279,7 +1347,7 @@
           : `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">ONE-OFF</span>`;
 
         const row = document.createElement("div");
-        row.className = "px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 flex items-start justify-between gap-3";
+        row.className = "px-3 py-3 rounded-lg bg-brand-dark-bg/60 border border-brand-accent-dark/50 flex flex-col sm:flex-row sm:items-start justify-between gap-3";
         row.innerHTML = `
           <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
@@ -1290,9 +1358,9 @@
             <div class="text-sm text-brand-text-mid mt-1">${safeText(when)}</div>
           </div>
 
-          <div class="flex flex-col items-end gap-2 shrink-0">
+          <div class="flex flex-col sm:items-end gap-2 shrink-0 w-full sm:w-auto">
             <button
-              class="px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold"
+              class="w-full sm:w-auto px-3 py-2 rounded-lg bg-brand-accent-light hover:bg-brand-accent-dark text-brand-dark-bg text-xs font-semibold"
               data-action="schedule-edit"
               data-id="${p.id}"
             >
@@ -1300,7 +1368,7 @@
             </button>
 
             <button
-              class="px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold"
+              class="w-full sm:w-auto px-3 py-2 rounded-lg bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light text-xs font-semibold"
               data-action="schedule-done"
               data-id="${p.id}"
             >
@@ -1704,18 +1772,18 @@
 
             const row = document.createElement("div");
             row.className =
-              "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
+              "flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
             row.innerHTML = `
-              <div class="text-[0.8rem] sm:text-xs min-w-0">
+              <div class="text-[0.95rem] sm:text-xs min-w-0">
                 <div class="font-semibold text-brand-text-light break-all">${safeText(file.name)}</div>
               </div>
-              <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-[0.8rem] sm:text-[0.7rem] shrink-0 w-full sm:w-auto">
                 <a href="${url}" target="_blank" rel="noreferrer"
-                   class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
+                   class="w-full sm:w-auto text-center px-2 py-2 sm:py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
                   View / Download
                 </a>
                 <button type="button"
-                  class="px-2 py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
+                  class="w-full sm:w-auto px-2 py-2 sm:py-1 rounded-md bg-card-bg border border-error-red/60 text-error-red hover:bg-red-900/40"
                   data-file="${file.name}" data-student="${studentId}">
                   Delete
                 </button>
@@ -1838,13 +1906,13 @@
         btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
       });
 
-      // Users: search + sort + row actions
+      // Users: search + sort + row actions (✅ now listens on cards + table)
       $("user-search").addEventListener("input", applyUserSearch);
       document.querySelectorAll(".user-sort").forEach((btn) => {
         btn.addEventListener("click", () => sortUsers(btn.getAttribute("data-sort")));
       });
 
-      $("users-table-body").addEventListener("click", (event) => {
+      $("users-actions").addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-action]");
         if (!btn) return;
 
