@@ -4,13 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Portal – Elliot’s Mobile Music</title>
+  <link rel="icon" href="./favicon.png" type="image/png" />
 
-  <!-- GitHub Pages friendly favicon path -->
-  <link rel="icon" href="./favicon.png" />
-
-  <!-- Tailwind (CDN ok for now) -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -23,6 +20,7 @@
             "brand-text-mid": "#a0a0a0",
             "brand-highlight": "#ffb703",
             "card-bg": "#252538",
+            "error-red": "#f87171",
           },
           fontFamily: {
             sans: ["Inter", "sans-serif"],
@@ -35,176 +33,287 @@
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
-
     body {
-      background: #1a1a2e;
+      font-family: Inter, sans-serif;
+      background-color: #1a1a2e;
       color: #e0e0e0;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
-
-    .card-glow { box-shadow: 0 0 35px rgba(0, 208, 132, 0.15); }
-    .modal-bg { backdrop-filter: blur(6px); background: rgba(0,0,0,0.55); }
+    .card-glow { box-shadow: 0 0 30px rgba(0, 208, 132, 0.15); }
+    .tab-active {
+      border-color: #00d084;
+      background-color: rgba(0, 208, 132, 0.1);
+      color: #e0e0e0;
+    }
+    .tab-inactive {
+      border-color: rgba(160, 160, 190, 0.3);
+      background-color: transparent;
+      color: #a0a0a0;
+    }
+    .pill-badge {
+      border-radius: 999px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      border-width: 1px;
+    }
+    .scroll-skinny::-webkit-scrollbar { width: 6px; }
+    .scroll-skinny::-webkit-scrollbar-track { background: rgba(37, 37, 56, 0.8); }
+    .scroll-skinny::-webkit-scrollbar-thumb {
+      background: rgba(0, 208, 132, 0.6);
+      border-radius: 999px;
+    }
+    .modal-bg {
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+    }
     .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) { text-decoration: underline; }
   </style>
 
   <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- DOMPurify for safe HTML rendering -->
+  <!-- Safe HTML rendering -->
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 
-  <!-- Lucide icons -->
+  <!-- Lucide Icons -->
   <script type="module">
-    import { createIcons, LogOut, Newspaper, FolderOpen, BadgePoundSterling, Calendar, ClipboardList, Upload, MessageSquare } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
-    createIcons({ icons: { LogOut, Newspaper, FolderOpen, BadgePoundSterling, Calendar, ClipboardList, Upload, MessageSquare } });
+    import { createIcons, LogOut, Newspaper, FolderOpen, ClipboardList, MessageSquare, BadgePoundSterling } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
+    createIcons({ icons: { LogOut, Newspaper, FolderOpen, ClipboardList, MessageSquare, BadgePoundSterling } });
   </script>
 </head>
 
 <body class="min-h-screen flex flex-col">
 
   <!-- NAV -->
-  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2">
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-accent-light">
-            <circle cx="8" cy="18" r="4"></circle>
-            <path d="M12 18V2l7 4"></path>
-          </svg>
-        </span>
-        <span class="font-heading tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
-          STUDENT PORTAL
-        </span>
-      </a>
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center space-x-2">
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-5 h-5 text-brand-accent-light">
+              <circle cx="8" cy="18" r="4"></circle>
+              <path d="M12 18V2l7 4"></path>
+            </svg>
+          </span>
+          <span class="text-xs sm:text-sm font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+            ELLIOT'S MOBILE MUSIC – PORTAL
+          </span>
+        </a>
 
-      <div class="flex items-center gap-4">
-        <div class="hidden sm:block text-right">
-          <div id="student-name" class="text-sm text-brand-text-light font-semibold">Loading…</div>
-          <div id="student-email" class="text-xs text-brand-text-mid"></div>
+        <div class="flex items-center space-x-3 text-xs sm:text-sm">
+          <span
+            id="student-user-pill"
+            class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid"
+          >
+            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+            <span>Logged in…</span>
+          </span>
+
+          <button
+            id="logout-btn"
+            class="px-3 py-1 rounded-lg bg-card-bg border border-brand-accent-dark/50 text-brand-text-mid hover:bg-brand-accent-dark hover:text-brand-dark-bg text-xs font-semibold transition"
+          >
+            <span class="inline-flex items-center gap-2">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              Log out
+            </span>
+          </button>
         </div>
-
-        <button id="logout-btn" class="flex items-center gap-2 text-brand-text-light hover:text-white">
-          <i data-lucide="log-out" class="w-5 h-5"></i>
-          <span class="hidden sm:inline">Logout</span>
-        </button>
       </div>
     </div>
   </nav>
 
   <!-- MAIN -->
-  <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-grow">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-grow">
+    <div id="global-error" class="hidden mb-4 p-3 rounded-lg bg-red-900/40 border border-error-red text-error-red text-sm"></div>
 
-    <!-- Welcome -->
-    <section class="bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow mb-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <header class="mb-6 sm:mb-8">
+      <p class="text-[0.7rem] tracking-[0.22em] font-semibold text-brand-highlight uppercase mb-2">
+        Student Dashboard
+      </p>
+
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h1 class="font-heading text-2xl sm:text-3xl text-brand-accent-light">Welcome 👋</h1>
-          <p class="text-brand-text-mid mt-1">
-            Here you’ll find the latest newsletters and your lesson files/resources.
+          <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
+            Welcome, <span id="welcome-name" class="text-brand-accent-light">Student</span>
+          </h1>
+          <p id="welcome-sub" class="text-sm sm:text-base text-brand-text-mid mt-1 max-w-xl">
+            Your newsletters, resources, and lesson details — all in one place.
           </p>
         </div>
-        <div class="text-xs text-brand-text-mid">
-          <span class="inline-flex items-center gap-2 bg-brand-dark-bg/60 border border-brand-accent-dark/30 rounded-full px-3 py-1">
-            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
-            Student dashboard
-          </span>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
+            <p class="text-brand-text-mid">Instrument</p>
+            <p id="stat-instrument" class="text-lg font-bold text-brand-accent-light">–</p>
+          </div>
+          <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
+            <p class="text-brand-text-mid">Duration</p>
+            <p id="stat-duration" class="text-lg font-bold text-brand-accent-light">–</p>
+          </div>
+          <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
+            <p class="text-brand-text-mid">Next lesson</p>
+            <p id="stat-next" class="text-lg font-bold text-brand-highlight">–</p>
+          </div>
+          <div class="bg-card-bg/90 border border-brand-accent-dark/50 rounded-lg px-3 py-2 text-center">
+            <p class="text-brand-text-mid">Status</p>
+            <p id="stat-status" class="text-lg font-bold text-brand-accent-light">–</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="mb-6 flex flex-wrap gap-2">
+      <button class="tab-btn tab-active px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="home">📰 Home</button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="schedule">📅 Schedule</button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="files">📁 Files</button>
+      <button class="tab-btn tab-inactive px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold" data-tab="practice">📝 Practice</button>
+    </div>
+
+    <!-- HOME TAB -->
+    <section id="tab-home" class="space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_minmax(0,1fr)] gap-5">
+        <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-3 gap-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="newspaper" class="w-5 h-5 text-brand-accent-light"></i>
+              <h2 class="font-heading text-xl font-bold text-brand-text-light">Latest Newsletters</h2>
+            </div>
+            <span id="newsletters-status" class="text-xs text-brand-text-mid"></span>
+          </div>
+
+          <div id="newsletter-list" class="space-y-2 max-h-[520px] overflow-y-auto scroll-skinny"></div>
+
+          <div id="no-newsletters" class="hidden text-center text-brand-text-mid py-8">
+            <p>No newsletters have been published yet.</p>
+          </div>
+
+          <div id="newsletters-error" class="hidden mt-4 text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3"></div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-heading text-lg font-bold text-brand-text-light">Next Lesson</h3>
+              <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">VISIBLE TO STUDENT</span>
+            </div>
+
+            <div class="mt-3">
+              <div class="text-sm text-brand-text-mid">Scheduled for</div>
+              <div id="next-lesson-text" class="text-xl font-bold text-brand-highlight mt-1">–</div>
+              <div id="weekly-badge-wrap" class="mt-3"></div>
+            </div>
+
+            <p class="mt-3 text-[0.7rem] text-brand-text-mid">
+              This comes from <code>profiles.next_lesson_at</code> + weekly fields.
+            </p>
+          </div>
+
+          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="badge-pound-sterling" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Payment Status</div>
+              <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
+            </div>
+            <p class="text-xs text-brand-text-mid mt-2">Marker: future <code>payments</code> table here.</p>
+          </div>
+
+          <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="message-square" class="w-4 h-4 text-brand-accent-light"></i>
+              <div class="font-semibold">Parent Messaging</div>
+              <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
+            </div>
+            <p class="text-xs text-brand-text-mid mt-2">Marker: future <code>messages</code> table here.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- SCHEDULE TAB -->
+    <section id="tab-schedule" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Lesson Schedule</h2>
+            <p class="text-xs sm:text-sm text-brand-text-mid">
+              Uses <code>profiles.next_lesson_at</code> and weekly slot fields (if enabled).
+            </p>
+          </div>
+          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">STUDENT VIEW</span>
+        </div>
 
-      <!-- Newsletters -->
-      <section class="lg:col-span-2 bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow">
-        <div class="flex items-center justify-between mb-4">
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
+            <div class="text-xs text-brand-text-mid">Next lesson</div>
+            <div id="schedule-next" class="text-lg font-bold text-brand-highlight mt-1">–</div>
+            <div class="mt-2 text-xs text-brand-text-mid">
+              Duration: <span id="schedule-duration" class="text-brand-text-light font-semibold">–</span>
+            </div>
+          </div>
+
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/50 rounded-xl p-4">
+            <div class="text-xs text-brand-text-mid">Weekly slot</div>
+            <div id="schedule-weekly" class="text-lg font-bold text-brand-accent-light mt-1">–</div>
+            <p class="mt-2 text-[0.7rem] text-brand-text-mid">
+              Stored in <code>weekly_day</code> + <code>weekly_time</code> when enabled.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILES TAB -->
+    <section id="tab-files" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-center justify-between mb-2">
           <div class="flex items-center gap-2">
-            <i data-lucide="newspaper" class="w-5 h-5 text-brand-accent-light"></i>
-            <h2 class="font-heading text-xl text-brand-highlight">Latest Newsletters</h2>
+            <i data-lucide="folder-open" class="w-5 h-5 text-brand-accent-light"></i>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Your Files</h2>
           </div>
-          <div id="newsletters-status" class="text-xs text-brand-text-mid"></div>
+          <span id="files-status" class="text-xs text-brand-text-mid"></span>
         </div>
 
-        <div id="newsletter-list" class="space-y-3"></div>
+        <p class="text-xs sm:text-sm text-brand-text-mid mb-4">
+          Files are stored as <code>student_files/{your_user_id}/filename</code>.
+        </p>
 
-        <div id="no-newsletters" class="hidden text-center text-brand-text-mid py-10">
-          <i data-lucide="newspaper" class="w-10 h-10 mx-auto mb-3"></i>
-          <p>No newsletters have been published yet.</p>
+        <div id="files-list" class="space-y-2 max-h-[520px] overflow-y-auto scroll-skinny"></div>
+
+        <div id="no-files" class="hidden text-center text-brand-text-mid py-8">
+          <p>No files uploaded yet.</p>
+          <p class="text-xs mt-1">Elliot will add resources here.</p>
         </div>
 
-        <div id="newsletters-error" class="hidden mt-4 text-sm text-red-300 bg-red-950/30 border border-red-500/30 rounded-xl p-3"></div>
-      </section>
+        <div id="files-error" class="hidden mt-4 text-sm text-error-red bg-red-900/30 border border-error-red/60 rounded-lg p-3"></div>
+      </div>
+    </section>
 
-      <!-- Files + placeholders -->
-      <aside class="bg-card-bg border border-brand-accent-dark/40 rounded-2xl p-5 card-glow">
-
-        <!-- Files -->
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="folder-open" class="w-5 h-5 text-brand-accent-light"></i>
-          <h2 class="font-heading text-xl text-brand-highlight">Your Files</h2>
+    <!-- PRACTICE TAB -->
+    <section id="tab-practice" class="hidden space-y-4">
+      <div class="bg-card-bg/90 border border-brand-accent-dark/60 rounded-xl card-glow p-4 sm:p-5">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="clipboard-list" class="w-5 h-5 text-brand-accent-light"></i>
+            <h2 class="font-heading text-xl font-bold text-brand-text-light">Practice Notes</h2>
+          </div>
+          <span class="pill-badge bg-brand-highlight/15 text-brand-highlight border-brand-highlight/60">COMING SOON</span>
         </div>
 
-        <div id="files-status" class="text-xs text-brand-text-mid mb-3"></div>
-        <div id="files-list" class="space-y-2"></div>
-
-        <div id="no-files" class="hidden text-center text-brand-text-mid py-6">
-          <p>No files found yet.</p>
-          <p class="text-xs mt-1">Your teacher will add resources here.</p>
-        </div>
-
-        <div id="files-error" class="hidden mt-4 text-sm text-red-300 bg-red-950/30 border border-red-500/30 rounded-xl p-3"></div>
-
-        <!-- Future features placeholders -->
-        <div class="mt-6 pt-5 border-t border-brand-accent-dark/30 space-y-3">
-          <div class="text-xs text-brand-text-mid">Coming soon</div>
-
-          <!-- Marker: Payment status -->
-          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="badge-pound-sterling" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Payment Status</div>
-            </div>
-            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
-          </div>
-
-          <!-- Marker: Lesson schedule -->
-          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="calendar" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Lesson Schedule</div>
-            </div>
-            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
-          </div>
-
-          <!-- Marker: Practice notes -->
-          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Practice Notes</div>
-            </div>
-            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 2).</div>
-          </div>
-
-          <!-- Marker: Homework uploads -->
-          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="upload" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Homework Uploads</div>
-            </div>
-            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 3).</div>
-          </div>
-
-          <!-- Marker: Parent messaging -->
-          <div class="bg-brand-dark-bg/50 border border-brand-accent-dark/25 rounded-xl p-3">
-            <div class="flex items-center gap-2">
-              <i data-lucide="message-square" class="w-4 h-4 text-brand-accent-light"></i>
-              <div class="font-semibold">Parent Messaging</div>
-            </div>
-            <div class="text-xs text-brand-text-mid mt-1">Placeholder (Phase 3).</div>
-          </div>
-        </div>
-      </aside>
-    </div>
+        <p class="text-xs sm:text-sm text-brand-text-mid mt-3">
+          Marker: future <code>practice_notes</code> table here.
+        </p>
+      </div>
+    </section>
   </main>
 
   <!-- Newsletter Modal -->
@@ -219,67 +328,62 @@
 
   <script>
     /************************************************************
-     * SUPABASE CONFIG
+     * Supabase config
      ************************************************************/
     const SUPABASE_URL = "https://gorrhpliwhpznmdqhzjo.supabase.co";
     const SUPABASE_ANON_KEY =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvcnJocGxpd2hwem5tZHFoempvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxMzAxMzYsImV4cCI6MjA4MDcwNjEzNn0.lqQGk_KT4kQQyqGJA-P8nZr1ksE5NOQvzpvYPD1JYGM";
 
-    // Public bucket name
-    const STUDENT_FILES_BUCKET = "student_files";
-
-    // IMPORTANT: don't call this "supabase" (it clashes with the global)
+    const STUDENT_FILES_BUCKET = "student_files"; // public bucket
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    /************************************************************
-     * DOM REFS
-     ************************************************************/
-    const elStudentName = document.getElementById("student-name");
-    const elStudentEmail = document.getElementById("student-email");
-
-    const logoutBtn = document.getElementById("logout-btn");
-
-    const newsletterList = document.getElementById("newsletter-list");
-    const noNewsletters = document.getElementById("no-newsletters");
-    const newslettersStatus = document.getElementById("newsletters-status");
-    const newslettersError = document.getElementById("newsletters-error");
-
-    const filesList = document.getElementById("files-list");
-    const noFiles = document.getElementById("no-files");
-    const filesStatus = document.getElementById("files-status");
-    const filesError = document.getElementById("files-error");
-
-    const modal = document.getElementById("newsletter-modal");
-    const modalTitle = document.getElementById("modal-title");
-    const modalDate = document.getElementById("modal-date");
-    const modalContent = document.getElementById("modal-content");
-    const closeModal = document.getElementById("close-modal");
+    const $ = (id) => document.getElementById(id);
 
     /************************************************************
-     * HELPERS
+     * Redirect helper (cannot be redeclared)
      ************************************************************/
-    function go(url) { window.location.href = url; }
+    if (!window.__emmRedirect) window.__emmRedirect = { active: false };
 
-    function fmtDate(iso) {
-      try {
-        return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-      } catch (e) {
-        return "";
-      }
+    function safeRedirect(url) {
+      if (window.__emmRedirect.active) return;
+      window.__emmRedirect.active = true;
+      window.location.replace(url);
     }
 
-    function showError(el, msg) {
-      el.textContent = msg;
-      el.classList.remove("hidden");
+    /************************************************************
+     * UI helpers
+     ************************************************************/
+    function showGlobalError(message) {
+      const box = $("global-error");
+      if (!box) return;
+      box.textContent = message;
+      box.classList.remove("hidden");
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function clearError(el) {
-      el.textContent = "";
-      el.classList.add("hidden");
+    function hideGlobalError() {
+      const box = $("global-error");
+      if (!box) return;
+      box.classList.add("hidden");
+      box.textContent = "";
+    }
+
+    function formatDate(value) {
+      if (!value) return "–";
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return "–";
+      return d.toLocaleString("en-GB", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
 
     function escapeHtml(str) {
-      return String(str)
+      return String(str ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -287,57 +391,123 @@
         .replaceAll("'", "&#039;");
     }
 
+    function weeklyBadgeHtml(profile) {
+      if (!profile.weekly_enabled) {
+        return `<span class="pill-badge bg-card-bg text-brand-text-mid border-brand-accent-dark/40">ONE-OFF</span>`;
+      }
+      const day = Number(profile.weekly_day);
+      const time = profile.weekly_time || "";
+      const map = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      return `
+        <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40">
+          WEEKLY • ${map[day] || "?"} ${escapeHtml(time)}
+        </span>
+      `;
+    }
+
+    /************************************************************
+     * Tabs
+     ************************************************************/
+    function switchTab(tabName) {
+      const sections = {
+        home: $("tab-home"),
+        schedule: $("tab-schedule"),
+        files: $("tab-files"),
+        practice: $("tab-practice"),
+      };
+
+      Object.entries(sections).forEach(([key, el]) => {
+        if (!el) return;
+        if (key === tabName) el.classList.remove("hidden");
+        else el.classList.add("hidden");
+      });
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        const name = btn.getAttribute("data-tab");
+        if (name === tabName) {
+          btn.classList.remove("tab-inactive");
+          btn.classList.add("tab-active");
+        } else {
+          btn.classList.remove("tab-active");
+          btn.classList.add("tab-inactive");
+        }
+      });
+    }
+
     /************************************************************
      * AUTH + ROLE PROTECTION
      ************************************************************/
-    async function protectRouteAndGetUser() {
-      const userRes = await supabaseClient.auth.getUser();
-      const user = userRes && userRes.data ? userRes.data.user : null;
+    async function ensureStudent() {
+      hideGlobalError();
 
-      // Not logged in
-      if (!user) {
-        go("login.html");
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data?.user) {
+        safeRedirect("login.html");
         return null;
       }
 
-      // profiles.id is auth.users.id (you confirmed via schema)
-      const profileRes = await supabaseClient
+      const user = data.user;
+
+      const { data: profile, error: profileError } = await supabaseClient
         .from("profiles")
-        .select("role, full_name, email, status")
+        .select("id, full_name, email, role, status, instrument, lesson_duration_min, next_lesson_at, weekly_enabled, weekly_day, weekly_time")
         .eq("id", user.id)
-        .maybeSingle();
+        .single();
 
-      if (profileRes.error || !profileRes.data) {
-        console.error("Profile error:", profileRes.error);
-        await supabaseClient.auth.signOut();
-        go("login.html");
+      if (profileError || !profile) {
+        console.error(profileError);
+        showGlobalError("Your profile could not be loaded. Make sure your profiles row exists.");
         return null;
       }
 
-      const profile = profileRes.data;
-
-      // Admins go back to admin page
       if (profile.role === "admin") {
-        go("admin.html");
+        safeRedirect("admin.html");
         return null;
       }
 
-      // Only students allowed
       if (profile.role !== "student") {
-        go("login.html");
+        safeRedirect("login.html");
         return null;
       }
 
-      // Optional: block inactive/paused
       if (profile.status && profile.status !== "active") {
         await supabaseClient.auth.signOut();
-        go("login.html");
+        safeRedirect("login.html");
         return null;
       }
 
-      // Fill header
-      elStudentName.textContent = profile.full_name ? profile.full_name : "Student";
-      elStudentEmail.textContent = user.email || profile.email || "";
+      const name = profile.full_name || user.email || "Student";
+      $("welcome-name").textContent = name;
+
+      const pill = $("student-user-pill");
+      if (pill) {
+        pill.innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+          <span>${escapeHtml(profile.full_name || user.email || "Student")}</span>
+          <span class="pill-badge bg-brand-accent-light/10 text-brand-accent-light border-brand-accent-light/40 ml-2">STUDENT</span>
+        `;
+        pill.classList.remove("hidden");
+      }
+
+      $("stat-instrument").textContent = profile.instrument ? profile.instrument : "–";
+      $("stat-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + "m") : "–";
+      $("stat-next").textContent = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "–";
+      $("stat-status").textContent = profile.status ? profile.status : "–";
+
+      const nextText = profile.next_lesson_at ? formatDate(profile.next_lesson_at) : "Not set yet";
+      $("next-lesson-text").textContent = nextText;
+      $("schedule-next").textContent = nextText;
+
+      $("schedule-duration").textContent = profile.lesson_duration_min ? (profile.lesson_duration_min + " minutes") : "–";
+      $("weekly-badge-wrap").innerHTML = weeklyBadgeHtml(profile);
+
+      if (profile.weekly_enabled) {
+        const map = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const dayName = map[Number(profile.weekly_day)] || "–";
+        $("schedule-weekly").textContent = (profile.weekly_time ? (dayName + " at " + profile.weekly_time) : dayName);
+      } else {
+        $("schedule-weekly").textContent = "Not weekly";
+      }
 
       return { user, profile };
     }
@@ -346,172 +516,183 @@
      * NEWSLETTERS (published only)
      ************************************************************/
     async function loadNewsletters() {
-      clearError(newslettersError);
-      newslettersStatus.textContent = "Loading…";
-      newsletterList.innerHTML = "";
-      noNewsletters.classList.add("hidden");
+      const listEl = $("newsletter-list");
+      const emptyEl = $("no-newsletters");
+      const statusEl = $("newsletters-status");
+      const errEl = $("newsletters-error");
 
-      const res = await supabaseClient
+      listEl.innerHTML = "";
+      emptyEl.classList.add("hidden");
+      errEl.classList.add("hidden");
+      errEl.textContent = "";
+      statusEl.textContent = "Loading…";
+
+      const { data, error } = await supabaseClient
         .from("newsletters")
         .select("id, title, content_html, created_at")
         .eq("published", true)
         .order("created_at", { ascending: false });
 
-      newslettersStatus.textContent = "";
+      statusEl.textContent = "";
 
-      if (res.error) {
-        console.error("Newsletters error:", res.error);
-        showError(newslettersError, "Couldn’t load newsletters. (RLS policy may be missing)");
+      if (error) {
+        console.error(error);
+        errEl.textContent = "Could not load newsletters (check RLS policy for published newsletters).";
+        errEl.classList.remove("hidden");
         return;
       }
 
-      const newsletters = res.data || [];
-
-      if (newsletters.length === 0) {
-        noNewsletters.classList.remove("hidden");
+      if (!data || !data.length) {
+        emptyEl.classList.remove("hidden");
         return;
       }
 
-      newsletters.forEach(function (n) {
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className =
-          "w-full text-left bg-brand-dark-bg/40 p-4 rounded-xl border border-brand-accent-dark/35 hover:border-brand-accent-light/50 transition card-glow";
+      data.forEach((n) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className =
+          "w-full text-left px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/50 hover:border-brand-accent-light transition";
 
-        card.innerHTML = `
+        item.innerHTML = `
           <div class="flex items-start justify-between gap-3">
-            <div>
-              <div class="text-lg font-heading text-brand-accent-light">${escapeHtml(n.title || "Untitled")}</div>
-              <div class="text-xs text-brand-text-mid mt-1">${fmtDate(n.created_at)}</div>
+            <div class="min-w-0">
+              <div class="font-semibold text-brand-text-light truncate">${escapeHtml(n.title || "(Untitled)")}</div>
+              <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${formatDate(n.created_at)}</div>
             </div>
-            <div class="text-xs text-brand-text-mid">Open</div>
+            <div class="text-[0.7rem] text-brand-text-mid shrink-0">Open</div>
           </div>
         `;
 
-        card.addEventListener("click", function () {
-          openNewsletterModal(n);
-        });
-
-        newsletterList.appendChild(card);
+        item.addEventListener("click", () => openNewsletterModal(n));
+        listEl.appendChild(item);
       });
     }
 
-    function openNewsletterModal(newsletter) {
-      modalTitle.textContent = newsletter.title || "Untitled";
-      modalDate.textContent = fmtDate(newsletter.created_at);
+    function openNewsletterModal(n) {
+      $("modal-title").textContent = n.title || "(Untitled)";
+      $("modal-date").textContent = formatDate(n.created_at);
 
-      // Safe HTML rendering
-      modalContent.innerHTML = window.DOMPurify
-        ? window.DOMPurify.sanitize(newsletter.content_html || "")
-        : (newsletter.content_html || "");
+      const safe = window.DOMPurify
+        ? window.DOMPurify.sanitize(n.content_html || "", { USE_PROFILES: { html: true } })
+        : (n.content_html || "");
 
-      modal.classList.remove("hidden");
+      $("modal-content").innerHTML = safe;
+      $("newsletter-modal").classList.remove("hidden");
     }
 
     function closeNewsletterModal() {
-      modal.classList.add("hidden");
-      modalTitle.textContent = "";
-      modalDate.textContent = "";
-      modalContent.innerHTML = "";
+      $("newsletter-modal").classList.add("hidden");
+      $("modal-title").textContent = "";
+      $("modal-date").textContent = "";
+      $("modal-content").innerHTML = "";
     }
 
     /************************************************************
-     * STUDENT FILES (PUBLIC BUCKET)
+     * FILES (public bucket)
      ************************************************************/
     async function loadStudentFiles(userId) {
-      clearError(filesError);
-      filesStatus.textContent = "Loading…";
-      filesList.innerHTML = "";
-      noFiles.classList.add("hidden");
+      const listEl = $("files-list");
+      const emptyEl = $("no-files");
+      const statusEl = $("files-status");
+      const errEl = $("files-error");
 
-      const listRes = await supabaseClient.storage
+      listEl.innerHTML = "";
+      emptyEl.classList.add("hidden");
+      errEl.classList.add("hidden");
+      errEl.textContent = "";
+      statusEl.textContent = "Loading…";
+
+      const { data, error } = await supabaseClient.storage
         .from(STUDENT_FILES_BUCKET)
-        .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
+        .list(`${userId}/`, { limit: 100, sortBy: { column: "updated_at", order: "desc" } });
 
-      filesStatus.textContent = "";
+      statusEl.textContent = "";
 
-      if (listRes.error) {
-        console.error("Files list error:", listRes.error);
-        showError(filesError, "Couldn’t load files. (Storage policy may be missing)");
+      if (error) {
+        console.error(error);
+        errEl.textContent = "Could not list your files (check storage policies).";
+        errEl.classList.remove("hidden");
         return;
       }
 
-      const items = listRes.data || [];
-
-      if (items.length === 0) {
-        noFiles.classList.remove("hidden");
+      if (!data || !data.length) {
+        emptyEl.classList.remove("hidden");
         return;
       }
 
-      items.forEach(function (file) {
-        const path = userId + "/" + file.name;
-        const publicUrlRes = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(path);
-        const publicUrl = publicUrlRes && publicUrlRes.data ? publicUrlRes.data.publicUrl : "#";
+      data.forEach((file) => {
+        const path = `${userId}/${file.name}`;
+        const pub = supabaseClient.storage.from(STUDENT_FILES_BUCKET).getPublicUrl(path);
+        const url = pub?.data?.publicUrl || "#";
 
         const row = document.createElement("div");
-        row.className = "bg-brand-dark-bg/40 border border-brand-accent-dark/30 rounded-xl p-3";
+        row.className =
+          "flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-brand-dark-bg/70 border border-brand-accent-dark/60";
 
         row.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="font-semibold text-brand-text-light truncate">${escapeHtml(file.name)}</div>
-              <div class="text-xs text-brand-text-mid mt-1">
-                ${file.updated_at ? ("Updated " + fmtDate(file.updated_at)) : ""}
-              </div>
-            </div>
-
-            <div class="flex gap-2 shrink-0">
-              <a class="text-xs px-3 py-1 rounded-lg border border-brand-accent-dark/40 hover:border-brand-accent-light/60"
-                 href="${publicUrl}" target="_blank" rel="noopener noreferrer">
-                View
-              </a>
-              <a class="text-xs px-3 py-1 rounded-lg bg-brand-accent-light/15 border border-brand-accent-light/40 hover:bg-brand-accent-light/20"
-                 href="${publicUrl}" download>
-                Download
-              </a>
-            </div>
+          <div class="text-[0.8rem] sm:text-xs min-w-0">
+            <div class="font-semibold text-brand-text-light break-all">${escapeHtml(file.name)}</div>
+            <div class="text-[0.7rem] text-brand-text-mid mt-0.5">${file.updated_at ? ("Updated " + formatDate(file.updated_at)) : ""}</div>
+          </div>
+          <div class="flex items-center gap-2 text-[0.7rem] shrink-0">
+            <a href="${url}" target="_blank" rel="noreferrer"
+              class="px-2 py-1 rounded-md bg-card-bg border border-brand-accent-dark/60 text-brand-text-mid hover:border-brand-accent-light">
+              View
+            </a>
+            <a href="${url}" download
+              class="px-2 py-1 rounded-md bg-brand-accent-light text-brand-dark-bg font-semibold hover:bg-brand-accent-dark">
+              Download
+            </a>
           </div>
         `;
-
-        filesList.appendChild(row);
+        listEl.appendChild(row);
       });
     }
 
     /************************************************************
-     * LOGOUT + EVENTS
+     * INIT (single, clean, no duplicate vars, no broken brackets)
      ************************************************************/
-    function wireUpUI() {
-      logoutBtn.addEventListener("click", async function () {
+    document.addEventListener("DOMContentLoaded", async () => {
+      // ✅ Hard session check FIRST
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        safeRedirect("login.html");
+        return;
+      }
+
+      // ✅ Redirect only on REAL sign out events
+      supabaseClient.auth.onAuthStateChange((event) => {
+        if (event === "SIGNED_OUT" || event === "USER_DELETED" || event === "TOKEN_REFRESH_FAILED") {
+          safeRedirect("login.html");
+        }
+      });
+
+      // Tabs
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
+      });
+
+      // Logout
+      $("logout-btn").addEventListener("click", async () => {
         await supabaseClient.auth.signOut();
-        go("login.html");
+        safeRedirect("login.html");
       });
 
-      closeModal.addEventListener("click", closeNewsletterModal);
-
-      modal.addEventListener("click", function (e) {
-        if (e.target === modal) closeNewsletterModal();
+      // Modal close
+      $("close-modal").addEventListener("click", closeNewsletterModal);
+      $("newsletter-modal").addEventListener("click", (e) => {
+        if (e.target === $("newsletter-modal")) closeNewsletterModal();
       });
 
-      // If signed out in another tab
-      supabaseClient.auth.onAuthStateChange(function (event) {
-        if (event === "SIGNED_OUT") go("login.html");
-      });
-    }
-
-    /************************************************************
-     * INIT
-     ************************************************************/
-    async function init() {
-      wireUpUI();
-
-      const ctx = await protectRouteAndGetUser();
+      // Enforce student + load data
+      const ctx = await ensureStudent();
       if (!ctx) return;
 
       await loadNewsletters();
       await loadStudentFiles(ctx.user.id);
-    }
 
-    init();
+      switchTab("home");
+    });
   </script>
 </body>
 </html>
