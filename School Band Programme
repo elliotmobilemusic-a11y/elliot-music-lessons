@@ -1,0 +1,99 @@
+<section class="max-w-5xl mx-auto px-6 py-12">
+  <p class="uppercase tracking-widest text-sm opacity-70">Coming soon</p>
+  <h1 class="text-4xl md:text-5xl font-bold mt-3">School Band Programme</h1>
+  <p class="mt-4 text-lg opacity-90">
+    A structured, beginner-friendly in-school band programme for primary-age pupils:
+    <strong>up to 4 pupils per band</strong>, <strong>30 minutes weekly</strong>, and a short
+    <strong>end-of-term showcase</strong>.
+  </p>
+
+  <div class="mt-8 grid md:grid-cols-2 gap-6">
+    <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-xl font-semibold">What pupils get</h2>
+      <ul class="mt-3 space-y-2 opacity-90 list-disc list-inside">
+        <li>Weekly 30-minute band sessions at a fixed day/time</li>
+        <li>All-electric instruments provided: keyboard, guitar, bass & electronic drums</li>
+        <li>Beginner-focused learning with clear routines</li>
+        <li>One informal performance during the final session</li>
+      </ul>
+    </div>
+
+    <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-xl font-semibold">Core rules</h2>
+      <ul class="mt-3 space-y-2 opacity-90 list-disc list-inside">
+        <li>Groups are typically 4 pupils (minimum 3 to run)</li>
+        <li>Instrument choice is a preference — final allocation balances the band</li>
+        <li>Instrument stays the same for the full term block</li>
+        <li>Missed sessions aren’t refundable (the slot is reserved)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-10 p-6 rounded-2xl border border-white/10 bg-white/5">
+    <h2 class="text-2xl font-semibold">How a session runs (30 mins)</h2>
+    <div class="mt-4 grid md:grid-cols-4 gap-4 opacity-90">
+      <div class="p-4 rounded-xl bg-black/10">
+        <p class="font-semibold">0–5 mins</p>
+        <p class="mt-1 text-sm">Warm-up + rhythm + roles</p>
+      </div>
+      <div class="p-4 rounded-xl bg-black/10">
+        <p class="font-semibold">5–15 mins</p>
+        <p class="mt-1 text-sm">Instrument skill focus</p>
+      </div>
+      <div class="p-4 rounded-xl bg-black/10">
+        <p class="font-semibold">15–25 mins</p>
+        <p class="mt-1 text-sm">Band rehearsal / song building</p>
+      </div>
+      <div class="p-4 rounded-xl bg-black/10">
+        <p class="font-semibold">25–30 mins</p>
+        <p class="mt-1 text-sm">Run-through + goals + pack down</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid md:grid-cols-2 gap-6">
+    <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-xl font-semibold">Term structure</h2>
+      <ul class="mt-3 space-y-2 opacity-90 list-disc list-inside">
+        <li>Standard model: a 6-week block aligned to half-term</li>
+        <li>Week 0: sign-ups, payments, band allocation, schedule confirmation</li>
+        <li>Weeks 1–4: core learning + rehearsals</li>
+        <li>Week 5: performance prep</li>
+        <li>Week 6: showcase performance during the final session</li>
+      </ul>
+    </div>
+
+    <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-xl font-semibold">Pricing (draft)</h2>
+      <ul class="mt-3 space-y-2 opacity-90 list-disc list-inside">
+        <li>£15 per child, per session</li>
+        <li>Charged termly in advance (6 weeks = £90)</li>
+        <li>If Elliot’s Mobile Music cancels: a credit or replacement is offered where possible</li>
+      </ul>
+      <p class="mt-4 text-sm opacity-70">
+        Final details will be confirmed during pilot rollout.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-10 p-6 rounded-2xl border border-white/10 bg-white/5">
+    <h2 class="text-2xl font-semibold">For schools</h2>
+    <ul class="mt-3 space-y-2 opacity-90 list-disc list-inside">
+      <li><strong>Provided by Elliot’s Mobile Music:</strong> tutor, instruments, session structure, parent comms, payments, attendance tracking</li>
+      <li><strong>Provided by the school:</strong> room/space, timetable support, and help getting pupils to/from sessions</li>
+      <li>Typical visit pattern: 3 bands back-to-back in one room</li>
+      <li>Safeguarding delivered in line with school policy and agreed supervision arrangements</li>
+    </ul>
+  </div>
+
+  <div class="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 rounded-2xl border border-white/10 bg-white/5">
+    <div>
+      <h2 class="text-2xl font-semibold">Interested in a pilot?</h2>
+      <p class="mt-1 opacity-90">If a school would like to discuss a trial block, get in touch.</p>
+    </div>
+    <div class="flex gap-3">
+      <a href="contact.html" class="px-5 py-3 rounded-xl font-semibold bg-white text-black">Contact</a>
+      <a href="index.html" class="px-5 py-3 rounded-xl font-semibold border border-white/20">Home</a>
+    </div>
+  </div>
+</section>
