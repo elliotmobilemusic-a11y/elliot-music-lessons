@@ -107,28 +107,6 @@
       }
     }
 
-    /* Typing indicator */
-    @keyframes dot-pulse {
-      0%,
-      100% {
-        opacity: 0.2;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.4);
-      }
-    }
-    .dot-1 {
-      animation: dot-pulse 1.5s infinite 0s;
-    }
-    .dot-2 {
-      animation: dot-pulse 1.5s infinite 0.2s;
-    }
-    .dot-3 {
-      animation: dot-pulse 1.5s infinite 0.4s;
-    }
-
     /* Subtle scroll reveal animations */
     .reveal {
       opacity: 0;
@@ -160,21 +138,18 @@
       outline-offset: 2px;
     }
 
+    /* Tally embed polish */
+    .tally-wrap iframe {
+      border-radius: 18px;
+      overflow: hidden;
+      background: transparent;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-      .reveal {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-      }
-      .hover-lift {
-        transition: none !important;
-      }
-      #sticky-cta {
-        transition: none !important;
-      }
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .hover-lift { transition: none !important; }
+      #sticky-cta { transition: none !important; }
     }
   </style>
 
@@ -188,16 +163,18 @@
       Mail,
       Phone,
       MapPin,
-      MessageSquare,
       Star,
       Music2,
       Users,
-      Send,
       Shield,
       Volume2,
       CalendarDays,
       CheckCircle2,
       ChevronDown,
+      Mic2,
+      CreditCard,
+      BadgeCheck,
+      ClipboardList,
     } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
 
     createIcons({
@@ -208,16 +185,18 @@
         Mail,
         Phone,
         MapPin,
-        MessageSquare,
         Star,
         Music2,
         Users,
-        Send,
         Shield,
         Volume2,
         CalendarDays,
         CheckCircle2,
         ChevronDown,
+        Mic2,
+        CreditCard,
+        BadgeCheck,
+        ClipboardList,
       },
     });
   </script>
@@ -334,11 +313,11 @@
 
           <div class="flex flex-col sm:flex-row gap-4 mb-6">
             <a
-              href="contact.html"
+              href="#register"
               class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition"
             >
-              <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
-              Enquire about a Pilot
+              <i data-lucide="clipboard-list" class="w-4 h-4 mr-2"></i>
+              Register Interest (Deposit)
             </a>
 
             <a
@@ -394,11 +373,11 @@
             </div>
             <div class="flex items-center">
               <i data-lucide="music-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>
-              Electric instruments
+              Electric setup
             </div>
             <div class="flex items-center">
-              <i data-lucide="star" class="w-4 h-4 mr-2 text-brand-highlight"></i>
-              Showcase included
+              <i data-lucide="mic-2" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+              Singing option
             </div>
           </div>
 
@@ -437,9 +416,9 @@
 
           <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal delayed-2">
             <i data-lucide="music-2" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-            <h3 class="font-semibold mb-2 text-brand-text-light">Instruments</h3>
+            <h3 class="font-semibold mb-2 text-brand-text-light">Instruments (options)</h3>
             <p class="text-sm text-brand-text-mid leading-relaxed">
-              Electric guitar, bass, keyboard, electronic drums — provided and set up by Elliot.
+              Electric guitar, bass, keyboard, electronic drums — plus <strong class="text-brand-text-light">singing</strong> as a role (mic used when needed).
             </p>
           </div>
 
@@ -489,9 +468,9 @@
                 <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
               </div>
               <div>
-                <p class="font-semibold text-brand-text-light">Week 0 — Sign-ups &amp; band setup</p>
+                <p class="font-semibold text-brand-text-light">Week 0 — Register interest + group build</p>
                 <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-                  Preferences collected, groups formed, schedule confirmed, payment collected before Week 1.
+                  Parents register interest, instrument preference collected, and bands are formed. Deposit confirms serious interest.
                 </p>
               </div>
             </li>
@@ -534,7 +513,7 @@
                 <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
               </div>
               <div>
-                <p class="font-semibold text-brand-text-light">Week 3 — Build the song (Part 1)</p>
+                <p class="font-semibold text-brand-text-light">Week 3 — Build the song</p>
                 <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
                   Core sections are built and repeated; pupils learn how their part fits in the band.
                 </p>
@@ -620,7 +599,7 @@
       </div>
     </section>
 
-    <!-- WHAT ELLIOT PROVIDES VS SCHOOL PROVIDES -->
+    <!-- RESPONSIBILITIES -->
     <section id="responsibilities" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
         <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-2">
@@ -642,15 +621,15 @@
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                Electric instruments + sound setup (mixer/speaker as needed)
+                Electric instruments + sound setup (mixer/levels)
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                Parent comms, sign-up info, and payment handling (as agreed)
+                Singing/vocal option (mic used when needed)
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                Attendance tracking and simple progress notes
+                Parent comms + registration + deposits (as agreed)
               </li>
             </ul>
           </div>
@@ -682,7 +661,7 @@
       </div>
     </section>
 
-    <!-- SAFEGUARDING & SAFETY -->
+    <!-- SAFEGUARDING -->
     <section id="safeguarding" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
         <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight mb-2 flex items-center">
@@ -702,24 +681,15 @@
             <ul class="space-y-3 text-sm text-brand-text-mid leading-relaxed">
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                <span>
-                  Cables are routed safely; any cable crossing a walkway is
-                  <span class="inline-flex items-center rounded-md bg-brand-highlight/15 text-brand-highlight px-2 py-0.5 text-xs font-semibold whitespace-nowrap">
-                    securely taped down
-                  </span>.
-                </span>
+                <span>Cables are routed safely; any cable crossing a walkway is securely taped down.</span>
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                <span>Volume is controlled through a mixer to keep levels comfortable and appropriate.</span>
+                <span>Volume controlled through a mixer to keep levels comfortable and appropriate.</span>
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                <span>Walkways kept clear with a tidy, quick pack-down routine.</span>
-              </li>
-              <li class="flex gap-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>
-                <span>All-electric instruments for predictable sound levels and clean setup.</span>
+                <span>All-electric instruments for predictable sound levels and fast setup.</span>
               </li>
             </ul>
           </div>
@@ -740,10 +710,6 @@
               </li>
               <li class="flex gap-2">
                 <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>
-                <span>Pupils follow school behaviour rules; unsafe behaviour may pause/end a session until a plan is agreed.</span>
-              </li>
-              <li class="flex gap-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>
                 <span>Photos/videos used only with explicit consent; consent can be withdrawn at any time.</span>
               </li>
             </ul>
@@ -752,7 +718,7 @@
 
         <div class="mt-7 bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-5 text-xs sm:text-sm text-brand-text-mid leading-relaxed">
           <p class="font-semibold text-brand-text-light mb-1">School-friendly by design</p>
-          The programme is structured to be easy to timetable, easy to supervise, and supportive for beginner pupils.
+          Easy to timetable, easy to supervise, supportive for beginners.
         </div>
       </div>
     </section>
@@ -786,10 +752,21 @@
                   Minimum <strong class="text-brand-text-light">3</strong> pupils to run, up to <strong class="text-brand-text-light">4</strong> per band.
                 </p>
               </div>
+
+              <div class="bg-card-bg/40 border border-brand-accent-dark/40 rounded-xl p-4 sm:col-span-2">
+                <p class="font-semibold text-brand-text-light mb-1 flex items-center">
+                  <i data-lucide="credit-card" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+                  Deposit model (simple)
+                </p>
+                <p class="text-sm text-brand-text-mid leading-relaxed">
+                  Parents pay a <strong class="text-brand-text-light">£10 deposit</strong> to register interest and help secure a place.
+                  Once groups are confirmed, the remaining balance is due before Week 1.
+                </p>
+              </div>
             </div>
 
             <p class="text-xs sm:text-sm text-brand-text-mid mt-4 leading-relaxed">
-              Payment is collected in advance to confirm places before Week 1.
+              Sessions aren’t rearranged for individual absences; the band slot is reserved weekly.
             </p>
           </div>
 
@@ -815,12 +792,99 @@
             </ul>
 
             <div class="mt-5 bg-card-bg/40 border border-brand-accent-dark/40 rounded-xl p-4 text-xs sm:text-sm text-brand-text-mid leading-relaxed">
-              <p class="font-semibold text-brand-text-light mb-1">Need a pilot?</p>
-              Schools can enquire about a pilot slot and setup plan via the contact page.
+              <p class="font-semibold text-brand-text-light mb-1 flex items-center">
+                <i data-lucide="badge-check" class="w-4 h-4 mr-2 text-brand-accent-light"></i>
+                What happens if a group doesn’t run?
+              </p>
+              If numbers aren’t viable by the cut-off, an alternative group, deferral, or refund can be offered.
             </div>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- REGISTER (TALLY EMBED) -->
+    <section id="register" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-2 flex items-center">
+              <i data-lucide="clipboard-list" class="w-6 h-6 mr-2 text-brand-highlight"></i>
+              Register Interest (Deposit)
+            </h2>
+            <p class="text-sm sm:text-base text-brand-text-mid max-w-3xl leading-relaxed">
+              Fill in the form below to register interest. A <strong class="text-brand-text-light">£10 deposit</strong> helps confirm serious interest.
+              When groups are confirmed, the remaining balance is collected before Week 1.
+            </p>
+          </div>
+
+          <a
+            href="tel:07368975144"
+            class="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transition"
+          >
+            <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+            Quick call: 07368 975144
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-1 bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-2xl p-6">
+            <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-3">How it works</p>
+            <ol class="space-y-3 text-sm text-brand-text-mid leading-relaxed list-decimal list-inside">
+              <li>Parent completes the form + deposit.</li>
+              <li>Elliot confirms groups/times with the school.</li>
+              <li>Balance is due once your child’s group is confirmed.</li>
+              <li>Week 1 starts — same day/time each week.</li>
+            </ol>
+
+            <div class="mt-5 text-xs sm:text-sm text-brand-text-mid leading-relaxed border-t border-brand-accent-dark/40 pt-4">
+              <p class="font-semibold text-brand-text-light mb-1">Tip</p>
+              On the form, include options for: <strong class="text-brand-text-light">Guitar / Bass / Keyboard / Drums / Singing</strong>.
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 tally-wrap bg-brand-dark-bg/50 border border-brand-accent-dark/40 rounded-2xl p-4">
+            <!-- Tally embed -->
+            <iframe
+              data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              loading="lazy"
+              width="100%"
+              height="520"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              title="School Band Programme – Register Interest (Deposit)"
+              class="w-full"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tally embed script (required for dynamic height + better loading) -->
+      <script>
+        (function () {
+          var d = document;
+          var w = "https://tally.so/widgets/embed.js";
+          var v = function () {
+            if (typeof Tally !== "undefined") {
+              Tally.loadEmbeds();
+            } else {
+              d.querySelectorAll("iframe[data-tally-src]").forEach(function (iframe) {
+                iframe.src = iframe.dataset.tallySrc;
+              });
+            }
+          };
+          if (d.querySelector('script[src="' + w + '"]') === null) {
+            var s = d.createElement("script");
+            s.src = w;
+            s.onload = v;
+            s.onerror = v;
+            d.body.appendChild(s);
+          } else {
+            v();
+          }
+        })();
+      </script>
     </section>
 
     <!-- FAQ -->
@@ -839,6 +903,16 @@
             </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               No — it’s designed for <strong class="text-brand-text-light">complete beginners</strong>. Pupils learn simple parts that work together as a band.
+            </p>
+          </details>
+
+          <details class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Can my child choose singing instead of an instrument?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
+            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
+              Yes — <strong class="text-brand-text-light">singing can be a band role</strong> depending on the group balance. A mic can be used when needed, with volume controlled.
             </p>
           </details>
 
@@ -874,26 +948,6 @@
 
           <details class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-5">
             <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
-              <span>Can pupils swap instruments mid-block?</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
-            </summary>
-            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-              Instrument roles are set by Week 1 to keep the band balanced. Changes after Week 1 aren’t standard unless needed for practical/safeguarding reasons.
-            </p>
-          </details>
-
-          <details class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
-              <span>What does the school need to provide?</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
-            </summary>
-            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-              A suitable room, timetable support, and pupil movement/supervision arrangements in line with school policy.
-            </p>
-          </details>
-
-          <details class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
               <span>What happens if numbers are too low?</span>
               <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
             </summary>
@@ -904,77 +958,15 @@
         </div>
       </div>
     </section>
-
-    <!-- SCHOOL BAND Q&A ASSISTANT -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
-          <div>
-            <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-              <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-              School Band Q&amp;A Assistant
-            </h2>
-            <p class="text-xs sm:text-sm text-brand-text-mid mt-1 max-w-xl leading-relaxed">
-              Ask about pricing, timetable, equipment, minimum numbers, safeguarding, or how the 6-week block runs.
-            </p>
-          </div>
-
-          <a href="contact.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
-            Contact Elliot
-          </a>
-        </div>
-
-        <div
-          id="chat-box"
-          class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3"
-          role="log"
-          aria-live="polite"
-        >
-          <div class="flex justify-start initial-message">
-            <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">
-              Hello! I’m the School Band Programme assistant. Ask me anything about costs, scheduling, equipment, or how the programme runs.
-            </div>
-          </div>
-
-          <div id="loading-indicator" class="hidden flex justify-start">
-            <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
-              <span class="text-sm">Typing</span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
-            </div>
-          </div>
-        </div>
-
-        <form id="chat-form" class="flex gap-2">
-          <input
-            type="text"
-            id="chat-input"
-            placeholder="E.g. What’s included? How many pupils per band? What if a child is absent?"
-            class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-            autocomplete="off"
-          />
-          <button
-            type="submit"
-            id="send-button"
-            class="bg-brand-highlight text-brand-dark-bg px-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition flex items-center justify-center w-11 h-11"
-            aria-label="Send message"
-          >
-            <i data-lucide="send" class="w-5 h-5"></i>
-          </button>
-        </form>
-        <p id="error-message" class="text-xs text-red-400 mt-2 hidden"></p>
-      </div>
-    </section>
   </main>
 
   <!-- STICKY CTA -->
   <a
-    href="contact.html"
+    href="#register"
     id="sticky-cta"
     class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/50"
   >
-    <i data-lucide="mail" class="w-4 h-4 mr-1"></i> Enquire about a Pilot
+    <i data-lucide="clipboard-list" class="w-4 h-4 mr-1"></i> Register Interest (Deposit)
   </a>
 
   <!-- FOOTER -->
@@ -1052,121 +1044,6 @@
       revealElements.forEach((el) => revealObserver.observe(el));
     } else {
       revealElements.forEach((el) => el.classList.add("visible"));
-    }
-
-    // ===== School Band Q&A Assistant (frontend, calls /api/chat) =====
-    const chatForm = document.getElementById("chat-form");
-    const chatInput = document.getElementById("chat-input");
-    const chatBox = document.getElementById("chat-box");
-    const loadingIndicator = document.getElementById("loading-indicator");
-    const errorMessage = document.getElementById("error-message");
-    const sendButton = document.getElementById("send-button");
-
-    const qaSystemPrompt = `You are a helpful, friendly Q&A assistant for Elliot’s Mobile Music — School Band Programme.
-Answer briefly and clearly, using **bold** for key details. Audience: schools and parents.
-
-Programme summary:
-- Beginner-friendly in-school band sessions for primary pupils.
-- Group size: up to **4 pupils** per band. Minimum **3 pupils** required for a group to run.
-- Session length/frequency: **30 minutes**, **once per week**, fixed day/time.
-- Standard block: **6 weeks** (Week 0–6) + informal showcase during Week 6.
-
-Instruments (all-electric, provided for in-school sessions):
-- Keyboard, electric guitar, electric bass, electronic drums.
-- Volume controlled (mixer/levels). Cables routed safely; any cable crossing a walkway is taped down.
-
-Sign-ups:
-- Preferences collected in Week 0.
-- Late joiners not accepted after Week 1.
-- Instrument changes after Week 1 are not standard (unless practical/safeguarding need).
-
-Pricing:
-- **£15 per child per session**
-- **£90 per child for a 6-week block**
-- Minimum **3** to run; up to **4** per band.
-
-Policies (summary):
-- Missed sessions (child absent): not refundable; sessions aren’t rearranged for individual absences.
-- If Elliot cancels: make-up session or credit where reasonably possible.
-- School closures/events: credited or rescheduled where possible.
-- Safeguarding follows school expectations; concerns handled via the school’s DSL process.
-
-If asked something not covered, explain what you can confirm and suggest contacting Elliot via contact.html or 07368 975144.`;
-
-    function escapeHTML(str) {
-      return (str || "").replace(/[&<>"']/g, (ch) => {
-        const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
-        return map[ch] || ch;
-      });
-    }
-
-    function appendMessage(sender, text) {
-      const wrap = document.createElement("div");
-      wrap.classList.add("flex", sender === "user" ? "justify-end" : "justify-start");
-
-      const bubble = document.createElement("div");
-      bubble.classList.add("max-w-[75%]", "p-3", "rounded-xl", "text-sm", "shadow", "break-words", "whitespace-pre-wrap", "leading-relaxed");
-
-      if (sender === "user") {
-        bubble.classList.add("bg-brand-highlight", "text-brand-dark-bg", "rounded-tr-none");
-      } else {
-        bubble.classList.add("bg-brand-accent-light/20", "text-brand-text-light", "rounded-tl-none");
-      }
-
-      const p = document.createElement("p");
-      const safe = escapeHTML(text || "");
-      p.innerHTML = safe.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      bubble.appendChild(p);
-
-      wrap.appendChild(bubble);
-      chatBox.insertBefore(wrap, loadingIndicator);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    async function handleQuery(query) {
-      sendButton.disabled = true;
-      loadingIndicator.classList.remove("hidden");
-      errorMessage.classList.add("hidden");
-
-      appendMessage("user", query);
-
-      try {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: query.trim(),
-            systemPrompt: qaSystemPrompt,
-          }),
-        });
-
-        if (!res.ok) throw new Error("Server error: " + res.status);
-
-        const data = await res.json();
-        const text = data.text || "I couldn't find a clear answer there — try asking in a slightly different way.";
-        appendMessage("bot", text);
-      } catch (err) {
-        console.error(err);
-        errorMessage.textContent = "Sorry, the assistant is unavailable at the moment. Please try again later.";
-        errorMessage.classList.remove("hidden");
-      } finally {
-        loadingIndicator.classList.add("hidden");
-        sendButton.disabled = false;
-        chatInput.value = "";
-      }
-    }
-
-    if (chatForm) {
-      chatForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const q = chatInput.value.trim();
-        if (!q) return;
-
-        const initialMsg = chatBox.querySelector(".initial-message");
-        if (initialMsg) initialMsg.remove();
-
-        handleQuery(q);
-      });
     }
   </script>
 </body>
