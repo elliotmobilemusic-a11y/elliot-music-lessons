@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>School Band Programme – Elliot’s Mobile Music</title>
-  <meta name="description" content="Beginner-friendly in-school band sessions for primary pupils. Small groups (3–4), 30 minutes weekly, all-electric instruments provided, and a short end-of-block showcase. Pudsey & West Leeds." />
+  <meta
+    name="description"
+    content="Beginner-friendly in-school band sessions for primary pupils. Small groups (3–4), 30 minutes weekly, all-electric instruments provided, and a short end-of-block showcase. Pudsey & West Leeds."
+  />
+  <meta name="color-scheme" content="dark" />
 
   <!-- Favicon -->
   <link rel="icon" href="./favicon.png" type="image/png" />
@@ -56,48 +60,28 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 5rem;
+      scroll-padding-top: 5.25rem;
     }
 
     body {
       font-family: "Inter", sans-serif;
       background-color: #1a1a2e;
-      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(0, 208, 132, 0.14) 0%, rgba(26, 26, 46, 0) 40%),
+        radial-gradient(circle at 85% 15%, rgba(255, 183, 3, 0.12) 0%, rgba(26, 26, 46, 0) 42%),
+        radial-gradient(circle at 85% 90%, rgba(0, 208, 132, 0.10) 0%, rgba(26, 26, 46, 0) 45%),
+        radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      overflow-x: hidden;
     }
 
     .main-hero-shadow {
-      text-shadow: 0 0 16px rgba(0, 208, 132, 0.4);
+      text-shadow: 0 0 18px rgba(0, 208, 132, 0.45);
     }
 
     .card-glow {
-      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
-    }
-
-    @keyframes dot-pulse {
-      0%,
-      100% {
-        opacity: 0.2;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.4);
-      }
-    }
-    .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
-    .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
-    .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    .reveal.delayed-1 { transition-delay: 0.12s; }
-    .reveal.delayed-2 { transition-delay: 0.2s; }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+      box-shadow:
+        0 12px 34px rgba(0, 208, 132, 0.10),
+        0 4px 14px rgba(0, 0, 0, 0.6);
     }
 
     .hover-lift {
@@ -105,6 +89,26 @@
     }
     .hover-lift:hover { transform: translateY(-4px); }
 
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .reveal.delayed-1 { transition-delay: 0.12s; }
+    .reveal.delayed-2 { transition-delay: 0.2s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Typing indicator */
+    @keyframes dot-pulse {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+    .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
+    .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
+    .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
+
+    /* Sticky CTA (appears after hero) */
     #sticky-cta {
       position: fixed;
       bottom: calc(1rem + env(safe-area-inset-bottom));
@@ -115,12 +119,14 @@
       margin-right: auto;
       z-index: 100;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(18px);
       transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
     }
     #sticky-cta.show {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
     @media (min-width: 640px) {
       #sticky-cta {
@@ -130,9 +136,34 @@
       }
     }
 
+    /* Scroll progress */
+    #scroll-progress-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: rgba(0, 163, 110, 0.18);
+    }
+    #scroll-progress {
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(0, 208, 132, 1), rgba(255, 183, 3, 1));
+      box-shadow: 0 0 16px rgba(0, 208, 132, 0.35);
+    }
+
+    /* Focus */
     :focus-visible {
-      outline: 2px solid rgba(0, 208, 132, 0.7);
+      outline: 2px solid rgba(0, 208, 132, 0.75);
       outline-offset: 2px;
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .hover-lift { transition: none !important; }
+      #sticky-cta { transition: none !important; }
     }
   </style>
 
@@ -154,7 +185,14 @@
       Shield,
       CheckCircle2,
       CalendarDays,
-      Volume2
+      Volume2,
+      Sparkles,
+      ClipboardList,
+      ArrowRight,
+      CircleHelp,
+      Trash2,
+      ChevronDown,
+      Home
     } from "https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js";
 
     createIcons({
@@ -173,7 +211,14 @@
         Shield,
         CheckCircle2,
         CalendarDays,
-        Volume2
+        Volume2,
+        Sparkles,
+        ClipboardList,
+        ArrowRight,
+        CircleHelp,
+        Trash2,
+        ChevronDown,
+        Home
       },
     });
   </script>
@@ -188,10 +233,11 @@
     Skip to content
   </a>
 
-  <!-- NAVIGATION -->
-  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+  <!-- NAVIGATION (same as index, but SCHOOL BANDS highlighted) -->
+  <nav class="relative bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
             <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
@@ -201,6 +247,7 @@
           </span>
         </a>
 
+        <!-- Desktop nav -->
         <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
           <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
             HOME
@@ -217,11 +264,17 @@
           <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
             CONTACT
           </a>
-          <a href="login.html" class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40 hover-lift">
+
+          <!-- LOGIN BUTTON (desktop) -->
+          <a
+            href="login.html"
+            class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40 hover-lift"
+          >
             LOGIN
           </a>
         </div>
 
+        <!-- Mobile button -->
         <div class="sm:hidden">
           <button
             id="mobile-menu-button"
@@ -239,6 +292,7 @@
       </div>
     </div>
 
+    <!-- Mobile menu -->
     <div class="sm:hidden hidden" id="mobile-menu">
       <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
         <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
@@ -249,25 +303,30 @@
         <a href="login.html" class="block rounded-md mt-1 bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 text-center">LOGIN</a>
       </div>
     </div>
+
+    <!-- Scroll progress -->
+    <div id="scroll-progress-wrap" aria-hidden="true">
+      <div id="scroll-progress"></div>
+    </div>
   </nav>
 
   <main id="main-content" tabindex="-1" class="flex-grow pb-32">
     <!-- HERO -->
-    <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-14 sm:pb-16">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-        <div class="reveal visible">
+    <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-18 lg:pt-20 pb-12 sm:pb-14">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
+        <div class="reveal">
           <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
             IN-SCHOOL • BEGINNER-FRIENDLY • ALL-ELECTRIC
           </p>
 
-          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
+          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-[1.05] mb-5">
             School Band Programme<br />
-            <span class="text-brand-accent-light">made simple for schools &amp; parents.</span>
+            <span class="text-brand-accent-light">clear for schools, exciting for pupils.</span>
           </h1>
 
           <p class="text-base sm:text-lg text-brand-text-mid max-w-xl leading-relaxed mb-7">
             Weekly <strong class="text-brand-text-light">30-minute</strong> band sessions for primary pupils in small groups
-            (<strong class="text-brand-text-light">3–4</strong> per band) with
+            (<strong class="text-brand-text-light">3–4</strong> per band) using
             <strong class="text-brand-text-light">all-electric instruments provided</strong> — finishing with a short, informal showcase.
           </p>
 
@@ -308,16 +367,33 @@
               Equipment provided &amp; managed by Elliot’s Mobile Music
             </span>
           </div>
+
+          <!-- Quick on-page links (mobile-friendly) -->
+          <div class="mt-8 flex flex-wrap gap-2">
+            <a href="#at-a-glance" class="text-xs font-semibold px-3 py-2 rounded-full border border-brand-accent-dark/60 bg-brand-dark-bg/40 text-brand-text-mid hover:text-white hover:border-brand-accent-light transition">
+              At a glance
+            </a>
+            <a href="#timeline" class="text-xs font-semibold px-3 py-2 rounded-full border border-brand-accent-dark/60 bg-brand-dark-bg/40 text-brand-text-mid hover:text-white hover:border-brand-accent-light transition">
+              Week-by-week
+            </a>
+            <a href="#safeguarding" class="text-xs font-semibold px-3 py-2 rounded-full border border-brand-accent-dark/60 bg-brand-dark-bg/40 text-brand-text-mid hover:text-white hover:border-brand-accent-light transition">
+              Safeguarding
+            </a>
+            <a href="#faq" class="text-xs font-semibold px-3 py-2 rounded-full border border-brand-accent-dark/60 bg-brand-dark-bg/40 text-brand-text-mid hover:text-white hover:border-brand-accent-light transition">
+              FAQ
+            </a>
+          </div>
         </div>
 
-        <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible delayed-1">
+        <!-- Right feature card -->
+        <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal delayed-1">
           <div class="flex items-start gap-4">
             <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-accent-light/10 border border-brand-accent-light/40">
-              <i data-lucide="users" class="w-6 h-6 text-brand-accent-light"></i>
+              <i data-lucide="sparkles" class="w-6 h-6 text-brand-accent-light"></i>
             </span>
             <div>
               <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">QUICK OVERVIEW</p>
-              <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">What to expect</h2>
+              <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Instantly understandable</h2>
               <ul class="text-sm text-brand-text-mid space-y-2 leading-relaxed">
                 <li><strong class="text-brand-text-light">Band size:</strong> up to 4 pupils (min 3 to run)</li>
                 <li><strong class="text-brand-text-light">Sessions:</strong> 30 minutes weekly, fixed day/time</li>
@@ -334,7 +410,7 @@
             </div>
             <div class="flex items-center">
               <i data-lucide="book-open" class="w-4 h-4 mr-2 text-brand-highlight"></i>
-              Simple routines
+              Structured routines
             </div>
             <div class="flex items-center">
               <i data-lucide="volume-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>
@@ -345,18 +421,40 @@
               Showcase included
             </div>
           </div>
+
+          <div class="mt-5 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-4">
+            <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-2">Getting started</p>
+            <ol class="space-y-2 text-sm text-brand-text-mid leading-relaxed">
+              <li class="flex gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-highlight/10 border border-brand-highlight/30 text-brand-highlight font-bold text-xs">1</span>
+                Enquire + pick a day/time window
+              </li>
+              <li class="flex gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/30 text-brand-accent-light font-bold text-xs">2</span>
+                School shares sign-up details with parents
+              </li>
+              <li class="flex gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-highlight/10 border border-brand-highlight/30 text-brand-highlight font-bold text-xs">3</span>
+                Bands formed + payment confirmed (Week 0)
+              </li>
+              <li class="flex gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/30 text-brand-accent-light font-bold text-xs">4</span>
+                Week 1 begins — consistent weekly routine
+              </li>
+            </ol>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- PROGRAMME AT A GLANCE -->
     <section id="at-a-glance" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="reveal visible">
+      <div class="reveal">
         <div class="flex items-end justify-between gap-6 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light">Programme at a Glance</h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-2xl leading-relaxed">
-              A clear, consistent format that works in school rooms — easy to timetable, easy to understand, and designed for beginners.
+              A predictable, school-friendly format that pupils love — and schools can timetable without hassle.
             </p>
           </div>
         </div>
@@ -382,7 +480,7 @@
               <h3 class="font-semibold text-brand-text-light">Session length</h3>
             </div>
             <p class="text-sm text-brand-text-mid mt-3 leading-relaxed">
-              <strong class="text-brand-text-light">30 minutes</strong>, once per week, fixed day/time each week.
+              <strong class="text-brand-text-light">30 minutes</strong>, once per week, fixed day/time.
             </p>
           </div>
 
@@ -406,7 +504,7 @@
               <h3 class="font-semibold text-brand-text-light">6-week block</h3>
             </div>
             <p class="text-sm text-brand-text-mid mt-3 leading-relaxed">
-              Standard <strong class="text-brand-text-light">Week 0–6</strong> plan aligned to half-term where possible.
+              Standard plan aligned to half-term where possible (can run full term too).
             </p>
           </div>
 
@@ -418,7 +516,7 @@
               <h3 class="font-semibold text-brand-text-light">Showcase</h3>
             </div>
             <p class="text-sm text-brand-text-mid mt-3 leading-relaxed">
-              A short, informal showcase in the <strong class="text-brand-text-light">final session</strong> (typically 10–20 mins).
+              Short, informal performance during the <strong class="text-brand-text-light">final session</strong>.
             </p>
           </div>
 
@@ -430,38 +528,38 @@
               <h3 class="font-semibold text-brand-text-light">Pricing</h3>
             </div>
             <p class="text-sm text-brand-text-mid mt-3 leading-relaxed">
-              <strong class="text-brand-text-light">£15</strong> per child per session
-              (<strong class="text-brand-text-light">£90</strong> per child for 6 weeks).
+              <strong class="text-brand-text-light">£15</strong> per child, per session
+              (<strong class="text-brand-text-light">£90</strong> per child, 6 weeks).
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- BENEFITS -->
+    <!-- WHY IT WORKS -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal visible">
+        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal">
           <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-3"></i>
           <h3 class="font-semibold mb-2 text-brand-text-light">Beginner-friendly by design</h3>
           <p class="text-sm text-brand-text-mid leading-relaxed">
-            Clear routines, simple parts, and steady progress week by week — ideal for primary-age beginners.
+            Clear routines, simple parts, steady progress — perfect for primary pupils starting from scratch.
           </p>
         </div>
 
-        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-highlight card-glow hover-lift reveal visible delayed-1">
+        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-highlight card-glow hover-lift reveal delayed-1">
           <i data-lucide="users" class="w-6 h-6 text-brand-highlight mb-3"></i>
           <h3 class="font-semibold mb-2 text-brand-text-light">Real band skills</h3>
           <p class="text-sm text-brand-text-mid leading-relaxed">
-            Listening, timing, teamwork, and confidence — pupils learn how to play together, not just solo.
+            Listening, timing, teamwork, confidence — pupils learn to play together and support each other.
           </p>
         </div>
 
-        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal visible delayed-2">
+        <div class="bg-card-bg rounded-2xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal delayed-2">
           <i data-lucide="volume-2" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light">Controlled, school-ready setup</h3>
+          <h3 class="font-semibold mb-2 text-brand-text-light">School-ready setup</h3>
           <p class="text-sm text-brand-text-mid leading-relaxed">
-            Balanced levels through a mixer with safe cable management — designed to work comfortably in school rooms.
+            All-electric instruments + controlled volume through a mixer — designed for school rooms and routines.
           </p>
         </div>
       </div>
@@ -469,98 +567,132 @@
 
     <!-- TIMELINE -->
     <section id="timeline" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light">
               How a 6-week block runs (Week 0–6)
             </h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
-              Simple, repeatable structure. Schools get a predictable timetable; parents get clear expectations and a confident end-point.
+              Predictable structure for schools, clear expectations for parents, and a confidence-building path for pupils.
             </p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ol class="space-y-4">
-            <li class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5">
-              <div class="flex items-start gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-highlight/10 border border-brand-highlight/40 flex-shrink-0">
-                  <strong class="text-brand-highlight font-heading text-sm">W0</strong>
-                </span>
-                <div>
+          <!-- Timeline rail -->
+          <div class="rounded-2xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-6">
+            <h3 class="font-heading text-xl font-bold text-brand-highlight flex items-center">
+              <i data-lucide="clipboard-list" class="w-5 h-5 mr-2 text-brand-accent-light"></i>
+              Week-by-week timeline
+            </h3>
+
+            <ol class="mt-5 space-y-4">
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-highlight/10 border border-brand-highlight/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-highlight text-sm">W0</span>
+                  </span>
+                  <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
+                </div>
+                <div class="pb-2">
                   <p class="font-semibold text-brand-text-light">Week 0 — Sign-ups &amp; band setup</p>
                   <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
                     Preferences collected, bands formed, schedule issued, and payment confirmed.
                   </p>
                 </div>
-              </div>
-            </li>
+              </li>
 
-            <li class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5">
-              <div class="flex items-start gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-accent-light/10 border border-brand-accent-light/40 flex-shrink-0">
-                  <strong class="text-brand-accent-light font-heading text-sm">W1</strong>
-                </span>
-                <div>
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-accent-light text-sm">W1</span>
+                  </span>
+                  <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
+                </div>
+                <div class="pb-2">
                   <p class="font-semibold text-brand-text-light">Week 1 — Routines &amp; foundations</p>
                   <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-                    Instruments allocated, core basics taught, and the band routine established.
+                    Instruments allocated, basics taught, and the band routine established.
                   </p>
                 </div>
-              </div>
-            </li>
+              </li>
 
-            <li class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5">
-              <div class="flex items-start gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-highlight/10 border border-brand-highlight/40 flex-shrink-0">
-                  <strong class="text-brand-highlight font-heading text-sm">W2–4</strong>
-                </span>
-                <div>
-                  <p class="font-semibold text-brand-text-light">Weeks 2–4 — Build the song</p>
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-highlight/10 border border-brand-highlight/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-highlight text-sm">W2</span>
+                  </span>
+                  <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
+                </div>
+                <div class="pb-2">
+                  <p class="font-semibold text-brand-text-light">Week 2 — Lock in key parts</p>
                   <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-                    Skills + rehearsal focus. Sections are built and looped, then parts are joined together.
+                    Simple parts become consistent; focus on timing, starts/stops, and listening.
                   </p>
                 </div>
-              </div>
-            </li>
+              </li>
 
-            <li class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5">
-              <div class="flex items-start gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-accent-light/10 border border-brand-accent-light/40 flex-shrink-0">
-                  <strong class="text-brand-accent-light font-heading text-sm">W5</strong>
-                </span>
-                <div>
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-accent-light text-sm">W3–4</span>
+                  </span>
+                  <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
+                </div>
+                <div class="pb-2">
+                  <p class="font-semibold text-brand-text-light">Weeks 3–4 — Build the song</p>
+                  <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
+                    Sections are built and looped; transitions introduced; confidence grows.
+                  </p>
+                </div>
+              </li>
+
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-highlight/10 border border-brand-highlight/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-highlight text-sm">W5</span>
+                  </span>
+                  <span class="w-[2px] flex-1 bg-brand-accent-dark/30 mt-2"></span>
+                </div>
+                <div class="pb-2">
                   <p class="font-semibold text-brand-text-light">Week 5 — Performance prep</p>
                   <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-                    Full run-throughs, transitions tightened, confidence building and stage-ready practice.
+                    Full run-throughs, transitions tightened, performance confidence built.
                   </p>
                 </div>
-              </div>
-            </li>
+              </li>
 
-            <li class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5">
-              <div class="flex items-start gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-highlight/10 border border-brand-highlight/40 flex-shrink-0">
-                  <strong class="text-brand-highlight font-heading text-sm">W6</strong>
-                </span>
-                <div>
+              <li class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <span class="w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/40 flex items-center justify-center">
+                    <span class="font-heading font-extrabold text-brand-accent-light text-sm">W6</span>
+                  </span>
+                </div>
+                <div class="pb-1">
                   <p class="font-semibold text-brand-text-light">Week 6 — Final rehearsal + showcase</p>
                   <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-                    Final session includes rehearsal and a short informal showcase (10–20 mins).
+                    Final session includes rehearsal and a short informal showcase (typically 10–20 mins).
                   </p>
                 </div>
-              </div>
-            </li>
-          </ol>
+              </li>
+            </ol>
 
+            <div class="mt-5 rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4 text-xs sm:text-sm text-brand-text-mid leading-relaxed">
+              <p class="font-semibold text-brand-text-light mb-1">Sign-up window</p>
+              Sign-ups usually open <strong class="text-brand-text-light">2–3 weeks before</strong>. Recommended cut-off is
+              <strong class="text-brand-text-light">7 days before Week 1</strong>. No new pupils are added after Week 1.
+            </div>
+          </div>
+
+          <!-- Session structure -->
           <div class="rounded-2xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-6">
             <h3 class="font-heading text-xl font-bold text-brand-highlight flex items-center">
               <i data-lucide="clock" class="w-5 h-5 mr-2 text-brand-accent-light"></i>
               What happens in a 30-minute session
             </h3>
 
-            <div class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+            <div class="mt-5 space-y-3 text-sm text-brand-text-mid leading-relaxed">
               <div class="rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-4">
                 <p class="font-semibold text-brand-text-light">0–5 mins</p>
                 Warm-up, rhythm focus, quick role allocation and setup.
@@ -581,31 +713,25 @@
                 Run-through + quick feedback + pack down.
               </div>
 
-              <p class="text-xs sm:text-sm text-brand-text-mid mt-3">
-                Sessions are at a <strong class="text-brand-text-light">fixed day/time each week</strong> and aren’t rearranged for individual absences.
-              </p>
+              <div class="mt-4 rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4 text-xs sm:text-sm text-brand-text-mid leading-relaxed">
+                Sessions are at a <strong class="text-brand-text-light">fixed day/time</strong> each week and aren’t rearranged for individual absences.
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="mt-6 rounded-xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-5 text-sm text-brand-text-mid leading-relaxed">
-          <p class="font-semibold text-brand-text-light mb-1">Sign-up window</p>
-          Sign-ups usually open <strong class="text-brand-text-light">2–3 weeks before</strong>. Recommended cut-off is
-          <strong class="text-brand-text-light">7 days before Week 1</strong>. No new pupils are added after Week 1.
         </div>
       </div>
     </section>
 
     <!-- RESPONSIBILITIES -->
     <section id="responsibilities" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light">
               What Elliot provides vs what the school provides
             </h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
-              Clear responsibilities make the programme run smoothly and keep safeguarding consistent with school policy.
+              Clear responsibilities keep everything smooth, safe, and consistent with school routines.
             </p>
           </div>
         </div>
@@ -616,7 +742,7 @@
               Provided by Elliot’s Mobile Music
             </p>
             <ul class="space-y-2 leading-relaxed">
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Tutor delivery + session structure (beginner-friendly routines)</li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Tutor delivery + beginner-friendly session structure</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Instruments (as agreed) + sound setup (mixer &amp; speaker)</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Parent communications + sign-up + termly payments</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Attendance tracking and simple progress notes</li>
@@ -640,7 +766,7 @@
 
     <!-- SAFEGUARDING -->
     <section id="safeguarding" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center">
@@ -648,7 +774,7 @@
               Safeguarding &amp; Safety (summary)
             </h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
-              Sessions follow school expectations, with a tidy, controlled setup designed for school rooms.
+              Sessions prioritise safeguarding, clear supervision expectations, and a tidy, controlled setup.
             </p>
           </div>
         </div>
@@ -658,16 +784,16 @@
             <h3 class="font-heading text-lg font-bold text-brand-accent-light mb-3">Safety in the room</h3>
             <ul class="text-sm text-brand-text-mid space-y-2 leading-relaxed">
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Cables are routed safely; any cable crossing a walkway is <strong class="text-brand-text-light">taped down</strong>.</li>
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Volume is controlled through a mixer to keep levels comfortable and appropriate for school spaces.</li>
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>All-electric instruments for clean setup and predictable sound levels.</li>
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Quick pack-down and tidy layouts to keep walkways clear.</li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Volume is controlled through a mixer to keep levels comfortable and appropriate.</li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>All-electric instruments for predictable sound levels and clean setup.</li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i>Quick pack-down and tidy layout to keep walkways clear.</li>
             </ul>
           </div>
 
           <div class="rounded-2xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-6">
             <h3 class="font-heading text-lg font-bold text-brand-accent-light mb-3">Safeguarding approach</h3>
             <ul class="text-sm text-brand-text-mid space-y-2 leading-relaxed">
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>Sessions follow the school’s safeguarding expectations and agreed supervision arrangements.</li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>Sessions follow school safeguarding expectations and agreed supervision arrangements.</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>Any concern is handled via the school’s DSL process and reported appropriately.</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>Pupils follow school behaviour rules; unsafe behaviour may pause/end a session until a plan is agreed.</li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i>Photos/videos are used only with explicit consent; consent can be withdrawn at any time.</li>
@@ -684,7 +810,7 @@
 
     <!-- EQUIPMENT -->
     <section id="equipment" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-1">Equipment used (all-electric)</h2>
@@ -734,7 +860,7 @@
 
     <!-- PRICING -->
     <section id="pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center">
@@ -742,7 +868,7 @@
               Pricing &amp; Policy
             </h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
-              Simple, consistent rules so schools and parents know exactly what to expect.
+              Simple and consistent, so everyone knows what to expect.
             </p>
           </div>
         </div>
@@ -751,7 +877,7 @@
           <div class="rounded-2xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-6">
             <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-2">Pricing</p>
 
-            <div class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4">
                 <p class="text-3xl font-extrabold text-brand-accent-light leading-none">£15</p>
                 <p class="text-sm text-brand-text-mid mt-1">per child, per session</p>
@@ -759,10 +885,10 @@
 
               <div class="rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4">
                 <p class="text-3xl font-extrabold text-brand-highlight leading-none">£90</p>
-                <p class="text-sm text-brand-text-mid mt-1">per child, for a 6-week block</p>
+                <p class="text-sm text-brand-text-mid mt-1">per child, 6-week block</p>
               </div>
 
-              <div class="rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4">
+              <div class="rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4 sm:col-span-2">
                 <p class="font-semibold text-brand-text-light mb-1">Minimum numbers</p>
                 <p class="text-sm text-brand-text-mid leading-relaxed">
                   Minimum <strong class="text-brand-text-light">3</strong> pupils to run. Up to <strong class="text-brand-text-light">4</strong> per band.
@@ -779,22 +905,25 @@
             <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-2">Key policies (summary)</p>
             <ul class="space-y-3 text-sm text-brand-text-mid leading-relaxed">
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i><span><strong class="text-brand-text-light">Missed sessions:</strong> not refundable; sessions aren’t rearranged for individual absences.</span></li>
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i><span><strong class="text-brand-text-light">If Elliot’s Mobile Music cancels:</strong> a make-up session or credit is offered where reasonably possible.</span></li>
-              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i><span><strong class="text-brand-text-light">School closures/events:</strong> sessions are credited or rescheduled where possible.</span></li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-accent-light"></i><span><strong class="text-brand-text-light">If Elliot’s Mobile Music cancels:</strong> make-up session or credit where reasonably possible.</span></li>
+              <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i><span><strong class="text-brand-text-light">School closures/events:</strong> credited or rescheduled where possible.</span></li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i><span><strong class="text-brand-text-light">Late joiners:</strong> not accepted after Week 1.</span></li>
               <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-brand-highlight"></i><span><strong class="text-brand-text-light">Instrument changes:</strong> no changes after Week 1 (unless safeguarding/practical necessity).</span></li>
             </ul>
 
             <div class="mt-5 rounded-xl bg-card-bg/50 border border-brand-accent-dark/40 p-4 text-xs sm:text-sm text-brand-text-mid leading-relaxed">
               <p class="font-semibold text-brand-text-light mb-1">Showcase included</p>
-              Included in the programme cost and takes place during the final session. Performance details are confirmed with the school by Week 4.
+              Included in the programme cost and takes place during the final session. Details are confirmed with the school by Week 4.
             </div>
           </div>
         </div>
 
         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Privacy (short)</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Privacy (short)</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               Elliot’s Mobile Music (Elliot Wardill) collects basic details such as pupil name/year, parent contact,
               instrument preference, attendance, and any necessary notes provided — to run sessions and manage payments.
@@ -802,8 +931,11 @@
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Refunds / withdrawals</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Refunds / withdrawals</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               Places can usually be ended at the end of a paid term. Mid-term refunds are not normally offered unless agreed in exceptional circumstances.
               If a group is not viable by the cut-off (minimum numbers), families may be offered an alternative group, deferment, or a refund.
@@ -815,61 +947,82 @@
 
     <!-- FAQ -->
     <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-16 scroll-mt-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-brand-accent-dark/40 pb-4 mb-6">
           <div>
             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light">FAQ</h2>
             <p class="text-sm sm:text-base text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
-              The most common questions from schools and parents.
+              Common questions from schools and parents.
             </p>
           </div>
         </div>
 
         <div class="space-y-3">
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Does my child need any experience?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Does my child need any experience?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-              No — the programme is designed for <strong class="text-brand-text-light">beginners</strong>.
+              No — it’s designed for <strong class="text-brand-text-light">beginners</strong>. Pupils learn through simple routines and band-friendly parts.
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Do pupils take instruments home?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Do pupils take instruments home?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               Instruments are provided for <strong class="text-brand-text-light">in-school use during sessions</strong>.
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">What happens if a child misses a session?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>What happens if a child misses a session?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-              Sessions aren’t rearranged for individual absences and are not refundable; the slot stays reserved.
+              Sessions aren’t rearranged for individual absences and are not refundable; the slot remains reserved.
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">How loud is it? Will it disturb nearby classes?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>How loud is it? Will it disturb nearby classes?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               All-electric setup with volume controlled through a mixer. Levels can be adjusted to suit the room.
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Who supervises pupils during sessions?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Who supervises pupils during sessions?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               Safeguarding follows the school’s expectations and agreed supervision arrangements (as per school policy).
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">Can pupils swap instruments part-way through?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>Can pupils swap instruments part-way through?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-              No instrument changes after Week 1 (unless needed for safeguarding/practical reasons).
+              No instrument changes after Week 1 (unless needed for safeguarding/practical reasons). Pupils can change at the start of a new block.
             </p>
           </details>
 
-          <details class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
-            <summary class="cursor-pointer font-semibold text-brand-text-light">What if the group doesn’t reach minimum numbers?</summary>
+          <details class="faq-item bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-2xl p-5">
+            <summary class="cursor-pointer font-semibold text-brand-text-light flex items-center justify-between gap-3">
+              <span>What if the group doesn’t reach minimum numbers?</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
             <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
               Minimum is <strong class="text-brand-text-light">3 pupils</strong>. If not viable by cut-off: alternative group, deferment, or refund.
             </p>
@@ -878,9 +1031,9 @@
       </div>
     </section>
 
-    <!-- Q&A ASSISTANT -->
+    <!-- SCHOOL BAND Q&A ASSISTANT (REAL AI via /api/chat) -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal visible">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
           <div>
             <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
@@ -891,9 +1044,22 @@
               Ask anything about pricing, equipment, sign-ups, safeguarding, timetable, or the end-of-block showcase.
             </p>
           </div>
-          <a href="contact.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
-            Contact Elliot
-          </a>
+
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="clear-chat"
+              class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-3 py-2 rounded-lg border border-brand-accent-dark/60 bg-brand-dark-bg/40 text-brand-text-mid hover:text-white hover:border-brand-accent-light transition"
+              aria-label="Clear chat"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              Clear
+            </button>
+
+            <a href="contact.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
+              Contact Elliot
+            </a>
+          </div>
         </div>
 
         <div
@@ -939,6 +1105,10 @@
         </form>
 
         <p id="error-message" class="text-xs text-red-400 mt-2 hidden"></p>
+
+        <p class="mt-3 text-[11px] sm:text-xs text-brand-text-mid leading-relaxed">
+          Tip: ask short questions (pricing, minimum numbers, cancellations, supervision, equipment). If something depends on your school’s policy, the assistant will explain what’s fixed and what’s agreed with the school.
+        </p>
       </div>
     </section>
   </main>
@@ -964,7 +1134,7 @@
   </footer>
 
   <script>
-    // Mobile menu toggle
+    // Mobile menu toggle (accessible)
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
 
@@ -987,9 +1157,15 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") setMobileMenu(false);
       });
+
+      document.addEventListener("click", (e) => {
+        if (mobileMenu.classList.contains("hidden")) return;
+        const within = mobileMenu.contains(e.target) || mobileMenuButton.contains(e.target);
+        if (!within) setMobileMenu(false);
+      });
     }
 
-    // Sticky CTA visibility
+    // Sticky CTA visibility (show after hero)
     const stickyCta = document.getElementById("sticky-cta");
     const heroSection = document.getElementById("hero-section");
 
@@ -1004,9 +1180,25 @@
       observer.observe(heroSection);
     }
 
+    // Scroll progress bar
+    const progressEl = document.getElementById("scroll-progress");
+    function updateScrollProgress() {
+      if (!progressEl) return;
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const pct = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
+      progressEl.style.width = pct.toFixed(2) + "%";
+    }
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    window.addEventListener("resize", updateScrollProgress);
+    updateScrollProgress();
+
     // Scroll reveal
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealElements = document.querySelectorAll(".reveal");
-    if (revealElements.length) {
+
+    if (!reduceMotion && revealElements.length) {
       const revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -1019,15 +1211,31 @@
         { threshold: 0.15 }
       );
       revealElements.forEach((el) => revealObserver.observe(el));
+    } else {
+      revealElements.forEach((el) => el.classList.add("visible"));
     }
 
-    // ===== School Band Q&A Assistant (calls POST /api/chat) =====
+    // FAQ behavior: close others when one opens (keeps details accessible)
+    const faqItems = document.querySelectorAll("details.faq-item");
+    faqItems.forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (!item.open) return;
+        faqItems.forEach((other) => {
+          if (other !== item) other.open = false;
+        });
+      });
+    });
+
+    // ===== School Band Q&A Assistant (frontend, calls POST /api/chat) =====
     const chatForm = document.getElementById("chat-form");
     const chatInput = document.getElementById("chat-input");
     const chatBox = document.getElementById("chat-box");
     const loadingIndicator = document.getElementById("loading-indicator");
     const errorMessage = document.getElementById("error-message");
     const sendButton = document.getElementById("send-button");
+    const clearChatBtn = document.getElementById("clear-chat");
+
+    const STORAGE_KEY = "emm_school_band_chat_v1";
 
     const qaSystemPrompt = `You are a helpful, friendly Q&A assistant for Elliot’s Mobile Music — School Band Programme.
 Audience: schools and parents. Keep answers brief, clear, and confident. Use **bold** for key details.
@@ -1110,7 +1318,13 @@ CONTACT DETAILS
       });
     }
 
-    function appendMessage(sender, text) {
+    function renderBoldMarkdownSafe(text) {
+      // Escape HTML, then allow **bold** -> <strong>
+      const safe = escapeHTML(text);
+      return safe.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
+
+    function appendMessage(sender, text, persist = true) {
       const wrap = document.createElement("div");
       wrap.classList.add("flex", sender === "user" ? "justify-end" : "justify-start");
 
@@ -1133,13 +1347,64 @@ CONTACT DETAILS
       }
 
       const p = document.createElement("p");
-      const safe = escapeHTML(text).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      p.innerHTML = safe;
-
+      p.innerHTML = renderBoldMarkdownSafe(text || "");
       bubble.appendChild(p);
       wrap.appendChild(bubble);
+
       chatBox.insertBefore(wrap, loadingIndicator);
       chatBox.scrollTop = chatBox.scrollHeight;
+
+      if (persist) {
+        try {
+          const current = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
+          current.push({ sender, text: text || "" });
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(current.slice(-40))); // keep last 40
+        } catch (_) {}
+      }
+    }
+
+    function clearChatUI() {
+      const nodes = Array.from(chatBox.children);
+      nodes.forEach((n) => {
+        if (n !== loadingIndicator) n.remove();
+      });
+
+      // Add initial message back
+      const initial = document.createElement("div");
+      initial.className = "flex justify-start initial-message";
+      initial.innerHTML = `
+        <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">
+          Hi! I’m the School Band Programme assistant. Ask me about costs, schedules, equipment, or how the term runs.
+        </div>
+      `;
+      chatBox.insertBefore(initial, loadingIndicator);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function restoreChat() {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(saved) || saved.length === 0) return;
+
+        const initialMsg = chatBox.querySelector(".initial-message");
+        if (initialMsg) initialMsg.remove();
+
+        saved.forEach((m) => {
+          if (!m || !m.sender) return;
+          appendMessage(m.sender, m.text || "", false);
+        });
+      } catch (_) {}
+    }
+
+    restoreChat();
+
+    if (clearChatBtn) {
+      clearChatBtn.addEventListener("click", () => {
+        sessionStorage.removeItem(STORAGE_KEY);
+        clearChatUI();
+        if (errorMessage) errorMessage.classList.add("hidden");
+        if (chatInput) chatInput.focus();
+      });
     }
 
     async function handleQuery(query) {
@@ -1156,8 +1421,8 @@ CONTACT DETAILS
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: query.trim(),
-            systemPrompt: qaSystemPrompt,
-          }),
+            systemPrompt: qaSystemPrompt
+          })
         });
 
         if (!res.ok) throw new Error("Server error: " + res.status);
@@ -1178,16 +1443,18 @@ CONTACT DETAILS
       }
     }
 
-    chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = chatInput.value.trim();
-      if (!q) return;
+    if (chatForm) {
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const q = chatInput.value.trim();
+        if (!q) return;
 
-      const initialMsg = chatBox.querySelector(".initial-message");
-      if (initialMsg) initialMsg.remove();
+        const initialMsg = chatBox.querySelector(".initial-message");
+        if (initialMsg) initialMsg.remove();
 
-      handleQuery(q);
-    });
+        handleQuery(q);
+      });
+    }
   </script>
 </body>
 </html>
