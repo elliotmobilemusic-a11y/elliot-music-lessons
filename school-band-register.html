@@ -25,9 +25,9 @@
             "brand-dark-bg": "#1a1a2e",
             "brand-accent-light": "#00d084",
             "brand-accent-dark": "#00a36e",
+            "brand-highlight": "#ffb703",
             "brand-text-light": "#e0e0e0",
             "brand-text-mid": "#a0e0e0",
-            "brand-highlight": "#ffb703",
             "card-bg": "#252538",
           },
           fontFamily: {
@@ -43,33 +43,60 @@
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
 
     html, body { height: 100%; }
-    body{
-      margin:0;
-      font-family:Inter,sans-serif;
-      background-color:#1a1a2e;
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background-color: #1a1a2e;
       background-image:
-        radial-gradient(circle at 12% 12%, rgba(0,208,132,.12), transparent 55%),
-        radial-gradient(circle at 88% 18%, rgba(255,183,3,.10), transparent 60%),
+        radial-gradient(circle at 12% 12%, rgba(0, 208, 132, 0.14), transparent 55%),
+        radial-gradient(circle at 88% 18%, rgba(255, 183, 3, 0.11), transparent 60%),
         radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
-    .card-glow{box-shadow:0 12px 34px rgba(0,208,132,.11),0 3px 12px rgba(0,0,0,.65)}
-    .hr-glow{height:1px;background:linear-gradient(90deg,transparent,rgba(0,208,132,.55),transparent)}
-    .tally-frame{
+
+    .card-glow { box-shadow: 0 14px 40px rgba(0, 208, 132, 0.10), 0 3px 12px rgba(0, 0, 0, 0.60); }
+    .hr-glow { height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 208, 132, 0.55), transparent); }
+
+    /* App-like full screen under nav */
+    .screen {
+      height: calc(100vh - 64px);
+      min-height: 520px;
+    }
+
+    /* Form shell */
+    .form-shell{
       border-radius: 18px;
       overflow: hidden;
-      border: 1px solid rgba(0,163,110,.55);
-      background: rgba(26,26,46,.55);
-      box-shadow: 0 14px 40px rgba(0,208,132,.10), 0 3px 12px rgba(0,0,0,.55);
+      border: 1px solid rgba(0, 163, 110, 0.55);
+      background: rgba(26, 26, 46, 0.55);
+      box-shadow: 0 14px 40px rgba(0, 208, 132, 0.10), 0 3px 12px rgba(0, 0, 0, 0.55);
     }
-    .tally-iframe{
-      width:100%;
-      border:0;
-      background:transparent;
-      min-height: 1800px;
-      border-radius: 16px;
+    .form-iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: transparent;
     }
-    @media (max-width: 640px){
-      .tally-iframe{ min-height: 2200px; }
+
+    /* Mobile segmented tabs */
+    .seg {
+      background: rgba(26,26,46,0.6);
+      border: 1px solid rgba(0,163,110,0.45);
+      border-radius: 999px;
+      padding: 4px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    }
+    .seg button{
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      transition: background-color .2s ease, color .2s ease;
+    }
+    .seg button.active{
+      background: #00d084;
+      color: #1a1a2e;
     }
   </style>
 
@@ -80,102 +107,112 @@
     }
   </script>
 
-  <!-- Tally -->
+  <!-- Tally (load once) -->
   <script async src="https://tally.so/widgets/embed.js"></script>
 </head>
 
-<body class="min-h-screen text-brand-text-light">
+<body class="text-brand-text-light">
+
   <!-- NAV -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <a href="index.html" class="flex items-center space-x-2">
-          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center gap-2">
+          <span class="w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50 flex items-center justify-center">
             <span class="text-brand-accent-light font-black">♪</span>
           </span>
-          <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+          <span class="font-heading font-extrabold tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
             ELLIOT'S MOBILE MUSIC
           </span>
         </a>
 
-        <div class="hidden md:flex items-center gap-3">
-          <a href="school-band-programme.html" class="text-sm font-extrabold text-brand-accent-light hover:text-brand-highlight transition">
-            ← Back to programme page
-          </a>
-          <a href="contact.html" class="px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition shadow-md shadow-brand-accent-light/40">
-            CONTACT
-          </a>
-        </div>
-
-        <div class="md:hidden">
-          <a href="school-band-programme.html" class="text-sm font-extrabold text-brand-accent-light">
-            ← Back
-          </a>
-        </div>
+        <a href="school-band-programme.html#register"
+           class="px-4 py-2 rounded-lg border border-brand-accent-light/40 text-brand-accent-light hover:bg-brand-accent-light/10 transition font-extrabold text-sm">
+          ← Back
+        </a>
       </div>
     </div>
   </nav>
 
   <!-- FULL SCREEN LAYOUT -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- Details (left on desktop, top on mobile) -->
-      <aside class="lg:col-span-4 space-y-6">
-        <div class="bg-card-bg/85 rounded-2xl border border-brand-accent-dark/60 card-glow p-6">
-          <h1 class="font-heading text-2xl font-extrabold text-brand-highlight">Register Interest (Deposit)</h1>
-          <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">
-            You’re on the secure registration page for parents/carers.
+  <main class="screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+    <!-- Mobile tabs -->
+    <div class="lg:hidden mb-4 flex justify-center">
+      <div class="seg inline-flex gap-1">
+        <button id="tabDetails" class="active" type="button">Details</button>
+        <button id="tabForm" type="button">Form</button>
+      </div>
+    </div>
+
+    <div class="h-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- DETAILS -->
+      <aside id="panelDetails" class="lg:col-span-4 h-full">
+        <div class="h-full bg-card-bg/85 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 overflow-y-auto">
+          <p class="text-xs font-extrabold tracking-[0.24em] uppercase text-brand-highlight">Secure Registration</p>
+          <h1 class="mt-2 font-heading text-2xl font-extrabold text-brand-text-light">
+            Register Interest (Deposit)
+          </h1>
+
+          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
             Please complete the form and pay the <span class="font-extrabold text-brand-text-light">£10 deposit</span>.
+            This reserves a place while bands and times are confirmed with your school.
           </p>
-          <div class="hr-glow my-5"></div>
-          <div class="text-sm text-brand-text-mid leading-relaxed space-y-2">
-            <p><span class="text-brand-accent-light font-extrabold">•</span> Deposit comes off the total cost.</p>
-            <p><span class="text-brand-accent-light font-extrabold">•</span> If no suitable place/time can be offered, deposit is refunded.</p>
-            <p><span class="text-brand-accent-light font-extrabold">•</span> If you cancel after a place/time is offered, deposit may be non-refundable.</p>
+
+          <div class="mt-5 hr-glow"></div>
+
+          <div class="mt-5 rounded-2xl border border-brand-highlight/35 bg-brand-highlight/10 p-5">
+            <p class="text-sm text-brand-text-mid leading-relaxed">
+              If you weren’t directed here by your school, please go back and don’t submit the form.
+            </p>
           </div>
-        </div>
 
-        <div class="bg-brand-dark-bg/55 rounded-2xl border border-brand-accent-dark/50 p-6">
-          <h2 class="font-heading text-lg font-extrabold text-brand-text-light">How it works</h2>
-          <ol class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li><span class="text-brand-highlight font-extrabold">1.</span> Register + deposit.</li>
-            <li><span class="text-brand-highlight font-extrabold">2.</span> Bands (3–4) + weekly time confirmed with school.</li>
-            <li><span class="text-brand-highlight font-extrabold">3.</span> Remaining balance collected before Week 1.</li>
-            <li><span class="text-brand-highlight font-extrabold">4.</span> Weekly sessions + mini performance.</li>
-          </ol>
+          <div class="mt-5 rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-5">
+            <h2 class="font-heading text-base font-extrabold text-brand-highlight">Deposit rules</h2>
+            <ul class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
+              <li>• Deposit comes off the total cost</li>
+              <li>• If no suitable place/time can be offered, deposit is refunded</li>
+              <li>• If you cancel after a place/time is offered, deposit may be non-refundable</li>
+            </ul>
+          </div>
 
-          <div class="hr-glow my-5"></div>
+          <div class="mt-5 rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-5">
+            <h2 class="font-heading text-base font-extrabold text-brand-text-light">Help</h2>
+            <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
+              If you have any issues, contact Elliot directly:
+            </p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a href="mailto:elliotwardillmusic@gmail.com"
+                 class="px-4 py-2.5 rounded-full bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 hover:bg-brand-accent-light/15 transition text-sm font-extrabold">
+                Email
+              </a>
+              <a href="tel:07368975144"
+                 class="px-4 py-2.5 rounded-full bg-brand-highlight/15 text-brand-highlight border border-brand-highlight/40 hover:bg-brand-highlight/25 transition text-sm font-extrabold">
+                Call
+              </a>
+            </div>
+          </div>
 
-          <p class="text-xs text-brand-text-mid">
-            Need help? Email
-            <a class="text-brand-highlight hover:text-brand-accent-light" href="mailto:elliotwardillmusic@gmail.com">elliotwardillmusic@gmail.com</a>
-            or call
-            <a class="text-brand-highlight hover:text-brand-accent-light" href="tel:07368975144">07368 975144</a>.
+          <p class="mt-5 text-xs text-brand-text-mid leading-relaxed">
+            Tip: If the form looks blank, wait a moment or refresh.
           </p>
         </div>
       </aside>
 
-      <!-- Form (right on desktop, below on mobile) -->
-      <section class="lg:col-span-8">
-        <div class="tally-frame">
+      <!-- FORM -->
+      <section id="panelForm" class="lg:col-span-8 h-full">
+        <div class="h-full form-shell">
           <div class="px-5 py-4 border-b border-brand-accent-dark/40 flex items-center justify-between bg-brand-dark-bg/40">
-            <span class="text-sm font-extrabold text-brand-text-light">Secure deposit form</span>
-            <span class="text-xs text-brand-text-mid">Powered by Tally + Stripe</span>
+            <span class="text-sm font-extrabold text-brand-text-light">Deposit Form</span>
+            <span class="text-xs text-brand-text-mid">Tally + Stripe</span>
           </div>
 
-          <div class="p-4 sm:p-6">
-            <!-- ✅ Themed embed URL: alignLeft + hideTitle + transparentBackground + dynamicHeight -->
+          <div class="h-[calc(100%-56px)]">
             <iframe
-              data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1"
               loading="lazy"
-              width="100%"
-              height="1"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
               title="School Band Programme – Register Interest (Deposit)"
               allow="payment"
-              class="tally-iframe"
+              class="form-iframe"
             ></iframe>
           </div>
         </div>
@@ -184,30 +221,59 @@
   </main>
 
   <script>
-    // Soft gate: stop direct access (best possible on static sites)
+    // Soft-gate (static site best-effort):
+    // If someone tries to open this page directly, send them back to the main page.
     (function () {
       const params = new URLSearchParams(window.location.search);
       const qVerified = params.get("verified") === "1";
+      let ok = false;
 
-      let storeOk = false;
       try {
         const raw = localStorage.getItem("emm_school_band_invite");
         if (raw) {
           const data = JSON.parse(raw);
-          // 24 hour window
-          storeOk = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000;
+          ok = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000; // 24 hours
         }
       } catch (e) {}
 
-      if (!qVerified && !storeOk) {
-        window.location.replace("./school-band-programme.html");
+      if (!qVerified && !ok) {
+        window.location.replace("./school-band-programme.html#register");
         return;
       }
 
-      // Ensure embeds load (especially if cache delays embed.js)
+      // Ensure embeds load
       window.addEventListener("load", () => {
         try { if (window.Tally && typeof window.Tally.loadEmbeds === "function") window.Tally.loadEmbeds(); } catch (e) {}
       });
+    })();
+
+    // Mobile tabs: Details/Form
+    (function () {
+      const tabDetails = document.getElementById("tabDetails");
+      const tabForm = document.getElementById("tabForm");
+      const panelDetails = document.getElementById("panelDetails");
+      const panelForm = document.getElementById("panelForm");
+      if (!tabDetails || !tabForm || !panelDetails || !panelForm) return;
+
+      function setActive(which) {
+        const isDetails = which === "details";
+        tabDetails.classList.toggle("active", isDetails);
+        tabForm.classList.toggle("active", !isDetails);
+
+        const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+        if (isMobile) {
+          panelDetails.classList.toggle("hidden", !isDetails);
+          panelForm.classList.toggle("hidden", isDetails);
+        } else {
+          panelDetails.classList.remove("hidden");
+          panelForm.classList.remove("hidden");
+        }
+      }
+
+      tabDetails.addEventListener("click", () => setActive("details"));
+      tabForm.addEventListener("click", () => setActive("form"));
+      window.addEventListener("resize", () => setActive(tabDetails.classList.contains("active") ? "details" : "form"));
+      setActive("details");
     })();
   </script>
 </body>
