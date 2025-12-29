@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>School Band Programme – Elliot’s Mobile Music</title>
-  <meta name="description" content="In-school beginner band programme for primary schools. Small groups, all-electric setup, 6-week blocks with an end performance." />
+  <meta name="description" content="Beginner-friendly in-school band sessions for primary schools. Small groups, all-electric instruments provided, and an end-of-block showcase." />
   <meta name="color-scheme" content="dark" />
 
   <!-- Favicon -->
@@ -24,44 +24,45 @@
       theme: {
         extend: {
           colors: {
-            'brand-dark-bg': '#1a1a2e',
-            'brand-accent-light': '#00d084',
-            'brand-accent-dark': '#00a36e',
-            'brand-text-light': '#e0e0e0',
-            'brand-text-mid': '#a0e0e0',
-            'brand-highlight': '#ffb703',
-            'card-bg': '#252538',
-            'error-red': '#f87171',
+            "brand-dark-bg": "#1a1a2e",
+            "brand-accent-light": "#00d084",
+            "brand-accent-dark": "#00a36e",
+            "brand-text-light": "#e0e0e0",
+            "brand-text-mid": "#a0a0a0",
+            "brand-highlight": "#ffb703",
+            "card-bg": "#252538",
+            "error-red": "#f87171",
           },
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            heading: ['Montserrat', 'sans-serif'],
+            sans: ["Inter", "sans-serif"],
+            heading: ["Montserrat", "sans-serif"],
           },
-        }
-      }
-    }
+        },
+      },
+    };
   </script>
 
   <!-- Service Worker (PWA offline + install) -->
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js");
-      });
+      window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
     }
   </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       background-color: #1a1a2e;
-      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(0, 208, 132, 0.12), transparent 55%),
+        radial-gradient(circle at 90% 20%, rgba(255, 183, 3, 0.10), transparent 60%),
+        radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
 
-    .main-hero-shadow { text-shadow: 0 0 16px rgba(0, 208, 132, 0.4); }
-    .card-glow { box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6); }
+    .main-hero-shadow { text-shadow: 0 0 16px rgba(0, 208, 132, 0.38); }
+    .card-glow { box-shadow: 0 12px 34px rgba(0, 208, 132, 0.11), 0 3px 12px rgba(0, 0, 0, 0.65); }
 
     .hover-lift {
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease, background-color 0.2s ease;
@@ -71,53 +72,50 @@
     .reveal {
       opacity: 0;
       transform: translateY(24px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      transition: opacity 0.85s ease-out, transform 0.85s ease-out;
     }
     .reveal.delayed-1 { transition-delay: 0.12s; }
     .reveal.delayed-2 { transition-delay: 0.2s; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* Nice gradient divider */
-    .hr-glow { height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 208, 132, 0.55), transparent); }
+    .hr-glow {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 208, 132, 0.55), transparent);
+    }
 
-    /* Tally frame (we can theme the FRAME; the form UI inside is themed in Tally) */
+    /* Tally frame (site-side) */
     .tally-frame {
       position: relative;
-      border-radius: 1rem;
+      border-radius: 1.25rem;
       overflow: hidden;
       border: 1px solid rgba(0, 163, 110, 0.55);
       background: rgba(26, 26, 46, 0.55);
-      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.10), 0 3px 10px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 14px 40px rgba(0, 208, 132, 0.10), 0 3px 12px rgba(0, 0, 0, 0.55);
     }
 
-    /* Make the embed feel integrated + responsive */
     .tally-iframe {
       width: 100%;
       border: 0;
       background: transparent;
-      border-radius: 0.75rem;
-      min-height: 1200px;
+      border-radius: 0.9rem;
+      min-height: 1600px; /* gives breathing room, reduces awkward cut-offs */
     }
     @media (max-width: 640px) {
-      .tally-iframe { min-height: 1350px; }
+      .tally-iframe { min-height: 1900px; }
     }
 
     /* Sticky CTA */
     #sticky-cta {
       position: fixed;
-      bottom: calc(1.25rem + env(safe-area-inset-bottom));
-      right: 1.25rem;
+      bottom: calc(1.1rem + env(safe-area-inset-bottom));
+      right: 1.1rem;
       z-index: 100;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(18px);
       transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
     }
-    #sticky-cta.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+    #sticky-cta.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
     @media (max-width: 640px) {
       #sticky-cta {
         left: 1rem;
@@ -133,20 +131,21 @@
       border: 1px solid rgba(0, 163, 110, 0.45);
       border-radius: 999px;
       padding: 4px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
     }
     .seg-btn {
       border-radius: 999px;
       padding: 10px 12px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 12px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
     .seg-btn.active {
       background: #00d084;
       color: #1a1a2e;
-      box-shadow: 0 12px 30px rgba(0, 208, 132, 0.25);
+      box-shadow: 0 14px 28px rgba(0, 208, 132, 0.22);
     }
 
     /* Scrollbar */
@@ -190,13 +189,13 @@
 
 <body class="min-h-screen flex flex-col text-brand-text-light">
 
-  <!-- NAVIGATION (same as index) -->
+  <!-- NAV (matches your index layout: logo left, links center, login right) -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
         <!-- Logo -->
-        <a href="index.html" class="flex items-center space-x-2 reveal visible">
+        <a href="index.html" class="flex items-center space-x-2">
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
             <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
           </span>
@@ -205,41 +204,41 @@
           </span>
         </a>
 
-        <!-- Desktop nav -->
-        <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+        <!-- Center nav (desktop) -->
+        <div class="hidden md:flex flex-1 justify-center gap-6 text-xs md:text-sm">
+          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 py-2 font-medium">
             HOME
           </a>
-          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 py-2 font-medium">
             PRICING & FEES
           </a>
-          <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 py-2 font-medium">
             AVAILABILITY
           </a>
-
-          <!-- ACTIVE -->
-          <a href="school-band-programme.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+          <a href="school-band-programme.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-2 py-2 font-medium">
             SCHOOL BANDS
           </a>
-
-          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 py-2 font-medium">
             CONTACT
           </a>
+        </div>
 
-          <!-- LOGIN BUTTON (desktop) -->
+        <!-- Login (desktop) -->
+        <div class="hidden md:flex">
           <a href="login.html"
-             class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
-                    hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40 hover-lift">
+             class="px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
+                    hover:bg-brand-accent-dark transition shadow-md shadow-brand-accent-light/40">
             LOGIN
           </a>
         </div>
 
-        <!-- Mobile button -->
-        <div class="sm:hidden">
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
           <button id="mobile-menu-button"
                   class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
                   aria-label="Open menu">
-            <svg class="h-6 w-6" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="h-6 w-6" xmlns="https://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
@@ -249,89 +248,72 @@
     </div>
 
     <!-- Mobile menu -->
-    <div class="sm:hidden hidden" id="mobile-menu">
+    <div class="md:hidden hidden" id="mobile-menu">
       <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-          HOME
-        </a>
-        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-          PRICING & FEES
-        </a>
-        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-          AVAILABILITY
-        </a>
-        <a href="school-band-programme.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">
-          SCHOOL BANDS
-        </a>
-        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-          CONTACT
-        </a>
-
-        <!-- LOGIN BUTTON (mobile) -->
-        <a href="login.html" class="block rounded-md mt-1 bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 text-center">
-          LOGIN
-        </a>
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
+        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
+        <a href="school-band-programme.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">SCHOOL BANDS</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
+        <a href="login.html" class="block rounded-md mt-1 bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 text-center">LOGIN</a>
       </div>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <main class="flex-grow">
 
     <!-- HERO -->
-    <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <section id="hero-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 pb-14">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="reveal">
           <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
             IN-SCHOOL BAND PROGRAMME (PRIMARY SCHOOLS)
           </p>
 
-          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
+          <h1 class="font-heading text-4xl sm:text-5xl xl:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
             Small groups.<br>
             <span class="text-brand-accent-light">Big progress.</span>
           </h1>
 
-          <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-8">
+          <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-7 leading-relaxed">
             A beginner-friendly programme where children learn their chosen instrument <strong class="text-brand-text-light">as a band</strong>.
-            I provide the all-electric equipment and run a simple <strong class="text-brand-text-light">6-week block</strong> that ends with a small performance.
+            I provide the all-electric equipment and run a structured <strong class="text-brand-text-light">6-week block</strong> ending with a short performance.
           </p>
 
-          <div class="flex flex-wrap gap-3 mb-6">
-            <div class="flex items-center text-xs sm:text-sm text-brand-text-mid">
+          <div class="flex flex-wrap gap-3 mb-7">
+            <span class="inline-flex items-center text-xs sm:text-sm text-brand-text-mid bg-brand-dark-bg/40 border border-brand-accent-dark/40 rounded-full px-3 py-1.5">
               <span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>
               3–4 children per band
-            </div>
-            <div class="flex items-center text-xs sm:text-sm text-brand-text-mid">
+            </span>
+            <span class="inline-flex items-center text-xs sm:text-sm text-brand-text-mid bg-brand-dark-bg/40 border border-brand-accent-dark/40 rounded-full px-3 py-1.5">
               <span class="w-2 h-2 rounded-full bg-brand-highlight mr-2"></span>
               30 mins weekly
-            </div>
-            <div class="flex items-center text-xs sm:text-sm text-brand-text-mid">
+            </span>
+            <span class="inline-flex items-center text-xs sm:text-sm text-brand-text-mid bg-brand-dark-bg/40 border border-brand-accent-dark/40 rounded-full px-3 py-1.5">
               <span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>
               Guitar • Bass • Keys • E-Drums • Singing
-            </div>
+            </span>
           </div>
 
-          <div class="flex flex-wrap gap-4 mb-6">
+          <div class="flex flex-wrap gap-3">
             <a href="#register"
-               class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition">
+               class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition">
               <i data-lucide="check-circle-2" class="w-4 h-4 mr-2"></i>
               Register (Deposit)
             </a>
-
-            <a href="#pricing"
-               class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transform hover:scale-[1.02] transition">
-              <i data-lucide="star" class="w-4 h-4 mr-2"></i>
-              View Pricing
+            <a href="#how-it-works"
+               class="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transform hover:scale-[1.02] transition">
+              <i data-lucide="clipboard-list" class="w-4 h-4 mr-2"></i>
+              How it works
             </a>
-
             <a href="contact.html"
-               class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-accent-light text-brand-accent-light text-sm font-semibold hover:bg-brand-accent-light/10 transform hover:scale-[1.02] transition">
+               class="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-brand-accent-light text-brand-accent-light text-sm font-semibold hover:bg-brand-accent-light/10 transform hover:scale-[1.02] transition">
               <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
               Enquire (Schools)
             </a>
           </div>
 
-          <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-text-mid">
+          <div class="flex flex-wrap items-center gap-4 mt-6 text-xs sm:text-sm text-brand-text-mid">
             <span class="flex items-center">
               <i data-lucide="phone" class="w-4 h-4 mr-1 text-brand-highlight"></i>
               <a href="tel:07368975144" class="hover:text-white">07368 975144</a>
@@ -343,37 +325,223 @@
           </div>
         </div>
 
-        <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5 reveal delayed-1">
+        <div class="bg-card-bg/85 rounded-2xl border border-brand-accent-dark/60 card-glow p-8 space-y-5 reveal delayed-1">
           <div class="flex items-start gap-4">
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50">
-              <i data-lucide="clipboard-list" class="w-6 h-6 text-brand-accent-light"></i>
+              <i data-lucide="music-2" class="w-6 h-6 text-brand-accent-light"></i>
             </div>
-            <div class="flex-1">
-              <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">
-                AT A GLANCE
-              </p>
-              <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-1">
-                What you’re getting
-              </h2>
-              <p class="text-xs sm:text-sm text-brand-text-mid">
-                Structured, calm sessions with clear expectations, safe setup, and predictable pricing.
+            <div>
+              <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">AT A GLANCE</p>
+              <h2 class="font-heading text-2xl font-bold text-brand-text-light">Built for schools</h2>
+              <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
+                Calm, structured sessions with safe all-electric equipment, clear timings, and an end-of-block showcase.
               </p>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm pt-3 border-t border-brand-accent-dark/40 mt-1">
-            <div class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-brand-accent-light"></i>Small-group attention</div>
+          <div class="hr-glow"></div>
+
+          <div class="grid grid-cols-2 gap-4 text-xs sm:text-sm text-brand-text-mid">
+            <div class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-brand-accent-light"></i>Small groups</div>
             <div class="flex items-center"><i data-lucide="clock" class="w-4 h-4 mr-2 text-brand-highlight"></i>30 mins weekly</div>
             <div class="flex items-center"><i data-lucide="calendar-days" class="w-4 h-4 mr-2 text-brand-accent-light"></i>6-week blocks</div>
-            <div class="flex items-center"><i data-lucide="volume-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>All-electric setup</div>
+            <div class="flex items-center"><i data-lucide="volume-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>Volume controlled</div>
             <div class="flex items-center"><i data-lucide="shield" class="w-4 h-4 mr-2 text-brand-highlight"></i>Safeguarding aligned</div>
-            <div class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>End showcase</div>
+            <div class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>End performance</div>
           </div>
 
-          <div class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-4 text-xs sm:text-sm">
-            <p class="font-semibold text-brand-text-light mb-1">For schools:</p>
-            <p class="text-brand-text-mid">
-              I can run a pilot block and handle parent comms + deposits. Schools mainly provide a room and a point of contact.
+          <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-xl p-4 text-sm">
+            <p class="font-semibold text-brand-text-light">Parents pay directly</p>
+            <p class="text-brand-text-mid mt-1 leading-relaxed">
+              Deposits reserve places, then the remaining balance is collected once bands are confirmed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+        <div class="bg-card-bg rounded-2xl p-7 border border-brand-accent-dark/55 card-glow hover-lift reveal">
+          <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-3"></i>
+          <h3 class="font-heading text-lg font-bold text-brand-text-light">Beginner-friendly</h3>
+          <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">
+            Children can start from zero—parts are simplified so everyone can play together quickly.
+          </p>
+        </div>
+
+        <div class="bg-card-bg rounded-2xl p-7 border border-brand-accent-dark/55 card-glow hover-lift reveal delayed-1">
+          <i data-lucide="zap" class="w-6 h-6 text-brand-highlight mb-3"></i>
+          <h3 class="font-heading text-lg font-bold text-brand-text-light">Fast progress</h3>
+          <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">
+            Small groups keep energy high and support confidence, timing and teamwork.
+          </p>
+        </div>
+
+        <div class="bg-card-bg rounded-2xl p-7 border border-brand-accent-dark/55 card-glow hover-lift reveal delayed-2">
+          <i data-lucide="volume-2" class="w-6 h-6 text-brand-accent-light mb-3"></i>
+          <h3 class="font-heading text-lg font-bold text-brand-text-light">School-friendly setup</h3>
+          <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">
+            All-electric instruments with controlled volume—safe, tidy, and room-appropriate.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-5 mb-7">
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
+            <i data-lucide="clipboard-list" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            How it works
+          </h2>
+          <a href="#register" class="text-sm font-semibold text-brand-accent-light hover:text-brand-highlight transition">
+            Skip to registration →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6">
+              <p class="text-sm text-brand-text-mid leading-relaxed">
+                <span class="font-bold text-brand-text-light">Step 1:</span> Parents register via the secure form and pay the <span class="font-bold text-brand-text-light">£10 deposit</span>.
+              </p>
+            </div>
+            <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6">
+              <p class="text-sm text-brand-text-mid leading-relaxed">
+                <span class="font-bold text-brand-text-light">Step 2:</span> I confirm bands (3–4 children) and a consistent weekly time with the school.
+              </p>
+            </div>
+            <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6">
+              <p class="text-sm text-brand-text-mid leading-relaxed">
+                <span class="font-bold text-brand-text-light">Step 3:</span> Remaining balance is collected once your child’s group is confirmed (before Week 1).
+              </p>
+            </div>
+            <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6">
+              <p class="text-sm text-brand-text-mid leading-relaxed">
+                <span class="font-bold text-brand-text-light">Step 4:</span> The band builds a song across 6 weeks and ends with a short performance.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6">
+            <h3 class="font-heading text-lg font-bold text-brand-text-light mb-3">Instrument options</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-brand-text-mid">
+              <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>Guitar</div>
+              <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>Bass</div>
+              <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>Keyboard</div>
+              <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>Electronic Drums</div>
+              <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-highlight mr-2"></span>Singing</div>
+            </div>
+
+            <div class="hr-glow my-6"></div>
+
+            <h3 class="font-heading text-lg font-bold text-brand-text-light mb-2">Deposit rules</h3>
+            <ul class="text-sm text-brand-text-mid leading-relaxed space-y-2">
+              <li>• The £10 deposit comes off the total cost.</li>
+              <li>• If we can’t offer a suitable place/time, the deposit is refunded.</li>
+              <li>• If you cancel after a place/time is offered, the deposit may be non-refundable.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 WEEK TIMELINE -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-5 mb-7">
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
+            <i data-lucide="calendar-days" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            6-week block timeline
+          </h2>
+          <span class="text-xs text-brand-text-mid">Example structure</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50 text-brand-accent-light font-extrabold">1</span>
+              <div class="text-brand-text-light font-bold">Week 1</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Instrument intro, setup, first band groove.</p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50 text-brand-accent-light font-extrabold">2</span>
+              <div class="text-brand-text-light font-bold">Week 2</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Core parts, steady timing, band listening.</p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-highlight/15 border border-brand-highlight/50 text-brand-highlight font-extrabold">3</span>
+              <div class="text-brand-text-light font-bold">Week 3</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Song sections + transitions, confidence building.</p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-highlight/15 border border-brand-highlight/50 text-brand-highlight font-extrabold">4</span>
+              <div class="text-brand-text-light font-bold">Week 4</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Dynamics, tighter band sound, teamwork focus.</p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50 text-brand-accent-light font-extrabold">5</span>
+              <div class="text-brand-text-light font-bold">Week 5</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Performance practice + polishing.</p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50 text-brand-accent-light font-extrabold">6</span>
+              <div class="text-brand-text-light font-bold">Week 6</div>
+            </div>
+            <p class="text-sm text-brand-text-mid leading-relaxed">Mini showcase / end-of-block performance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFEGUARDING -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-5 mb-7">
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
+            <i data-lucide="shield" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            Safeguarding & safety
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <h3 class="font-heading text-base font-extrabold text-brand-text-light">School procedures</h3>
+            <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
+              Sessions align with the school’s safeguarding expectations and operate on school premises.
+              Any concerns are routed via the school DSL / deputy DSL process.
+            </p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <h3 class="font-heading text-base font-extrabold text-brand-text-light">Room setup</h3>
+            <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
+              Cables are managed safely and levels are controlled so sessions remain calm and appropriate for the school environment.
+            </p>
+          </div>
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-6 hover-lift">
+            <h3 class="font-heading text-base font-extrabold text-brand-text-light">Parent communication</h3>
+            <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
+              Parents receive clear info about deposits, group confirmation, and end-of-block performance expectations.
             </p>
           </div>
         </div>
@@ -381,10 +549,10 @@
     </section>
 
     <!-- PRICING -->
-    <section id="pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center">
+    <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-5 mb-7">
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
             <i data-lucide="star" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
             Pricing (parents)
           </h2>
@@ -392,81 +560,88 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-6 hover-lift">
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-7 hover-lift">
             <div class="text-brand-text-mid text-sm">Per session</div>
             <div class="font-heading text-4xl font-extrabold text-brand-text-light mt-1">£15</div>
             <div class="text-xs text-brand-text-mid mt-2">per child (30 mins)</div>
           </div>
-          <div class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-6 hover-lift">
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-7 hover-lift">
             <div class="text-brand-text-mid text-sm">Block total</div>
             <div class="font-heading text-4xl font-extrabold text-brand-text-light mt-1">£90</div>
             <div class="text-xs text-brand-text-mid mt-2">per child (6 weeks)</div>
           </div>
-          <div class="bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-6 hover-lift">
+
+          <div class="bg-brand-dark-bg/55 border border-brand-accent-dark/40 rounded-2xl p-7 hover-lift">
             <div class="text-brand-text-mid text-sm">Minimum to run</div>
             <div class="font-heading text-4xl font-extrabold text-brand-text-light mt-1">3</div>
             <div class="text-xs text-brand-text-mid mt-2">max 4 per band</div>
           </div>
         </div>
 
-        <div class="mt-6 hr-glow"></div>
+        <div class="hr-glow my-7"></div>
 
-        <p class="mt-5 text-sm text-brand-text-mid leading-relaxed">
+        <p class="text-sm text-brand-text-mid leading-relaxed">
           Deposits reserve places while bands are finalised. Groups are confirmed with the school and parents before the block begins.
         </p>
       </div>
     </section>
 
-    <!-- REGISTER -->
-    <section id="register" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+    <!-- REGISTER (LESS CRAMPED + MORE “PREMIUM” SPACING) -->
+    <section id="register" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
 
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-brand-accent-dark/40 pb-5 mb-6">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 border-b border-brand-accent-dark/40 pb-6 mb-8">
           <div>
-            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center">
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
               <i data-lucide="mail" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
               Register Interest (Deposit)
             </h2>
-            <p class="text-sm text-brand-text-mid mt-1 max-w-3xl leading-relaxed">
+            <p class="text-sm text-brand-text-mid mt-2 max-w-3xl leading-relaxed">
               This registration is <strong class="text-brand-text-light">only</strong> for parents/carers whose school has announced the programme
               and directed you to this page. A <strong class="text-brand-text-light">£10 deposit</strong> reserves a place while groups are confirmed.
             </p>
           </div>
 
-          <a href="tel:07368975144"
-             class="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-brand-highlight/15 text-brand-highlight border border-brand-highlight/40 hover:bg-brand-highlight/25 transition">
-            <i data-lucide="phone" class="w-4 h-4 mr-2"></i> Quick call: 07368 975144
-          </a>
+          <div class="flex flex-wrap gap-3">
+            <a href="tel:07368975144"
+               class="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-brand-highlight/15 text-brand-highlight border border-brand-highlight/40 hover:bg-brand-highlight/25 transition">
+              <i data-lucide="phone" class="w-4 h-4 mr-2"></i> 07368 975144
+            </a>
+            <a href="mailto:elliotwardillmusic@gmail.com"
+               class="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 hover:bg-brand-accent-light/15 transition">
+              <i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email Elliot
+            </a>
+          </div>
         </div>
 
-        <!-- MOBILE SEGMENTED TOGGLE (Portrait on mobile / Landscape on desktop) -->
-        <div class="lg:hidden mb-5 flex justify-center">
+        <!-- MOBILE SEGMENTED TOGGLE (optional; makes portrait experience nicer) -->
+        <div class="lg:hidden mb-6 flex justify-center">
           <div class="segmented inline-flex gap-1">
             <button id="tab-info" class="seg-btn active" type="button">Info</button>
             <button id="tab-form" class="seg-btn" type="button">Deposit Form</button>
           </div>
         </div>
 
-        <!-- LANDSCAPE DESKTOP: two columns / PORTRAIT MOBILE: tab-switch + stacked -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- LEFT PANEL (Info) -->
-          <div id="panel-info" class="lg:col-span-3 space-y-6">
-            <div class="rounded-2xl border border-brand-highlight/35 bg-brand-highlight/10 p-5">
+        <!-- Desktop landscape: left info (4/12) + wide form (8/12)
+             Mobile portrait: stacked + toggle -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- LEFT (Info) -->
+          <div id="panel-info" class="lg:col-span-4 space-y-7 lg:sticky lg:top-24 self-start">
+            <div class="rounded-2xl border border-brand-highlight/35 bg-brand-highlight/10 p-6">
               <div class="flex items-start gap-3">
-                <div class="mt-0.5">
-                  <i data-lucide="alert-triangle" class="w-5 h-5 text-brand-highlight"></i>
-                </div>
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-brand-highlight mt-1"></i>
                 <div>
-                  <h3 class="font-heading text-base font-bold text-brand-highlight">Important notice</h3>
-                  <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
+                  <h3 class="font-heading text-base font-extrabold text-brand-highlight">Important notice</h3>
+                  <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">
                     Please only continue if you have been <strong class="text-brand-text-light">informed by your school</strong> that the programme
                     is running and you have been asked to register interest.
                   </p>
                 </div>
               </div>
 
-              <label class="mt-4 flex items-start gap-3 text-sm text-brand-text-light">
-                <input id="invite-check" type="checkbox" class="mt-1 accent-[#00d084]" />
+              <label class="mt-5 flex items-start gap-3 text-sm text-brand-text-light leading-relaxed">
+                <input id="invite-check" type="checkbox" class="mt-1.5 accent-[#00d084]" />
                 <span>
                   I confirm my child attends a participating school and I have been directed here to register interest.
                 </span>
@@ -476,48 +651,45 @@
                 id="show-form-btn"
                 type="button"
                 disabled
-                class="mt-4 w-full inline-flex items-center justify-center px-4 py-3 rounded-xl bg-brand-accent-light text-brand-dark-bg font-semibold transition opacity-50 cursor-not-allowed"
+                class="mt-5 w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-brand-accent-light text-brand-dark-bg font-extrabold transition opacity-50 cursor-not-allowed"
               >
                 Continue to deposit form
                 <i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i>
               </button>
 
-              <p class="text-xs text-brand-text-mid mt-3 leading-relaxed">
+              <div class="hr-glow my-5"></div>
+
+              <p class="text-xs text-brand-text-mid leading-relaxed">
                 Deposit rules: the £10 comes off the total cost. If we cannot offer a suitable place/time, it is refunded.
                 If you cancel after a place/time is offered, it may be non-refundable.
               </p>
             </div>
 
-            <div class="rounded-2xl border border-brand-accent-dark/60 bg-brand-dark-bg/60 p-5">
-              <h3 class="font-heading text-sm font-semibold text-brand-highlight tracking-wide uppercase">How it works</h3>
-              <ol class="mt-3 space-y-3 text-sm text-brand-text-mid leading-relaxed">
-                <li class="flex gap-2"><span class="text-brand-accent-light font-semibold">1.</span> Complete the form and pay the <strong class="text-brand-text-light">£10 deposit</strong>.</li>
-                <li class="flex gap-2"><span class="text-brand-accent-light font-semibold">2.</span> Elliot confirms groups/times with the school and parents.</li>
-                <li class="flex gap-2"><span class="text-brand-accent-light font-semibold">3.</span> Remaining balance is collected once your child’s group is confirmed (before Week 1).</li>
-                <li class="flex gap-2"><span class="text-brand-accent-light font-semibold">4.</span> Sessions run weekly (same day/time) and end with a small performance.</li>
+            <div class="rounded-2xl border border-brand-accent-dark/55 bg-brand-dark-bg/55 p-6">
+              <h3 class="font-heading text-sm font-extrabold text-brand-highlight tracking-[0.22em] uppercase">How it works</h3>
+              <ol class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+                <li class="flex gap-2"><span class="text-brand-accent-light font-extrabold">1.</span> Complete the form and pay the <strong class="text-brand-text-light">£10 deposit</strong>.</li>
+                <li class="flex gap-2"><span class="text-brand-accent-light font-extrabold">2.</span> Elliot confirms groups/times with the school and parents.</li>
+                <li class="flex gap-2"><span class="text-brand-accent-light font-extrabold">3.</span> Remaining balance is collected once your child’s group is confirmed (before Week 1).</li>
+                <li class="flex gap-2"><span class="text-brand-accent-light font-extrabold">4.</span> Sessions run weekly and end with a small performance.</li>
               </ol>
 
-              <div class="mt-4 pt-4 border-t border-brand-accent-dark/40 text-xs text-brand-text-mid leading-relaxed space-y-2">
-                <p><span class="text-brand-highlight font-semibold">Instrument options:</span> Guitar • Bass • Keyboard • Drums • Singing</p>
+              <div class="mt-5 pt-5 border-t border-brand-accent-dark/40 text-xs text-brand-text-mid leading-relaxed">
+                <p><span class="text-brand-highlight font-extrabold">Instrument options:</span> Guitar • Bass • Keyboard • Drums • Singing</p>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT PANEL (Form) -->
-          <div id="panel-form" class="lg:col-span-9">
-            <!-- IMPORTANT:
-              The form UI inside this iframe is themed in Tally (Customize → colors/fonts → Publish).
-              For "LANDSCAPE on desktop, PORTRAIT on mobile" inside the form itself:
-              Use Tally's Columns block (2 columns) — it automatically stacks on mobile.
-            -->
+          <!-- RIGHT (Form) -->
+          <div id="panel-form" class="lg:col-span-8">
             <div id="tally-embed-wrap" class="hidden">
               <div class="tally-frame">
-                <div class="px-4 py-3 border-b border-brand-accent-dark/40 flex items-center justify-between bg-brand-dark-bg/40">
-                  <span class="text-sm font-semibold text-brand-text-light">Secure deposit form</span>
+                <div class="px-5 py-4 border-b border-brand-accent-dark/40 flex items-center justify-between bg-brand-dark-bg/40">
+                  <span class="text-sm font-extrabold text-brand-text-light">Secure deposit form</span>
                   <span class="text-xs text-brand-text-mid">Powered by Tally + Stripe</span>
                 </div>
 
-                <div class="p-3 sm:p-4">
+                <div class="p-4 sm:p-6">
                   <iframe
                     data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
                     loading="lazy"
@@ -528,20 +700,33 @@
                 </div>
               </div>
 
-              <p class="text-xs text-brand-text-mid mt-3 leading-relaxed">
+              <div class="mt-4 text-xs text-brand-text-mid leading-relaxed">
                 Having issues submitting? Email
                 <a class="text-brand-highlight hover:text-brand-accent-light transition" href="mailto:elliotwardillmusic@gmail.com">elliotwardillmusic@gmail.com</a>
                 or call
                 <a class="text-brand-highlight hover:text-brand-accent-light transition" href="tel:07368975144">07368 975144</a>.
-              </p>
+              </div>
+
+              <div class="mt-4 bg-brand-dark-bg/45 border border-brand-accent-dark/40 rounded-2xl p-5">
+                <p class="text-xs text-brand-text-mid leading-relaxed">
+                  <span class="font-extrabold text-brand-text-light">Form styling note:</span>
+                  If the form still looks white, open your Tally form → <span class="font-extrabold text-brand-text-light">Customize</span> and set the background to <span class="font-extrabold text-brand-text-light">#1a1a2e</span> and accent to <span class="font-extrabold text-brand-text-light">#00d084</span>, then <span class="font-extrabold text-brand-text-light">Publish</span>.
+                  Your website can’t force the inner iframe colours.
+                </p>
+              </div>
             </div>
 
-            <div id="tally-placeholder" class="rounded-2xl border border-brand-accent-dark/60 bg-brand-dark-bg/40 p-6 text-brand-text-mid">
-              <div class="flex items-center gap-3">
-                <i data-lucide="shield" class="w-5 h-5 text-brand-accent-light"></i>
-                <p class="text-sm leading-relaxed">
-                  Confirm the notice to reveal the secure registration form.
-                </p>
+            <div id="tally-placeholder" class="rounded-2xl border border-brand-accent-dark/55 bg-brand-dark-bg/45 p-7 text-brand-text-mid">
+              <div class="flex items-start gap-3">
+                <i data-lucide="shield" class="w-5 h-5 text-brand-accent-light mt-1"></i>
+                <div>
+                  <p class="text-sm leading-relaxed">
+                    Confirm the notice on the left to reveal the secure registration form.
+                  </p>
+                  <p class="text-xs mt-2 leading-relaxed">
+                    (This protects the form so only invited schools/parents continue.)
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -550,31 +735,73 @@
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-5 mb-7">
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
+            <i data-lucide="book-open" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+            FAQ
+          </h2>
+          <span class="text-xs text-brand-text-mid">For schools & parents</span>
+        </div>
+
+        <div class="space-y-3">
+          <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-6">
+            <summary class="cursor-pointer text-brand-text-light font-bold flex items-center justify-between">
+              Does my child need experience?
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
+            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
+              No — it’s beginner-friendly. Children learn simple band parts that work together.
+            </p>
+          </details>
+
+          <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-6">
+            <summary class="cursor-pointer text-brand-text-light font-bold flex items-center justify-between">
+              What instruments are available?
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
+            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
+              Guitar, bass, keyboard, electronic drums, and singing. Equipment is provided for sessions and volume is controlled.
+            </p>
+          </details>
+
+          <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-6">
+            <summary class="cursor-pointer text-brand-text-light font-bold flex items-center justify-between">
+              What if there aren’t enough children?
+              <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
+            </summary>
+            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
+              Minimum is <strong class="text-brand-text-light">3</strong> (max 4 per band). If numbers are too low, an alternative group, deferment, or refund may be offered depending on the situation.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <!-- Q&A ASSISTANT -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-8 reveal">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-5 mb-6">
           <div>
-            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center">
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-highlight flex items-center">
               <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
               School Band Q&amp;A Assistant
             </h2>
-            <p class="text-xs sm:text-sm text-brand-text-mid mt-1 max-w-xl leading-relaxed">
+            <p class="text-xs sm:text-sm text-brand-text-mid mt-2 max-w-xl leading-relaxed">
               Ask about pricing, timetable, equipment, minimum numbers, deposits, or safeguarding.
             </p>
           </div>
 
-          <a href="contact.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
+          <a href="contact.html" class="text-sm font-extrabold text-brand-highlight hover:text-brand-accent-light transition">
             Contact Elliot
           </a>
         </div>
 
-        <div
-          id="chat-box"
-          class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3"
-          role="log"
-          aria-live="polite"
-        >
+        <div id="chat-box"
+          class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-2xl bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3"
+          role="log" aria-live="polite">
           <div class="flex justify-start initial-message">
             <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">
               Hello! I’m the School Band Programme assistant. Ask me anything about costs, scheduling, equipment, or how the programme runs.
@@ -592,25 +819,18 @@
         </div>
 
         <form id="chat-form" class="flex gap-2">
-          <input
-            id="chat-input"
-            type="text"
-            placeholder="Type a question…"
-            class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/40 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-            autocomplete="off"
-          />
-          <button
-            type="submit"
-            id="send-button"
-            class="bg-brand-highlight text-brand-dark-bg px-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition flex items-center justify-center w-11 h-11"
-            aria-label="Send message"
-          >
+          <input id="chat-input" type="text" placeholder="Type a question…"
+            class="flex-grow p-3.5 rounded-xl bg-brand-dark-bg border border-brand-text-mid/40 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+            autocomplete="off" />
+          <button type="submit" id="send-button"
+            class="bg-brand-highlight text-brand-dark-bg px-3 rounded-xl font-extrabold hover:bg-brand-highlight/85 transition flex items-center justify-center w-12 h-12"
+            aria-label="Send message">
             <i data-lucide="send" class="w-5 h-5"></i>
           </button>
         </form>
 
-        <p class="text-xs text-brand-text-mid mt-3 leading-relaxed">
-          Note: This assistant gives quick guidance based on programme details. For anything time-specific (exact school timings), please contact Elliot directly.
+        <p class="text-xs text-brand-text-mid mt-4 leading-relaxed">
+          Note: This assistant provides quick guidance based on programme details. For anything time-specific (exact school timings), please contact Elliot directly.
         </p>
       </div>
     </section>
@@ -619,17 +839,15 @@
 
   <!-- STICKY CTA -->
   <a href="#register" id="sticky-cta"
-     class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/50">
-    <i data-lucide="mail" class="w-4 h-4 mr-1"></i> Register Interest (Deposit)
+     class="inline-flex items-center justify-center px-4 py-3 text-sm font-extrabold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/40">
+    <i data-lucide="mail" class="w-4 h-4 mr-2"></i> Register Interest (Deposit)
   </a>
 
   <!-- FOOTER -->
   <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
-    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs sm:text-sm">
       <p>&copy; 2024 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-      <p class="mt-1 text-gray-500">
-        DBS Checked &amp; Insured. Programme details are confirmed with schools during setup.
-      </p>
+      <p class="mt-1 text-gray-500">DBS Checked &amp; Insured. Programme details are confirmed with schools during setup.</p>
     </div>
   </footer>
 
@@ -638,39 +856,28 @@
     // Mobile menu toggle
     const mobileBtn = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
-    if (mobileBtn && mobileMenu) {
-      mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-    }
+    if (mobileBtn && mobileMenu) mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 
     // Reveal on scroll
     const revealElements = document.querySelectorAll(".reveal");
     if (revealElements.length) {
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      revealElements.forEach((el) => revealObserver.observe(el));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      revealElements.forEach((el) => obs.observe(el));
     }
 
-    // Sticky CTA visibility (show when hero not visible)
+    // Sticky CTA visibility
     const stickyCta = document.getElementById("sticky-cta");
     const heroSection = document.getElementById("hero-section");
     if (stickyCta && heroSection) {
-      const heroObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) stickyCta.classList.remove("show");
-          else stickyCta.classList.add("show");
-        },
-        { rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
-      );
-      heroObserver.observe(heroSection);
+      const heroObs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) stickyCta.classList.remove("show");
+        else stickyCta.classList.add("show");
+      }, { rootMargin: "0px 0px -70% 0px", threshold: 0.1 });
+      heroObs.observe(heroSection);
     }
 
     // Tally embed script (dynamic height)
@@ -684,13 +891,12 @@
       }
     })();
 
-    // Gate the deposit form (parents must confirm school invitation first)
+    // Gate the deposit form
     (function () {
       const check = document.getElementById("invite-check");
       const btn = document.getElementById("show-form-btn");
       const wrap = document.getElementById("tally-embed-wrap");
       const placeholder = document.getElementById("tally-placeholder");
-
       if (!check || !btn || !wrap || !placeholder) return;
 
       function sync() {
@@ -699,14 +905,12 @@
         btn.classList.toggle("opacity-50", !ok);
         btn.classList.toggle("cursor-not-allowed", !ok);
       }
-
       check.addEventListener("change", sync);
       sync();
 
       btn.addEventListener("click", () => {
         wrap.classList.remove("hidden");
         placeholder.classList.add("hidden");
-
         setTimeout(() => {
           try { if (window.Tally && typeof window.Tally.loadEmbeds === "function") window.Tally.loadEmbeds(); } catch (e) {}
           document.getElementById("panel-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -714,7 +918,7 @@
       });
     })();
 
-    // Mobile tabs (Info vs Deposit Form) — portrait-friendly
+    // Mobile tabs (Info vs Deposit Form)
     (function () {
       const tabInfo = document.getElementById("tab-info");
       const tabForm = document.getElementById("tab-form");
@@ -727,7 +931,6 @@
         tabInfo.classList.toggle("active", info);
         tabForm.classList.toggle("active", !info);
 
-        // On mobile only, swap visibility
         const isMobile = window.matchMedia("(max-width: 1023px)").matches;
         if (isMobile) {
           panelInfo.classList.toggle("hidden", !info);
@@ -740,20 +943,11 @@
 
       tabInfo.addEventListener("click", () => setActive("info"));
       tabForm.addEventListener("click", () => setActive("form"));
-
-      window.addEventListener("resize", () => {
-        // Keep state but re-apply correct visibility rules
-        const infoActive = tabInfo.classList.contains("active");
-        setActive(infoActive ? "info" : "form");
-      });
-
-      // Default: Info tab on mobile
+      window.addEventListener("resize", () => setActive(tabInfo.classList.contains("active") ? "info" : "form"));
       setActive("info");
     })();
 
-    // -------------------------
     // Q&A Assistant (simple rule-based)
-    // -------------------------
     const chatBox = document.getElementById("chat-box");
     const loadingIndicator = document.getElementById("loading-indicator");
     const chatForm = document.getElementById("chat-form");
@@ -791,7 +985,6 @@
 
     function answerQuestion(q) {
       const s = (q || "").toLowerCase();
-
       if (s.includes("price") || s.includes("cost") || s.includes("how much")) {
         return "Pricing is £15 per child per 30-minute band session, or £90 per child for the full 6-week block. Minimum 3 children to run a band (max 4).";
       }
@@ -810,7 +1003,6 @@
       if (s.includes("safeguard") || s.includes("dsl") || s.includes("safety")) {
         return "Sessions follow the school’s safeguarding procedures and take place on school premises. Any concerns are routed via the school’s DSL/deputy DSL process.";
       }
-
       return "I can help with pricing, deposits, instruments, timings, minimum numbers, and safeguarding. Ask a specific question — or contact Elliot via the Contact page / 07368 975144.";
     }
 
