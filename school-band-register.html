@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>School Band Programme – Register Interest (Deposit)</title>
-  <meta name="color-scheme" content="dark" />
 
-  <link rel="icon" href="./favicon.png" type="image/png" />
+  <!-- Favicon (same as index) -->
+  <link rel="icon" href="./favicon.png" type="image/png">
 
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#1a1a2e" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <!-- PWA (same as index) -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+
+  <!-- iOS PWA Support (same as index) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,259 +24,270 @@
       theme: {
         extend: {
           colors: {
-            "brand-dark-bg": "#1a1a2e",
-            "brand-accent-light": "#00d084",
-            "brand-accent-dark": "#00a36e",
-            "brand-highlight": "#ffb703",
-            "brand-text-light": "#e0e0e0",
-            "brand-text-mid": "#a0e0e0",
-            "card-bg": "#252538",
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0e0e0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
           },
           fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            heading: ["Montserrat", "sans-serif"],
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
           },
-        },
-      },
-    };
+        }
+      }
+    }
   </script>
-
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
-
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      background-color: #1a1a2e;
-      background-image:
-        radial-gradient(circle at 12% 12%, rgba(0, 208, 132, 0.14), transparent 55%),
-        radial-gradient(circle at 88% 18%, rgba(255, 183, 3, 0.11), transparent 60%),
-        radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-    }
-
-    .card-glow { box-shadow: 0 14px 40px rgba(0, 208, 132, 0.10), 0 3px 12px rgba(0, 0, 0, 0.60); }
-    .hr-glow { height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 208, 132, 0.55), transparent); }
-
-    /* App-like full screen under nav */
-    .screen {
-      height: calc(100vh - 64px);
-      min-height: 520px;
-    }
-
-    /* Form shell */
-    .form-shell{
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(0, 163, 110, 0.55);
-      background: rgba(26, 26, 46, 0.55);
-      box-shadow: 0 14px 40px rgba(0, 208, 132, 0.10), 0 3px 12px rgba(0, 0, 0, 0.55);
-    }
-    .form-iframe{
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: transparent;
-    }
-
-    /* Mobile segmented tabs */
-    .seg {
-      background: rgba(26,26,46,0.6);
-      border: 1px solid rgba(0,163,110,0.45);
-      border-radius: 999px;
-      padding: 4px;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
-    }
-    .seg button{
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      transition: background-color .2s ease, color .2s ease;
-    }
-    .seg button.active{
-      background: #00d084;
-      color: #1a1a2e;
-    }
-  </style>
 
   <!-- Service Worker -->
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
     }
   </script>
 
-  <!-- Tally (load once) -->
-  <script async src="https://tally.so/widgets/embed.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a1a2e;
+      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+    }
+    .card-glow { box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6); }
+
+    /* Fullscreen app area under nav */
+    .screen { height: calc(100vh - 64px); }
+
+    /* Form frame styling */
+    .frame {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 163, 110, 0.55);
+      background: rgba(26, 26, 46, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
+    }
+    .frame iframe { width: 100%; height: 100%; border: 0; }
+
+    /* Mobile tabs */
+    .segmented {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(0, 163, 110, 0.45);
+      border-radius: 999px;
+      padding: 4px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    }
+    .seg-btn {
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: background-color .2s ease, color .2s ease;
+    }
+    .seg-btn.active { background: #00d084; color: #1a1a2e; }
+  </style>
+
+  <!-- Lucide Icons -->
+  <script type="module">
+    import { createIcons, Music2, Mail, Phone, Shield } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+    createIcons({ icons: { Music2, Mail, Phone, Shield } });
+  </script>
 </head>
 
-<body class="text-brand-text-light">
+<body class="min-h-screen flex flex-col text-brand-text-light">
 
-  <!-- NAV -->
-  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center gap-2">
-          <span class="w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50 flex items-center justify-center">
-            <span class="text-brand-accent-light font-black">♪</span>
-          </span>
-          <span class="font-heading font-extrabold tracking-[0.18em] text-brand-highlight text-sm sm:text-base">
-            ELLIOT'S MOBILE MUSIC
-          </span>
+<!-- NAV (same as index, SCHOOL BANDS active) -->
+<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+
+      <a href="index.html" class="flex items-center space-x-2">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+          <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+        </span>
+        <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+          ELLIOT'S MOBILE MUSIC
+        </span>
+      </a>
+
+      <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+        <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+          HOME
+        </a>
+        <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+          PRICING & FEES
+        </a>
+        <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+          AVAILABILITY
+        </a>
+        <a href="school-band-programme.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">
+          SCHOOL BANDS
+        </a>
+        <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
+          CONTACT
         </a>
 
-        <a href="school-band-programme.html#register"
-           class="px-4 py-2 rounded-lg border border-brand-accent-light/40 text-brand-accent-light hover:bg-brand-accent-light/10 transition font-extrabold text-sm">
-          ← Back
+        <a href="login.html"
+           class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
+                  hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40">
+          LOGIN
         </a>
       </div>
+
+      <a href="school-band-programme.html#register"
+         class="sm:hidden px-3 py-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark">
+        Back
+      </a>
+
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- FULL SCREEN LAYOUT -->
-  <main class="screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-    <!-- Mobile tabs -->
-    <div class="lg:hidden mb-4 flex justify-center">
-      <div class="seg inline-flex gap-1">
-        <button id="tabDetails" class="active" type="button">Details</button>
-        <button id="tabForm" type="button">Form</button>
-      </div>
+<main class="screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+
+  <!-- Mobile tabs -->
+  <div class="lg:hidden mb-4 flex justify-center">
+    <div class="segmented inline-flex gap-1">
+      <button id="tabDetails" class="seg-btn active" type="button">Details</button>
+      <button id="tabForm" class="seg-btn" type="button">Form</button>
     </div>
+  </div>
 
-    <div class="h-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- DETAILS -->
-      <aside id="panelDetails" class="lg:col-span-4 h-full">
-        <div class="h-full bg-card-bg/85 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 overflow-y-auto">
-          <p class="text-xs font-extrabold tracking-[0.24em] uppercase text-brand-highlight">Secure Registration</p>
-          <h1 class="mt-2 font-heading text-2xl font-extrabold text-brand-text-light">
-            Register Interest (Deposit)
-          </h1>
+  <div class="h-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- DETAILS -->
+    <aside id="panelDetails" class="lg:col-span-4 h-full">
+      <div class="h-full bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 overflow-y-auto">
+        <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight uppercase">Secure Registration</p>
+        <h1 class="mt-2 font-heading text-2xl font-extrabold text-brand-text-light">
+          Register Interest (Deposit)
+        </h1>
 
-          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-            Please complete the form and pay the <span class="font-extrabold text-brand-text-light">£10 deposit</span>.
-            This reserves a place while bands and times are confirmed with your school.
-          </p>
+        <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
+          Please complete the form and pay the <strong class="text-brand-text-light">£10 deposit</strong>.
+          This reserves a place while bands and timings are confirmed with your school.
+        </p>
 
-          <div class="mt-5 hr-glow"></div>
-
-          <div class="mt-5 rounded-2xl border border-brand-highlight/35 bg-brand-highlight/10 p-5">
+        <div class="mt-5 rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-4">
+          <div class="flex items-start gap-2">
+            <i data-lucide="shield" class="w-5 h-5 text-brand-accent-light mt-0.5"></i>
             <p class="text-sm text-brand-text-mid leading-relaxed">
-              If you weren’t directed here by your school, please go back and don’t submit the form.
+              If you weren’t directed here by your school, please go back and do not submit the form.
             </p>
           </div>
-
-          <div class="mt-5 rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-5">
-            <h2 class="font-heading text-base font-extrabold text-brand-highlight">Deposit rules</h2>
-            <ul class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-              <li>• Deposit comes off the total cost</li>
-              <li>• If no suitable place/time can be offered, deposit is refunded</li>
-              <li>• If you cancel after a place/time is offered, deposit may be non-refundable</li>
-            </ul>
-          </div>
-
-          <div class="mt-5 rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/45 p-5">
-            <h2 class="font-heading text-base font-extrabold text-brand-text-light">Help</h2>
-            <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
-              If you have any issues, contact Elliot directly:
-            </p>
-            <div class="mt-4 flex flex-wrap gap-3">
-              <a href="mailto:elliotwardillmusic@gmail.com"
-                 class="px-4 py-2.5 rounded-full bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 hover:bg-brand-accent-light/15 transition text-sm font-extrabold">
-                Email
-              </a>
-              <a href="tel:07368975144"
-                 class="px-4 py-2.5 rounded-full bg-brand-highlight/15 text-brand-highlight border border-brand-highlight/40 hover:bg-brand-highlight/25 transition text-sm font-extrabold">
-                Call
-              </a>
-            </div>
-          </div>
-
-          <p class="mt-5 text-xs text-brand-text-mid leading-relaxed">
-            Tip: If the form looks blank, wait a moment or refresh.
-          </p>
         </div>
-      </aside>
 
-      <!-- FORM -->
-      <section id="panelForm" class="lg:col-span-8 h-full">
-        <div class="h-full form-shell">
-          <div class="px-5 py-4 border-b border-brand-accent-dark/40 flex items-center justify-between bg-brand-dark-bg/40">
-            <span class="text-sm font-extrabold text-brand-text-light">Deposit Form</span>
-            <span class="text-xs text-brand-text-mid">Tally + Stripe</span>
-          </div>
+        <div class="mt-5 rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-4">
+          <p class="font-semibold text-brand-text-light">Deposit rules</p>
+          <ul class="mt-2 space-y-2 text-sm text-brand-text-mid leading-relaxed">
+            <li>• Deposit comes off the total cost</li>
+            <li>• Refunded if no suitable place/time can be offered</li>
+            <li>• May be non-refundable if cancelling after a place/time is offered</li>
+          </ul>
+        </div>
 
-          <div class="h-[calc(100%-56px)]">
-            <iframe
-              data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1"
-              loading="lazy"
-              title="School Band Programme – Register Interest (Deposit)"
-              allow="payment"
-              class="form-iframe"
-            ></iframe>
+        <div class="mt-5">
+          <p class="font-semibold text-brand-text-light">Need help?</p>
+          <div class="mt-3 flex flex-wrap gap-3">
+            <a href="mailto:elliotwardillmusic@gmail.com"
+               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-accent-light text-brand-accent-light hover:bg-brand-accent-light/10 transition">
+              <i data-lucide="mail" class="w-4 h-4 mr-2"></i>Email
+            </a>
+            <a href="tel:07368975144"
+               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-highlight text-brand-highlight hover:bg-brand-highlight/10 transition">
+              <i data-lucide="phone" class="w-4 h-4 mr-2"></i>Call
+            </a>
           </div>
         </div>
-      </section>
-    </div>
-  </main>
 
-  <script>
-    // Soft-gate (static site best-effort):
-    // If someone tries to open this page directly, send them back to the main page.
-    (function () {
-      const params = new URLSearchParams(window.location.search);
-      const qVerified = params.get("verified") === "1";
-      let ok = false;
+      </div>
+    </aside>
 
+    <!-- FORM -->
+    <section id="panelForm" class="lg:col-span-8 h-full">
+      <div class="h-full frame">
+        <div class="px-5 py-4 border-b border-brand-accent-dark/40 bg-brand-dark-bg/60 flex items-center justify-between">
+          <span class="text-sm font-semibold text-brand-text-light">Deposit Form</span>
+          <span class="text-xs text-brand-text-mid">Tally</span>
+        </div>
+
+        <div class="h-[calc(100%-56px)]">
+          <iframe
+            data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            title="School Band Programme – Register Interest (Deposit)"
+            allow="payment"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Tally embed.js (load once) -->
+<script async src="https://tally.so/widgets/embed.js"></script>
+
+<script>
+  // Soft gate: must come from the checkbox on the main page
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const qVerified = params.get("verified") === "1";
+    let ok = false;
+
+    try {
+      const raw = localStorage.getItem("emm_school_band_invite");
+      if (raw) {
+        const data = JSON.parse(raw);
+        ok = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000;
+      }
+    } catch (e) {}
+
+    if (!qVerified && !ok) {
+      window.location.replace("./school-band-programme.html#register");
+      return;
+    }
+
+    window.addEventListener("load", () => {
       try {
-        const raw = localStorage.getItem("emm_school_band_invite");
-        if (raw) {
-          const data = JSON.parse(raw);
-          ok = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000; // 24 hours
-        }
+        if (window.Tally && typeof window.Tally.loadEmbeds === "function") window.Tally.loadEmbeds();
       } catch (e) {}
+    });
+  })();
 
-      if (!qVerified && !ok) {
-        window.location.replace("./school-band-programme.html#register");
-        return;
+  // Mobile tabs
+  (function () {
+    const tabDetails = document.getElementById("tabDetails");
+    const tabForm = document.getElementById("tabForm");
+    const panelDetails = document.getElementById("panelDetails");
+    const panelForm = document.getElementById("panelForm");
+    if (!tabDetails || !tabForm || !panelDetails || !panelForm) return;
+
+    function setActive(which) {
+      const isDetails = which === "details";
+      tabDetails.classList.toggle("active", isDetails);
+      tabForm.classList.toggle("active", !isDetails);
+
+      const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+      if (isMobile) {
+        panelDetails.classList.toggle("hidden", !isDetails);
+        panelForm.classList.toggle("hidden", isDetails);
+      } else {
+        panelDetails.classList.remove("hidden");
+        panelForm.classList.remove("hidden");
       }
+    }
 
-      // Ensure embeds load
-      window.addEventListener("load", () => {
-        try { if (window.Tally && typeof window.Tally.loadEmbeds === "function") window.Tally.loadEmbeds(); } catch (e) {}
-      });
-    })();
+    tabDetails.addEventListener("click", () => setActive("details"));
+    tabForm.addEventListener("click", () => setActive("form"));
+    window.addEventListener("resize", () => setActive(tabDetails.classList.contains("active") ? "details" : "form"));
+    setActive("details");
+  })();
+</script>
 
-    // Mobile tabs: Details/Form
-    (function () {
-      const tabDetails = document.getElementById("tabDetails");
-      const tabForm = document.getElementById("tabForm");
-      const panelDetails = document.getElementById("panelDetails");
-      const panelForm = document.getElementById("panelForm");
-      if (!tabDetails || !tabForm || !panelDetails || !panelForm) return;
-
-      function setActive(which) {
-        const isDetails = which === "details";
-        tabDetails.classList.toggle("active", isDetails);
-        tabForm.classList.toggle("active", !isDetails);
-
-        const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-        if (isMobile) {
-          panelDetails.classList.toggle("hidden", !isDetails);
-          panelForm.classList.toggle("hidden", isDetails);
-        } else {
-          panelDetails.classList.remove("hidden");
-          panelForm.classList.remove("hidden");
-        }
-      }
-
-      tabDetails.addEventListener("click", () => setActive("details"));
-      tabForm.addEventListener("click", () => setActive("form"));
-      window.addEventListener("resize", () => setActive(tabDetails.classList.contains("active") ? "details" : "form"));
-      setActive("details");
-    })();
-  </script>
 </body>
 </html>
