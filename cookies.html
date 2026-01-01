@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookie Notice – Elliot’s Mobile Music</title>
 
+  <!-- Favicon -->
   <link rel="icon" href="./favicon.png" type="image/png">
 
   <!-- PWA -->
@@ -23,24 +24,24 @@
       theme: {
         extend: {
           colors: {
-            "brand-dark-bg": "#1a1a2e",
-            "brand-accent-light": "#00d084",
-            "brand-accent-dark": "#00a36e",
-            "brand-text-light": "#e0e0e0",
-            "brand-text-mid": "#a0e0e0",
-            "brand-highlight": "#ffb703",
-            "card-bg": "#252538",
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0e0e0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
           },
           fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            heading: ["Montserrat", "sans-serif"],
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
           },
-        },
-      },
-    };
+        }
+      }
+    }
   </script>
 
-  <!-- Service Worker -->
+  <!-- Service Worker (PWA offline + app install) -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
@@ -50,90 +51,159 @@
   </script>
 
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
     body {
-      font-family: "Inter", sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
     }
     .card-glow {
       box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
     }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hover-lift {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+    }
   </style>
 
+  <!-- Lucide Icons -->
+  <script type="module">
+    import { createIcons, Music2 } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+    createIcons({ icons: { Music2 } });
+  </script>
+
+  <!-- Cookie banner -->
   <script defer src="./cookie-banner.js"></script>
 </head>
 
 <body class="text-white">
-  <!-- NAV -->
+
+  <!-- NAVIGATION (mirrored exactly from your site) -->
+  <!-- NAVIGATION -->
   <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center space-x-2">
-          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="w-5 h-5 text-brand-accent-light">
-              <circle cx="8" cy="18" r="4"></circle>
-              <path d="M12 18V2l7 4"></path>
-            </svg>
-          </span>
-          <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-            ELLIOT'S MOBILE MUSIC
-          </span>
-        </a>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
 
-        <div class="hidden md:flex items-center space-x-2 text-xs sm:text-sm font-semibold tracking-wider">
-          <a href="index.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">HOME</a>
-          <a href="pricing.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">PRICING & FEES</a>
-          <a href="availability.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">AVAILABILITY</a>
-          <a href="school-band-programme.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">SCHOOL BANDS</a>
-          <a href="contact.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">CONTACT</a>
-          <a href="login.html" class="ml-2 px-4 py-2 rounded-md bg-brand-accent-light text-brand-dark-bg font-bold">LOGIN</a>
-        </div>
+              <!-- Logo -->
+              <a href="index.html" class="flex items-center space-x-2 reveal visible">
+                  <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+                      <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                  </span>
+                  <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+                      ELLIOT'S MOBILE MUSIC
+                  </span>
+              </a>
 
-        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-md border border-brand-accent-dark/50 text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/40">
-          <span class="sr-only">Open menu</span>
-          ☰
-        </button>
+              <!-- Desktop nav -->
+              <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+
+                  <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+                      HOME
+                  </a>
+
+                  <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                      PRICING & FEES
+                  </a>
+
+                  <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                      AVAILABILITY
+                  </a>
+
+                  <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                     SCHOOL BANDS
+                  </a>
+
+                  <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                      CONTACT
+                  </a>
+
+                  <!-- 🔥 LOGIN BUTTON (desktop) -->
+                  <a href="login.html"
+                     class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light 
+                            hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40 hover-lift">
+                      LOGIN
+                  </a>
+              </div>
+
+              <!-- Mobile button -->
+              <div class="sm:hidden">
+                  <button id="mobile-menu-button"
+                      class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
+                      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                           viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                      </svg>
+                  </button>
+              </div>
+          </div>
       </div>
 
-      <div id="mobileMenu" class="md:hidden hidden pb-4 pt-2 space-y-1">
-        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
-        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
-        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
-        <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">SCHOOL BANDS</a>
-        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
-        <a href="login.html" class="block rounded-md bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 mt-1 text-center">LOGIN</a>
+      <!-- Mobile menu -->
+      <div class="sm:hidden hidden" id="mobile-menu">
+          <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
+
+              <a href="index.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">
+                  HOME
+              </a>
+
+              <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+                  PRICING & FEES
+              </a>
+
+              <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+                  AVAILABILITY
+              </a>
+
+             <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+                  SCHOOL BANDS
+              </a>
+
+              <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+                  CONTACT
+              </a>
+
+              <!-- 🔥 LOGIN BUTTON (mobile) -->
+              <a href="login.html"
+                 class="block rounded-md mt-1 bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 text-center">
+                  LOGIN
+              </a>
+
+          </div>
       </div>
-    </div>
   </nav>
 
+  <!-- Mobile menu toggle (needed for this nav) -->
   <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+    const btn = document.getElementById("mobile-menu-button");
+    const menu = document.getElementById("mobile-menu");
+    if (btn && menu) {
+      btn.addEventListener("click", () => menu.classList.toggle("hidden"));
     }
   </script>
 
   <main class="max-w-4xl mx-auto px-4 py-10">
-    <button onclick="history.back()" class="mb-4 inline-flex items-center gap-2 text-sm text-brand-text-mid hover:text-white underline">
-      ← Back
-    </button>
-
     <section class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-8">
       <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">Cookie Notice</h1>
       <p class="mt-2 text-sm text-brand-text-mid">Last updated: <strong>1 January 2026</strong></p>
 
       <div class="mt-6 space-y-6 text-sm text-brand-text-mid leading-relaxed">
         <div>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">What we store</h2>
+          <h2 class="text-brand-text-light font-semibold text-lg mb-2">What this site stores</h2>
           <ul class="list-disc ml-5 space-y-1">
-            <li><strong>Cookie notice choice</strong> (local storage, so the banner doesn’t keep showing).</li>
+            <li><strong>Cookie notice choice</strong> (stored locally so the banner doesn’t keep showing).</li>
             <li><strong>PWA/service worker cache</strong> (your browser may cache site files for speed/offline use).</li>
-            <li><strong>Contact draft</strong> (only if your contact page saves draft text locally).</li>
           </ul>
         </div>
 
@@ -153,6 +223,7 @@
   <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
     <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
       <p>&copy; 2026 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+
       <p class="mt-2">
         <a href="privacy.html" class="underline hover:text-white">Privacy</a>
         <span class="mx-2">•</span>
@@ -160,5 +231,6 @@
       </p>
     </div>
   </footer>
+
 </body>
 </html>
