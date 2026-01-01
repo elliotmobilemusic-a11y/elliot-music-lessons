@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Notice – Elliot’s Mobile Music</title>
-  <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="./favicon.png" type="image/png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+
+  <!-- iOS PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,10 +27,9 @@
             "brand-accent-light": "#00d084",
             "brand-accent-dark": "#00a36e",
             "brand-text-light": "#e0e0e0",
-            "brand-text-mid": "#a0a0a0",
+            "brand-text-mid": "#a0e0e0",
             "brand-highlight": "#ffb703",
             "card-bg": "#252538",
-            "error-red": "#f87171",
           },
           fontFamily: {
             sans: ["Inter", "sans-serif"],
@@ -36,137 +40,156 @@
     };
   </script>
 
+  <!-- Service Worker (PWA offline + app install) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap");
     body {
+      font-family: "Inter", sans-serif;
       background-color: #1a1a2e;
       background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
-      color: #e0e0e0;
     }
     .card-glow {
       box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
     }
   </style>
 
-  <script defer src="cookie-banner.js"></script>
+  <!-- Cookie banner -->
+  <script defer src="./cookie-banner.js"></script>
 </head>
 
-<body class="font-sans">
-  <!-- NAV -->
-  <header class="sticky top-0 z-50 bg-brand-dark-bg/80 backdrop-blur border-b border-brand-accent-dark/40">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="index.html" class="font-heading text-lg sm:text-xl font-extrabold text-brand-text-light">
-        Elliot’s <span class="text-brand-accent-light">Mobile Music</span>
-      </a>
-      <nav class="hidden sm:flex items-center gap-5 text-sm text-brand-text-mid">
-        <a class="hover:text-white" href="availability.html">Availability</a>
-        <a class="hover:text-white" href="pricing.html">Pricing</a>
-        <a class="hover:text-white" href="contact.html">Contact</a>
-        <a class="hover:text-white" href="school-band-programme.html">School Band</a>
-      </nav>
-    </div>
-  </header>
+<body class="text-white">
 
-  <main class="max-w-3xl mx-auto px-4 py-10">
-    <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-8">
-      <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">
-        Privacy Notice
-      </h1>
-      <p class="mt-2 text-sm text-brand-text-mid">
-        Last updated: <strong>1 January 2026</strong>
-      </p>
+  <!-- NAV (matches your site pattern) -->
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center space-x-2">
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="w-5 h-5 text-brand-accent-light">
+              <circle cx="8" cy="18" r="4"></circle>
+              <path d="M12 18V2l7 4"></path>
+            </svg>
+          </span>
+          <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+            ELLIOT'S MOBILE MUSIC
+          </span>
+        </a>
+
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center space-x-2 text-xs sm:text-sm font-semibold tracking-wider">
+          <a href="index.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">HOME</a>
+          <a href="pricing.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">PRICING & FEES</a>
+          <a href="availability.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">AVAILABILITY</a>
+          <a href="school-band-programme.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">SCHOOL BANDS</a>
+          <a href="contact.html" class="px-3 py-2 rounded-md text-brand-text-mid hover:bg-brand-accent-dark hover:text-white">CONTACT</a>
+          <a href="login.html" class="ml-2 px-4 py-2 rounded-md bg-brand-accent-light text-brand-dark-bg font-bold">LOGIN</a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-md border border-brand-accent-dark/50 text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/40">
+          <span class="sr-only">Open menu</span>
+          ☰
+        </button>
+      </div>
+
+      <!-- Mobile dropdown -->
+      <div id="mobileMenu" class="md:hidden hidden pb-4 pt-2 space-y-1">
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING & FEES</a>
+        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
+        <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">SCHOOL BANDS</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
+        <a href="login.html" class="block rounded-md bg-brand-accent-light text-brand-dark-bg font-bold px-3 py-2 mt-1 text-center">LOGIN</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+    }
+  </script>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <button onclick="history.back()" class="mb-4 inline-flex items-center gap-2 text-sm text-brand-text-mid hover:text-white underline">
+      ← Back
+    </button>
+
+    <section class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 sm:p-8">
+      <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light">Privacy Notice</h1>
+      <p class="mt-2 text-sm text-brand-text-mid">Last updated: <strong>1 January 2026</strong></p>
 
       <div class="mt-6 space-y-6 text-sm text-brand-text-mid leading-relaxed">
-        <section>
+        <div>
           <h2 class="text-brand-text-light font-semibold text-lg mb-2">Who we are</h2>
-          <p>
-            This website is operated by <strong>Elliot Wardill</strong> trading as <strong>Elliot’s Mobile Music</strong> (“we”, “us”).
-          </p>
-          <p class="mt-2">
-            Contact: <a class="underline hover:text-white" href="mailto:elliotmobilemusic@gmail.com">elliotmobilemusic@gmail.com</a> •
-            <a class="underline hover:text-white" href="tel:07368975144">07368 975144</a>
-          </p>
-        </section>
+          <p><strong>Elliot Wardill</strong> trading as <strong>Elliot’s Mobile Music</strong>.</p>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">What personal data we collect</h2>
+        <div>
+          <h2 class="text-brand-text-light font-semibold text-lg mb-2">What we collect</h2>
           <ul class="list-disc ml-5 space-y-1">
-            <li>Contact details you provide (eg name, email, phone number).</li>
-            <li>Your enquiry details (eg lesson type, availability preferences, message content).</li>
-            <li>Technical information your browser shares when you use a website (eg IP address and basic request logs). This is typically handled by the services that host/deliver the site and forms.</li>
+            <li>Contact details you provide (name, email, phone number).</li>
+            <li>Your enquiry message and booking-related information.</li>
+            <li>Basic technical data (like IP address) handled by hosting/email/form services when you use the website.</li>
           </ul>
-        </section>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Why we use your data (purpose)</h2>
+        <div>
+          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Why we use it</h2>
           <ul class="list-disc ml-5 space-y-1">
-            <li>To reply to enquiries and provide lesson information.</li>
-            <li>To arrange bookings, scheduling and lesson administration.</li>
-            <li>To keep basic records for business administration and safeguarding-related communications where relevant.</li>
+            <li>To reply to enquiries.</li>
+            <li>To arrange and deliver lessons.</li>
+            <li>To manage scheduling and business admin (including safeguarding-related communications where relevant).</li>
           </ul>
-        </section>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Lawful basis (UK GDPR)</h2>
+        <div>
+          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Lawful basis</h2>
           <ul class="list-disc ml-5 space-y-1">
-            <li><strong>Legitimate interests</strong> – responding to enquiries and running lessons as a small business.</li>
-            <li><strong>Contract</strong> – if you book lessons, we use your details to deliver the service.</li>
-            <li><strong>Legal obligations</strong> – where record-keeping is required (eg accounting/tax).</li>
+            <li><strong>Legitimate interests</strong> (replying to enquiries / running the service).</li>
+            <li><strong>Contract</strong> (when you book lessons).</li>
+            <li><strong>Legal obligation</strong> (where needed for accounting/tax).</li>
           </ul>
-          <p class="mt-2 text-xs">
-            We don’t sell personal data and we don’t run advertising trackers on this site.
-          </p>
-        </section>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Who we share data with</h2>
-          <p>
-            We share data only when needed to operate the website and handle enquiries, for example:
-          </p>
-          <ul class="list-disc ml-5 space-y-1 mt-2">
-            <li>Website hosting (eg GitHub Pages / similar hosting used for this site).</li>
-            <li>Form delivery provider (eg Formspree or similar, if used to send contact form messages).</li>
-            <li>Third-party content delivery networks used to load libraries (eg fonts/scripts), which may receive your IP address when your browser requests them.</li>
-          </ul>
-        </section>
+        <div>
+          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Retention</h2>
+          <p>We keep enquiry information only as long as needed to respond and manage bookings. Client admin/invoice records may be kept longer where required.</p>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">How long we keep data</h2>
-          <p>
-            Enquiries are kept only as long as needed to respond and manage bookings, then deleted or archived when no longer required.
-            If you become a client, some details may be kept longer for scheduling and business records (eg invoices) where required.
-          </p>
-        </section>
-
-        <section>
+        <div>
           <h2 class="text-brand-text-light font-semibold text-lg mb-2">Your rights</h2>
-          <p>
-            You have rights under UK GDPR, including access, correction, deletion, and objection in certain circumstances.
-            To exercise rights, email <a class="underline hover:text-white" href="mailto:elliotmobilemusic@gmail.com">elliotmobilemusic@gmail.com</a>.
-          </p>
-          <p class="mt-2">
-            You can also complain to the UK regulator: the <strong>Information Commissioner’s Office (ICO)</strong>.
-          </p>
-        </section>
+          <p>You can request access, correction or deletion where applicable. If you have concerns, you can also complain to the UK ICO.</p>
+        </div>
 
-        <section>
-          <h2 class="text-brand-text-light font-semibold text-lg mb-2">Children’s data</h2>
-          <p>
-            Lessons are often for children, but this website is aimed at parents/carers.
-            Please do not submit sensitive personal information about a child via the contact form.
-            If needed for safeguarding/operational reasons, we’ll handle information carefully and only as required.
-          </p>
-        </section>
+        <div class="pt-4 border-t border-brand-accent-dark/40">
+          <p>Related: <a href="cookies.html" class="underline hover:text-white">Cookie Notice</a></p>
+        </div>
       </div>
-
-      <div class="mt-8 pt-6 border-t border-brand-accent-dark/40 text-xs text-brand-text-mid">
-        Related: <a class="underline hover:text-white" href="cookies.html">Cookie Notice</a>
-      </div>
-    </div>
+    </section>
   </main>
 
   <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
     <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
       <p>&copy; 2026 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
+      <p class="mt-2">
+        <a href="privacy.html" class="underline hover:text-white">Privacy</a>
+        <span class="mx-2">•</span>
+        <a href="cookies.html" class="underline hover:text-white">Cookies</a>
+      </p>
     </div>
   </footer>
 </body>
