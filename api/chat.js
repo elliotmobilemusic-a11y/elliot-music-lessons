@@ -61,6 +61,8 @@ Important rules:
 - Do not ask for unnecessary personal information.
 - If a question is outside the confirmed information, say what you can and then explain that Elliot can confirm the rest directly.`;
 
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+
 function sanitizeHistory(history) {
   if (!Array.isArray(history)) return [];
 
@@ -77,11 +79,23 @@ function sanitizeHistory(history) {
 function extractText(data) {
   const parts = data?.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return null;
+
   const text = parts
     .map((part) => (typeof part?.text === "string" ? part.text : ""))
     .join("\n")
     .trim();
+
   return text || null;
+}
+
+async function readErrorBody(response) {
+  const raw = await response.text();
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed?.error?.message || raw;
+  } catch {
+    return raw;
+  }
 }
 
 export default async function handler(req, res) {
@@ -96,34 +110,34 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing message" });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: "Missing GEMINI_API_KEY" });
+      return res.status(500).json({
+        error: "Missing Gemini API key",
+        details: "Set GEMINI_API_KEY in your deployment environment and redeploy.",
+      });
     }
 
-    const apiURL =
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=" + apiKey;
+    const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
 
     const safeHistory = sanitizeHistory(history);
     const safeUserPrompt = typeof systemPrompt === "string" ? systemPrompt.trim().slice(0, 4000) : "";
     const systemInstructionText = safeUserPrompt
-      ? `${BASE_SYSTEM_PROMPT}
-
-Additional page context:
-${safeUserPrompt}`
+      ? `${BASE_SYSTEM_PROMPT}\n\nAdditional page context:\n${safeUserPrompt}`
       : BASE_SYSTEM_PROMPT;
 
-    const contents = [
-      ...safeHistory,
-      {
-        role: "user",
-        parts: [{ text: message.trim().slice(0, 2500) }],
-      },
-    ];
-
     const payload = {
-      systemInstruction: { parts: [{ text: systemInstructionText }] },
-      contents,
+      systemInstruction: {
+        role: "system",
+        parts: [{ text: systemInstructionText }],
+      },
+      contents: [
+        ...safeHistory,
+        {
+          role: "user",
+          parts: [{ text: message.trim().slice(0, 2500) }],
+        },
+      ],
       generationConfig: {
         temperature: 0.45,
         topP: 0.9,
@@ -144,9 +158,12 @@ ${safeUserPrompt}`
     clearTimeout(timeout);
 
     if (!googleRes.ok) {
-      const errBody = await googleRes.text();
-      console.error("Gemini error:", googleRes.status, errBody);
-      return res.status(500).json({ error: "Gemini API error" });
+      const details = await readErrorBody(googleRes);
+      console.error("Gemini error:", googleRes.status, details);
+      return res.status(500).json({
+        error: "Gemini API error",
+        details,
+      });
     }
 
     const data = await googleRes.json();
@@ -162,6 +179,9 @@ ${safeUserPrompt}`
       return res.status(504).json({ error: "The assistant took too long to respond" });
     }
 
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({
+      error: "Server error",
+      details: err?.message || "Unknown server error",
+    });
   }
 }
