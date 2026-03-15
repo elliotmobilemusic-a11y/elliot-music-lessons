@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make a Song Course | Elliot's Mobile Music</title>
+  <meta name="description" content="Make a Song is a 6-week course for ages 6+ where children write, record and produce their own original song.">
+  <link rel="icon" href="./favicon.png" type="image/png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-dark-bg': '#1a1a2e',
+            'brand-accent-light': '#00d084',
+            'brand-accent-dark': '#00a36e',
+            'brand-text-light': '#e0e0e0',
+            'brand-text-mid': '#a0e0e0',
+            'brand-highlight': '#ffb703',
+            'card-bg': '#252538',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a1a2e;
+      position: relative;
+      min-height: 100vh;
+      color: #e0e0e0;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
+        radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
+        radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
+        linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .card-glow { box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45); }
+    .soft-border { border: 1px solid rgba(0, 208, 132, 0.18); }
+    .glass-panel { background: linear-gradient(180deg, rgba(37,37,56,0.94) 0%, rgba(26,26,46,0.94) 100%); backdrop-filter: blur(10px); }
+    .section-accent::after { content:""; display:block; width:84px; height:3px; margin-top:.9rem; border-radius:999px; background:linear-gradient(90deg,#00d084 0%, #ffb703 100%); }
+    .hover-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; }
+    .hover-lift:hover { transform: translateY(-4px); }
+    .nav-scrolled { background: rgba(26,26,46,0.88); backdrop-filter: blur(12px); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+    .hero-card { border: 1px solid rgba(0,208,132,.22); }
+    .stat-card { background: rgba(26,26,46,.72); border: 1px solid rgba(0,208,132,.16); }
+    .btn-primary, .btn-secondary { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease; }
+    .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
+    .btn-primary:hover { box-shadow: 0 14px 28px rgba(0,208,132,.22); }
+    .btn-secondary:hover { box-shadow: 0 12px 26px rgba(255,183,3,.15); }
+  </style>
+
+</head>
+<body class="min-h-screen flex flex-col text-brand-text-light">
+<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="index.html" class="text-brand-text-mid hover:text-white">HOME</a>
+        <a href="pricing.html" class="text-brand-text-mid hover:text-white">PRICING</a>
+        <a href="availability.html" class="text-brand-text-mid hover:text-white">AVAILABILITY</a>
+        <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white">SCHOOL BANDS</a>
+        <a href="contact.html" class="text-brand-text-mid hover:text-white">CONTACT</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="flex-grow pt-24 pb-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Creative project offer</p>
+        <h1 class="font-heading text-4xl sm:text-5xl font-extrabold leading-tight mb-5">Make a Song turns a musical idea into a finished original track.</h1>
+        <p class="text-base sm:text-lg text-brand-text-mid leading-8 mb-8">Make a Song is a creative course for ages 6+ that helps children move from ideas to a finished piece of music. Across six weeks, students explore songwriting first, then recording and production, creating something that feels personal and exciting by the end of the course.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8"><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">6+</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Recommended age</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">6 weeks</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Course length</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">£135</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Course price</p></div></div>
+        <div class="flex flex-wrap gap-4">
+          <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold">Enquire about Make a Song</a>
+          <a href="index.html" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">Back to home</a>
+        </div>
+      </div>
+      <div>
+        <div class="glass-panel hero-card rounded-[1.6rem] p-7 card-glow">
+<div class="grid grid-cols-2 gap-3 text-sm">
+  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Age</p><p class="text-brand-text-mid">Suitable for ages 6+.</p></div>
+  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Length</p><p class="text-brand-text-mid">6-week guided course.</p></div>
+  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Creative focus</p><p class="text-brand-text-mid">Write, record and produce an original song.</p></div>
+  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Group option</p><p class="text-brand-text-mid">Possible if everyone travels to the same house.</p></div>
+</div>
+</div>
+      </div>
+    </div>
+  </section>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">What this offer includes</h2>
+    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="pen-tool" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Songwriting first</h3></div><p class="text-brand-text-mid text-sm leading-6">The early part of the course focuses on ideas, structure, lyrics and musical choices so the song has a strong foundation before recording begins.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="mic-2" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Recording and production</h3></div><p class="text-brand-text-mid text-sm leading-6">The second half of the course focuses on recording and shaping the track using proper music equipment and production tools.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="sparkles" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Creative confidence</h3></div><p class="text-brand-text-mid text-sm leading-6">The course is ideal for children who want something more project-based and imaginative than a standard weekly lesson.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="home" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Flexible format</h3></div><p class="text-brand-text-mid text-sm leading-6">It can run one-to-one, or as a group if all participants are able to travel to the same house for the sessions.</p></div></div>
+  </section>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
+    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Who is the course for?</h3><p class="text-sm text-brand-text-mid leading-6">Make a Song is for ages 6+ and suits children who enjoy creating, experimenting and building something original over several weeks.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Can it run as a group?</h3><p class="text-sm text-brand-text-mid leading-6">Yes — but for group delivery, everyone taking part would need to travel to the same house.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">What is included in the price?</h3><p class="text-sm text-brand-text-mid leading-6">The course price is £135 and covers the six-week structure and equipment needed for delivery.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">What does the student finish with?</h3><p class="text-sm text-brand-text-mid leading-6">By the end of the course, the aim is for the student to have created and shaped their own original song through the full process of writing and recording.</p></div></div>
+  </section>
+</main>
+<footer class="border-t border-brand-accent-dark/40 py-8 text-center text-brand-text-mid px-4">
+  <p class="text-sm">Elliot’s Mobile Music • Pudsey, West Leeds & surrounding areas</p>
+  <p class="mt-2 text-sm"><a href="privacy.html" class="underline hover:text-white">Privacy</a> <span class="mx-2">•</span> <a href="cookies.html" class="underline hover:text-white">Cookies</a></p>
+</footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>
