@@ -68,10 +68,23 @@
     body {
         font-family: 'Inter', sans-serif;
         background-color: #1a1a2e;
-        background-image:
-            radial-gradient(circle at top right, rgba(255,183,3,0.08), transparent 26%),
-            radial-gradient(circle at bottom left, rgba(0,208,132,0.08), transparent 26%),
-            radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 68%);
+        position: relative;
+        min-height: 100vh;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
+            radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
+            radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
+            linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     ::selection {
@@ -457,7 +470,7 @@
     <main id="main-content" class="flex-grow">
         
         <!-- HERO -->
-        <section id="hero-section" class="relative overflow-hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+        <section id="hero-section" class="relative overflow-hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20 lg:min-h-[88vh] lg:flex lg:items-center">
             <div class="hero-backdrop" aria-hidden="true">
                 <div class="hero-orb one"></div>
                 <div class="hero-orb two"></div>
@@ -536,10 +549,6 @@
 
                 <!-- Visual card -->
                 <div class="relative reveal delayed-1">
-                    <div class="hidden md:inline-flex floating-badge absolute -top-4 right-5 px-3 py-1.5 rounded-full bg-brand-highlight text-brand-dark-bg text-[11px] font-bold uppercase tracking-[0.16em] shadow-lg">
-                        £10 intro lesson
-                    </div>
-
                     <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
                         <div class="flex items-center gap-4">
                             <img
@@ -621,7 +630,7 @@
                         <p><span class="text-brand-text-light font-semibold">Best for:</span> friend groups, young performers and children ready to play with others.</p>
                         <p><span class="text-brand-text-light font-semibold">Focus:</span> teamwork, confidence and live band skills.</p>
                     </div>
-                    <a href="contact.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Ask about Band Night →</a>
+                    <a href="band-night.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View Band Night details →</a>
                 </div>
 
                 <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1">
@@ -657,7 +666,7 @@
                         <p><span class="text-brand-text-light font-semibold">Best for:</span> young creatives who want more than standard lessons.</p>
                         <p><span class="text-brand-text-light font-semibold">Focus:</span> songwriting, recording and creative confidence.</p>
                     </div>
-                    <a href="contact.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Ask about Make a Song →</a>
+                    <a href="make-a-song.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View Make a Song details →</a>
                 </div>
 
                 <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-2">
@@ -675,7 +684,7 @@
                         <p><span class="text-brand-text-light font-semibold">Best for:</span> families wanting flexible, supportive tuition at home.</p>
                         <p><span class="text-brand-text-light font-semibold">Focus:</span> consistent progress, musical foundations and enjoyment.</p>
                     </div>
-                    <a href="pricing.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View lesson pricing →</a>
+                    <a href="private-lessons.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View private lesson details →</a>
                 </div>
             </div>
         </section>
