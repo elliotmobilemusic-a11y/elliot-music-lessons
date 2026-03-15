@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Fees & Policy – Elliot Wardill Mobile Music Lessons</title>
+    <title>Pricing & Services – Elliot’s Mobile Music</title>
     <link rel="icon" href="/favicon.png" type="image/png">
 
     <!-- Tailwind -->
@@ -180,13 +181,7 @@
         <div class="flex justify-between items-center h-16">
             <a href="index.html" class="flex items-center space-x-2">
                 <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                    <!-- Inline music icon SVG -->
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="24" height="24" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round"
-                         class="w-5 h-5 text-brand-accent-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-brand-accent-light">
                         <circle cx="8" cy="18" r="4"></circle>
                         <path d="M12 18V2l7 4"></path>
                     </svg>
@@ -196,53 +191,38 @@
                 </span>
             </a>
 
-            <!-- Desktop nav -->
-            <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-                <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                    HOME
-                </a>
-                <a href="pricing.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
-                    PRICING & FEES
-                </a>
-                <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                    AVAILABILITY
-               </a>
-
-                  <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                   SCHOOL BANDS
-                </a>
-                
-                <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                    CONTACT
-                </a>
-
+            <div class="hidden sm:flex sm:space-x-1 md:space-x-2 lg:space-x-3 text-[11px] md:text-xs lg:text-sm">
+                <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">HOME</a>
+                <a href="pricing.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">PRICING</a>
+                <a href="private-lessons.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">PRIVATE LESSONS</a>
+                <a href="band-night.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">BAND NIGHT</a>
+                <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">SCHOOL BANDS</a>
+                <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">MAKE A SONG</a>
+                <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">CONTACT</a>
             </div>
 
-            <!-- Mobile button -->
             <div class="sm:hidden">
                 <button id="mobile-menu-button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M4 6h16M4 12h16M4 18h16" />
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
+                        aria-controls="mobile-menu"
+                        aria-expanded="false">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Mobile menu -->
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
             <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
-            <a href="pricing.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">PRICING & FEES</a>
-            <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">AVAILABILITY</a>
-            <a href="schhol-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">SCHOOL BANDS</a>
+            <a href="pricing.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">PRICING</a>
+            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRIVATE LESSONS</a>
+            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">BAND NIGHT</a>
+            <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">SCHOOL BANDS</a>
+            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">MAKE A SONG</a>
             <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
-
-
-            </a>
         </div>
     </div>
 </nav>
@@ -253,13 +233,13 @@
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-12">
             <div class="text-center max-w-3xl mx-auto mb-10 reveal">
                 <p class="text-xs font-semibold tracking-[0.25em] text-brand-highlight mb-3 uppercase">
-                    CLEAR, TRANSPARENT PRICING
+                    PRICING ACROSS ALL OFFERS
                 </p>
                 <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-text-light main-hero-shadow mb-4">
-                    Lesson Fees & Music Lesson Policy
+                    Pricing & Services
                 </h1>
                 <p class="text-base sm:text-lg text-brand-text-mid">
-                    Everything you need to know about pricing, travel, and how lessons work – all in one place.
+                    A clear overview of private lessons, Band Night, the School Band Programme and Make a Song, plus travel, policies and lesson pricing.
                 </p>
             </div>
 
@@ -267,16 +247,76 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto reveal delayed-1">
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
                     <i data-lucide="book-open" class="w-4 h-4 text-brand-accent-light"></i>
-                    <span>Intro lesson <strong>£10</strong></span>
+                    <span>Private lessons from <strong>£10 intro</strong></span>
                 </div>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
                     <i data-lucide="clock" class="w-4 h-4 text-brand-accent-light"></i>
-                    <span>30 / 60 / 90 minute options</span>
+                    <span>Band, school and songwriting offers included</span>
                 </div>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-text-mid bg-card-bg/80 rounded-xl px-4 py-3 border border-brand-accent-dark/50">
                     <i data-lucide="map-pin" class="w-4 h-4 text-brand-highlight"></i>
-                    <span>Travel from Pudsey with live calculator</span>
+                    <span>Private lesson travel calculator below</span>
                 </div>
+            </div>
+        </section>
+
+
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <div class="text-center max-w-3xl mx-auto mb-8 reveal delayed-1">
+                <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-3">At-a-glance offer pricing</p>
+                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-text-light main-hero-shadow mb-3">Choose the offer that fits best</h2>
+                <p class="text-brand-text-mid">Private lessons, small-group band experiences, school delivery and songwriting each have their own format and pricing.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                <article class="p-5 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-brand-accent-light mb-2">Private Lessons</p>
+                    <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-2">1:1 home lessons</h3>
+                    <p class="text-sm text-brand-text-mid mb-4">Drums, bass, guitar, piano and singing. Intro lesson available, with 30, 60 and 90 minute options.</p>
+                    <div class="space-y-2 text-sm mb-5">
+                        <div class="flex justify-between gap-3"><span>Intro lesson</span><strong class="text-brand-highlight">£10</strong></div>
+                        <div class="flex justify-between gap-3"><span>30 minutes</span><strong>£15</strong></div>
+                        <div class="flex justify-between gap-3"><span>60 minutes</span><strong>£30</strong></div>
+                        <div class="flex justify-between gap-3"><span>90 minutes</span><strong>£50</strong></div>
+                    </div>
+                    <a href="private-lessons.html" class="inline-flex items-center text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View private lesson details →</a>
+                </article>
+
+                <article class="p-5 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal delayed-1">
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-brand-highlight mb-2">Band Night</p>
+                    <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-2">Small-group venue block</h3>
+                    <p class="text-sm text-brand-text-mid mb-4">A real band-style experience, usually delivered in 6-week blocks with 4–5 pupils per band.</p>
+                    <div class="space-y-2 text-sm mb-5">
+                        <div class="flex justify-between gap-3"><span>Deposit to secure place</span><strong class="text-brand-highlight">£10</strong></div>
+                        <div class="flex justify-between gap-3"><span>6-week block per child</span><strong>£90</strong></div>
+                        <div class="flex justify-between gap-3"><span>Typical band size</span><strong>4–5 pupils</strong></div>
+                    </div>
+                    <a href="band-night.html" class="inline-flex items-center text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View Band Night details →</a>
+                </article>
+
+                <article class="p-5 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal delayed-2">
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-brand-accent-light mb-2">School Band Programme</p>
+                    <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-2">In-school band sessions</h3>
+                    <p class="text-sm text-brand-text-mid mb-4">A parent-paid school delivery model, usually in weekly 30-minute small-group sessions.</p>
+                    <div class="space-y-2 text-sm mb-5">
+                        <div class="flex justify-between gap-3"><span>Per child, per session</span><strong class="text-brand-highlight">£15</strong></div>
+                        <div class="flex justify-between gap-3"><span>Typical band size</span><strong>4–5 pupils</strong></div>
+                        <div class="flex justify-between gap-3"><span>Minimum to run</span><strong>3 pupils</strong></div>
+                    </div>
+                    <a href="school-band-programme.html" class="inline-flex items-center text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View school band details →</a>
+                </article>
+
+                <article class="p-5 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal delayed-3">
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-brand-highlight mb-2">Make a Song</p>
+                    <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-2">Creative 6-week course</h3>
+                    <p class="text-sm text-brand-text-mid mb-4">For ages 6+, guiding students from songwriting ideas into a finished recorded track.</p>
+                    <div class="space-y-2 text-sm mb-5">
+                        <div class="flex justify-between gap-3"><span>Full 6-week course</span><strong class="text-brand-highlight">£135</strong></div>
+                        <div class="flex justify-between gap-3"><span>Age guide</span><strong>6+</strong></div>
+                        <div class="flex justify-between gap-3"><span>Group option</span><strong>Same house only</strong></div>
+                    </div>
+                    <a href="make-a-song.html" class="inline-flex items-center text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View Make a Song details →</a>
+                </article>
             </div>
         </section>
 
@@ -290,7 +330,7 @@
                         <div>
                             <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center gap-2">
                                 <i data-lucide="route" class="w-6 h-6 text-brand-accent-light"></i>
-                                Travel & Lesson Cost Calculator
+                                Private Lesson Travel & Cost Calculator
                             </h2>
                             <p class="text-xs sm:text-sm text-brand-text-mid mt-1">
                                 Live road-distance estimate from Pudsey (LS28) with traffic-aware travel time and clear final pricing.
@@ -358,7 +398,7 @@
                             id="check-fee-button"
                             class="w-full px-6 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-sm sm:text-base font-semibold text-brand-dark-bg transition duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
                         >
-                            <span id="button-text">Calculate final lesson price</span>
+                            <span id="button-text">Calculate private lesson price</span>
                             <span id="loading-spinner" class="spinner hidden"></span>
                         </button>
                     </div>
@@ -425,7 +465,7 @@
                 <section class="p-6 sm:p-7 bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 reveal">
                     <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
                         <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
-                        Standard Lesson Rates
+                        Private Lesson Rates
                     </h2>
                     <p class="text-sm text-brand-text-mid mb-5">
                         These are the base lesson fees, before travel is added. Travel is calculated transparently using the tool above.
@@ -591,10 +631,9 @@
                         For very long journeys or areas outside my usual route, I may confirm the fee manually before lessons are booked.
                     </p>
 
-                    <h4>6. Availability</h4>
+                    <h4>6. Private Lesson Availability</h4>
                     <p>
-                        Standard evening availability is currently <strong>Tuesday, Wednesday and Thursday (6pm – 9pm)</strong>. Saturday and Sunday may be available on request.
-                        Monday and Friday are generally unavailable for lessons.
+                        Standard private lesson availability is currently <strong>Wednesday to Friday</strong>. Other times may occasionally be possible, but only when confirmed directly by Elliot.
                     </p>
 
                     <h4>7. Photo and Video Consent</h4>
@@ -1028,7 +1067,7 @@
                 etaLine.textContent = 'ETA not available due to a temporary Google Maps issue.';
             } finally {
                 checkButton.disabled = false;
-                buttonText.textContent = 'Calculate final lesson price';
+                buttonText.textContent = 'Calculate private lesson price';
                 spinner.classList.add('hidden');
             }
         }
