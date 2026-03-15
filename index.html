@@ -1066,11 +1066,12 @@
                     })
                 });
 
-                if (!res.ok) {
-                    throw new Error('Server error: ' + res.status);
-                }
+                const data = await res.json().catch(() => ({}));
 
-                const data = await res.json();
+                if (!res.ok) {
+                    const serverMessage = data.details || data.error || ('Server error: ' + res.status);
+                    throw new Error(serverMessage);
+                }
                 const text = data.text || "I couldn't find a clear answer there. Try asking in a slightly different way, or use the contact page for exact details.";
                 appendMessage('bot', text);
                 pushHistory('assistant', text);
