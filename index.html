@@ -143,6 +143,9 @@
         inset: 0;
         pointer-events: none;
         overflow: hidden;
+        background:
+            radial-gradient(circle at 82% 18%, rgba(0, 208, 132, 0.12), transparent 24%),
+            radial-gradient(circle at 14% 76%, rgba(255, 183, 3, 0.10), transparent 24%);
     }
 
     .hero-orb {
@@ -338,6 +341,26 @@
         transform: none;
     }
 
+    @media (min-width: 1024px) {
+        .hero-grid {
+            opacity: 0.38;
+        }
+
+        .hero-orb.one {
+            width: 24rem;
+            height: 24rem;
+            right: 2rem;
+            top: 2rem;
+        }
+
+        .hero-orb.two {
+            width: 22rem;
+            height: 22rem;
+            left: 1rem;
+            bottom: 1rem;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         .hero-orb,
@@ -380,89 +403,45 @@
 <body class="min-h-screen flex flex-col text-brand-text-light">
 <a href="#main-content" class="skip-link">Skip to content</a>
 <!-- NAVIGATION -->
-<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
+        <div class="flex items-center justify-between h-16">
+            <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
 
-            <!-- Logo -->
-            <a href="index.html" class="flex items-center space-x-2 reveal visible">
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                    <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
-                </span>
-                <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-                    ELLIOT'S MOBILE MUSIC
-                </span>
-            </a>
+            <div class="hidden md:flex items-center space-x-4 text-[11px] lg:text-sm">
+                <a href="index.html" class="text-brand-accent-light">HOME</a>
+                <a href="pricing.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRICING</a>
+                <a href="private-lessons.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRIVATE LESSONS</a>
+                <a href="band-night.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">BAND NIGHT</a>
+                <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">SCHOOL BANDS</a>
+                <a href="make-a-song.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">MAKE A SONG</a>
+                <a href="contact.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">CONTACT</a>
+            </div>
 
-            <!-- Desktop nav -->
-          
-          <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+            <div class="md:hidden">
+                <button id="mobile-menu-button"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/70 focus:outline-none focus:ring-2 focus:ring-brand-accent-light"
+                        aria-controls="mobile-menu"
+                        aria-expanded="false">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
-             <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
-                HOME
-         </a>
-
-             <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                PRICING & FEES
-         </a>
-
-             <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                AVAILABILITY
-         </a>
-
-            <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                SCHOOL BANDS
-         </a>
-
-            <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
-                CONTACT
-         </a>
-
-      </div>
-
-        <!-- Mobile button -->
-        <div class="sm:hidden">
-        <button id="mobile-menu-button"
-          class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
-          aria-controls="mobile-menu"
-          aria-expanded="false">
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor">
-       <path stroke-linecap="round" stroke-linejoin="round"
-         d="M4 6h16M4 12h16M4 18h16" />
-       </svg>
-    </button>
-  </div>
-
-  </div>
-</div>
-
-      <!-- Mobile menu -->
-<div class="sm:hidden hidden" id="mobile-menu">
-  <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-
-    <a href="index.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">
-      HOME
-    </a>
-
-    <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-      PRICING & FEES
-    </a>
-
-    <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-      AVAILABILITY
-    </a>
-
-    <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-      SCHOOL BANDS
-    </a>
-
-    <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
-      CONTACT
-    </a>
-
-  </div>
-</div>
+    <div class="md:hidden hidden border-t border-brand-accent-dark/30 bg-brand-dark-bg/95" id="mobile-menu">
+        <div class="pt-2 pb-3 space-y-1 px-4 text-sm">
+            <a href="index.html" class="block rounded-md bg-brand-accent-dark/70 text-white px-3 py-2 font-medium">HOME</a>
+            <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRICING</a>
+            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRIVATE LESSONS</a>
+            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">BAND NIGHT</a>
+            <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">SCHOOL BANDS</a>
+            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">MAKE A SONG</a>
+            <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">CONTACT</a>
+        </div>
+    </div>
 </nav>
 
 
@@ -470,14 +449,14 @@
     <main id="main-content" class="flex-grow">
         
         <!-- HERO -->
-        <section id="hero-section" class="relative overflow-hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20 lg:min-h-[88vh] lg:flex lg:items-center">
+        <section id="hero-section" class="relative overflow-hidden pt-28 sm:pt-32 pb-20 lg:pt-24 lg:pb-10 lg:min-h-[calc(100vh-4rem)] lg:flex lg:items-center">
             <div class="hero-backdrop" aria-hidden="true">
                 <div class="hero-orb one"></div>
                 <div class="hero-orb two"></div>
                 <div class="hero-grid"></div>
             </div>
 
-            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="relative max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:items-start">
                 <!-- Text side -->
                 <div class="reveal">
                     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-dark-bg/65 soft-border text-[11px] sm:text-xs uppercase tracking-[0.2em] text-brand-highlight mb-5">
@@ -548,7 +527,7 @@
                 </div>
 
                 <!-- Visual card -->
-                <div class="relative reveal delayed-1">
+                <div class="relative reveal delayed-1 md:pt-1">
                     <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
                         <div class="flex items-center gap-4">
                             <img
@@ -711,9 +690,9 @@
                             Whether that means more lessons, another Band Night block, a school rollout or a finished original song, there is a clear sense of progression.
                         </li>
                     </ol>
-                    <a href="availability.html"
+                    <a href="contact.html"
                        class="inline-flex items-center mt-6 text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
-                        Check availability & enquire →
+                        Enquire & check times →
                     </a>
                 </div>
 
