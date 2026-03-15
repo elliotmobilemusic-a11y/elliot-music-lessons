@@ -4,575 +4,814 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing & Services | Elliot's Mobile Music</title>
+    <title>Pricing – Elliot’s Mobile Music</title>
     <meta name="description" content="Clear pricing for private lessons, Band Night, the School Band Programme and Make a Song, all in one place.">
+    <meta name="format-detection" content="telephone=no">
+    <meta property="og:title" content="Pricing – Elliot’s Mobile Music">
+    <meta property="og:description" content="Private lesson pricing, Band Night fees, School Band Programme pricing and Make a Song course costs.">
+    <meta property="og:type" content="website">
+
     <link rel="icon" href="./favicon.png" type="image/png">
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark-bg': '#1a1a2e',
-                        'brand-accent-light': '#00d084',
-                        'brand-accent-dark': '#00a36e',
-                        'brand-text-light': '#e0e0e0',
-                        'brand-text-mid': '#a0e0e0',
-                        'brand-highlight': '#ffb703',
-                        'card-bg': '#252538',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                    },
-                }
-            }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-dark-bg': '#1a1a2e',
+              'brand-accent-light': '#00d084',
+              'brand-accent-dark': '#00a36e',
+              'brand-text-light': '#e0e0e0',
+              'brand-text-mid': '#a0e0e0',
+              'brand-highlight': '#ffb703',
+              'card-bg': '#252538',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Montserrat', 'sans-serif'],
+            },
+          }
         }
+      }
+    </script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js");
+        });
+      }
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e;
-            color: #e0e0e0;
-            position: relative;
-            min-height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #1a1a2e;
+        position: relative;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 86% 10%, rgba(255,183,3,0.08), transparent 28%),
+            radial-gradient(circle at 10% 76%, rgba(0,208,132,0.08), transparent 28%),
+            radial-gradient(circle at 48% -6%, rgba(0,208,132,0.05), transparent 32%),
+            linear-gradient(180deg, #202238 0%, #1b1c31 34%, #17192b 68%, #151624 100%);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    body::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image:
+            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent 85%);
+    }
+
+    ::selection {
+        background: rgba(0, 208, 132, 0.35);
+        color: #ffffff;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -3rem;
+        z-index: 1000;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        background: #00d084;
+        color: #1a1a2e;
+        font-weight: 700;
+        transition: top 0.2s ease;
+    }
+    .skip-link:focus {
+        top: 1rem;
+    }
+
+    .main-hero-shadow {
+        text-shadow: 0 0 16px rgba(0, 208, 132, 0.24);
+    }
+
+    .card-glow {
+        box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45);
+    }
+
+    .soft-border {
+        border: 1px solid rgba(0, 208, 132, 0.18);
+    }
+
+    .glass-panel {
+        background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+        backdrop-filter: blur(10px);
+    }
+
+    .section-accent {
+        position: relative;
+    }
+    .section-accent::after {
+        content: "";
+        display: block;
+        width: 84px;
+        height: 3px;
+        margin-top: 0.9rem;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #00d084 0%, #ffb703 100%);
+    }
+
+    .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .hero-orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(22px);
+        opacity: 0.16;
+        animation: float-orb 9s ease-in-out infinite;
+    }
+    .hero-orb.one {
+        width: 18rem;
+        height: 18rem;
+        top: 1rem;
+        right: -5rem;
+        background: rgba(0, 208, 132, 0.34);
+    }
+    .hero-orb.two {
+        width: 16rem;
+        height: 16rem;
+        bottom: 0;
+        left: -4rem;
+        background: rgba(255, 183, 3, 0.24);
+        animation-delay: -2.8s;
+    }
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 34px 34px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 82%);
+        opacity: 0.3;
+    }
+
+    .floating-badge {
+        animation: float-badge 5.5s ease-in-out infinite;
+    }
+
+    .hero-stat,
+    .micro-card {
+        background: rgba(26, 26, 46, 0.72);
+        border: 1px solid rgba(0, 208, 132, 0.16);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .hero-stat {
+        border-radius: 1rem;
+        padding: 0.9rem 1rem;
+    }
+
+    .micro-card {
+        border-radius: 1rem;
+        padding: 0.95rem 1rem;
+        transition:
+            transform 0.25s ease,
+            border-color 0.25s ease,
+            background-color 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+    .micro-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 183, 3, 0.35);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .service-card {
+        position: relative;
+        overflow: hidden;
+    }
+    .service-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 55%);
+        pointer-events: none;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease;
+    }
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+    }
+    .btn-primary:hover {
+        box-shadow: 0 14px 28px rgba(0, 208, 132, 0.22);
+    }
+    .btn-secondary:hover {
+        box-shadow: 0 12px 26px rgba(255, 183, 3, 0.15);
+    }
+
+    #sticky-cta {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    #sticky-cta.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @keyframes dot-pulse {
+        0%, 100% { opacity: 0.2; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.4); }
+    }
+    .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
+    .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
+    .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+            opacity 0.8s ease-out,
+            transform 0.8s ease-out;
+    }
+    .reveal.delayed-1 { transition-delay: 0.12s; }
+    .reveal.delayed-2 { transition-delay: 0.2s; }
+    .reveal.delayed-3 { transition-delay: 0.28s; }
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hover-lift {
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.2s ease,
+            background-color 0.2s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-4px);
+    }
+
+    .tutor-photo {
+        box-shadow: 0 0 32px rgba(255, 183, 3, 0.24);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .tutor-photo:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 45px rgba(255, 183, 3, 0.35);
+    }
+
+    .nav-scrolled {
+        background: rgba(26,26,46,0.88);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 22px rgba(0,0,0,.28);
+    }
+
+    @keyframes float-orb {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(0, -14px, 0); }
+    }
+
+    @keyframes float-badge {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .hero-orb,
+        .floating-badge,
+        .reveal,
+        .hover-lift,
+        .micro-card,
+        .btn-primary,
+        .btn-secondary,
+        .tutor-photo,
+        #sticky-cta {
+            animation: none !important;
+            transition: none !important;
+            transform: none !important;
         }
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            background:
-                radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
-                radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
-                radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
-                linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
-            background-repeat: no-repeat;
-            background-size: cover;
+        .reveal {
+            opacity: 1;
         }
-        .card-glow { box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45); }
-        .soft-border { border: 1px solid rgba(0, 208, 132, 0.18); }
-        .glass-panel { background: linear-gradient(180deg, rgba(37,37,56,0.94) 0%, rgba(26,26,46,0.94) 100%); backdrop-filter: blur(10px); }
-        .main-hero-shadow { text-shadow: 0 0 16px rgba(0, 208, 132, 0.24); }
-        .section-accent::after { content:""; display:block; width:84px; height:3px; margin-top:.9rem; border-radius:999px; background:linear-gradient(90deg,#00d084 0%, #ffb703 100%); }
-        .nav-scrolled { background: rgba(26,26,46,0.88); backdrop-filter: blur(12px); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
-        .hover-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease, background-color .2s ease; }
-        .hover-lift:hover { transform: translateY(-4px); }
-        .service-card { position: relative; overflow: hidden; }
-        .service-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 55%); pointer-events: none; }
-        .btn-primary, .btn-secondary { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease; }
-        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
-        .btn-primary:hover { box-shadow: 0 14px 28px rgba(0,208,132,.22); }
-        .btn-secondary:hover { box-shadow: 0 12px 26px rgba(255,183,3,.15); }
-        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal.delayed-1 { transition-delay: 0.12s; }
-        .reveal.delayed-2 { transition-delay: 0.20s; }
-        .reveal.delayed-3 { transition-delay: 0.28s; }
-        .policy-table th { background-color: #00a36e; color: #1a1a2e; font-weight: 700; }
-        .policy-table td { background-color: rgba(37, 37, 56, 0.9); border-bottom: 1px solid #333355; }
-        .policy-table tr:hover td { background-color: #333355; }
-        .policy-content p { margin-bottom: 1rem; line-height: 1.6; color: #c3dede; }
-        .policy-content h4 { font-weight: bold; color: #e0e0e0; margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-top: 4px solid #ffb703; border-radius: 50%; width: 22px; height: 22px; animation: spin 0.9s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 0.25rem 0.6rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-        #map { border-radius: 0.75rem; border: 1px solid rgba(160, 224, 224, 0.3); }
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            .reveal, .hover-lift, .btn-primary, .btn-secondary { transition: none !important; transform: none !important; }
-            .reveal { opacity: 1; }
-        }
+    }
+
+    /* Pricing page additions */
+    .policy-table th {
+        background-color: rgba(0, 208, 132, 0.88);
+        color: #1a1a2e;
+        font-weight: 700;
+    }
+    .policy-table td {
+        background-color: rgba(37, 37, 56, 0.92);
+        border-bottom: 1px solid rgba(51, 51, 85, 0.9);
+    }
+    .policy-table tr:hover td {
+        background-color: rgba(51, 51, 85, 0.95);
+    }
+    .policy-content p {
+        margin-bottom: 1rem;
+        line-height: 1.65;
+        color: #a0e0e0;
+    }
+    .policy-content h4 {
+        font-weight: 700;
+        color: #e0e0e0;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.08rem;
+    }
+    .spinner {
+        border: 4px solid rgba(255,255,255,0.25);
+        border-top: 4px solid #ffb703;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+    #map {
+        border-radius: 0.9rem;
+        border: 1px solid rgba(160, 224, 224, 0.24);
+    }
+
     </style>
 
     <script type="module">
         import {
             createIcons,
-            Zap,
-            BookOpen,
-            Clock,
-            Mail,
-            Phone,
-            MapPin,
-            MessageSquare,
-            Star,
-            Users,
-            Send,
-            Route,
-            PoundSterling,
-            Music,
-            MicVocal
+            Zap, BookOpen, Clock, Mail, Phone,
+            MapPin, MessageSquare, Star, Music2, Users, Send, Route
         } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-
         createIcons({
-            icons: {
-                Zap,
-                BookOpen,
-                Clock,
-                Mail,
-                Phone,
-                MapPin,
-                MessageSquare,
-                Star,
-                Users,
-                Send,
-                Route,
-                PoundSterling,
-                Music,
-                MicVocal
-            }
+            icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Music2, Users, Send, Route }
         });
     </script>
 
     <script defer src="./cookie-banner.js?v=2"></script>
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
+<a href="#main-content" class="skip-link">Skip to content</a>
 
-<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled text-white">
+<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
 
-            <div class="hidden md:flex items-center space-x-6 text-sm">
-                <a href="index.html" class="text-brand-text-mid hover:text-white">HOME</a>
+            <div class="hidden md:flex items-center space-x-4 text-[11px] lg:text-sm">
+                <a href="index.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">HOME</a>
                 <a href="pricing.html" class="text-brand-accent-light font-semibold">PRICING</a>
-                <a href="private-lessons.html" class="text-brand-text-mid hover:text-white">PRIVATE LESSONS</a>
-                <a href="band-night.html" class="text-brand-text-mid hover:text-white">BAND NIGHT</a>
-                <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white">SCHOOL BANDS</a>
-                <a href="make-a-song.html" class="text-brand-text-mid hover:text-white">MAKE A SONG</a>
-                <a href="contact.html" class="text-brand-text-mid hover:text-white">CONTACT</a>
+                <a href="private-lessons.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRIVATE LESSONS</a>
+                <a href="band-night.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">BAND NIGHT</a>
+                <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">SCHOOL BANDS</a>
+                <a href="make-a-song.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">MAKE A SONG</a>
+                <a href="contact.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">CONTACT</a>
             </div>
 
-            <button id="mobile-menu-button" class="md:hidden text-brand-text-light hover:text-brand-accent-light p-2" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-            </button>
+            <div class="md:hidden">
+                <button id="mobile-menu-button"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/70 focus:outline-none focus:ring-2 focus:ring-brand-accent-light"
+                        aria-controls="mobile-menu"
+                        aria-expanded="false">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden nav-scrolled border-t border-brand-accent-dark/40">
-        <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-            <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">HOME</a>
-            <a href="pricing.html" class="block rounded-md bg-brand-accent-dark/60 text-white px-3 py-2 font-medium">PRICING</a>
-            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">PRIVATE LESSONS</a>
-            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">BAND NIGHT</a>
-            <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">SCHOOL BANDS</a>
-            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">MAKE A SONG</a>
-            <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">CONTACT</a>
+
+    <div class="md:hidden hidden border-t border-brand-accent-dark/30 bg-brand-dark-bg/95" id="mobile-menu">
+        <div class="pt-2 pb-3 space-y-1 px-4 text-sm">
+            <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">HOME</a>
+            <a href="pricing.html" class="block rounded-md bg-brand-accent-dark/70 text-white px-3 py-2 font-medium">PRICING</a>
+            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRIVATE LESSONS</a>
+            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">BAND NIGHT</a>
+            <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">SCHOOL BANDS</a>
+            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">MAKE A SONG</a>
+            <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">CONTACT</a>
         </div>
     </div>
 </nav>
 
-<main class="flex-grow pt-28 sm:pt-32 pb-20">
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-14">
-        <div class="text-center max-w-3xl mx-auto mb-10 reveal">
-            <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Clear pricing across the whole business</p>
-            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-brand-text-light main-hero-shadow mb-4">Pricing that feels clear, professional and easy to compare.</h1>
-            <p class="text-base sm:text-lg text-brand-text-mid leading-8">This page now mirrors the homepage style while bringing all four offers into one place. Private lesson travel, fees and lesson policy are all kept below.</p>
+<main id="main-content" class="flex-grow">
+    <section id="hero-section" class="relative overflow-hidden pt-28 sm:pt-32 pb-14 lg:pt-24 lg:pb-12 lg:min-h-[calc(70vh-4rem)] lg:flex lg:items-center">
+        <div class="hero-backdrop" aria-hidden="true">
+            <div class="hero-orb one"></div>
+            <div class="hero-orb two"></div>
+            <div class="hero-grid"></div>
         </div>
 
-        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-5 reveal delayed-1">
-            <a href="private-lessons.html" class="service-card glass-panel rounded-[1.5rem] p-6 soft-border card-glow hover-lift">
-                <p class="text-[0.7rem] tracking-[0.24em] uppercase text-brand-highlight mb-3">Private lessons</p>
-                <h2 class="font-heading text-2xl font-bold mb-3">From £15</h2>
-                <p class="text-sm text-brand-text-mid leading-7 mb-5">Drums, bass, guitar, piano and singing. Intro lesson £10, then 30 / 60 / 90 minute options plus travel where needed.</p>
-                <span class="inline-flex items-center text-sm font-semibold text-brand-accent-light">View lesson page</span>
-            </a>
-            <a href="band-night.html" class="service-card glass-panel rounded-[1.5rem] p-6 soft-border card-glow hover-lift">
-                <p class="text-[0.7rem] tracking-[0.24em] uppercase text-brand-highlight mb-3">Band Night</p>
-                <h2 class="font-heading text-2xl font-bold mb-3">£90 block</h2>
-                <p class="text-sm text-brand-text-mid leading-7 mb-5">A 6-week small-group band experience, usually with a £10 deposit to secure a place. Great for children who want to play with others.</p>
-                <span class="inline-flex items-center text-sm font-semibold text-brand-accent-light">View Band Night</span>
-            </a>
-            <a href="school-band-programme.html" class="service-card glass-panel rounded-[1.5rem] p-6 soft-border card-glow hover-lift">
-                <p class="text-[0.7rem] tracking-[0.24em] uppercase text-brand-highlight mb-3">School bands</p>
-                <h2 class="font-heading text-2xl font-bold mb-3">From £15</h2>
-                <p class="text-sm text-brand-text-mid leading-7 mb-5">Typically parent-paid from £15 per child per session, with final delivery and setup agreed directly with the school.</p>
-                <span class="inline-flex items-center text-sm font-semibold text-brand-accent-light">View school bands</span>
-            </a>
-            <a href="make-a-song.html" class="service-card glass-panel rounded-[1.5rem] p-6 soft-border card-glow hover-lift">
-                <p class="text-[0.7rem] tracking-[0.24em] uppercase text-brand-highlight mb-3">Make a Song</p>
-                <h2 class="font-heading text-2xl font-bold mb-3">£135 total</h2>
-                <p class="text-sm text-brand-text-mid leading-7 mb-5">A 6-week creative course for ages 6+ where students write, record and produce their own original song.</p>
-                <span class="inline-flex items-center text-sm font-semibold text-brand-accent-light">View course page</span>
-            </a>
-        </div>
-    </section>
-
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 reveal delayed-2">
-        <div class="glass-panel rounded-[1.6rem] p-6 sm:p-7 soft-border card-glow">
-            <div class="grid lg:grid-cols-[1.2fr_minmax(0,0.8fr)] gap-6 items-center">
-                <div>
-                    <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-2">Private lesson pricing</p>
-                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-text-light mb-3 section-accent">Travel calculator, lesson rates and policy</h2>
-                    <p class="text-brand-text-mid leading-8 max-w-2xl">The detailed calculator below is specifically for private lessons at home. It gives a transparent price using your lesson length and travel distance from Pudsey.</p>
+        <div class="relative max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:items-start">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-dark-bg/65 soft-border text-[11px] sm:text-xs uppercase tracking-[0.2em] text-brand-highlight mb-5">
+                    <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+                    Pricing • private lessons • bands • schools • songwriting
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 gap-3">
-                    <div class="rounded-xl bg-black/15 border border-brand-accent-dark/40 px-4 py-3">
-                        <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-1">Intro</p>
-                        <p class="text-lg font-bold text-white">£10 first lesson</p>
+                <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[0.94] text-brand-text-light main-hero-shadow mb-5">
+                    Clear pricing that makes every route into music feel <span class="text-brand-accent-light">simple</span> and <span class="text-brand-accent-light">professional.</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl leading-relaxed mb-7">
+                    See private lesson fees, Band Night pricing, School Band Programme costs and Make a Song pricing in one place — with the private lesson travel calculator ready to estimate your final lesson cost.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
+                    <div class="hero-stat reveal delayed-1">
+                        <div class="text-3xl font-extrabold text-brand-accent-light">4</div>
+                        <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Core offers</div>
                     </div>
-                    <div class="rounded-xl bg-black/15 border border-brand-accent-dark/40 px-4 py-3">
-                        <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-1">Availability</p>
-                        <p class="text-lg font-bold text-white">Wednesday to Friday</p>
+                    <div class="hero-stat reveal delayed-2">
+                        <div class="text-3xl font-extrabold text-brand-highlight">£10</div>
+                        <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Intro lesson</div>
                     </div>
-                    <div class="rounded-xl bg-black/15 border border-brand-accent-dark/40 px-4 py-3">
-                        <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-1">Instruments</p>
-                        <p class="text-lg font-bold text-white">5 taught</p>
+                    <div class="hero-stat reveal delayed-3">
+                        <div class="text-3xl font-extrabold text-brand-accent-light">Wed–Fri</div>
+                        <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Private lesson days</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-        <!-- LAYOUT GRID: CALCULATOR + RATES -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
-
-                <!-- LEFT: ADVANCED POSTCODE CALCULATOR -->
-                <section class="p-6 sm:p-7 glass-panel rounded-[1.6rem] card-glow soft-border reveal">
-                    <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="relative reveal delayed-1 md:pt-0">
+                <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-highlight/10 border border-brand-highlight/35 flex items-center justify-center text-brand-highlight text-xl font-bold">£</div>
                         <div>
-                            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center gap-2">
-                                <i data-lucide="route" class="w-6 h-6 text-brand-accent-light"></i>
-                                Private Lesson Travel Calculator
-                            </h2>
-                            <p class="text-xs sm:text-sm text-brand-text-mid mt-1">
-                                Use the live calculator below for private lessons. It estimates road distance from Pudsey (LS28) and shows a clear final lesson price.
-                            </p>
-                        </div>
-                        <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">
-                            LIVE MAP
-                        </span>
-                    </div>
-
-                    <!-- Controls -->
-                    <div class="space-y-5 mb-6">
-                        <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-5">
-                            <!-- Postcode input -->
-                            <div>
-                                <label for="postcode-input" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">
-                                    Outward postcode or full postcode
-                                </label>
-                                <input
-                                    id="postcode-input"
-                                    type="text"
-                                    placeholder="e.g. LS28 7**, LS13, BD17..."
-                                    class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40 uppercase"
-                                >
-                                <p class="mt-1 text-[0.7rem] text-brand-text-mid">
-                                    Start typing and choose from suggestions, or enter a full postcode. UK postcodes only.
-                                </p>
-                            </div>
-
-                            <!-- Lesson duration + driving profile -->
-                            <div class="space-y-3">
-                                <div>
-                                    <label for="lesson-duration" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">
-                                        Lesson length
-                                    </label>
-                                    <select
-                                        id="lesson-duration"
-                                        class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-                                    >
-                                        <option value="30">30 Minutes – £15.00</option>
-                                        <option value="60" selected>60 Minutes – £30.00</option>
-                                        <option value="90">90 Minutes – £50.00</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="traffic-profile" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">
-                                        Traffic profile
-                                    </label>
-                                    <select
-                                        id="traffic-profile"
-                                        class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-                                    >
-                                        <option value="normal">Normal traffic (best guess)</option>
-                                        <option value="low">Typically low traffic times</option>
-                                    </select>
-                                    <p class="mt-1 text-[0.7rem] text-brand-text-mid">
-                                        This adjusts how Google estimates typical travel times for your journey.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Calculate button -->
-                        <button
-                            id="check-fee-button"
-                            class="w-full px-6 py-3 rounded-lg bg-brand-accent-dark hover:bg-brand-accent-light text-sm sm:text-base font-semibold text-brand-dark-bg transition duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
-                        >
-                            <span id="button-text">Calculate final lesson price</span>
-                            <span id="loading-spinner" class="spinner hidden"></span>
-                        </button>
-                    </div>
-
-                    <!-- Result area -->
-                    <div
-                        id="fee-result"
-                        class="mt-6 p-4 sm:p-5 rounded-xl border border-brand-accent-light/40 bg-brand-dark-bg/70 hidden text-sm space-y-4"
-                    ></div>
-
-                    <p class="mt-4 text-[0.7rem] text-brand-text-mid">
-                        All figures are estimates based on Google’s live and typical traffic data. Final fees will always be confirmed directly with Elliot.
-                    </p>
-                </section>
-
-                <!-- RIGHT: MAP + SUMMARY PANELS -->
-                <section class="space-y-6 reveal delayed-1">
-                    <!-- Map -->
-                    <div class="bg-card-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-4">
-                        <div class="flex items-center justify-between mb-3">
-                            <div>
-                                <h3 class="font-heading text-lg font-bold text-brand-accent-light flex items-center gap-2">
-                                    <i data-lucide="map-pin" class="w-5 h-5 text-brand-highlight"></i>
-                                    Route Preview
-                                </h3>
-                                <p class="text-[0.75rem] text-brand-text-mid">
-                                    Starting point: <strong>Pudsey (LS28)</strong>. The route updates when you run the calculator.
-                                </p>
-                            </div>
-                            <span id="local-tag" class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 hidden">
-                                LOCAL AREA
-                            </span>
-                        </div>
-                        <div id="map" style="width:100%;height:230px;" class="bg-brand-dark-bg"></div>
-                    </div>
-
-                    <!-- Small info cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-card-bg/90 rounded-xl border border-brand-accent-dark/60 p-4 text-xs sm:text-sm">
-                            <p class="text-[0.7rem] font-semibold tracking-[0.12em] text-brand-text-mid uppercase mb-1">
-                                Confidence & Stability
-                            </p>
-                            <p id="confidence-line" class="text-brand-text-mid">
-                                Run a postcode to see a confidence score and how stable the route is day-to-day.
-                            </p>
-                        </div>
-                        <div class="bg-card-bg/90 rounded-xl border border-brand-accent-dark/60 p-4 text-xs sm:text-sm">
-                            <p class="text-[0.7rem] font-semibold tracking-[0.12em] text-brand-text-mid uppercase mb-1">
-                                ETA Window
-                            </p>
-                            <p id="eta-line" class="text-brand-text-mid">
-                                You’ll see best, typical and busier traffic estimates for the drive from Pudsey.
-                            </p>
+                            <p class="text-xs uppercase tracking-[0.24em] text-brand-highlight mb-1 font-semibold">Pricing at a glance</p>
+                            <h2 class="font-heading text-3xl font-extrabold text-brand-accent-light">All offers, one page</h2>
+                            <p class="text-brand-text-mid mt-2 leading-relaxed">Families and schools can compare the right route quickly, while final details are still confirmed directly with Elliot.</p>
                         </div>
                     </div>
-                </section>
-            </div>
-        </section>
 
-        <!-- RATES + TRAVEL + CANCELLATIONS -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,1.05fr)] gap-10 lg:gap-12 items-start">
-                <!-- Lesson rates -->
-                <section class="p-6 sm:p-7 glass-panel rounded-[1.6rem] card-glow soft-border reveal">
-                    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
-                        <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
-                        Private Lesson Rates
-                    </h2>
-                    <p class="text-sm text-brand-text-mid mb-5">
-                        These are the base private lesson fees before travel is added. Travel is calculated transparently using the tool above.
-                    </p>
-
-                    <div class="overflow-x-auto rounded-lg">
-                        <table class="w-full text-left policy-table text-brand-text-light text-sm">
-                            <thead>
-                                <tr>
-                                    <th class="px-5 py-3">Lesson Duration</th>
-                                    <th class="px-5 py-3">Fee (Base)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="px-5 py-4 font-semibold">Introductory Offer (First Lesson)</td>
-                                    <td class="px-5 py-4 text-brand-highlight font-extrabold text-base">£10.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5 py-4 font-semibold">30 Minutes</td>
-                                    <td class="px-5 py-4">£15.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5 py-4 font-semibold">60 Minutes</td>
-                                    <td class="px-5 py-4">£30.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5 py-4 font-semibold">90 Minutes</td>
-                                    <td class="px-5 py-4">£50.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="mt-4 text-xs sm:text-sm text-brand-text-mid">
-                        Payment can be made in cash at the lesson or via bank transfer in advance. Many families choose to pay in 4-week blocks.
-                    </p>
-                </section>
-
-                <!-- Travel + cancellations -->
-                <section class="space-y-6 reveal delayed-2">
-                    <div class="p-6 sm:p-7 glass-panel rounded-[1.6rem] card-glow border-l-4 border-brand-highlight soft-border">
-                        <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
-                            <span class="text-brand-highlight text-xl">🚗</span>
-                            Travel Fee Bands
-                        </h3>
-                        <p class="text-sm text-brand-text-mid mb-4">
-                            All travel is calculated from Pudsey (LS28). The calculator uses these bands based on the live road distance:
-                        </p>
-                        <table class="w-full text-left policy-table text-brand-text-light text-xs sm:text-sm">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2">Road Distance (approx.)</th>
-                                    <th class="px-4 py-2">Additional Travel Fee</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td class="px-4 py-2">Under 5 Miles</td><td class="px-4 py-2">£0.00</td></tr>
-                                <tr><td class="px-4 py-2">5 – 10 Miles</td><td class="px-4 py-2">£5.00</td></tr>
-                                <tr><td class="px-4 py-2">10 – 15 Miles</td><td class="px-4 py-2">£10.00</td></tr>
-                                <tr><td class="px-4 py-2">15+ Miles</td><td class="px-4 py-2">£20.00 (Max Flat Rate)</td></tr>
-                            </tbody>
-                        </table>
-                        <p class="mt-3 text-xs sm:text-sm text-brand-highlight/80">
-                            For very long or unusual routes, Elliot may confirm the travel fee manually – you’ll always know the price in advance.
-                        </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="micro-card">
+                            <div class="text-brand-accent-light font-bold mb-1">Private Lessons</div>
+                            <p class="text-brand-text-light">From <strong>£10</strong> intro, then <strong>£15 / £30 / £50</strong>.</p>
+                        </div>
+                        <div class="micro-card">
+                            <div class="text-brand-highlight font-bold mb-1">Band Night</div>
+                            <p class="text-brand-text-light"><strong>£90</strong> per child for a 6-week block, plus <strong>£10 deposit</strong>.</p>
+                        </div>
+                        <div class="micro-card">
+                            <div class="text-brand-accent-light font-bold mb-1">School Bands</div>
+                            <p class="text-brand-text-light"><strong>£15</strong> per child, per session in the parent-paid model.</p>
+                        </div>
+                        <div class="micro-card">
+                            <div class="text-brand-highlight font-bold mb-1">Make a Song</div>
+                            <p class="text-brand-text-light"><strong>£135</strong> total for the 6-week course.</p>
+                        </div>
                     </div>
 
-                    <div class="p-6 sm:p-7 glass-panel rounded-[1.6rem] card-glow border-l-4 border-brand-highlight soft-border">
-                        <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
-                            <span class="text-brand-highlight text-xl">❌</span>
-                            Cancellation Policy
-                        </h3>
-                        <ul class="list-disc ml-5 space-y-3 text-sm text-brand-text-mid">
-                            <li>
-                                <strong>24 hours’ notice required:</strong> please give at least 24 hours’ notice to cancel or reschedule a lesson.
-                            </li>
-                            <li>
-                                <strong>Late cancellation fee:</strong> cancellations with less than 24 hours’ notice may be charged <strong>50%</strong> of the lesson fee.
-                            </li>
-                            <li>
-                                <strong>If Elliot cancels:</strong> the lesson will be rescheduled at no extra cost.
-                            </li>
-                        </ul>
+                    <div class="micro-card">
+                        <div class="text-xs uppercase tracking-[0.22em] text-brand-highlight mb-2 font-semibold">What this page helps with</div>
+                        <p class="text-brand-text-light">Private lesson travel estimates, fee bands, cancellations, and a simple overview of Band Night, School Band Programme and Make a Song pricing.</p>
                     </div>
-                </section>
-            </div>
-        </section>
-
-        <!-- FULL POLICY -->
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-            <div class="bg-brand-dark-bg/90 rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7 reveal">
-                <button
-                    id="toggle-policy"
-                    class="w-full text-left p-4 rounded-xl bg-brand-accent-dark hover:bg-brand-accent-light text-brand-dark-bg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center btn-primary"
-                >
-                    <span>View Full Music Lesson Policy Document</span>
-                    <span id="toggle-icon">▼</span>
-                </button>
-
-                <div
-                    id="full-policy-text"
-                    class="hidden policy-content mt-4 p-5 soft-border glass-panel rounded-xl max-h-96 overflow-y-auto text-sm"
-                >
-                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">
-                        Elliot Wardill Music Lesson Policy
-                    </h3>
-
-                    <p>
-                        Hello, and thank you for booking music lessons. I’m <strong>Elliot Wardill</strong>, a musician and educator based in Pudsey. I teach drums, bass, guitar, piano and singing, and currently work within the education sector.
-                        This policy outlines key terms to keep everything clear and smooth for families and students.
-                    </p>
-                    <p>
-                        I bring the equipment needed for the lesson to your home, so there is no need for you to travel. Lessons are designed to be fun, safe, and tailored to each student’s goals.
-                    </p>
-
-                    <h4>1. Safety and Safeguarding</h4>
-                    <p>
-                        I hold a valid <strong>DBS check</strong> for working with children. Parents and guardians are always welcome to sit in on lessons.
-                    </p>
-                    <p>
-                        If a child is enrolled at <strong>Stanningley Primary School</strong>, any safeguarding concerns or disclosures made during lessons will be reported directly to the school in line with safeguarding procedures.
-                    </p>
-
-                    <h4>2. Lesson Fees and Payment</h4>
-                    <p><strong>First lesson:</strong> £10 (introductory offer).</p>
-                    <p><strong>Standard lessons:</strong> 30 minutes – £15; 60 minutes – £30; 90 minutes – £50.</p>
-                    <p>
-                        Travel fees are added on top of the lesson fee based on the distance from Pudsey. The calculator on this page provides a transparent estimate.
-                    </p>
-                    <p>
-                        Payment can be made in cash at the lesson or via bank transfer in advance. Many families choose to pay in 4-week blocks.
-                    </p>
-
-                    <h4>3. Cancellations and Rescheduling</h4>
-                    <p>
-                        Please provide at least <strong>24 hours’ notice</strong> if you need to cancel or move a lesson.
-                    </p>
-                    <p>
-                        Cancellations with less than 24 hours’ notice may be charged at <strong>50% of the standard lesson fee</strong>.
-                    </p>
-                    <p>
-                        If I need to cancel a lesson, I will always try to reschedule at the earliest convenient time, at no extra cost.
-                    </p>
-
-                    <h4>4. Lesson Structure and Approach</h4>
-                    <p>
-                        Lessons are tailored to age, experience level, and musical taste. We can work on chart songs, grades, performance skills, or simply playing for enjoyment.
-                        Sessions will typically include warm-ups, learning songs, developing technique, rhythm work, and building confidence.
-                    </p>
-
-                    <h4>5. Travel and Location</h4>
-                    <p>
-                        Lessons are based around the wider Leeds and Bradford area, with travel calculated from <strong>Pudsey (LS28)</strong>. The travel fee is based on the estimated
-                        <strong>road distance</strong> returned by Google Maps:
-                    </p>
-                    <ul class="list-disc ml-5">
-                        <li>Under 5 miles: <strong>£0.00</strong></li>
-                        <li>5 – 10 miles: <strong>£5.00</strong></li>
-                        <li>10 – 15 miles: <strong>£10.00</strong></li>
-                        <li>15+ miles: <strong>£20.00 (Max Flat Rate)</strong></li>
-                    </ul>
-                    <p>
-                        For very long journeys or areas outside my usual route, I may confirm the fee manually before lessons are booked.
-                    </p>
-
-                    <h4>6. Availability</h4>
-                    <p>
-                        Private lesson availability is currently <strong>Wednesday to Friday</strong>. Specific times are confirmed directly with Elliot when booking.
-                    </p>
-
-                    <h4>7. Photo and Video Consent</h4>
-                    <p>
-                        Occasionally, I may ask to take short videos or photos for progress records or promotional use (such as my website or social media). This is always optional.
-                    </p>
-                    <p>
-                        Only first names are used publicly, and I will never publish surnames, contact details, or specific locations. Consent can be withdrawn at any time by email, although media already posted may remain online.
-                    </p>
-
-                    <h4>8. Contact Information</h4>
-                    <p>
-                        <strong>Phone:</strong> 07368 975144<br>
-                        <strong>Email:</strong> elliotmobilemusic@gmail.com
-                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+        <div class="mb-8 reveal">
+            <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Choose the right route in</p>
+            <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Pricing at a glance across every offer</h2>
+            <p class="max-w-3xl text-brand-text-mid">All prices shown here are the current guide prices based on your confirmed offers. Detailed setup, location and final logistics are still confirmed directly where needed.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="private-lessons.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal text-inherit no-underline">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">Home tuition</p>
+                        <h3 class="font-heading text-2xl font-bold text-brand-text-light">Private Lessons</h3>
+                    </div>
+                    <span class="text-brand-highlight text-2xl">£</span>
+                </div>
+                <p class="text-brand-text-mid leading-relaxed mb-4">Intro lesson <strong>£10</strong>. Standard lesson fees are <strong>£15</strong> for 30 minutes, <strong>£30</strong> for 60 minutes and <strong>£50</strong> for 90 minutes, with travel added where needed.</p>
+                <span class="service-link text-brand-highlight font-semibold">View private lessons <span aria-hidden="true">→</span></span>
+            </a>
+            <a href="band-night.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-accent-light font-semibold mb-2">Small-group venue offer</p>
+                        <h3 class="font-heading text-2xl font-bold text-brand-text-light">Band Night</h3>
+                    </div>
+                    <span class="text-brand-accent-light text-2xl">♪</span>
+                </div>
+                <p class="text-brand-text-mid leading-relaxed mb-4"><strong>£90</strong> per child for a 6-week block, with a <strong>£10 deposit</strong> to secure a place. Venue details and final grouping are confirmed directly.</p>
+                <span class="service-link text-brand-accent-light font-semibold">View Band Night <span aria-hidden="true">→</span></span>
+            </a>
+            <a href="school-band-programme.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-accent-light font-semibold mb-2">School offer</p>
+                        <h3 class="font-heading text-2xl font-bold text-brand-text-light">School Band Programme</h3>
+                    </div>
+                    <span class="text-brand-accent-light text-2xl">⚡</span>
+                </div>
+                <p class="text-brand-text-mid leading-relaxed mb-4">Parent-paid school bands are typically <strong>£15 per child per session</strong>, charged termly in advance. A standard 6-week block is usually <strong>£90 per child</strong>, while school-funded setups can be confirmed individually.</p>
+                <span class="service-link text-brand-accent-light font-semibold">View school bands <span aria-hidden="true">→</span></span>
+            </a>
+            <a href="make-a-song.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal delayed-2 text-inherit no-underline">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">Creative songwriting offer</p>
+                        <h3 class="font-heading text-2xl font-bold text-brand-text-light">Make a Song</h3>
+                    </div>
+                    <span class="text-brand-highlight text-2xl">♫</span>
+                </div>
+                <p class="text-brand-text-mid leading-relaxed mb-4"><strong>£135 total</strong> for the 6-week course, including songwriting, recording, production and the equipment / insurance fee.</p>
+                <span class="service-link text-brand-highlight font-semibold">View Make a Song <span aria-hidden="true">→</span></span>
+            </a>
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
+            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
+                <div class="flex items-center justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center gap-2">
+                            <i data-lucide="route" class="w-6 h-6 text-brand-accent-light"></i>
+                            Private Lesson Travel &amp; Cost Calculator
+                        </h2>
+                        <p class="text-xs sm:text-sm text-brand-text-mid mt-1">Live road-distance estimate from Pudsey (LS28) with traffic-aware travel time and clear final private lesson pricing.</p>
+                    </div>
+                    <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">Live map</span>
+                </div>
+
+                <div class="space-y-5 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-5">
+                        <div>
+                            <label for="postcode-input" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">Outward postcode or full postcode</label>
+                            <input id="postcode-input" type="text" placeholder="e.g. LS28 7**, LS13, BD17..." class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40 uppercase">
+                            <p class="mt-1 text-[0.7rem] text-brand-text-mid">Start typing and choose from suggestions, or enter a full postcode. UK postcodes only.</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label for="lesson-duration" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">Lesson length</label>
+                                <select id="lesson-duration" class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+                                    <option value="30">30 Minutes – £15.00</option>
+                                    <option value="60" selected>60 Minutes – £30.00</option>
+                                    <option value="90">90 Minutes – £50.00</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="traffic-profile" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">Traffic profile</label>
+                                <select id="traffic-profile" class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40">
+                                    <option value="normal">Normal traffic (best guess)</option>
+                                    <option value="low">Typically low traffic times</option>
+                                </select>
+                                <p class="mt-1 text-[0.7rem] text-brand-text-mid">This adjusts how Google estimates typical travel times for your journey.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="check-fee-button" class="btn-primary w-full px-6 py-3 rounded-lg text-sm sm:text-base font-semibold text-brand-dark-bg flex items-center justify-center gap-2">
+                        <span id="button-text">Calculate final lesson price</span>
+                        <span id="loading-spinner" class="spinner hidden"></span>
+                    </button>
+                </div>
+
+                <div id="fee-result" class="mt-6 p-4 sm:p-5 rounded-xl border border-brand-accent-light/40 bg-brand-dark-bg/70 hidden text-sm space-y-4"></div>
+                <p class="mt-4 text-[0.7rem] text-brand-text-mid">All figures are estimates based on Google’s live and typical traffic data. Final fees will always be confirmed directly with Elliot.</p>
+            </section>
+
+            <section class="space-y-6 reveal delayed-1">
+                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="font-heading text-lg font-bold text-brand-accent-light flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5 text-brand-highlight"></i>Route Preview</h3>
+                            <p class="text-[0.75rem] text-brand-text-mid">Starting point: <strong>Pudsey (LS28)</strong>. The route updates when you run the calculator.</p>
+                        </div>
+                        <span id="local-tag" class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40 hidden">Local area</span>
+                    </div>
+                    <div id="map" style="width:100%;height:230px;" class="bg-brand-dark-bg"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="micro-card text-xs sm:text-sm">
+                        <p class="text-[0.7rem] font-semibold tracking-[0.12em] text-brand-text-mid uppercase mb-1">Confidence &amp; stability</p>
+                        <p id="confidence-line" class="text-brand-text-mid">Run a postcode to see a confidence score and how stable the route is day-to-day.</p>
+                    </div>
+                    <div class="micro-card text-xs sm:text-sm">
+                        <p class="text-[0.7rem] font-semibold tracking-[0.12em] text-brand-text-mid uppercase mb-1">ETA window</p>
+                        <p id="eta-line" class="text-brand-text-mid">You’ll see best, typical and busier traffic estimates for the drive from Pudsey.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,1.05fr)] gap-10 lg:gap-12 items-start">
+            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
+                    Private Lesson Rates
+                </h2>
+                <p class="text-sm text-brand-text-mid mb-5">These are the base private lesson fees before travel is added. Travel is calculated transparently using the tool above.</p>
+
+                <div class="overflow-x-auto rounded-lg">
+                    <table class="w-full text-left policy-table text-brand-text-light text-sm">
+                        <thead>
+                            <tr>
+                                <th class="px-5 py-3">Lesson duration</th>
+                                <th class="px-5 py-3">Fee (base)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="px-5 py-4 font-semibold">Introductory offer (first lesson)</td><td class="px-5 py-4 text-brand-highlight font-extrabold text-base">£10.00</td></tr>
+                            <tr><td class="px-5 py-4 font-semibold">30 minutes</td><td class="px-5 py-4">£15.00</td></tr>
+                            <tr><td class="px-5 py-4 font-semibold">60 minutes</td><td class="px-5 py-4">£30.00</td></tr>
+                            <tr><td class="px-5 py-4 font-semibold">90 minutes</td><td class="px-5 py-4">£50.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-4 text-xs sm:text-sm text-brand-text-mid">Payment can be made in cash at the lesson or via bank transfer in advance. Many families choose to pay in 4-week blocks.</p>
+            </section>
+
+            <section class="space-y-6 reveal delayed-2">
+                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
+                        <span class="text-brand-highlight text-xl">🚗</span>
+                        Travel fee bands
+                    </h3>
+                    <p class="text-sm text-brand-text-mid mb-4">All travel is calculated from Pudsey (LS28). The calculator uses these bands based on the live road distance:</p>
+                    <table class="w-full text-left policy-table text-brand-text-light text-xs sm:text-sm">
+                        <thead>
+                            <tr><th class="px-4 py-2">Road distance (approx.)</th><th class="px-4 py-2">Additional travel fee</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="px-4 py-2">Under 5 miles</td><td class="px-4 py-2">£0.00</td></tr>
+                            <tr><td class="px-4 py-2">5 – 10 miles</td><td class="px-4 py-2">£5.00</td></tr>
+                            <tr><td class="px-4 py-2">10 – 15 miles</td><td class="px-4 py-2">£10.00</td></tr>
+                            <tr><td class="px-4 py-2">15+ miles</td><td class="px-4 py-2">£20.00 (max flat rate)</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-3 text-xs sm:text-sm text-brand-highlight/80">For very long or unusual routes, Elliot may confirm the travel fee manually — you’ll always know the price in advance.</p>
+                </div>
+
+                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
+                        <span class="text-brand-highlight text-xl">📌</span>
+                        Policy overview
+                    </h3>
+                    <p class="text-sm text-brand-text-mid mb-4">All detailed policies now sit together at the bottom of this page so the top half stays focused on pricing, travel and choosing the right service.</p>
+                    <ul class="list-disc ml-5 space-y-3 text-sm text-brand-text-mid">
+                        <li><strong>Private lessons:</strong> lesson fees, travel bands and cancellation terms.</li>
+                        <li><strong>Band Night:</strong> deposits, missed sessions, supervision and sign-in / sign-out.</li>
+                        <li><strong>School Bands:</strong> termly payment model, minimum numbers and school delivery notes.</li>
+                        <li><strong>Make a Song:</strong> course structure, equipment use and setup expectations.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div class="mb-8 reveal">
+            <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Policies & key terms</p>
+            <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Everything important in one place at the bottom</h2>
+            <p class="max-w-3xl text-brand-text-mid">Pricing sits first on this page, and the detailed policies sit here so families and schools can check the practical details when they need them.</p>
+        </div>
+
+        <div class="space-y-5 reveal delayed-1">
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-private">
+                    <span>Private lesson policy</span>
+                    <span class="toggle-icon">▼</span>
+                </button>
+                <div id="policy-private" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg max-h-96 overflow-y-auto text-sm">
+                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Private lessons</h3>
+                    <p>I teach piano, singing, drums, guitar and bass in students’ homes, bringing the equipment needed for the lesson where appropriate.</p>
+                    <h4>Lesson fees</h4>
+                    <p>First lesson: <strong>£10</strong>. Standard lessons: <strong>30 minutes £15</strong>, <strong>60 minutes £30</strong>, <strong>90 minutes £50</strong>.</p>
+                    <h4>Travel</h4>
+                    <p>Travel is added based on road distance from Pudsey and is shown clearly in the calculator above.</p>
+                    <h4>Cancellations</h4>
+                    <p>Please give at least <strong>24 hours’ notice</strong> to cancel or reschedule. Cancellations with less than 24 hours’ notice may be charged at <strong>50%</strong> of the lesson fee. If Elliot cancels, the lesson will be rescheduled at no extra cost.</p>
+                    <h4>Availability</h4>
+                    <p>Private lesson availability is currently <strong>Wednesday to Friday</strong>. Other times may occasionally be possible if confirmed directly.</p>
+                    <h4>Safeguarding & contact</h4>
+                    <p>Elliot is <strong>DBS checked</strong>, fully insured, and parents are welcome to sit in. Contact: <strong>07368 975144</strong> / <strong>elliotmobilemusic@gmail.com</strong>.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-band-night">
+                    <span>Band Night policy</span>
+                    <span class="toggle-icon">▼</span>
+                </button>
+                <div id="policy-band-night" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Band Night</h3>
+                    <p><strong>£90 per child</strong> for a 6-week block, with a <strong>£10 deposit</strong> securing the place. Families commit to the full block.</p>
+                    <h4>Payments & missed sessions</h4>
+                    <p>Deposits are non-refundable unless Elliot cancels the block. Missed sessions are not refunded or rearranged because the session is planned for the whole band. If Elliot cancels, a replacement session or credit will be offered where possible.</p>
+                    <h4>Supervision</h4>
+                    <p>Parents must remain <strong>on site at all times</strong>. Sign-in and sign-out is required every week with a named adult, and no child leaves without being signed out.</p>
+                    <h4>Venue expectations</h4>
+                    <p>Band Night is typically delivered at Pirate Studios Leeds. Under-18s must attend with an adult account holder, and timings are arranged to fit venue rules.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-school">
+                    <span>School Band Programme policy</span>
+                    <span class="toggle-icon">▼</span>
+                </button>
+                <div id="policy-school" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">School Band Programme</h3>
+                    <p>The parent-paid model is typically <strong>£15 per child per session</strong>, charged termly in advance. A standard 6-week block is normally <strong>£90 per child</strong>.</p>
+                    <h4>Group structure</h4>
+                    <p>Groups are usually <strong>4–5 pupils</strong>, with a minimum of <strong>3 pupils</strong> needed for a band to run. Sessions are typically <strong>30 minutes weekly</strong>.</p>
+                    <h4>Payments & attendance</h4>
+                    <p>Payments are made upfront for the term. Missed sessions are not usually refunded. If Elliot cancels, a catch-up, replacement or credit is offered where possible.</p>
+                    <h4>School delivery</h4>
+                    <p>Timetabling, room use, pupil movement and supervision are confirmed with each school. Equipment is provided for in-school use.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-song">
+                    <span>Make a Song course policy</span>
+                    <span class="toggle-icon">▼</span>
+                </button>
+                <div id="policy-song" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                    <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Make a Song</h3>
+                    <p>The full 6-week course is <strong>£135</strong>, including songwriting lessons, recording / production lessons and the equipment / insurance fee.</p>
+                    <h4>Course structure</h4>
+                    <p>Weeks 1–3 focus on songwriting, melody, chords and structure. Weeks 4–6 focus on recording and production using Logic Pro X, microphones, an audio interface and MIDI keyboard setup.</p>
+                    <h4>Age & setup</h4>
+                    <p>Make a Song is for ages <strong>6+</strong>. It can run 1:1 or as a group, but for group delivery all participants need to travel to the <strong>same house</strong>.</p>
+                    <h4>Outcome</h4>
+                    <p>Students leave with their own original song in progress or completed, along with creative confidence and experience using real studio equipment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-<footer class="mt-4 border-t border-brand-accent-dark/30 bg-black/20 text-brand-text-mid py-7">
+
+<footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
   <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
     <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
     <p class="mt-1 text-gray-500">
-      DBS Checked &amp; Insured. Programme details are confirmed with schools during setup.
+      DBS checked &amp; insured. Band Night, School Band Programme, Make a Song Course and private piano, singing, drum, guitar and bass lesson details are confirmed during booking or setup.
     </p>
-
-    <!-- ADD THIS -->
     <p class="mt-2">
       <a href="privacy.html" class="underline hover:text-white">Privacy</a>
       <span class="mx-2">•</span>
@@ -581,11 +820,15 @@
   </div>
 </footer>
 
+
     <!-- JS: UI + ADVANCED GOOGLE MAPS CALC -->
     <script>
         // ========= BASIC UI (mobile menu + reveal + policy toggle) =========
-        document.getElementById('mobile-menu-button').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
         });
 
         // Reveal on scroll
@@ -605,17 +848,15 @@
             revealElements.forEach(el => revealObserver.observe(el));
         }
 
-        // Policy toggle
-        document.getElementById('toggle-policy').addEventListener('click', () => {
-            const policy = document.getElementById('full-policy-text');
-            const icon = document.getElementById('toggle-icon');
-            if (policy.classList.contains('hidden')) {
-                policy.classList.remove('hidden');
-                icon.textContent = '▲';
-            } else {
-                policy.classList.add('hidden');
-                icon.textContent = '▼';
-            }
+        // Policy toggles
+        document.querySelectorAll('.policy-toggle').forEach((button) => {
+            button.addEventListener('click', () => {
+                const target = document.getElementById(button.dataset.target);
+                const icon = button.querySelector('.toggle-icon');
+                const isHidden = target.classList.contains('hidden');
+                target.classList.toggle('hidden');
+                if (icon) icon.textContent = isHidden ? '▲' : '▼';
+            });
         });
 
         // ========= ADVANCED MAPS / POSTCODE CALCULATOR =========
