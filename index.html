@@ -4,17 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elliot’s Mobile Music | Band Night, School Bands, Make a Song & Private Lessons</title>
-  <meta name="description" content="Elliot’s Mobile Music offers Band Night, the School Band Programme, Make a Song, and mobile private piano, singing, drum, guitar and bass lessons across Pudsey and West Leeds.">
+  <title>Elliot Wardill – Band Night, School Bands, Make a Song & Music Lessons</title>
+  <meta name="description" content="Elliot’s Mobile Music offers Band Night, the School Band Programme, the Make a Song Course, and private piano, singing, drum, guitar and bass lessons across Pudsey, West Leeds and surrounding areas.">
   <meta name="format-detection" content="telephone=no">
+  <meta property="og:title" content="Elliot Wardill – Band Night, School Bands, Make a Song & Music Lessons">
+  <meta property="og:description" content="Professional, confidence-building music experiences for families and schools: Band Night, School Band Programme, Make a Song, and home music lessons.">
+  <meta property="og:type" content="website">
 
+  <!-- Favicon -->
   <link rel="icon" href="./favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+  <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#1a1a2e">
+
+  <!-- iOS PWA Support -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,7 +34,7 @@
             'brand-accent-light': '#00d084',
             'brand-accent-dark': '#00a36e',
             'brand-text-light': '#e0e0e0',
-            'brand-text-mid': '#a7b7c8',
+            'brand-text-mid': '#a0e0e0',
             'brand-highlight': '#ffb703',
             'card-bg': '#252538',
           },
@@ -38,612 +47,1086 @@
     }
   </script>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+  <!-- Service Worker (PWA offline + app install) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
 
-    html { scroll-behavior: smooth; }
+
+    
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #1a1a2e;
-      background-image: radial-gradient(circle at 100% 0%, rgba(0,208,132,0.07) 0%, rgba(26,26,46,0) 28%),
-                        radial-gradient(circle at 0% 100%, rgba(255,183,3,0.08) 0%, rgba(26,26,46,0) 30%),
-                        radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 68%);
-      color: #e0e0e0;
-      overflow-x: hidden;
+        font-family: 'Inter', sans-serif;
+        background-color: #1a1a2e;
+        background-image:
+            radial-gradient(circle at top right, rgba(255,183,3,0.08), transparent 26%),
+            radial-gradient(circle at bottom left, rgba(0,208,132,0.08), transparent 26%),
+            radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 68%);
+    }
+
+    ::selection {
+        background: rgba(0, 208, 132, 0.35);
+        color: #ffffff;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -3rem;
+        z-index: 1000;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        background: #00d084;
+        color: #1a1a2e;
+        font-weight: 700;
+        transition: top 0.2s ease;
+    }
+    .skip-link:focus {
+        top: 1rem;
     }
 
     .main-hero-shadow {
-      text-shadow: 0 0 16px rgba(0, 208, 132, 0.28);
+        text-shadow: 0 0 16px rgba(0, 208, 132, 0.24);
     }
 
     .card-glow {
-      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.10), 0 8px 20px rgba(0, 0, 0, 0.38);
+        box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45);
     }
 
-    .card-polish {
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.25s ease, background-color 0.25s ease;
+    .soft-border {
+        border: 1px solid rgba(0, 208, 132, 0.18);
     }
 
-    .card-polish::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 30%);
-      pointer-events: none;
+    .glass-panel {
+        background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+        backdrop-filter: blur(10px);
     }
 
-    .hover-lift:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 34px rgba(0, 208, 132, 0.14), 0 10px 24px rgba(0, 0, 0, 0.42);
+    .section-accent {
+        position: relative;
+    }
+    .section-accent::after {
+        content: "";
+        display: block;
+        width: 84px;
+        height: 3px;
+        margin-top: 0.9rem;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #00d084 0%, #ffb703 100%);
     }
 
-    .button-polish {
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
     }
 
-    .button-polish::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -130%;
-      width: 70%;
-      height: 100%;
-      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255,255,255,0));
-      transform: skewX(-20deg);
-      transition: left 0.65s ease;
-      pointer-events: none;
+    .hero-orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(22px);
+        opacity: 0.24;
+        animation: float-orb 9s ease-in-out infinite;
+    }
+    .hero-orb.one {
+        width: 18rem;
+        height: 18rem;
+        top: 1rem;
+        right: -5rem;
+        background: rgba(0, 208, 132, 0.34);
+    }
+    .hero-orb.two {
+        width: 16rem;
+        height: 16rem;
+        bottom: 0;
+        left: -4rem;
+        background: rgba(255, 183, 3, 0.24);
+        animation-delay: -2.8s;
+    }
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 34px 34px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 82%);
+        opacity: 0.3;
     }
 
-    .button-polish:hover {
-      transform: translateY(-2px);
+    .floating-badge {
+        animation: float-badge 5.5s ease-in-out infinite;
     }
 
-    .button-polish:hover::after {
-      left: 160%;
+    .hero-stat,
+    .micro-card {
+        background: rgba(26, 26, 46, 0.72);
+        border: 1px solid rgba(0, 208, 132, 0.16);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
     }
 
-    .info-pill {
-      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+    .hero-stat {
+        border-radius: 1rem;
+        padding: 0.9rem 1rem;
     }
 
-    .info-pill:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0, 208, 132, 0.45);
-      background-color: rgba(255,255,255,0.045);
+    .micro-card {
+        border-radius: 1rem;
+        padding: 0.95rem 1rem;
+        transition:
+            transform 0.25s ease,
+            border-color 0.25s ease,
+            background-color 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+    .micro-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 183, 3, 0.35);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
     }
 
-    .nav-link {
-      transition: color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    .service-card {
+        position: relative;
+        overflow: hidden;
+    }
+    .service-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 55%);
+        pointer-events: none;
     }
 
-    .nav-link:hover {
-      transform: translateY(-1px);
+    .btn-primary,
+    .btn-secondary {
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease;
+    }
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+    }
+    .btn-primary:hover {
+        box-shadow: 0 14px 28px rgba(0, 208, 132, 0.22);
+    }
+    .btn-secondary:hover {
+        box-shadow: 0 12px 26px rgba(255, 183, 3, 0.15);
     }
 
     #sticky-cta {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.28s ease, transform 0.28s ease, box-shadow 0.25s ease;
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
     }
-
     #sticky-cta.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    #sticky-cta:hover {
-      box-shadow: 0 16px 28px rgba(0, 208, 132, 0.32);
+        opacity: 1;
+        transform: translateY(0);
     }
 
     @keyframes dot-pulse {
-      0%, 100% { opacity: 0.2; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.4); }
+        0%, 100% { opacity: 0.2; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.4); }
     }
-
     .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
     .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
     .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
 
     .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+            opacity 0.8s ease-out,
+            transform 0.8s ease-out;
     }
-
-    .reveal.delayed-1 { transition-delay: 0.10s; }
-    .reveal.delayed-2 { transition-delay: 0.18s; }
-    .reveal.delayed-3 { transition-delay: 0.26s; }
-
+    .reveal.delayed-1 { transition-delay: 0.12s; }
+    .reveal.delayed-2 { transition-delay: 0.2s; }
+    .reveal.delayed-3 { transition-delay: 0.28s; }
     .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    @keyframes float-gentle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+    .hover-lift {
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.2s ease,
+            background-color 0.2s ease;
     }
-
-    .hero-card {
-      animation: float-gentle 6s ease-in-out infinite;
+    .hover-lift:hover {
+        transform: translateY(-4px);
     }
 
     .tutor-photo {
-      box-shadow: 0 0 28px rgba(255, 183, 3, 0.24);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+        box-shadow: 0 0 32px rgba(255, 183, 3, 0.24);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
     }
-
     .tutor-photo:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 40px rgba(255, 183, 3, 0.38);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 45px rgba(255, 183, 3, 0.35);
     }
 
-    .ambient-orb {
-      position: fixed;
-      border-radius: 9999px;
-      filter: blur(70px);
-      opacity: 0.14;
-      pointer-events: none;
-      z-index: 0;
+    .nav-scrolled {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
+        border-color: rgba(0, 208, 132, 0.28);
     }
 
-    .orb-a {
-      width: 14rem;
-      height: 14rem;
-      top: 5rem;
-      right: -3rem;
-      background: rgba(0, 208, 132, 0.34);
+    @keyframes float-orb {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(0, -14px, 0); }
     }
 
-    .orb-b {
-      width: 12rem;
-      height: 12rem;
-      bottom: 4rem;
-      left: -2rem;
-      background: rgba(255, 183, 3, 0.22);
+    @keyframes float-badge {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+
+
+    .chat-suggestion {
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.04);
+        color: #d9e4ef;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        padding: 0.55rem 0.8rem;
+        border-radius: 999px;
+        transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    }
+    .chat-suggestion:hover,
+    .chat-suggestion:focus-visible {
+        transform: translateY(-1px);
+        border-color: rgba(0, 208, 132, 0.34);
+        background: rgba(0, 208, 132, 0.08);
+        color: #ffffff;
+        outline: none;
+    }
+    .chat-suggestion[disabled] {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal, .hover-lift, .button-polish, .info-pill, .tutor-photo, .nav-link, #sticky-cta, .hero-card {
-        transition: none !important;
-        animation: none !important;
-        transform: none !important;
-      }
-      .button-polish::after,
-      .card-polish::before { display: none !important; }
+        html { scroll-behavior: auto; }
+        .hero-orb,
+        .floating-badge,
+        .reveal,
+        .hover-lift,
+        .micro-card,
+        .btn-primary,
+        .btn-secondary,
+        .tutor-photo,
+        #sticky-cta {
+            animation: none !important;
+            transition: none !important;
+            transform: none !important;
+        }
+        .reveal {
+            opacity: 1;
+        }
     }
-  </style>
+</style>
 
-  <script type="module">
-    import {
-      createIcons,
-      Zap, BookOpen, Clock, Mail, Phone,
-      MapPin, MessageSquare, Star, Music2, Users, Send, ShieldCheck
-    } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-    createIcons({ icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Music2, Users, Send, ShieldCheck } });
-  </script>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js');
-      });
-    }
-  </script>
-  <script defer src="./cookie-banner.js?v=2"></script>
+    <!-- Lucide Icons -->
+    <script type="module">
+        import {
+            createIcons,
+            Zap, BookOpen, Clock, Mail, Phone,
+            MapPin, MessageSquare, Star, Music2, Users, Send
+        } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+        createIcons({
+            icons: { Zap, BookOpen, Clock, Mail, Phone, MapPin, MessageSquare, Star, Music2, Users, Send }
+        });
+    </script>
+
+<!-- Cookie banner (ADD THIS) -->
+<script defer src="./cookie-banner.js?v=2"></script>
+
 </head>
+
 <body class="min-h-screen flex flex-col text-brand-text-light">
-  <div class="ambient-orb orb-a"></div>
-  <div class="ambient-orb orb-b"></div>
-
-  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+<a href="#main-content" class="skip-link">Skip to content</a>
+<!-- NAVIGATION -->
+<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="index.html" class="flex items-center space-x-2 reveal visible">
-          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-            <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
-          </span>
-          <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-            ELLIOT'S MOBILE MUSIC
-          </span>
-        </a>
+        <div class="flex justify-between items-center h-16">
 
-        <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-          <a href="index.html" class="nav-link border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">HOME</a>
-          <a href="pricing.html" class="nav-link border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">PRICING & FEES</a>
-          <a href="availability.html" class="nav-link border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">AVAILABILITY</a>
-          <a href="school-band-programme.html" class="nav-link border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">SCHOOL BANDS</a>
-          <a href="contact.html" class="nav-link border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">CONTACT</a>
-        </div>
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center space-x-2 reveal visible">
+                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
+                    <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
+                </span>
+                <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
+                    ELLIOT'S MOBILE MUSIC
+                </span>
+            </a>
 
+            <!-- Desktop nav -->
+          
+          <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
+
+             <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium hover-lift">
+                HOME
+         </a>
+
+             <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                PRICING & FEES
+         </a>
+
+             <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                AVAILABILITY
+         </a>
+
+            <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                SCHOOL BANDS
+         </a>
+
+            <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium hover-lift">
+                CONTACT
+         </a>
+
+      </div>
+
+        <!-- Mobile button -->
         <div class="sm:hidden">
-          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark/20 transition" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
-            <i data-lucide="message-square" class="w-5 h-5"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+        <button id="mobile-menu-button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
+          aria-controls="mobile-menu"
+          aria-expanded="false">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+       <path stroke-linecap="round" stroke-linejoin="round"
+         d="M4 6h16M4 12h16M4 18h16" />
+       </svg>
+    </button>
+  </div>
 
-    <div class="sm:hidden hidden border-t border-brand-accent-dark/30" id="mobile-menu">
-      <div class="px-4 py-3 space-y-1 bg-brand-dark-bg/95 backdrop-blur text-sm">
-        <a href="index.html" class="block rounded-md text-brand-accent-light bg-brand-accent-light/10 px-3 py-2 font-medium">Home</a>
-        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Pricing & Fees</a>
-        <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Availability</a>
-        <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">School Bands</a>
-        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Contact</a>
-      </div>
-    </div>
-  </nav>
+  </div>
+</div>
 
-  <main class="flex-grow relative z-10">
-    <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div class="reveal">
-          <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
-            Band Night, School Bands, Make a Song & Private Lessons
-          </p>
-          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
-            Music that helps children <span class="text-brand-accent-light">learn, create</span><br>
-            and perform with confidence.
-          </h1>
-          <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-8">
-            I’m <strong>Elliot Wardill</strong>, the musician behind <strong>Elliot’s Mobile Music</strong>.
-            I now offer more than private lessons — including <strong>Band Night</strong>, the
-            <strong>School Band Programme</strong>, <strong>Make a Song</strong>, and mobile
-            <strong>piano, singing, drums, guitar and bass lessons</strong> across Pudsey and West Leeds.
-          </p>
+      <!-- Mobile menu -->
+<div class="sm:hidden hidden" id="mobile-menu">
+  <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
 
-          <div class="flex flex-wrap gap-3 mb-6">
-            <div class="info-pill flex items-center text-xs sm:text-sm text-brand-text-mid bg-white/5 border border-brand-accent-dark/30 rounded-full px-3 py-2">
-              <span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>
-              Home, school and small-group music options
+    <a href="index.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">
+      HOME
+    </a>
+
+    <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+      PRICING & FEES
+    </a>
+
+    <a href="availability.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+      AVAILABILITY
+    </a>
+
+    <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+      SCHOOL BANDS
+    </a>
+
+    <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">
+      CONTACT
+    </a>
+
+  </div>
+</div>
+</nav>
+
+
+    <!-- MAIN -->
+    <main id="main-content" class="flex-grow">
+        
+        <!-- HERO -->
+        <section id="hero-section" class="relative overflow-hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+            <div class="hero-backdrop" aria-hidden="true">
+                <div class="hero-orb one"></div>
+                <div class="hero-orb two"></div>
+                <div class="hero-grid"></div>
             </div>
-            <div class="info-pill flex items-center text-xs sm:text-sm text-brand-text-mid bg-white/5 border border-brand-accent-dark/30 rounded-full px-3 py-2">
-              <span class="w-2 h-2 rounded-full bg-brand-highlight mr-2"></span>
-              DBS checked & fully insured
+
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Text side -->
+                <div class="reveal">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-dark-bg/65 soft-border text-[11px] sm:text-xs uppercase tracking-[0.2em] text-brand-highlight mb-5">
+                        <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+                        Pudsey, Leeds • Home • School • Venue
+                    </div>
+
+                    <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
+                        Band Night • School Bands • Make a Song • Piano • Singing • Drums • Guitar • Bass
+                    </p>
+
+                    <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
+                        Professional music experiences that help young people <span class="text-brand-accent-light">play, create and grow in confidence.</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl mb-6">
+                        I’m <strong>Elliot Wardill</strong>, founder of <strong>Elliot’s Mobile Music</strong>. I offer <strong>Band Night</strong>, the <strong>School Band Programme</strong>, the <strong>Make a Song Course</strong>, and private <strong>piano</strong>, <strong>singing</strong>, <strong>drum</strong>, <strong>guitar</strong> and <strong>bass</strong> lessons — giving families and schools across <strong>Pudsey, West Leeds and surrounding areas</strong> a clear, exciting and supportive way into music.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 mb-8 text-[11px] sm:text-xs uppercase tracking-[0.18em] text-brand-text-mid">
+                        <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For families</span>
+                        <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For schools</span>
+                        <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For bands</span>
+                        <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For young songwriters</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mb-8">
+                        <div class="hero-stat reveal delayed-1">
+                            <p class="text-2xl font-heading font-extrabold text-brand-accent-light">4</p>
+                            <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Core offers</p>
+                        </div>
+                        <div class="hero-stat reveal delayed-2">
+                            <p class="text-2xl font-heading font-extrabold text-brand-highlight">5</p>
+                            <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Lesson instruments</p>
+                        </div>
+                        <div class="hero-stat reveal delayed-3">
+                            <p class="text-2xl font-heading font-extrabold text-brand-accent-light">£10</p>
+                            <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Intro lesson</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <a href="contact.html"
+                           class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/20">
+                            <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
+                            Enquire About Lessons, Bands or Songs
+                        </a>
+                        <a href="pricing.html"
+                           class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">
+                            View Pricing & Services
+                        </a>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-text-mid">
+                        <span class="flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>
+                            DBS checked & fully insured
+                        </span>
+                        <span class="flex items-center">
+                            <i data-lucide="phone" class="w-4 h-4 mr-1 text-brand-highlight"></i>
+                            <a href="tel:07368975144" class="hover:text-white">07368 975144</a>
+                        </span>
+                        <span class="flex items-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-1 text-brand-accent-light"></i>
+                            Pudsey, Farsley, Calverley, Bramley & West Leeds
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Visual card -->
+                <div class="relative reveal delayed-1">
+                    <div class="hidden md:inline-flex floating-badge absolute -top-4 right-5 px-3 py-1.5 rounded-full bg-brand-highlight text-brand-dark-bg text-[11px] font-bold uppercase tracking-[0.16em] shadow-lg">
+                        £10 intro lesson
+                    </div>
+
+                    <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
+                        <div class="flex items-center gap-4">
+                            <img
+                                src="/images/B778D2ED-6309-4D1F-B167-411BE412F09E.jpg"
+                                alt="Elliot Wardill, Music Tutor"
+                                class="w-32 h-40 sm:w-36 sm:h-48 rounded-2xl border border-brand-highlight/70 object-cover tutor-photo"
+                            >
+                            <div>
+                                <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">
+                                    MEET ELLIOT
+                                </p>
+                                <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-1">
+                                    Elliot Wardill
+                                </h2>
+                                <p class="text-xs sm:text-sm text-brand-text-mid">
+                                    Music educator working in the education sector, helping children and young people build confidence through performance, creativity and accessible music-making.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="micro-card">
+                                <p class="text-brand-accent-light font-semibold mb-1">Band Night</p>
+                                <p class="text-brand-text-mid">Small-group playing in a real band setup.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-highlight font-semibold mb-1">School Bands</p>
+                                <p class="text-brand-text-mid">Structured delivery for primary schools.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-accent-light font-semibold mb-1">Make a Song</p>
+                                <p class="text-brand-text-mid">Write, record and shape an original track.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-highlight font-semibold mb-1">Private Lessons</p>
+                                <p class="text-brand-text-mid">Piano, singing, drums, guitar and bass.</p>
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4">
+                            <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-2">Why it feels professional</p>
+                            <p class="text-sm text-brand-text-mid">
+                                Clear communication, reliable setup, structured sessions and a friendly teaching style that helps families and schools feel confident from the first enquiry.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:inline-flex floating-badge absolute -bottom-5 left-5 px-3 py-1.5 rounded-full bg-brand-dark-bg border border-brand-accent-light/45 text-brand-text-light text-[11px] font-semibold uppercase tracking-[0.16em]">
+                        Home • School • Venue
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
 
-          <div class="flex flex-wrap gap-4 mb-6">
-            <a href="contact.html" class="button-polish inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/25 hover:bg-brand-accent-dark">
-              <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
-              Ask About Lessons or Bands
-            </a>
-            <a href="pricing.html" class="button-polish inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">
-              View Pricing & Info
-            </a>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-text-mid">
-            <span class="flex items-center">
-              <i data-lucide="phone" class="w-4 h-4 mr-1 text-brand-highlight"></i>
-              <a href="tel:07368975144" class="hover:text-white transition">07368 975144</a>
-            </span>
-            <span class="flex items-center">
-              <i data-lucide="map-pin" class="w-4 h-4 mr-1 text-brand-accent-light"></i>
-              Pudsey, Farsley, Calverley, Bramley & West Leeds
-            </span>
-          </div>
-        </div>
-
-        <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow card-polish p-7 flex flex-col gap-5 reveal delayed-1 hero-card">
-          <div class="flex items-center gap-4">
-            <img src="/images/B778D2ED-6309-4D1F-B167-411BE412F09E.jpg" alt="Elliot Wardill, Music Tutor" class="w-32 h-40 sm:w-36 sm:h-48 rounded-2xl border border-brand-highlight/70 object-cover tutor-photo">
-            <div>
-              <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">Meet Elliot</p>
-              <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-1">Elliot Wardill</h2>
-              <p class="text-xs sm:text-sm text-brand-text-mid">
-                Musician, tutor and programme leader delivering relaxed, structured music learning for
-                families, schools and small groups.
-              </p>
+        
+        <!-- KEY BENEFITS -->
+        <section id="services" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="mb-8 reveal">
+                <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Choose the right route in</p>
+                <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Four clear offers, each with its own purpose</h2>
+                <p class="text-sm sm:text-base text-brand-text-mid max-w-3xl">
+                    The homepage now presents the business in a cleaner, more professional way — so parents, schools and young musicians can quickly see which option fits them best.
+                </p>
             </div>
-          </div>
 
-          <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm pt-3 border-t border-brand-accent-dark/40 mt-1">
-            <div class="flex items-center"><i data-lucide="book-open" class="w-4 h-4 mr-2 text-brand-accent-light"></i>Private lessons</div>
-            <div class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-brand-highlight"></i>Band Night groups</div>
-            <div class="flex items-center"><i data-lucide="music-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>School band programme</div>
-            <div class="flex items-center"><i data-lucide="zap" class="w-4 h-4 mr-2 text-brand-highlight"></i>Make a Song course</div>
-          </div>
-        </div>
-      </div>
-    </section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+                <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-[0.2em] text-brand-highlight mb-2">Small-group venue offer</p>
+                            <h3 class="font-heading text-xl font-bold text-brand-text-light">Band Night</h3>
+                        </div>
+                        <i data-lucide="users" class="w-6 h-6 text-brand-highlight"></i>
+                    </div>
+                    <p class="text-sm text-brand-text-mid mb-4">
+                        A fun band experience in a private venue where children can rehearse together, play real songs and enjoy the energy of making music as a group.
+                    </p>
+                    <div class="text-xs text-brand-text-mid space-y-2 mb-5">
+                        <p><span class="text-brand-text-light font-semibold">Best for:</span> friend groups, young performers and children ready to play with others.</p>
+                        <p><span class="text-brand-text-light font-semibold">Focus:</span> teamwork, confidence and live band skills.</p>
+                    </div>
+                    <a href="contact.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Ask about Band Night →</a>
+                </div>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <div class="mb-7 reveal">
-        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Ways to work with me</p>
-        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light">Four clear offers, explained simply</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow card-polish hover-lift reveal">
-          <i data-lucide="users" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Band Night</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            A private-venue band experience for children who want to play with others, build confidence and work towards performing as a group.
-          </p>
-        </div>
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow card-polish hover-lift reveal delayed-1">
-          <i data-lucide="music-2" class="w-6 h-6 text-brand-highlight mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">School Band Programme</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            A small-group, all-electric school programme with a clear 6-week structure designed to get pupils playing together fast.
-          </p>
-        </div>
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow card-polish hover-lift reveal delayed-2">
-          <i data-lucide="zap" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Make a Song</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            A creative course focused on songwriting, ideas, structure and turning a student’s own musical ideas into something real.
-          </p>
-        </div>
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow card-polish hover-lift reveal delayed-3">
-          <i data-lucide="book-open" class="w-6 h-6 text-brand-highlight mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Private Lessons</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            Mobile one-to-one lessons in <strong>piano, singing, drums, guitar and bass</strong>, tailored to age, level and goals.
-          </p>
-        </div>
-      </div>
-    </section>
+                <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-[0.2em] text-brand-accent-light mb-2">School offer</p>
+                            <h3 class="font-heading text-xl font-bold text-brand-text-light">School Band Programme</h3>
+                        </div>
+                        <i data-lucide="zap" class="w-6 h-6 text-brand-accent-light"></i>
+                    </div>
+                    <p class="text-sm text-brand-text-mid mb-4">
+                        A structured, all-electric small-group programme for schools, designed to build confidence, teamwork and performance skills in a managed, volume-controlled setup.
+                    </p>
+                    <div class="text-xs text-brand-text-mid space-y-2 mb-5">
+                        <p><span class="text-brand-text-light font-semibold">Best for:</span> primary schools wanting an engaging enrichment offer.</p>
+                        <p><span class="text-brand-text-light font-semibold">Focus:</span> participation, routine and performance progress.</p>
+                    </div>
+                    <a href="school-band-programme.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Explore the school programme →</a>
+                </div>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow card-polish hover-lift reveal">
-          <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Tailored to the student or group</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            Whether it’s lessons at home, band-based learning or songwriting, everything is shaped around confidence, enjoyment and progress.
-          </p>
-        </div>
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow card-polish hover-lift reveal delayed-1">
-          <i data-lucide="map-pin" class="w-6 h-6 text-brand-highlight mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Flexible delivery</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            I can teach in homes, work with schools, and run small-group music sessions in suitable venues depending on the offer.
-          </p>
-        </div>
-        <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow card-polish hover-lift reveal delayed-2">
-          <i data-lucide="shield-check" class="w-6 h-6 text-brand-highlight mb-3"></i>
-          <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Safe & professional</h3>
-          <p class="text-xs sm:text-sm text-brand-text-mid">
-            Fully DBS checked and insured, with clear communication, safeguarding awareness and a calm, reassuring teaching style.
-          </p>
-        </div>
-      </div>
-    </section>
+                <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal delayed-1">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-[0.2em] text-brand-highlight mb-2">Creative project offer</p>
+                            <h3 class="font-heading text-xl font-bold text-brand-text-light">Make a Song Course</h3>
+                        </div>
+                        <i data-lucide="music-2" class="w-6 h-6 text-brand-highlight"></i>
+                    </div>
+                    <p class="text-sm text-brand-text-mid mb-4">
+                        A guided course where students write, record and shape their own original song using real music equipment in a project that feels creative, practical and rewarding.
+                    </p>
+                    <div class="text-xs text-brand-text-mid space-y-2 mb-5">
+                        <p><span class="text-brand-text-light font-semibold">Best for:</span> young creatives who want more than standard lessons.</p>
+                        <p><span class="text-brand-text-light font-semibold">Focus:</span> songwriting, recording and creative confidence.</p>
+                    </div>
+                    <a href="contact.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Ask about Make a Song →</a>
+                </div>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow card-polish p-7 reveal">
-          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">How it works</h2>
-          <ol class="space-y-4 text-sm text-brand-text-mid">
-            <li><span class="font-semibold text-brand-text-light">1. Tell me what you’re interested in</span><br>Get in touch about private lessons, Band Night, Make a Song or the School Band Programme.</li>
-            <li><span class="font-semibold text-brand-text-light">2. I recommend the best fit</span><br>I can help you choose the right offer based on age, goals, confidence and whether it’s for one child, a friendship group or a school.</li>
-            <li><span class="font-semibold text-brand-text-light">3. We get started with a clear plan</span><br>Lessons and programmes are structured, supportive and designed to help students feel progress quickly.</li>
-            <li><span class="font-semibold text-brand-text-light">4. Confidence grows through doing</span><br>The aim is not just learning notes — it’s building creativity, teamwork and the confidence to perform or create something real.</li>
-          </ol>
-          <a href="availability.html" class="inline-flex items-center mt-5 text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Check current availability</a>
-        </div>
-
-        <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow card-polish p-7 reveal delayed-1">
-          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">Who it’s perfect for</h2>
-          <ul class="space-y-3 text-sm text-brand-text-mid mb-5">
-            <li><strong>Parents</strong> looking for a convenient, confidence-building music option for their child.</li>
-            <li><strong>Children and teenagers</strong> who want to play in a band, learn an instrument or try writing their own songs.</li>
-            <li><strong>Primary schools</strong> wanting a small-group band programme with clear structure and strong engagement.</li>
-            <li><strong>Beginners and developing musicians</strong> who learn best through encouragement, routine and real musical outcomes.</li>
-          </ul>
-          <div class="mt-2 bg-brand-dark-bg/70 border border-brand-accent-dark/40 rounded-xl p-4 text-xs sm:text-sm">
-            <p class="font-semibold text-brand-text-light mb-1">Service area:</p>
-            <p class="text-brand-text-mid">
-              Pudsey, Farsley, Calverley, Bramley, Horsforth and wider West Leeds. Travel fees and lesson details are clearly outlined on the pricing page.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow card-polish p-7 flex flex-col lg:flex-row gap-8 items-center reveal">
-        <div class="flex-1">
-          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">A supportive, confidence-building approach</h2>
-          <p class="text-sm sm:text-base text-brand-text-mid mb-5">
-            The aim is to make music feel achievable, exciting and well organised. Some students need a calm one-to-one start,
-            others thrive in a group, and some light up when they realise they can create their own song. The teaching stays friendly,
-            but the structure is clear and professional.
-          </p>
-          <div class="flex flex-wrap gap-4 text-xs sm:text-sm text-brand-text-mid">
-            <span class="inline-flex items-center"><i data-lucide="star" class="w-4 h-4 mr-1 text-brand-highlight"></i>Patient, encouraging teaching style</span>
-            <span class="inline-flex items-center"><i data-lucide="users" class="w-4 h-4 mr-1 text-brand-accent-light"></i>Parents and schools kept in the loop</span>
-          </div>
-        </div>
-        <div class="flex-[0.9] bg-brand-dark-bg/60 rounded-xl border border-brand-accent-dark/50 p-5 text-xs sm:text-sm text-brand-text-mid">
-          <p class="italic mb-2">
-            “What makes this work so well is that it feels both relaxed and well organised. Children feel comfortable quickly,
-            but there’s also a clear sense of progress and purpose.”
-          </p>
-          <p class="font-semibold text-brand-text-light">– Parent feedback style the site can confidently reflect</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
-      <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow card-polish p-7 reveal">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
-          <div>
-            <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-              <i data-lucide="message-square" class="w-6 h-6 mr-2"></i>
-              Music Services Q&amp;A Assistant
-            </h2>
-            <p class="text-xs sm:text-sm text-brand-text-mid mt-1 max-w-xl">
-              Ask quick questions about lessons, Band Night, Make a Song, school bands, travel, safeguarding, fees or availability.
-            </p>
-          </div>
-          <a href="pricing.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View full pricing & info</a>
-        </div>
-
-        <div id="chat-box" class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite">
-          <div class="flex justify-start initial-message">
-            <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
-              Hello! I can help with private lessons, Band Night, Make a Song, the School Band Programme, pricing, travel and availability.
+                <div class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-2">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-[0.2em] text-brand-accent-light mb-2">One-to-one offer</p>
+                            <h3 class="font-heading text-xl font-bold text-brand-text-light">Private Lessons</h3>
+                        </div>
+                        <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
+                    </div>
+                    <p class="text-sm text-brand-text-mid mb-4">
+                        Relaxed home lessons in <strong>piano</strong>, <strong>singing</strong>, <strong>drums</strong>, <strong>guitar</strong> and <strong>bass</strong>, tailored to age, ability and confidence with a friendly, reliable approach.
+                    </p>
+                    <div class="text-xs text-brand-text-mid space-y-2 mb-5">
+                        <p><span class="text-brand-text-light font-semibold">Best for:</span> families wanting flexible, supportive tuition at home.</p>
+                        <p><span class="text-brand-text-light font-semibold">Focus:</span> consistent progress, musical foundations and enjoyment.</p>
+                    </div>
+                    <a href="pricing.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">View lesson pricing →</a>
+                </div>
             </div>
-          </div>
-          <div id="loading-indicator" class="hidden flex justify-start">
-            <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
-              <span class="text-sm">Typing</span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
-              <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
+        </section>
+
+        
+        <!-- HOW IT WORKS + WHO IT'S FOR -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+                    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">
+                        How it works
+                    </h2>
+                    <ol class="space-y-4 text-sm text-brand-text-mid">
+                        <li><span class="font-semibold text-brand-text-light">1. Start with the right offer</span><br>
+                            Tell me whether you are looking for a home lesson, a school programme, Band Night or a Make a Song project, and I’ll guide you towards the best fit.
+                        </li>
+                        <li><span class="font-semibold text-brand-text-light">2. Get a clear plan</span><br>
+                            You’ll know what the sessions involve, how delivery works and what the next step is, so everything feels straightforward and well organised.
+                        </li>
+                        <li><span class="font-semibold text-brand-text-light">3. Build confidence through real music-making</span><br>
+                            Sessions are designed to feel fun and supportive while still giving children real progress in listening, performance, creativity and musical skills.
+                        </li>
+                        <li><span class="font-semibold text-brand-text-light">4. Keep moving forward</span><br>
+                            Whether that means more lessons, another Band Night block, a school rollout or a finished original song, there is a clear sense of progression.
+                        </li>
+                    </ol>
+                    <a href="availability.html"
+                       class="inline-flex items-center mt-6 text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
+                        Check availability & enquire →
+                    </a>
+                </div>
+
+                <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal delayed-1">
+                    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">
+                        Who it’s ideal for
+                    </h2>
+                    <ul class="space-y-3 text-sm text-brand-text-mid mb-5">
+                        <li><strong class="text-brand-text-light">Children and friend groups</strong> who would love the energy and excitement of learning in a real band setting.</li>
+                        <li><strong class="text-brand-text-light">Schools</strong> that want a professional, confidence-building enrichment offer with structure and clear delivery.</li>
+                        <li><strong class="text-brand-text-light">Young creatives</strong> who want to write, record and shape their own music rather than only learn set pieces.</li>
+                        <li><strong class="text-brand-text-light">Parents</strong> looking for relaxed, reliable tuition at home in piano, singing, drums, guitar or bass.</li>
+                    </ul>
+
+                    <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4 text-sm">
+                        <p class="font-semibold text-brand-text-light mb-2">
+                            Service area
+                        </p>
+                        <p class="text-brand-text-mid">
+                            Private lessons are available across Pudsey, Farsley, Calverley, Bramley, Horsforth and wider West Leeds. Band Night venue details, school delivery and Make a Song setup are confirmed individually depending on location and timetable.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
+        </section>
 
-        <form id="chat-form" class="flex gap-2">
-          <input type="text" id="chat-input" placeholder="E.g. Which option would suit a child who wants to play with friends?" class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/40 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/30">
-          <button type="submit" id="send-button" class="button-polish bg-brand-highlight text-brand-dark-bg px-3 rounded-lg font-semibold hover:bg-brand-highlight/85 transition flex items-center justify-center w-11 h-11" aria-label="Send message">
-            <i data-lucide="send" class="w-5 h-5"></i>
-          </button>
-        </form>
-        <p id="error-message" class="text-xs text-red-400 mt-2 hidden"></p>
-      </div>
-    </section>
-  </main>
+        
+        <!-- TRUST / TESTIMONIAL -->
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+            <div class="glass-panel rounded-[1.8rem] border border-brand-accent-dark/60 card-glow p-7 reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
+                    <div>
+                        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">
+                            A supportive, polished music offer for families and schools
+                        </h2>
+                        <p class="text-sm sm:text-base text-brand-text-mid mb-6 max-w-2xl">
+                            Whether a student joins <strong>Band Night</strong>, a <strong>school band</strong>, the <strong>Make a Song Course</strong> or private lessons in <strong>piano</strong>, <strong>singing</strong>, <strong>drums</strong>, <strong>guitar</strong> or <strong>bass</strong>, the aim is the same: make music feel exciting, achievable and well supported from the first session onward.
+                        </p>
 
-  <a href="contact.html" id="sticky-cta" class="button-polish inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/35">
-    <i data-lucide="mail" class="w-4 h-4 mr-1"></i>
-    Ask About Lessons & Bands
-  </a>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
+                            <div class="micro-card">
+                                <p class="text-brand-highlight font-semibold mb-1">Friendly teaching</p>
+                                <p class="text-brand-text-mid">Patient, calm and confidence-building.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-accent-light font-semibold mb-1">Real progress</p>
+                                <p class="text-brand-text-mid">Clear structure without losing the fun.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-highlight font-semibold mb-1">Safe delivery</p>
+                                <p class="text-brand-text-mid">DBS checked and fully insured.</p>
+                            </div>
+                            <div class="micro-card">
+                                <p class="text-brand-accent-light font-semibold mb-1">Flexible setup</p>
+                                <p class="text-brand-text-mid">Home, school, venue and creative projects.</p>
+                            </div>
+                        </div>
+                    </div>
 
-  <footer class="bg-gray-900/90 text-brand-text-mid py-7 mt-2 border-t border-brand-accent-dark/20">
-    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
-      <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
-      <p class="mt-1 text-gray-500">DBS Checked &amp; Insured. Programme details are confirmed with schools and families during setup.</p>
-      <p class="mt-2">
-        <a href="privacy.html" class="underline hover:text-white transition">Privacy</a>
-        <span class="mx-2">•</span>
-        <a href="cookies.html" class="underline hover:text-white transition">Cookies</a>
-      </p>
-    </div>
-  </footer>
+                    <div class="rounded-2xl bg-brand-dark-bg/65 border border-brand-accent-dark/50 p-6">
+                        <p class="text-[11px] uppercase tracking-[0.2em] text-brand-highlight mb-3">What families want to feel</p>
+                        <p class="italic text-sm sm:text-base text-brand-text-mid mb-4">
+                            “This feels organised, encouraging and genuinely exciting. Sessions are friendly and clear, and children leave feeling proud of what they’ve done.”
+                        </p>
+                        <p class="font-semibold text-brand-text-light mb-5">
+                            – The experience the homepage should communicate
+                        </p>
 
-  <script>
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (menuButton && mobileMenu) {
-      menuButton.addEventListener('click', () => {
-        const expanded = menuButton.getAttribute('aria-expanded') === 'true';
-        menuButton.setAttribute('aria-expanded', String(!expanded));
-        mobileMenu.classList.toggle('hidden');
-      });
-    }
+                        <div class="space-y-3 text-xs sm:text-sm text-brand-text-mid">
+                            <div class="flex items-center">
+                                <i data-lucide="star" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+                                Professional first impression
+                            </div>
+                            <div class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-2 text-brand-accent-light"></i>
+                                Clear offers for parents and schools
+                            </div>
+                            <div class="flex items-center">
+                                <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-brand-highlight"></i>
+                                Strong local identity in West Leeds
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    const stickyCta = document.getElementById('sticky-cta');
-    const heroSection = document.getElementById('hero-section');
-    if (stickyCta && heroSection) {
-      const observer = new IntersectionObserver(([entry]) => {
-        stickyCta.classList.toggle('show', !entry.isIntersecting);
-      }, { rootMargin: '0px 0px -70% 0px', threshold: 0.1 });
-      observer.observe(heroSection);
-    }
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="micro-card reveal">
+                    <p class="text-2xl font-heading font-extrabold text-brand-highlight">£10</p>
+                    <p class="text-sm text-brand-text-light font-semibold mt-1">Intro lesson available</p>
+                    <p class="text-xs text-brand-text-mid mt-2">A simple way for families to get started before committing to regular tuition.</p>
+                </div>
+                <div class="micro-card reveal delayed-1">
+                    <p class="text-2xl font-heading font-extrabold text-brand-accent-light">Wed–Fri</p>
+                    <p class="text-sm text-brand-text-light font-semibold mt-1">Evening slots as standard</p>
+                    <p class="text-xs text-brand-text-mid mt-2">Current private lesson slots are mainly Wednesday to Friday.</p>
+                </div>
+                <div class="micro-card reveal delayed-2">
+                    <p class="text-2xl font-heading font-extrabold text-brand-highlight">West Leeds</p>
+                    <p class="text-sm text-brand-text-light font-semibold mt-1">Local, mobile and flexible</p>
+                    <p class="text-xs text-brand-text-mid mt-2">Private lessons come to you, with school and venue-based options where appropriate.</p>
+                </div>
+            </div>
+        </section>
 
-    const revealElements = document.querySelectorAll('.reveal');
-    if (revealElements.length) {
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
-          }
+        <!-- POLICY Q&A ASSISTANT -->
+
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
+            <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
+                    <div>
+                        <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
+                            <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
+                            Music Services Q&A Assistant
+                        </h2>
+                        <p class="text-xs sm:text-sm text-brand-text-mid mt-1 max-w-xl">
+                            Ask quick questions about private lessons, Band Night, the School Band Programme, Make a Song, pricing, travel, safeguarding or which option fits best.
+                        </p>
+                    </div>
+                    <a href="pricing.html" class="text-xs sm:text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">
+                        View pricing & service info
+                    </a>
+                </div>
+
+                <div id="chat-box" class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite">
+                    <div class="flex justify-start initial-message">
+                        <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow">
+                            Hello! I can help you choose between private lessons, Band Night, the School Band Programme and Make a Song — and answer quick questions about pricing, travel, safeguarding and current availability.
+                        </div>
+                    </div>
+                    <div id="loading-indicator" class="hidden flex justify-start">
+                        <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-1">
+                            <span class="text-sm">Typing</span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
+                            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="chat-suggestions" class="flex flex-wrap gap-2 mb-4">
+                    <button type="button" class="chat-suggestion" data-chat-prompt="Which service would suit a beginner child best?">Which service suits my child?</button>
+                    <button type="button" class="chat-suggestion" data-chat-prompt="How does Band Night work?">How does Band Night work?</button>
+                    <button type="button" class="chat-suggestion" data-chat-prompt="What are your private lesson prices?">Private lesson prices</button>
+                    <button type="button" class="chat-suggestion" data-chat-prompt="Tell me about the Make a Song course.">Make a Song course</button>
+                    <button type="button" class="chat-suggestion" data-chat-prompt="What does a school need for the School Band Programme?">School band setup</button>
+                </div>
+
+                <form id="chat-form" class="flex gap-2">
+                    <input
+                        type="text"
+                        id="chat-input"
+                        placeholder="E.g. Which option would suit a child who wants to play with friends?"
+                        class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
+                        autocomplete="off"
+                    >
+                    <button
+                        type="submit"
+                        id="send-button"
+                        class="bg-brand-highlight text-brand-dark-bg px-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition flex items-center justify-center w-11 h-11"
+                        aria-label="Send message"
+                    >
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </form>
+                <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+                    <p class="text-xs text-brand-text-mid">Best for quick guidance. For bookings or exact times, use the contact page.</p>
+                    <button type="button" id="clear-chat-button" class="text-xs font-semibold text-brand-highlight hover:text-brand-accent-light transition">Clear chat</button>
+                </div>
+                <p id="error-message" class="text-xs text-red-400 mt-2 hidden"></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- STICKY CTA -->
+    <a href="contact.html" id="sticky-cta"
+       class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/50">
+        <i data-lucide="mail" class="w-4 h-4 mr-1"></i> Enquire Now
+    </a>
+
+    <!-- FOOTER -->
+  <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+  <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+    <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
+    <p class="mt-1 text-gray-500">
+      DBS checked &amp; insured. Band Night, School Band Programme, Make a Song Course and private piano, singing, drum, guitar and bass lesson details are confirmed during booking or setup.
+    </p>
+
+    <!-- ADD THIS -->
+    <p class="mt-2">
+      <a href="privacy.html" class="underline hover:text-white">Privacy</a>
+      <span class="mx-2">•</span>
+      <a href="cookies.html" class="underline hover:text-white">Cookies</a>
+    </p>
+  </div>
+</footer>
+
+    <!-- JS -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', String(!isOpen));
         });
-      }, { threshold: 0.14 });
-      revealElements.forEach(el => revealObserver.observe(el));
-    }
 
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatBox = document.getElementById('chat-box');
-    const loadingIndicator = document.getElementById('loading-indicator');
-    const errorMessage = document.getElementById('error-message');
-    const sendButton = document.getElementById('send-button');
+        // Nav shadow on scroll
+        const siteNav = document.querySelector('nav');
+        const updateNavState = () => {
+            if (window.scrollY > 12) {
+                siteNav.classList.add('nav-scrolled');
+            } else {
+                siteNav.classList.remove('nav-scrolled');
+            }
+        };
+        updateNavState();
+        window.addEventListener('scroll', updateNavState, { passive: true });
 
-    const qaSystemPrompt = `You are a helpful, friendly Q&A assistant for Elliot's Mobile Music.
-Answer briefly and clearly, using **bold** for key details.
+        // Sticky CTA visibility
+        const stickyCta = document.getElementById('sticky-cta');
+        const heroSection = document.getElementById('hero-section');
 
-Context:
-- Tutor: **Elliot Wardill**, based in **Pudsey, Leeds**.
-- Offers: **Private music lessons**, **Band Night**, **School Band Programme**, and **Make a Song**.
-- Private lesson instruments: **piano, singing, drums, guitar and bass**.
-- Delivery: at home for private lessons, in schools for school bands, and in suitable private venues for Band Night.
-- Intro/private lesson enquiries can start through the contact page.
-- Travel: based from Pudsey. Under 5 miles: **£0**; 5–10 miles: **£5**; 10–15 miles: **£10**; 15+ miles: **£20** flat.
-- Availability: **Tues–Thurs, 6–9pm** as standard; weekends on request; Monday & Friday unavailable.
-- Safety: Fully **DBS checked** and insured.
-- Parents are welcome to ask questions before booking.
-- If something is not confirmed on the site, say that Elliot can confirm the details directly after an enquiry.`;
+        if (stickyCta && heroSection) {
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        stickyCta.classList.remove('show');
+                    } else {
+                        stickyCta.classList.add('show');
+                    }
+                },
+                { rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
+            );
+            observer.observe(heroSection);
+        }
 
-    function appendMessage(sender, text) {
-      const wrap = document.createElement('div');
-      wrap.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
-      const bubble = document.createElement('div');
-      bubble.classList.add('max-w-[75%]', 'p-3', 'rounded-xl', 'text-sm', 'shadow', 'break-words', 'whitespace-pre-wrap');
-      if (sender === 'user') {
-        bubble.classList.add('bg-brand-highlight', 'text-brand-dark-bg', 'rounded-tr-none');
-      } else {
-        bubble.classList.add('bg-brand-accent-light/20', 'text-brand-text-light', 'rounded-tl-none');
-      }
-      const p = document.createElement('p');
-      p.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      bubble.appendChild(p);
-      wrap.appendChild(bubble);
-      chatBox.insertBefore(wrap, loadingIndicator);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+        // Scroll reveal on sections
+        const revealElements = document.querySelectorAll('.reveal');
+        if (revealElements.length) {
+            const revealObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.15 }
+            );
+            revealElements.forEach(el => revealObserver.observe(el));
+        }
 
-    async function handleQuery(query) {
-      sendButton.disabled = true;
-      loadingIndicator.classList.remove('hidden');
-      errorMessage.classList.add('hidden');
-      appendMessage('user', query);
+        // Music Q&A Assistant (frontend, calls /api/chat on Vercel)
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatBox = document.getElementById('chat-box');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const errorMessage = document.getElementById('error-message');
+        const sendButton = document.getElementById('send-button');
+        const suggestionButtons = Array.from(document.querySelectorAll('[data-chat-prompt]'));
+        const clearChatButton = document.getElementById('clear-chat-button');
+        const conversationHistory = [];
 
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: query.trim(), systemPrompt: qaSystemPrompt })
+        const qaSystemPrompt = `Homepage context:
+- Keep replies aligned with Elliot's Mobile Music branding and tone.
+- Help the visitor choose the most suitable service when their question is broad.
+- Remind users that exact bookings, dates and places are confirmed directly by Elliot.
+- Keep replies concise and easy for parents to scan.
+- Mention the contact page when the user is ready to enquire or confirm details.`;
+
+        function setChatLoading(isLoading) {
+            sendButton.disabled = isLoading;
+            chatInput.disabled = isLoading;
+            suggestionButtons.forEach((button) => {
+                button.disabled = isLoading;
+            });
+            loadingIndicator.classList.toggle('hidden', !isLoading);
+        }
+
+        function pushHistory(role, text) {
+            conversationHistory.push({ role, text });
+            if (conversationHistory.length > 12) {
+                conversationHistory.splice(0, conversationHistory.length - 12);
+            }
+        }
+
+        function renderFormattedText(target, text) {
+            const safeText = String(text || '');
+            const paragraphs = safeText.split(/\n{2,}/);
+
+            paragraphs.forEach((paragraph, paragraphIndex) => {
+                const p = document.createElement('p');
+                if (paragraphIndex > 0) p.classList.add('mt-2');
+
+                const lines = paragraph.split('\n');
+                lines.forEach((line, lineIndex) => {
+                    const fragments = line.split(/(\*\*.*?\*\*)/g).filter(Boolean);
+                    fragments.forEach((fragment) => {
+                        if (/^\*\*.*\*\*$/.test(fragment)) {
+                            const strong = document.createElement('strong');
+                            strong.textContent = fragment.slice(2, -2);
+                            p.appendChild(strong);
+                        } else {
+                            p.appendChild(document.createTextNode(fragment));
+                        }
+                    });
+
+                    if (lineIndex < lines.length - 1) {
+                        p.appendChild(document.createElement('br'));
+                    }
+                });
+
+                target.appendChild(p);
+            });
+        }
+
+        function appendMessage(sender, text) {
+            const wrap = document.createElement('div');
+            wrap.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
+
+            const bubble = document.createElement('div');
+            bubble.classList.add('max-w-[75%]', 'p-3', 'rounded-xl', 'text-sm', 'shadow', 'break-words', 'whitespace-pre-wrap');
+
+            if (sender === 'user') {
+                bubble.classList.add('bg-brand-highlight', 'text-brand-dark-bg', 'rounded-tr-none');
+            } else {
+                bubble.classList.add('bg-brand-accent-light/20', 'text-brand-text-light', 'rounded-tl-none');
+            }
+
+            renderFormattedText(bubble, text);
+            wrap.appendChild(bubble);
+            chatBox.insertBefore(wrap, loadingIndicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function handleQuery(query) {
+            const cleanedQuery = query.trim();
+            if (!cleanedQuery) return;
+
+            errorMessage.classList.add('hidden');
+            setChatLoading(true);
+            appendMessage('user', cleanedQuery);
+            pushHistory('user', cleanedQuery);
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: cleanedQuery,
+                        systemPrompt: qaSystemPrompt,
+                        history: conversationHistory.slice(0, -1)
+                    })
+                });
+
+                if (!res.ok) {
+                    throw new Error('Server error: ' + res.status);
+                }
+
+                const data = await res.json();
+                const text = data.text || "I couldn't find a clear answer there. Try asking in a slightly different way, or use the contact page for exact details.";
+                appendMessage('bot', text);
+                pushHistory('assistant', text);
+            } catch (err) {
+                console.error(err);
+                errorMessage.textContent = 'Sorry, the assistant is unavailable at the moment. Please try again later.';
+                errorMessage.classList.remove('hidden');
+            } finally {
+                setChatLoading(false);
+                chatInput.value = '';
+                chatInput.focus();
+            }
+        }
+
+        if (chatForm) {
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const q = chatInput.value.trim();
+                if (!q) return;
+                const initialMsg = chatBox.querySelector('.initial-message');
+                if (initialMsg) initialMsg.remove();
+                handleQuery(q);
+            });
+        }
+
+        suggestionButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const prompt = button.getAttribute('data-chat-prompt') || '';
+                const initialMsg = chatBox.querySelector('.initial-message');
+                if (initialMsg) initialMsg.remove();
+                handleQuery(prompt);
+            });
         });
-        if (!res.ok) throw new Error('Server error: ' + res.status);
-        const data = await res.json();
-        appendMessage('bot', data.text || "I couldn't find a clear answer there — try asking in a slightly different way.");
-      } catch (err) {
-        console.error(err);
-        errorMessage.textContent = 'Sorry, the assistant is unavailable at the moment. Please try again later.';
-        errorMessage.classList.remove('hidden');
-      } finally {
-        loadingIndicator.classList.add('hidden');
-        sendButton.disabled = false;
-        chatInput.value = '';
-      }
-    }
 
-    if (chatForm) {
-      chatForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const q = chatInput.value.trim();
-        if (!q) return;
-        const initialMsg = chatBox.querySelector('.initial-message');
-        if (initialMsg) initialMsg.remove();
-        handleQuery(q);
-      });
-    }
-  </script>
+        if (clearChatButton) {
+            clearChatButton.addEventListener('click', () => {
+                conversationHistory.length = 0;
+                chatInput.value = '';
+                errorMessage.classList.add('hidden');
+
+                const messages = Array.from(chatBox.querySelectorAll(':scope > div'));
+                messages.forEach((node) => {
+                    if (node !== loadingIndicator) node.remove();
+                });
+
+                const wrap = document.createElement('div');
+                wrap.className = 'flex justify-start initial-message';
+                const bubble = document.createElement('div');
+                bubble.className = 'max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow';
+                bubble.textContent = 'Hello! I can help you choose between private lessons, Band Night, the School Band Programme and Make a Song — and answer quick questions about pricing, travel, safeguarding and current availability.';
+                wrap.appendChild(bubble);
+                chatBox.insertBefore(wrap, loadingIndicator);
+                chatBox.scrollTop = 0;
+                chatInput.focus();
+            });
+        }
+    </script>
 </body>
 </html>
