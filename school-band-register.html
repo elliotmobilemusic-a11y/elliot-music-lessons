@@ -1,23 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School Band Programme – Register Interest (Deposit)</title>
+  <title>School Band Programme – Register Interest</title>
+  <meta name="description" content="Register interest for the School Band Programme. Families can complete the deposit form once the page has been shared by their school.">
+  <meta name="format-detection" content="telephone=no">
+  <meta property="og:title" content="School Band Programme – Register Interest">
+  <meta property="og:description" content="Secure a place in the School Band Programme with the deposit form shared by your school.">
+  <meta property="og:type" content="website">
 
-  <!-- Favicon (same as index) -->
   <link rel="icon" href="./favicon.png" type="image/png">
-
-  <!-- PWA (same as index) -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#1a1a2e">
-
-  <!-- iOS PWA Support (same as index) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -41,253 +41,258 @@
     }
   </script>
 
-  <!-- Service Worker -->
   <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js");
-      });
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
     }
   </script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
-    html, body { height: 100%; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
-      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .card-glow { box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6); }
-
-    /* Fullscreen app area under nav */
-    .screen { height: calc(100vh - 64px); }
-
-    /* Form frame styling */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
+        radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
+        radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
+        linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .nav-scrolled { box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+    .card-glow { box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45); }
+    .soft-border { border: 1px solid rgba(0, 208, 132, 0.18); }
+    .glass-panel {
+      background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+      backdrop-filter: blur(10px);
+    }
+    .section-accent::after {
+      content: "";
+      display: block;
+      width: 84px;
+      height: 3px;
+      margin-top: 0.9rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #00d084 0%, #ffb703 100%);
+    }
+    .hover-lift {
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.24s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 208, 132, 0.12), 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .reveal.delayed-1 { transition-delay: 0.12s; }
+    .reveal.delayed-2 { transition-delay: 0.2s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .frame {
-      border-radius: 18px;
+      border-radius: 24px;
       overflow: hidden;
-      border: 1px solid rgba(0, 163, 110, 0.55);
-      background: rgba(26, 26, 46, 0.35);
-      box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 208, 132, 0.18);
+      background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+      box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45);
     }
-    .frame iframe { width: 100%; height: 100%; border: 0; }
-
-    /* Mobile tabs */
-    .segmented {
-      background: rgba(26, 26, 46, 0.6);
-      border: 1px solid rgba(0, 163, 110, 0.45);
-      border-radius: 999px;
-      padding: 4px;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    .frame iframe {
+      width: 100%;
+      min-height: 1150px;
+      border: 0;
+      background: transparent;
     }
-    .seg-btn {
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      transition: background-color .2s ease, color .2s ease;
-    }
-    .seg-btn.active { background: #00d084; color: #1a1a2e; }
   </style>
 
-  <!-- Lucide Icons -->
   <script type="module">
-    import { createIcons, Music2, Mail, Phone, Shield } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
-    createIcons({ icons: { Music2, Mail, Phone, Shield } });
+    import { createIcons, Mail, Phone, Shield, CheckCircle2, ArrowRight } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
+    createIcons({ icons: { Mail, Phone, Shield, CheckCircle2, ArrowRight } });
   </script>
+  <script defer src="./cookie-banner.js?v=2"></script>
 </head>
-
 <body class="min-h-screen flex flex-col text-brand-text-light">
+  <nav id="site-nav" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
 
-<!-- NAV (same as index, SCHOOL BANDS active) -->
-<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
+        <div class="hidden md:flex items-center space-x-4 text-[11px] lg:text-sm">
+          <a href="index.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">HOME</a>
+          <a href="pricing.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRICING</a>
+          <a href="private-lessons.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRIVATE LESSONS</a>
+          <a href="band-night.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">BAND NIGHT</a>
+          <a href="school-band-programme.html" class="text-brand-accent-light font-semibold">SCHOOL BANDS</a>
+          <a href="make-a-song.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">MAKE A SONG</a>
+          <a href="contact.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">CONTACT</a>
+        </div>
 
-      <a href="index.html" class="flex items-center space-x-2">
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-          <i data-lucide="music-2" class="w-5 h-5 text-brand-accent-light"></i>
-        </span>
-        <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-          ELLIOT'S MOBILE MUSIC
-        </span>
-      </a>
-
-      <div class="hidden sm:flex sm:space-x-4 text-xs md:text-sm">
-        <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
-          HOME
-        </a>
-        <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
-          PRICING & FEES
-        </a>
-        <a href="availability.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
-          AVAILABILITY
-        </a>
-        <a href="school-band-programme.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">
-          SCHOOL BANDS
-        </a>
-        <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium">
-          CONTACT
-        </a>
-
-        <a href="login.html"
-           class="ml-3 px-4 py-2 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
-                  hover:bg-brand-accent-dark transition duration-200 shadow-md shadow-brand-accent-light/40">
-          LOGIN
-        </a>
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/70 focus:outline-none focus:ring-2 focus:ring-brand-accent-light" aria-controls="mobile-menu" aria-expanded="false">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
-
-      <a href="school-band-programme.html#register"
-         class="sm:hidden px-3 py-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark">
-        Back
-      </a>
-
     </div>
-  </div>
-</nav>
 
-<main class="screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-
-  <!-- Mobile tabs -->
-  <div class="lg:hidden mb-4 flex justify-center">
-    <div class="segmented inline-flex gap-1">
-      <button id="tabDetails" class="seg-btn active" type="button">Details</button>
-      <button id="tabForm" class="seg-btn" type="button">Form</button>
+    <div class="md:hidden hidden border-t border-brand-accent-dark/30 bg-brand-dark-bg/95" id="mobile-menu">
+      <div class="pt-2 pb-3 space-y-1 px-4 text-sm">
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">HOME</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRICING</a>
+        <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRIVATE LESSONS</a>
+        <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">BAND NIGHT</a>
+        <a href="school-band-programme.html" class="block rounded-md bg-brand-accent-dark/70 text-white px-3 py-2 font-medium">SCHOOL BANDS</a>
+        <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">MAKE A SONG</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">CONTACT</a>
+      </div>
     </div>
-  </div>
+  </nav>
 
-  <div class="h-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- DETAILS -->
-    <aside id="panelDetails" class="lg:col-span-4 h-full">
-      <div class="h-full bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-6 overflow-y-auto">
-        <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight uppercase">Secure Registration</p>
-        <h1 class="mt-2 font-heading text-2xl font-extrabold text-brand-text-light">
-          Register Interest (Deposit)
-        </h1>
-
-        <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-          Please complete the form and pay the <strong class="text-brand-text-light">£10 deposit</strong>.
-          This reserves a place while bands and timings are confirmed with your school.
-        </p>
-
-        <div class="mt-5 rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-4">
-          <div class="flex items-start gap-2">
-            <i data-lucide="shield" class="w-5 h-5 text-brand-accent-light mt-0.5"></i>
-            <p class="text-sm text-brand-text-mid leading-relaxed">
-              If you weren’t directed here by your school, please go back and do not submit the form.
-            </p>
+  <main class="flex-grow pt-16">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-18 lg:pt-22 pb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
+        <div class="reveal">
+          <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight uppercase">School Band Programme</p>
+          <h1 class="mt-3 font-heading text-4xl sm:text-5xl font-extrabold text-white leading-tight">Register interest and secure the deposit form.</h1>
+          <p class="mt-5 text-base sm:text-lg text-brand-text-mid max-w-2xl leading-relaxed">This page is for families whose school has already shared the School Band Programme link. Once verified, you can complete the deposit form to hold a potential place while bands and timings are confirmed.</p>
+          <div class="mt-6 flex flex-wrap gap-3 text-sm">
+            <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-brand-text-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent-light"></i> £10 deposit</span>
+            <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-brand-text-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-highlight"></i> Deposit comes off total</span>
+            <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-brand-text-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent-light"></i> Refunded if no place can be offered</span>
           </div>
         </div>
 
-        <div class="mt-5 rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-4">
-          <p class="font-semibold text-brand-text-light">Deposit rules</p>
-          <ul class="mt-2 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li>• Deposit comes off the total cost</li>
-            <li>• Refunded if no suitable place/time can be offered</li>
-            <li>• May be non-refundable if cancelling after a place/time is offered</li>
+        <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal delayed-1 hover-lift">
+          <h2 class="font-heading text-2xl font-extrabold text-white">Before you continue</h2>
+          <ul class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+            <li>• Please only use this form if your school has shared the page with you.</li>
+            <li>• Typical bands are 4–5 pupils, with a minimum of 3 to run.</li>
+            <li>• A standard 6-week block usually works out at £90 per child.</li>
+            <li>• Final groups and weekly timings are confirmed after interest is collected.</li>
           </ul>
-        </div>
-
-        <div class="mt-5">
-          <p class="font-semibold text-brand-text-light">Need help?</p>
-          <div class="mt-3 flex flex-wrap gap-3">
-            <a href="mailto:elliotwardillmusic@gmail.com"
-               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-accent-light text-brand-accent-light hover:bg-brand-accent-light/10 transition">
-              <i data-lucide="mail" class="w-4 h-4 mr-2"></i>Email
-            </a>
-            <a href="tel:07368975144"
-               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-highlight text-brand-highlight hover:bg-brand-highlight/10 transition">
-              <i data-lucide="phone" class="w-4 h-4 mr-2"></i>Call
-            </a>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a href="#deposit-form" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-brand-accent-light text-brand-dark-bg text-sm font-bold hover:bg-brand-accent-dark transition hover-lift">Go to form <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></a>
+            <a href="school-band-programme.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transition hover-lift">Back to programme page</a>
           </div>
-        </div>
-
-      </div>
-    </aside>
-
-    <!-- FORM -->
-    <section id="panelForm" class="lg:col-span-8 h-full">
-      <div class="h-full frame">
-        <div class="px-5 py-4 border-b border-brand-accent-dark/40 bg-brand-dark-bg/60 flex items-center justify-between">
-          <span class="text-sm font-semibold text-brand-text-light">Deposit Form</span>
-          <span class="text-xs text-brand-text-mid">Tally</span>
-        </div>
-
-        <div class="h-[calc(100%-56px)]">
-          <iframe
-            data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-            loading="lazy"
-            title="School Band Programme – Register Interest (Deposit)"
-            allow="payment"
-          ></iframe>
         </div>
       </div>
     </section>
-  </div>
-</main>
 
-<!-- Tally embed.js (load once) -->
-<script async src="https://tally.so/widgets/embed.js"></script>
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6 items-start">
+        <aside class="space-y-6 reveal">
+          <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 hover-lift">
+            <div class="flex items-start gap-3">
+              <i data-lucide="shield" class="w-6 h-6 text-brand-accent-light mt-0.5"></i>
+              <div>
+                <h2 class="font-heading text-2xl font-extrabold text-white">Deposit rules</h2>
+                <ul class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+                  <li>• The £10 deposit comes off the final programme cost.</li>
+                  <li>• It is refunded if no suitable place or timing can be offered.</li>
+                  <li>• It may be non-refundable if a place is offered and then cancelled.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
-<script>
-  // Soft gate: must come from the checkbox on the main page
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    const qVerified = params.get("verified") === "1";
-    let ok = false;
+          <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 hover-lift reveal delayed-1">
+            <h3 class="font-heading text-2xl font-extrabold text-white">Need help first?</h3>
+            <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">If you are unsure whether this is the right page, contact Elliot before completing the form.</p>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <a href="mailto:elliotmobilemusic@gmail.com" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-brand-accent-light text-brand-accent-light text-sm font-semibold hover:bg-brand-accent-light/10 transition hover-lift"><i data-lucide="mail" class="w-4 h-4 mr-2"></i>Email</a>
+              <a href="tel:07368975144" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transition hover-lift"><i data-lucide="phone" class="w-4 h-4 mr-2"></i>Call</a>
+            </div>
+          </div>
+        </aside>
 
-    try {
-      const raw = localStorage.getItem("emm_school_band_invite");
-      if (raw) {
-        const data = JSON.parse(raw);
-        ok = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000;
-      }
-    } catch (e) {}
+        <section id="deposit-form" class="reveal delayed-2">
+          <div class="frame">
+            <div class="px-5 py-4 border-b border-brand-accent-dark/40 bg-brand-dark-bg/60 flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-brand-text-light">School Band Programme – Deposit Form</p>
+                <p class="text-xs text-brand-text-mid mt-1">Complete the registration details below.</p>
+              </div>
+              <span class="text-xs text-brand-text-mid">Tally</span>
+            </div>
+            <iframe data-tally-src="https://tally.so/embed/Y5RAlz?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" title="School Band Programme – Register Interest (Deposit)" allow="payment"></iframe>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
 
-    if (!qVerified && !ok) {
-      window.location.replace("./school-band-programme.html#register");
-      return;
-    }
+  <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">DBS checked &amp; insured. School Band Programme delivery, timetabling and school-specific logistics are confirmed during setup.</p>
+      <p class="mt-2">
+        <a href="privacy.html" class="underline hover:text-white">Privacy</a>
+        <span class="mx-2">•</span>
+        <a href="cookies.html" class="underline hover:text-white">Cookies</a>
+      </p>
+    </div>
+  </footer>
 
-    window.addEventListener("load", () => {
-      try {
-        if (window.Tally && typeof window.Tally.loadEmbeds === "function") window.Tally.loadEmbeds();
-      } catch (e) {}
+  <script async src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
     });
-  })();
 
-  // Mobile tabs
-  (function () {
-    const tabDetails = document.getElementById("tabDetails");
-    const tabForm = document.getElementById("tabForm");
-    const panelDetails = document.getElementById("panelDetails");
-    const panelForm = document.getElementById("panelForm");
-    if (!tabDetails || !tabForm || !panelDetails || !panelForm) return;
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('site-nav');
+      if (!nav) return;
+      nav.classList.toggle('nav-scrolled', window.scrollY > 8);
+    });
 
-    function setActive(which) {
-      const isDetails = which === "details";
-      tabDetails.classList.toggle("active", isDetails);
-      tabForm.classList.toggle("active", !isDetails);
-
-      const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-      if (isMobile) {
-        panelDetails.classList.toggle("hidden", !isDetails);
-        panelForm.classList.toggle("hidden", isDetails);
-      } else {
-        panelDetails.classList.remove("hidden");
-        panelForm.classList.remove("hidden");
-      }
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealElements.forEach(el => revealObserver.observe(el));
     }
 
-    tabDetails.addEventListener("click", () => setActive("details"));
-    tabForm.addEventListener("click", () => setActive("form"));
-    window.addEventListener("resize", () => setActive(tabDetails.classList.contains("active") ? "details" : "form"));
-    setActive("details");
-  })();
-</script>
-
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const qVerified = params.get('verified') === '1';
+      let ok = false;
+      try {
+        const raw = localStorage.getItem('emm_school_band_invite');
+        if (raw) {
+          const data = JSON.parse(raw);
+          ok = !!data.ok && (Date.now() - (data.ts || 0)) < 24 * 60 * 60 * 1000;
+        }
+      } catch (e) {}
+      if (!qVerified && !ok) {
+        window.location.replace('./school-band-programme.html#register');
+        return;
+      }
+      window.addEventListener('load', () => {
+        try {
+          if (window.Tally && typeof window.Tally.loadEmbeds === 'function') window.Tally.loadEmbeds();
+        } catch (e) {}
+      });
+    })();
+  </script>
 </body>
 </html>
