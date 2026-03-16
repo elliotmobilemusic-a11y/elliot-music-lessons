@@ -5,20 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>School Band Programme – Elliot’s Mobile Music</title>
+  <meta name="description" content="A structured in-school band programme for primary schools: 4–5 pupils per band, all-electric setup, weekly sessions, and a clear route to confident performance.">
+  <meta name="format-detection" content="telephone=no">
+  <meta property="og:title" content="School Band Programme – Elliot’s Mobile Music">
+  <meta property="og:description" content="Small-group in-school band sessions with a clear 6-week structure, safe all-electric setup, and real musical progress.">
+  <meta property="og:type" content="website">
 
-  <!-- Favicon (same as index) -->
   <link rel="icon" href="./favicon.png" type="image/png">
-
-  <!-- PWA (same as index) -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#1a1a2e">
-
-  <!-- iOS PWA Support (same as index) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
-  <!-- Tailwind (same config style) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -42,44 +41,122 @@
     }
   </script>
 
-  <!-- Service Worker (same as index) -->
   <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js");
-      });
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
     }
   </script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
-      background-image: radial-gradient(circle at 100% 100%, #252538 0%, #1a1a2e 70%);
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .main-hero-shadow { text-shadow: 0 0 16px rgba(0, 208, 132, 0.4); }
-    .card-glow { box-shadow: 0 10px 30px rgba(0, 208, 132, 0.12), 0 3px 10px rgba(0, 0, 0, 0.6); }
-
-    #sticky-cta {
+    body::before {
+      content: "";
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
+        radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
+        radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
+        linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
     }
-    #sticky-cta.show { opacity: 1; transform: translateY(0); }
-
-    @keyframes dot-pulse {
-      0%, 100% { opacity: 0.2; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.4); }
+    ::selection {
+      background: rgba(0, 208, 132, 0.35);
+      color: #ffffff;
     }
-    .dot-1 { animation: dot-pulse 1.5s infinite 0s; }
-    .dot-2 { animation: dot-pulse 1.5s infinite 0.2s; }
-    .dot-3 { animation: dot-pulse 1.5s infinite 0.4s; }
 
+    .nav-scrolled {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+    .main-hero-shadow {
+      text-shadow: 0 0 16px rgba(0, 208, 132, 0.24);
+    }
+    .card-glow {
+      box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45);
+    }
+    .soft-border {
+      border: 1px solid rgba(0, 208, 132, 0.18);
+    }
+    .glass-panel {
+      background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+      backdrop-filter: blur(10px);
+    }
+    .section-accent::after {
+      content: "";
+      display: block;
+      width: 84px;
+      height: 3px;
+      margin-top: 0.9rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #00d084 0%, #ffb703 100%);
+    }
+    .hero-backdrop {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(0, 208, 132, 0.11), transparent 24%),
+        radial-gradient(circle at 14% 76%, rgba(255, 183, 3, 0.08), transparent 24%);
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(24px);
+      opacity: 0.22;
+      animation: float-orb 9s ease-in-out infinite;
+    }
+    .hero-orb.one {
+      width: 17rem;
+      height: 17rem;
+      top: 0.5rem;
+      right: -4rem;
+      background: rgba(0, 208, 132, 0.28);
+    }
+    .hero-orb.two {
+      width: 14rem;
+      height: 14rem;
+      bottom: 1rem;
+      left: -4rem;
+      background: rgba(255, 183, 3, 0.18);
+      animation-delay: 1.4s;
+    }
+    @keyframes float-orb {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hover-lift {
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.24s ease, background-color 0.24s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 208, 132, 0.12), 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,208,132,0.2);
+      background: rgba(26,26,46,0.55);
+      color: #e0e0e0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
     .reveal {
       opacity: 0;
       transform: translateY(24px);
@@ -87,641 +164,559 @@
     }
     .reveal.delayed-1 { transition-delay: 0.12s; }
     .reveal.delayed-2 { transition-delay: 0.2s; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    .hover-lift {
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease, background-color 0.2s ease;
+    .reveal.delayed-3 { transition-delay: 0.28s; }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .hover-lift:hover { transform: translateY(-4px); }
+    .step-badge {
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 208, 132, 0.16);
+      border: 1px solid rgba(0, 208, 132, 0.35);
+      color: #00d084;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .faq-item[open] {
+      border-color: rgba(0,208,132,0.45);
+      background: rgba(26, 26, 46, 0.58);
+    }
+    #sticky-cta {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    #sticky-cta.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 767px) {
+      #sticky-cta { right: 1rem; left: 1rem; bottom: 1rem; }
+      #sticky-cta a { width: 100%; justify-content: center; }
+    }
   </style>
 
-  <!-- Lucide Icons (same pattern as index) -->
   <script type="module">
     import {
       createIcons,
-      Music2, Users, Clock, CalendarDays, Shield, Volume2, BookOpen, Zap,
-      Mail, Phone, MessageSquare, Send, CheckCircle2, ChevronDown, AlertTriangle
+      Music2, Users, Clock3, CalendarDays, Shield, Volume2, BookOpen, Zap,
+      Mail, Phone, MessageSquare, Send, CheckCircle2, ChevronDown,
+      Mic2, Guitar, Drum, Piano, ArrowRight, School, ClipboardCheck
     } from 'https://cdn.jsdelivr.net/npm/lucide@latest/dist/esm/lucide.js';
 
     createIcons({
       icons: {
-        Music2, Users, Clock, CalendarDays, Shield, Volume2, BookOpen, Zap,
-        Mail, Phone, MessageSquare, Send, CheckCircle2, ChevronDown, AlertTriangle
+        Music2, Users, Clock3, CalendarDays, Shield, Volume2, BookOpen, Zap,
+        Mail, Phone, MessageSquare, Send, CheckCircle2, ChevronDown,
+        Mic2, Guitar, Drum, Piano, ArrowRight, School, ClipboardCheck
       }
     });
   </script>
-
   <script defer src="./cookie-banner.js?v=2"></script>
-
 </head>
-
 <body class="min-h-screen flex flex-col text-brand-text-light">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] bg-brand-accent-light text-brand-dark-bg px-4 py-2 rounded-lg font-bold">Skip to content</a>
 
-<!-- NAVIGATION (same as index, SCHOOL BANDS active) -->
-<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50">
+  <nav id="site-nav" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <a href="index.html" class="flex items-center space-x-2">
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-accent-light/10 border border-brand-accent-light/50">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-brand-accent-light">
-                        <circle cx="8" cy="18" r="4"></circle>
-                        <path d="M12 18V2l7 4"></path>
-                    </svg>
-                </span>
-                <span class="text-sm sm:text-base font-heading font-extrabold tracking-[0.18em] text-brand-highlight">
-                    ELLIOT'S MOBILE MUSIC
-                </span>
-            </a>
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
 
-            <div class="hidden sm:flex sm:space-x-1 md:space-x-2 lg:space-x-3 text-[11px] md:text-xs lg:text-sm">
-                <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">HOME</a>
-                <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">PRICING</a>
-                <a href="private-lessons.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">PRIVATE LESSONS</a>
-                <a href="band-night.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">BAND NIGHT</a>
-                <a href="school-band-programme.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">SCHOOL BANDS</a>
-                <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">MAKE A SONG</a>
-                <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-2 lg:px-3 py-2 font-medium hover-lift whitespace-nowrap">CONTACT</a>
-            </div>
-
-            <div class="sm:hidden">
-                <button id="mobile-menu-button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent-dark focus:outline-none focus:ring-2 focus:ring-white"
-                        aria-controls="mobile-menu"
-                        aria-expanded="false">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="sm:hidden hidden" id="mobile-menu">
-        <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-            <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">HOME</a>
-            <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRICING</a>
-            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">PRIVATE LESSONS</a>
-            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">BAND NIGHT</a>
-            <a href="school-band-programme.html" class="block rounded-md bg-brand-accent-dark text-white px-3 py-2 font-medium">SCHOOL BANDS</a>
-            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">MAKE A SONG</a>
-            <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark px-3 py-2 font-medium">CONTACT</a>
-        </div>
-    </div>
-</nav>
-
-<main class="flex-grow">
-
-  <!-- HERO -->
-  <section id="hero-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-      <div class="reveal">
-        <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
-          PRIMARY SCHOOL BAND PROGRAMME
-        </p>
-
-        <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
-          Real bands.<br>
-          <span class="text-brand-accent-light">Real progress.</span>
-        </h1>
-
-        <p class="text-base sm:text-lg text-brand-text-mid max-w-xl mb-8 leading-relaxed">
-          A small-group programme where children learn instruments <strong>as a band</strong>.
-          All-electric setup, volume controlled, and a clear 6-week structure that builds confidence fast.
-        </p>
-
-        <div class="flex flex-wrap gap-4 mb-6">
-          <a href="#register"
-             class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/30 hover:bg-brand-accent-dark transform hover:scale-[1.02] transition">
-            <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
-            Register Interest (Deposit)
-          </a>
-
-          <a href="#how-it-works"
-             class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transform hover:scale-[1.02] transition">
-            <i data-lucide="book-open" class="w-4 h-4 mr-2"></i>
-            How it works
-          </a>
+        <div class="hidden md:flex items-center space-x-4 text-[11px] lg:text-sm">
+          <a href="index.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">HOME</a>
+          <a href="pricing.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRICING</a>
+          <a href="private-lessons.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">PRIVATE LESSONS</a>
+          <a href="band-night.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">BAND NIGHT</a>
+          <a href="school-band-programme.html" class="text-brand-accent-light font-semibold">SCHOOL BANDS</a>
+          <a href="make-a-song.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">MAKE A SONG</a>
+          <a href="contact.html" class="text-brand-text-mid hover:text-white transition-colors duration-200">CONTACT</a>
         </div>
 
-        <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-text-mid">
-          <span class="flex items-center">
-            <i data-lucide="phone" class="w-4 h-4 mr-1 text-brand-highlight"></i>
-            <a href="tel:07368975144" class="hover:text-white">07368 975144</a>
-          </span>
-          <span class="flex items-center">
-            <i data-lucide="mail" class="w-4 h-4 mr-1 text-brand-accent-light"></i>
-            <a href="mailto:elliotmobilemusic@gmail.com" class="hover:text-white">elliotmobilemusic@gmail.com</a>
-          </span>
-        </div>
-      </div>
-
-      <div class="bg-card-bg/80 rounded-2xl border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5 reveal delayed-1">
-        <div class="flex items-start gap-4">
-          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-accent-light/15 border border-brand-accent-light/50">
-            <i data-lucide="users" class="w-6 h-6 text-brand-accent-light"></i>
-          </div>
-          <div>
-            <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">AT A GLANCE</p>
-            <h2 class="font-heading text-2xl font-extrabold text-brand-text-light">Built for schools</h2>
-            <p class="text-sm text-brand-text-mid mt-1 leading-relaxed">
-              Calm, structured sessions, safe setup, clear timings, and an end-of-block showcase.
-            </p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 text-xs sm:text-sm text-brand-text-mid border-t border-brand-accent-dark/40 pt-4">
-          <div class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-brand-accent-light"></i>4-5 per band</div>
-          <div class="flex items-center"><i data-lucide="clock" class="w-4 h-4 mr-2 text-brand-highlight"></i>30 mins weekly</div>
-          <div class="flex items-center"><i data-lucide="calendar-days" class="w-4 h-4 mr-2 text-brand-accent-light"></i>6-week blocks</div>
-          <div class="flex items-center"><i data-lucide="volume-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>Volume controlled</div>
-          <div class="flex items-center"><i data-lucide="shield" class="w-4 h-4 mr-2 text-brand-highlight"></i>Safeguarding aligned</div>
-          <div class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-brand-accent-light"></i>End performance</div>
-        </div>
-
-        <div class="bg-brand-dark-bg/60 border border-brand-accent-dark/40 rounded-xl p-4 text-sm">
-          <p class="font-extrabold text-brand-text-light">Parents pay directly</p>
-          <p class="text-brand-text-mid mt-1 leading-relaxed">
-            Deposits reserve places, then the remaining balance is collected once bands are confirmed.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- KEY BENEFITS -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
-      <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal">
-        <i data-lucide="zap" class="w-6 h-6 text-brand-accent-light mb-3"></i>
-        <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Confidence & teamwork</h3>
-        <p class="text-xs sm:text-sm text-brand-text-mid leading-relaxed">
-          Children learn to listen, stay in time, and support each other like a real band.
-        </p>
-      </div>
-
-      <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-accent-light card-glow hover-lift reveal delayed-1">
-        <i data-lucide="book-open" class="w-6 h-6 text-brand-highlight mb-3"></i>
-        <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">Fast musical progress</h3>
-        <p class="text-xs sm:text-sm text-brand-text-mid leading-relaxed">
-          Small groups keep sessions focused and engaging so progress is obvious quickly.
-        </p>
-      </div>
-
-      <div class="bg-card-bg rounded-xl p-6 border-t-4 border-brand-highlight card-glow hover-lift reveal delayed-2">
-        <i data-lucide="volume-2" class="w-6 h-6 text-brand-highlight mb-3"></i>
-        <h3 class="font-semibold mb-2 text-brand-text-light text-sm sm:text-base">School-friendly setup</h3>
-        <p class="text-xs sm:text-sm text-brand-text-mid leading-relaxed">
-          All-electric instruments, controlled volume, tidy cable management and safe setup.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-        <h2 class="font-heading text-2xl font-bold text-brand-accent-light flex items-center">
-          <i data-lucide="calendar-days" class="w-6 h-6 mr-2 text-brand-highlight"></i>
-          How the programme runs
-        </h2>
-        <span class="text-xs text-brand-text-mid">Clear and simple</span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="space-y-4 text-sm text-brand-text-mid leading-relaxed">
-          <p><strong class="text-brand-text-light">Step 1:</strong> Parents register and pay a <strong class="text-brand-text-light">£10 deposit</strong>.</p>
-          <p><strong class="text-brand-text-light">Step 2:</strong> Bands are formed (minimum <strong class="text-brand-text-light">4</strong>, maximum <strong class="text-brand-text-light">5</strong>).</p>
-          <p><strong class="text-brand-text-light">Step 3:</strong> Weekly timings confirmed with school once numbers are known.</p>
-          <p><strong class="text-brand-text-light">Step 4:</strong> Remaining balance collected before Week 1 (deposit comes off the total).</p>
-          <p><strong class="text-brand-text-light">Step 5:</strong> 6 weeks of sessions, ending in a mini performance.</p>
-
-          <div class="mt-4 rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-4">
-            <p class="font-semibold text-brand-text-light mb-1">Instrument options</p>
-            <p>Guitar • Bass • Keyboard • Electronic Drums • Singing</p>
-          </div>
-        </div>
-
-        <div class="rounded-xl border border-brand-accent-dark/50 bg-brand-dark-bg/60 p-5">
-          <h3 class="font-heading text-lg font-bold text-brand-highlight flex items-center mb-3">
-            <i data-lucide="clock" class="w-5 h-5 mr-2 text-brand-accent-light"></i>
-            6-week timeline
-          </h3>
-          <ul class="space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li>• Week 1: Setup + first groove</li>
-            <li>• Week 2: Core parts + timing</li>
-            <li>• Week 3: Sections + transitions</li>
-            <li>• Week 4: Tighten band sound</li>
-            <li>• Week 5: Performance practice</li>
-            <li>• Week 6: Mini showcase</li>
-          </ul>
-
-          <div class="mt-5 border-t border-brand-accent-dark/40 pt-4">
-            <h4 class="font-semibold text-brand-text-light">Pricing</h4>
-            <p class="text-sm text-brand-text-mid mt-1">£15 per child per session • £90 per child per 6-week block</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- RESPONSIBILITIES -->
-  <section id="responsibilities" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-        <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-          <i data-lucide="users" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-          What the school provides vs what Elliot provides
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-lg font-bold text-brand-text-light">School provides</h3>
-          <ul class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li>• A suitable room (quiet space if possible)</li>
-            <li>• A point of contact for timings / rota</li>
-            <li>• Announcement to parents + passing enquiries to Elliot</li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-lg font-bold text-brand-text-light">Elliot provides</h3>
-          <ul class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li>• All-electric instruments + safe setup (cables / tape)</li>
-            <li>• Volume controlled (school-friendly)</li>
-            <li>• Parent communication + payments</li>
-            <li>• Teaching, planning, progress tracking</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SAFEGUARDING -->
-  <section id="safeguarding" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-        <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-          <i data-lucide="shield" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-          Safeguarding & safety
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-base font-bold text-brand-text-light">School procedure</h3>
-          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
-            Sessions take place on school premises and follow the school’s safeguarding expectations.
-            Any concerns are reported via the school DSL / deputy DSL process.
-          </p>
-        </div>
-
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-base font-bold text-brand-text-light">Equipment safety</h3>
-          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
-            All-electric instruments with controlled volume. Cables are routed safely; if a cable crosses a walkway it is taped down.
-          </p>
-        </div>
-
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-base font-bold text-brand-text-light">Professional approach</h3>
-          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">
-            Calm structure, clear expectations, and a supportive environment that builds confidence and teamwork.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGISTER (GATE -> REDIRECT) -->
-  <section id="register" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-        <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-          <i data-lucide="mail" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-          Register Interest (Deposit)
-        </h2>
-        <span class="text-xs text-brand-text-mid">Parents only</span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-lg font-bold text-brand-text-light">Important notice</h3>
-          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-            Please only continue if you have been <strong class="text-brand-text-light">directed here by your school</strong>.
-            A <strong class="text-brand-text-light">£10 deposit</strong> reserves a place while bands and timings are confirmed.
-          </p>
-
-          <label class="mt-5 flex items-start gap-3 text-sm text-brand-text-light leading-relaxed">
-            <input id="invite-check" type="checkbox" class="mt-1.5 accent-[#00d084]" />
-            <span>I confirm I have been sent here by my child’s school to register interest for the School Band Programme.</span>
-          </label>
-
-          <button id="continue-btn" disabled
-            class="mt-5 w-full px-4 py-3 rounded-lg font-bold text-brand-dark-bg bg-brand-accent-light
-                   hover:bg-brand-accent-dark transition opacity-50 cursor-not-allowed">
-            Continue to secure registration page →
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-brand-text-mid hover:text-white hover:bg-brand-accent-dark/70 focus:outline-none focus:ring-2 focus:ring-brand-accent-light" aria-controls="mobile-menu" aria-expanded="false">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
+        </div>
+      </div>
+    </div>
 
-          <p class="text-xs text-brand-text-mid mt-4 leading-relaxed">
-            Deposit comes off the total cost. Refunded if no suitable place/time can be offered.
-          </p>
+    <div class="md:hidden hidden border-t border-brand-accent-dark/30 bg-brand-dark-bg/95" id="mobile-menu">
+      <div class="pt-2 pb-3 space-y-1 px-4 text-sm">
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">HOME</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRICING</a>
+        <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">PRIVATE LESSONS</a>
+        <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">BAND NIGHT</a>
+        <a href="school-band-programme.html" class="block rounded-md bg-brand-accent-dark/70 text-white px-3 py-2 font-medium">SCHOOL BANDS</a>
+        <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">MAKE A SONG</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/60 hover:text-white px-3 py-2 font-medium transition-colors duration-200">CONTACT</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="flex-grow pt-16">
+    <section id="hero-section" class="relative overflow-hidden">
+      <div class="hero-backdrop"></div>
+      <div class="hero-orb one"></div>
+      <div class="hero-orb two"></div>
+
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-18 lg:pt-24 pb-14 sm:pb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 items-start">
+          <div class="reveal">
+            <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight uppercase mb-4">Primary School Band Programme</p>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight text-white">
+              Real bands.<br>
+              <span class="text-brand-accent-light">Real progress.</span>
+            </h1>
+            <p class="mt-5 text-base sm:text-lg text-brand-text-mid max-w-2xl leading-relaxed">
+              A small-group programme where children learn <strong class="text-white">as a band</strong>. All-electric equipment, volume-controlled setup, and a clear weekly structure that helps schools deliver something exciting, polished and manageable.
+            </p>
+
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="#register" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-brand-accent-light text-brand-dark-bg text-sm font-bold shadow-lg shadow-brand-accent-light/25 hover:bg-brand-accent-dark transition hover-lift">
+                Register interest
+                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+              </a>
+              <a href="contact.html" class="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-brand-highlight text-brand-highlight text-sm font-bold hover:bg-brand-highlight/10 transition hover-lift">
+                Contact Elliot
+              </a>
+            </div>
+
+            <div class="mt-7 flex flex-wrap gap-3 text-sm">
+              <span class="pill"><i data-lucide="users" class="w-4 h-4 text-brand-accent-light"></i> Typical band size: 4–5</span>
+              <span class="pill"><i data-lucide="clock3" class="w-4 h-4 text-brand-highlight"></i> 30 minutes weekly</span>
+              <span class="pill"><i data-lucide="calendar-days" class="w-4 h-4 text-brand-accent-light"></i> 6-week structure</span>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal delayed-1 hover-lift">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-brand-accent-light/12 border border-brand-accent-light/40 flex items-center justify-center shrink-0">
+                <i data-lucide="school" class="w-6 h-6 text-brand-accent-light"></i>
+              </div>
+              <div>
+                <p class="text-xs tracking-[0.22em] uppercase text-brand-highlight font-semibold mb-1">At a glance</p>
+                <h2 class="font-heading text-2xl font-extrabold text-white">Built for schools</h2>
+                <p class="text-sm text-brand-text-mid mt-2 leading-relaxed">A calm, school-friendly music offer that feels exciting for pupils and straightforward for staff.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-3 text-sm">
+              <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+                <p class="text-brand-text-mid">Model</p>
+                <p class="text-white font-semibold mt-1">Parent-paid</p>
+              </div>
+              <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+                <p class="text-brand-text-mid">Minimum</p>
+                <p class="text-white font-semibold mt-1">3 to run</p>
+              </div>
+              <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+                <p class="text-brand-text-mid">Instruments</p>
+                <p class="text-white font-semibold mt-1">Guitar, bass, keys, drums, vocals</p>
+              </div>
+              <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+                <p class="text-brand-text-mid">Outcome</p>
+                <p class="text-white font-semibold mt-1">Mini showcase</p>
+              </div>
+            </div>
+
+            <div class="mt-5 rounded-2xl bg-brand-dark-bg/60 border border-brand-accent-dark/40 p-4 text-sm text-brand-text-mid leading-relaxed">
+              <p class="font-semibold text-white mb-1">What schools can expect</p>
+              Clear weekly delivery, safe equipment handling, and a structured route from first session to performance.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal hover-lift">
+          <i data-lucide="zap" class="w-6 h-6 text-brand-accent-light mb-4"></i>
+          <h3 class="text-lg font-bold text-white">Confidence & teamwork</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Children listen, stay in time, and build confidence by making music together instead of learning in isolation.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-1 hover-lift">
+          <i data-lucide="book-open" class="w-6 h-6 text-brand-highlight mb-4"></i>
+          <h3 class="text-lg font-bold text-white">Fast, visible progress</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Small groups and carefully chosen parts help pupils make progress quickly while keeping sessions fun and manageable.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-2 hover-lift">
+          <i data-lucide="shield" class="w-6 h-6 text-brand-accent-light mb-4"></i>
+          <h3 class="text-lg font-bold text-white">School-friendly delivery</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">All-electric setup, controlled volume, tidy equipment management, and clear communication around timing, spaces and expectations.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="mb-8 reveal">
+        <p class="text-xs tracking-[0.26em] text-brand-highlight uppercase font-semibold">How it works</p>
+        <h2 class="section-accent font-heading text-3xl sm:text-4xl font-extrabold text-white mt-2">Clear delivery from first enquiry to showcase</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal hover-lift">
+          <div class="step-badge">1</div>
+          <h3 class="mt-4 text-lg font-bold text-white">Parents register</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Families are invited to register interest and pay a £10 deposit to hold a potential place.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-1 hover-lift">
+          <div class="step-badge">2</div>
+          <h3 class="mt-4 text-lg font-bold text-white">Bands are formed</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Bands are organised by numbers and fit, with a usual target of 4–5 pupils and a minimum of 3 to run.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-2 hover-lift">
+          <div class="step-badge">3</div>
+          <h3 class="mt-4 text-lg font-bold text-white">School timings are confirmed</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Once numbers are known, final weekly timings and rooming are confirmed directly with the school.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-3 hover-lift">
+          <div class="step-badge">4</div>
+          <h3 class="mt-4 text-lg font-bold text-white">Pupils rehearse and perform</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Pupils work through a structured 6-week block that ends with an informal mini showcase or performance moment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_0.95fr] gap-6 items-start">
+        <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal">
+          <div class="flex items-center gap-3 mb-5">
+            <i data-lucide="clipboard-check" class="w-6 h-6 text-brand-accent-light"></i>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white">What the 6 weeks look like</h2>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 1</strong><p class="mt-1 text-brand-text-mid">Setup, roles, first groove and band rules.</p></div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 2</strong><p class="mt-1 text-brand-text-mid">Core parts, timing and confidence with instruments.</p></div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 3</strong><p class="mt-1 text-brand-text-mid">Sections, transitions and playing together more tightly.</p></div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 4</strong><p class="mt-1 text-brand-text-mid">Band balance, listening and musical polish.</p></div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 5</strong><p class="mt-1 text-brand-text-mid">Performance practice and confidence building.</p></div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4"><strong class="text-white">Week 6</strong><p class="mt-1 text-brand-text-mid">Mini showcase and clear next-step options.</p></div>
+          </div>
         </div>
 
-        <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-6">
-          <h3 class="font-heading text-lg font-bold text-brand-text-light">Quick info</h3>
-          <ul class="mt-3 space-y-2 text-sm text-brand-text-mid leading-relaxed">
-            <li>• Minimum <strong class="text-brand-text-light">3</strong> children to run a band (max 5)</li>
-            <li>• £15 per session • £90 per 6-week block</li>
-            <li>• Instruments provided (all-electric)</li>
-            <li>• End-of-block mini performance</li>
+        <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal delayed-1 hover-lift">
+          <p class="text-xs tracking-[0.26em] uppercase text-brand-highlight font-semibold">Pricing</p>
+          <h2 class="mt-2 font-heading text-2xl sm:text-3xl font-extrabold text-white">Parent-paid and simple to follow</h2>
+          <div class="mt-6 space-y-4 text-sm">
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+              <p class="text-brand-text-mid">Per child</p>
+              <p class="text-2xl font-extrabold text-white mt-1">£15 <span class="text-sm font-semibold text-brand-text-mid">per session</span></p>
+            </div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4">
+              <p class="text-brand-text-mid">Typical 6-week block</p>
+              <p class="text-2xl font-extrabold text-white mt-1">£90 <span class="text-sm font-semibold text-brand-text-mid">per child</span></p>
+            </div>
+            <div class="rounded-2xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-4 text-brand-text-mid leading-relaxed">
+              A £10 deposit is used to reserve interest while bands and timings are confirmed. The deposit comes off the full total.
+            </div>
+          </div>
+          <a href="#register" class="mt-6 inline-flex items-center text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Go to registration section <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="responsibilities" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="mb-8 reveal">
+        <p class="text-xs tracking-[0.26em] text-brand-highlight uppercase font-semibold">Delivery setup</p>
+        <h2 class="section-accent font-heading text-3xl sm:text-4xl font-extrabold text-white mt-2">What schools provide vs what Elliot provides</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal hover-lift">
+          <h3 class="font-heading text-2xl font-bold text-white">School provides</h3>
+          <ul class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+            <li>• A suitable room or safe working space during the agreed slot</li>
+            <li>• Normal school safeguarding and supervision arrangements on site</li>
+            <li>• Help with sharing registration information to families</li>
+            <li>• Support with final pupil lists and timetable confirmation</li>
           </ul>
+        </div>
+        <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-7 reveal delayed-1 hover-lift">
+          <h3 class="font-heading text-2xl font-bold text-white">Elliot provides</h3>
+          <ul class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+            <li>• All-electric instruments and core equipment for delivery</li>
+            <li>• Planning, session delivery and band-building structure</li>
+            <li>• Calm, confidence-building teaching and progress focus</li>
+            <li>• Safe setup, tidy cable management and end-of-block performance direction</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-          <div class="mt-5 flex flex-wrap gap-3">
-            <a href="contact.html"
-               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transition hover-lift">
-              Contact Elliot
-            </a>
-            <a href="tel:07368975144"
-               class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-brand-accent-light text-brand-accent-light text-sm font-semibold hover:bg-brand-accent-light/10 transition hover-lift">
-              Call now
-            </a>
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal hover-lift">
+          <i data-lucide="shield" class="w-6 h-6 text-brand-accent-light mb-4"></i>
+          <h3 class="text-lg font-bold text-white">Safeguarding aligned</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Sessions run on school premises and fit around the school’s safeguarding procedures and routines.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-1 hover-lift">
+          <i data-lucide="volume-2" class="w-6 h-6 text-brand-highlight mb-4"></i>
+          <h3 class="text-lg font-bold text-white">Controlled setup</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">All-electric equipment keeps volume manageable, while setup and cable routes are kept tidy and safe.</p>
+        </div>
+        <div class="glass-panel rounded-2xl soft-border card-glow p-6 reveal delayed-2 hover-lift">
+          <i data-lucide="check-circle-2" class="w-6 h-6 text-brand-accent-light mb-4"></i>
+          <h3 class="text-lg font-bold text-white">Professional delivery</h3>
+          <p class="mt-2 text-sm text-brand-text-mid leading-relaxed">Clear communication, reliable structure, and a polished first impression for staff, parents and pupils.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-8 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 items-start">
+          <div>
+            <p class="text-xs tracking-[0.26em] uppercase text-brand-highlight font-semibold">Register interest</p>
+            <h2 class="mt-2 font-heading text-3xl sm:text-4xl font-extrabold text-white">Ready to secure a place?</h2>
+            <p class="mt-4 text-sm sm:text-base text-brand-text-mid leading-relaxed max-w-2xl">
+              This page is for families whose school has already shared the School Band Programme link. A <strong class="text-white">£10 deposit</strong> reserves interest while bands and timings are confirmed.
+            </p>
+            <label class="mt-6 flex items-start gap-3 text-sm text-brand-text-light leading-relaxed">
+              <input id="invite-check" type="checkbox" class="mt-1.5 accent-[#00d084]" />
+              <span>I confirm that my child’s school has directed me here to register interest for the School Band Programme.</span>
+            </label>
+            <button id="continue-btn" disabled class="mt-5 inline-flex items-center justify-center px-5 py-3 rounded-xl font-bold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark transition opacity-50 cursor-not-allowed">
+              Continue to secure registration page
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+            </button>
+            <p class="mt-4 text-xs text-brand-text-mid leading-relaxed">Deposit comes off the total cost and is refunded if no suitable place or time can be offered.</p>
+          </div>
+          <div class="rounded-3xl bg-brand-dark-bg/55 border border-brand-accent-dark/35 p-6">
+            <h3 class="font-heading text-2xl font-bold text-white">Quick info</h3>
+            <ul class="mt-4 space-y-3 text-sm text-brand-text-mid leading-relaxed">
+              <li>• Typical bands are <strong class="text-white">4–5 pupils</strong></li>
+              <li>• Minimum <strong class="text-white">3 pupils</strong> to run</li>
+              <li>• <strong class="text-white">£15 per child per session</strong></li>
+              <li>• Standard block is <strong class="text-white">6 weeks</strong></li>
+              <li>• All-electric instruments are provided</li>
+              <li>• Sessions finish with an informal mini showcase</li>
+            </ul>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="contact.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10 transition hover-lift">Contact Elliot</a>
+              <a href="school-band-register.html" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-brand-accent-light text-brand-accent-light text-sm font-semibold hover:bg-brand-accent-light/10 transition hover-lift">Open registration page</a>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex items-center justify-between flex-wrap gap-3 border-b border-brand-accent-dark/40 pb-4 mb-6">
-        <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-          <i data-lucide="book-open" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-          FAQ
-        </h2>
-        <span class="text-xs text-brand-text-mid">For schools & parents</span>
+    <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="mb-8 reveal">
+        <p class="text-xs tracking-[0.26em] text-brand-highlight uppercase font-semibold">FAQ</p>
+        <h2 class="section-accent font-heading text-3xl sm:text-4xl font-extrabold text-white mt-2">Common questions from schools and families</h2>
       </div>
-
-      <div class="space-y-3">
-        <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/40 p-5">
-          <summary class="cursor-pointer text-brand-text-light font-semibold flex items-center justify-between">
-            Does my child need experience?
-            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
-          </summary>
-          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-            No — it’s beginner-friendly. Children learn simple parts that work together.
-          </p>
+      <div class="space-y-3 reveal">
+        <details class="faq-item rounded-2xl border border-brand-accent-dark/40 bg-brand-dark-bg/35 p-5 transition-colors">
+          <summary class="cursor-pointer text-white font-semibold flex items-center justify-between">Does a child need experience?<i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i></summary>
+          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">No. The programme is designed to feel beginner-friendly while still sounding exciting and band-like very quickly.</p>
         </details>
-
-        <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/40 p-5">
-          <summary class="cursor-pointer text-brand-text-light font-semibold flex items-center justify-between">
-            What instruments are available?
-            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
-          </summary>
-          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-            Guitar, bass, keyboard, electronic drums, and singing. All-electric equipment is provided for sessions.
-          </p>
+        <details class="faq-item rounded-2xl border border-brand-accent-dark/40 bg-brand-dark-bg/35 p-5 transition-colors">
+          <summary class="cursor-pointer text-white font-semibold flex items-center justify-between">What instruments are included?<i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i></summary>
+          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">Guitar, bass, keyboard, electronic drums and vocals. The setup is all-electric and designed to stay manageable in a school environment.</p>
         </details>
-
-        <details class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/40 p-5">
-          <summary class="cursor-pointer text-brand-text-light font-semibold flex items-center justify-between">
-            What if there aren’t enough children?
-            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i>
-          </summary>
-          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">
-            Minimum is <strong class="text-brand-text-light">3</strong>. If numbers are too low, an alternative option or refund can be offered.
-          </p>
+        <details class="faq-item rounded-2xl border border-brand-accent-dark/40 bg-brand-dark-bg/35 p-5 transition-colors">
+          <summary class="cursor-pointer text-white font-semibold flex items-center justify-between">What happens if numbers are too low?<i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i></summary>
+          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">The minimum is 3 pupils. If a viable band cannot be formed, an alternative option or refund can be offered.</p>
+        </details>
+        <details class="faq-item rounded-2xl border border-brand-accent-dark/40 bg-brand-dark-bg/35 p-5 transition-colors">
+          <summary class="cursor-pointer text-white font-semibold flex items-center justify-between">Who confirms final timings?<i data-lucide="chevron-down" class="w-4 h-4 text-brand-text-mid"></i></summary>
+          <p class="mt-3 text-sm text-brand-text-mid leading-relaxed">Final weekly timings and room arrangements are confirmed directly with the school once numbers are known.</p>
         </details>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Q&A ASSISTANT -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-    <div class="bg-card-bg rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-brand-accent-dark/40 pb-4 mb-5">
-        <div>
-          <h2 class="font-heading text-2xl font-bold text-brand-highlight flex items-center">
-            <i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>
-            School Band Q&amp;A Assistant
-          </h2>
-          <p class="text-xs sm:text-sm text-brand-text-mid mt-2 max-w-xl leading-relaxed">
-            Ask about pricing, deposits, equipment, minimum numbers, or how the programme runs.
-          </p>
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 sm:pb-28">
+      <div class="glass-panel rounded-3xl soft-border card-glow p-6 sm:p-8 reveal">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-accent-dark/40 pb-5 mb-5">
+          <div>
+            <p class="text-xs tracking-[0.26em] uppercase text-brand-highlight font-semibold">Assistant</p>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white mt-2 flex items-center"><i data-lucide="message-square" class="w-6 h-6 mr-2 text-brand-accent-light"></i>School Band Q&amp;A</h2>
+            <p class="text-sm text-brand-text-mid mt-2">Ask about pricing, deposits, group size, instruments or how the programme runs.</p>
+          </div>
+          <button id="clear-chat" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition">Clear chat</button>
         </div>
-        <a href="contact.html" class="text-sm font-semibold text-brand-highlight hover:text-brand-accent-light transition hover-lift">
-          Contact Elliot
-        </a>
-      </div>
 
-      <div id="chat-box" class="h-[22rem] md:h-80 overflow-y-auto p-4 mb-4 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/50 space-y-3" role="log" aria-live="polite">
-        <div class="flex justify-start initial-message">
-          <div class="max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">
-            Hi! Ask me anything about the School Band Programme (costs, deposits, timings, instruments, safeguarding).
+        <div class="flex flex-wrap gap-2 mb-4">
+          <button class="quick-question px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-xs sm:text-sm text-brand-text-mid hover:text-white hover:border-brand-accent-light/45 transition" data-question="How much does the School Band Programme cost?">Pricing</button>
+          <button class="quick-question px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-xs sm:text-sm text-brand-text-mid hover:text-white hover:border-brand-accent-light/45 transition" data-question="What instruments are included?">Instruments</button>
+          <button class="quick-question px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-xs sm:text-sm text-brand-text-mid hover:text-white hover:border-brand-accent-light/45 transition" data-question="How does registration work?">Registration</button>
+          <button class="quick-question px-3 py-2 rounded-full border border-brand-accent-dark/40 bg-brand-dark-bg/55 text-xs sm:text-sm text-brand-text-mid hover:text-white hover:border-brand-accent-light/45 transition" data-question="What if there are not enough pupils?">Minimum numbers</button>
+        </div>
+
+        <div id="chat-box" class="h-[22rem] overflow-y-auto p-4 mb-4 rounded-2xl bg-brand-dark-bg/65 border border-brand-accent-dark/45 space-y-3" role="log" aria-live="polite">
+          <div class="flex justify-start initial-message">
+            <div class="max-w-[78%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">
+              Hi — I can help with <strong>pricing</strong>, <strong>deposits</strong>, <strong>instruments</strong>, <strong>group size</strong> and how the programme runs.
+            </div>
+          </div>
+          <div id="loading-indicator" class="hidden flex justify-start">
+            <div class="bg-brand-accent-light/15 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm">Thinking…</div>
           </div>
         </div>
 
-        <div id="loading-indicator" class="hidden flex justify-start">
-          <div class="max-w-[75%] bg-brand-highlight/20 text-brand-highlight p-3 rounded-xl rounded-tl-none text-sm shadow flex items-center space-x-2">
-            <span class="text-sm">Typing</span>
-            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-1"></span>
-            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-2"></span>
-            <span class="w-2 h-2 bg-brand-highlight rounded-full dot-3"></span>
-          </div>
-        </div>
+        <form id="chat-form" class="flex flex-col sm:flex-row gap-3">
+          <input id="chat-input" type="text" placeholder="Ask about pricing, deposits, instruments or timings…" class="flex-grow rounded-xl border border-brand-accent-dark/45 bg-brand-dark-bg/60 px-4 py-3 text-sm text-brand-text-light placeholder:text-brand-text-mid/70 focus:outline-none focus:ring-2 focus:ring-brand-accent-light/35" />
+          <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-brand-accent-light text-brand-dark-bg px-5 py-3 text-sm font-bold hover:bg-brand-accent-dark transition hover-lift"><i data-lucide="send" class="w-4 h-4 mr-2"></i>Send</button>
+        </form>
       </div>
+    </section>
+  </main>
 
-      <form id="chat-form" class="flex gap-2">
-        <input id="chat-input" type="text" placeholder="Type a question…"
-          class="flex-grow p-3 rounded-lg bg-brand-dark-bg border border-brand-text-mid/50 focus:outline-none text-brand-text-light text-sm focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40"
-          autocomplete="off">
-        <button type="submit" id="send-button"
-          class="bg-brand-highlight text-brand-dark-bg px-3 rounded-lg font-semibold hover:bg-brand-highlight/80 transition flex items-center justify-center w-11 h-11"
-          aria-label="Send message">
-          <i data-lucide="send" class="w-5 h-5"></i>
-        </button>
-      </form>
+  <div id="sticky-cta">
+    <a href="#register" class="inline-flex items-center justify-center px-4 py-3 rounded-full text-sm font-bold text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/30 transition">Register interest</a>
+  </div>
 
-      <p class="text-xs text-brand-text-mid mt-3 leading-relaxed">
-        Note: This assistant gives quick guidance based on programme details. For anything school-specific (exact timings/dates), contact Elliot directly.
+  <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">DBS checked &amp; insured. School Band Programme delivery, timetabling and school-specific logistics are confirmed during setup.</p>
+      <p class="mt-2">
+        <a href="privacy.html" class="underline hover:text-white">Privacy</a>
+        <span class="mx-2">•</span>
+        <a href="cookies.html" class="underline hover:text-white">Cookies</a>
       </p>
     </div>
-  </section>
+  </footer>
 
-</main>
+  <script>
+    document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
 
-<!-- STICKY CTA (same id + behavior style as index) -->
-<a href="#register" id="sticky-cta"
-   class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/40 transition">
-  <i data-lucide="mail" class="w-4 h-4 mr-1"></i> Register Interest (Deposit)
-</a>
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('site-nav');
+      if (!nav) return;
+      nav.classList.toggle('nav-scrolled', window.scrollY > 8);
+    });
 
-<footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
-  <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
-    <p>&copy; 2026 Elliot Wardill Mobile Music Lessons. All rights reserved.</p>
-    <p class="mt-1 text-gray-500">
-      DBS Checked &amp; Insured. Programme details are confirmed with schools during setup.
-    </p>
-
-    <!-- ADD THIS -->
-    <p class="mt-2">
-      <a href="privacy.html" class="underline hover:text-white">Privacy</a>
-      <span class="mx-2">•</span>
-      <a href="cookies.html" class="underline hover:text-white">Cookies</a>
-    </p>
-  </div>
-</footer>
-
-<!-- JS (same patterns: mobile menu, sticky CTA observer, reveal, gate, assistant) -->
-<script>
-  // Mobile menu toggle
-  document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
-    document.getElementById('mobile-menu')?.classList.toggle('hidden');
-  });
-
-  // Sticky CTA visibility (same as index pattern)
-  const stickyCta = document.getElementById('sticky-cta');
-  const heroSection = document.getElementById('hero-section');
-  if (stickyCta && heroSection) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) stickyCta.classList.remove('show');
-        else stickyCta.classList.add('show');
-      },
-      { rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
-    );
-    observer.observe(heroSection);
-  }
-
-  // Scroll reveal
-  const revealElements = document.querySelectorAll('.reveal');
-  if (revealElements.length) {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
+            observer.unobserve(entry.target);
           }
         });
-      },
-      { threshold: 0.15 }
-    );
-    revealElements.forEach(el => revealObserver.observe(el));
-  }
-
-  // Gate -> redirect to form page (secure-ish for static)
-  (function () {
-    const check = document.getElementById("invite-check");
-    const btn = document.getElementById("continue-btn");
-    if (!check || !btn) return;
-
-    function sync() {
-      const ok = !!check.checked;
-      btn.disabled = !ok;
-      btn.classList.toggle("opacity-50", !ok);
-      btn.classList.toggle("cursor-not-allowed", !ok);
+      }, { threshold: 0.12 });
+      revealElements.forEach(el => revealObserver.observe(el));
     }
-    check.addEventListener("change", sync);
-    sync();
 
-    btn.addEventListener("click", () => {
-      try {
-        localStorage.setItem("emm_school_band_invite", JSON.stringify({ ok: true, ts: Date.now(), v: 1 }));
-      } catch (e) {}
-      window.location.href = "./school-band-register.html?verified=1";
-    });
-  })();
-
-  // Simple Q&A assistant (keeps your “AI chatbot” feel on static hosting)
-  const knowledgeBase = `
-Programme summary:
-- In-school band sessions for primary schools (small groups).
-- 4-5 children per band. 30 minutes weekly.
-- 6-week block (termly).
-- All-electric instruments provided: keyboard, electric guitar, electric bass, electronic drums + singing option.
-- Volume controlled. Cables routed safely; any cable crossing a walkway is taped down.
-
-Pricing:
-- £15 per child per session
-- £90 per child for a 6-week block
-- Minimum 3 to run; up to 5 per band.
-
-Deposits:
-- £10 deposit to reserve a place while groups are confirmed.
-- Deposit comes off total cost.
-- Refunded if no suitable place/time can be offered.
-- May be non-refundable if parent cancels after a place/time is offered.
-`;
-
-  const chatForm = document.getElementById("chat-form");
-  const chatInput = document.getElementById("chat-input");
-  const chatBox = document.getElementById("chat-box");
-  const loadingIndicator = document.getElementById("loading-indicator");
-
-  function appendMessage(sender, text) {
-    const wrap = document.createElement("div");
-    wrap.className = sender === "user" ? "flex justify-end" : "flex justify-start";
-    const bubble = document.createElement("div");
-    bubble.className =
-      sender === "user"
-        ? "max-w-[75%] bg-brand-highlight text-brand-dark-bg p-3 rounded-xl rounded-tr-none text-sm shadow leading-relaxed"
-        : "max-w-[75%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed";
-    bubble.textContent = text;
-    wrap.appendChild(bubble);
-    chatBox.insertBefore(wrap, loadingIndicator);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-
-  function answer(q) {
-    const s = q.toLowerCase();
-    if (s.includes("price") || s.includes("cost") || s.includes("£") || s.includes("how much")) {
-      return "It’s £15 per child per session, or £90 per child for a 6-week block. A £10 deposit reserves the place and comes off the total.";
+    const stickyCta = document.getElementById('sticky-cta');
+    const heroSection = document.getElementById('hero-section');
+    if (stickyCta && heroSection) {
+      const observer = new IntersectionObserver(([entry]) => {
+        stickyCta.classList.toggle('show', !entry.isIntersecting);
+      }, { rootMargin: '0px 0px -70% 0px', threshold: 0.1 });
+      observer.observe(heroSection);
     }
-    if (s.includes("deposit")) {
-      return "Deposit is £10 to reserve a place while bands/times are confirmed. It comes off the total and is refunded if no suitable place/time can be offered.";
-    }
-    if (s.includes("instrument") || s.includes("guitar") || s.includes("drums") || s.includes("keyboard") || s.includes("bass") || s.includes("sing")) {
-      return "Instrument options: guitar, bass, keyboard, electronic drums, and singing. All-electric equipment is provided.";
-    }
-    if (s.includes("how") || s.includes("works") || s.includes("run") || s.includes("structure")) {
-      return "Parents register + pay deposit, bands are formed (min 3 max 4), times are confirmed with the school, then 6 weekly sessions ending in a mini performance.";
-    }
-    if (s.includes("minimum") || s.includes("enough") || s.includes("numbers")) {
-      return "Minimum is 3 children to run a band, maximum is 5. If numbers are too low, an alternative option or refund can be offered.";
-    }
-    if (s.includes("safeguard") || s.includes("safety") || s.includes("dbs")) {
-      return "Sessions run on school premises following school safeguarding expectations. Equipment is all-electric, volume controlled, and cables are managed safely (taped if crossing walkways).";
-    }
-    return "I can help with that — ask about pricing, deposits, instruments, minimum numbers, timings, or safeguarding.";
-  }
 
-  if (chatForm && chatInput && chatBox && loadingIndicator) {
-    chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = (chatInput.value || "").trim();
-      if (!q) return;
+    (function () {
+      const check = document.getElementById('invite-check');
+      const btn = document.getElementById('continue-btn');
+      if (!check || !btn) return;
+      const sync = () => {
+        const ok = !!check.checked;
+        btn.disabled = !ok;
+        btn.classList.toggle('opacity-50', !ok);
+        btn.classList.toggle('cursor-not-allowed', !ok);
+      };
+      check.addEventListener('change', sync);
+      sync();
+      btn.addEventListener('click', () => {
+        try {
+          localStorage.setItem('emm_school_band_invite', JSON.stringify({ ok: true, ts: Date.now(), v: 1 }));
+        } catch (e) {}
+        window.location.href = './school-band-register.html?verified=1';
+      });
+    })();
 
-      const initial = chatBox.querySelector(".initial-message");
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatBox = document.getElementById('chat-box');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const clearChatBtn = document.getElementById('clear-chat');
+
+    function appendMessage(sender, text) {
+      const wrap = document.createElement('div');
+      wrap.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
+      const bubble = document.createElement('div');
+      bubble.className = sender === 'user'
+        ? 'max-w-[78%] bg-brand-highlight text-brand-dark-bg p-3 rounded-xl rounded-tr-none text-sm shadow leading-relaxed whitespace-pre-wrap'
+        : 'max-w-[78%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed whitespace-pre-wrap';
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      chatBox.insertBefore(wrap, loadingIndicator);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function answer(question) {
+      const q = question.toLowerCase();
+      if (q.includes('price') || q.includes('cost') || q.includes('how much') || q.includes('£')) {
+        return 'The programme is £15 per child per session. A standard 6-week block usually works out at £90 per child, and a £10 deposit is used to reserve interest while groups and timings are confirmed.';
+      }
+      if (q.includes('deposit') || q.includes('register')) {
+        return 'Families register interest and pay a £10 deposit. That deposit comes off the final total and is refunded if no suitable place or timing can be offered.';
+      }
+      if (q.includes('instrument') || q.includes('guitar') || q.includes('bass') || q.includes('drum') || q.includes('keyboard') || q.includes('vocal') || q.includes('sing')) {
+        return 'Instrument options include guitar, bass, keyboard, electronic drums and vocals. The setup is all-electric and designed to stay manageable in a school setting.';
+      }
+      if (q.includes('minimum') || q.includes('enough') || q.includes('numbers') || q.includes('group size')) {
+        return 'Typical bands are 4–5 pupils. The minimum is 3 pupils to run a band.';
+      }
+      if (q.includes('how') || q.includes('works') || q.includes('run') || q.includes('timeline') || q.includes('weeks')) {
+        return 'Families register, bands are formed, final timings are confirmed with the school, then pupils take part in a structured 6-week block ending in an informal showcase or performance moment.';
+      }
+      if (q.includes('safe') || q.includes('safeguard') || q.includes('dbs')) {
+        return 'Delivery takes place on school premises and fits around the school’s safeguarding arrangements. Equipment is all-electric, volume-controlled and set up carefully.';
+      }
+      return 'I can help with pricing, deposits, instruments, timings, minimum numbers and how the programme runs.';
+    }
+
+    function runQuestion(text) {
+      const initial = chatBox.querySelector('.initial-message');
       if (initial) initial.remove();
-
-      appendMessage("user", q);
-
-      loadingIndicator.classList.remove("hidden");
+      appendMessage('user', text);
+      loadingIndicator.classList.remove('hidden');
       setTimeout(() => {
-        loadingIndicator.classList.add("hidden");
-        appendMessage("bot", answer(q));
-        chatInput.value = "";
-      }, 550);
-    });
-  }
-</script>
+        loadingIndicator.classList.add('hidden');
+        appendMessage('bot', answer(text));
+      }, 350);
+    }
 
+    chatForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      runQuestion(text);
+      chatInput.value = '';
+    });
+
+    document.querySelectorAll('.quick-question').forEach(btn => {
+      btn.addEventListener('click', () => runQuestion(btn.dataset.question || btn.textContent.trim()));
+    });
+
+    clearChatBtn?.addEventListener('click', () => {
+      [...chatBox.querySelectorAll(':scope > div')].forEach((node) => {
+        if (node.id !== 'loading-indicator') node.remove();
+      });
+      const initial = document.createElement('div');
+      initial.className = 'flex justify-start initial-message';
+      initial.innerHTML = '<div class="max-w-[78%] bg-brand-accent-light/20 text-brand-text-light p-3 rounded-xl rounded-tl-none text-sm shadow leading-relaxed">Hi — I can help with <strong>pricing</strong>, <strong>deposits</strong>, <strong>instruments</strong>, <strong>group size</strong> and how the programme runs.</div>';
+      chatBox.insertBefore(initial, loadingIndicator);
+    });
+  </script>
 </body>
 </html>
