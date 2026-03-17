@@ -5,12 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Private Music Lessons | Elliot's Mobile Music</title>
-  <meta name="description" content="Private mobile music lessons in drums, bass, guitar, piano and singing across Pudsey, West Leeds and surrounding areas.">
+  <meta name="description" content="Detailed private music lessons in drums, bass, guitar, piano and singing across Pudsey, West Leeds and surrounding areas, with clear pricing, travel, lesson structure and policies.">
+  <meta name="format-detection" content="telephone=no">
+  <meta property="og:title" content="Private Music Lessons | Elliot's Mobile Music">
+  <meta property="og:description" content="Home music lessons in drums, bass, guitar, piano and singing, with clear pricing, travel, lesson structure and supportive delivery.">
+  <meta property="og:type" content="website">
   <link rel="icon" href="./favicon.png" type="image/png">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -36,107 +42,547 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap');
+
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #1a1a2e;
+      background-image:
+        radial-gradient(1100px 760px at 88% 8%, rgba(255,183,3,0.08), transparent 60%),
+        radial-gradient(980px 720px at 10% 14%, rgba(0,208,132,0.08), transparent 58%),
+        radial-gradient(900px 760px at 14% 86%, rgba(0,208,132,0.05), transparent 62%),
+        linear-gradient(180deg, #1e1f33 0%, #1a1b2d 42%, #171824 74%, #151621 100%);
+      background-attachment: scroll;
+      background-repeat: no-repeat;
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
       position: relative;
       min-height: 100vh;
+      overflow-x: hidden;
       color: #e0e0e0;
     }
-    body::before {
+    body::before { content: none; }
+    body::after {
       content: "";
-      position: fixed;
+      position: absolute;
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 85% 8%, rgba(255,183,3,0.10), transparent 24%),
-        radial-gradient(circle at 12% 78%, rgba(0,208,132,0.10), transparent 24%),
-        radial-gradient(circle at 50% -12%, rgba(0,208,132,0.08), transparent 30%),
-        linear-gradient(180deg, #252538 0%, #1f2033 32%, #1a1a2e 100%);
-      background-repeat: no-repeat;
-      background-size: cover;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 42px 42px;
     }
+    ::selection { background: rgba(0, 208, 132, 0.35); color: #ffffff; }
+    .skip-link {
+      position: absolute; left: 1rem; top: -3rem; z-index: 1000; padding: 0.75rem 1rem;
+      border-radius: 0.75rem; background: #00d084; color: #1a1a2e; font-weight: 700; transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .nav-scrolled {
+      background: rgba(26,26,46,0.88);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 22px rgba(0,0,0,.28);
+    }
+    .main-hero-shadow { text-shadow: 0 0 16px rgba(0, 208, 132, 0.24); }
     .card-glow { box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45); }
     .soft-border { border: 1px solid rgba(0, 208, 132, 0.18); }
-    .glass-panel { background: linear-gradient(180deg, rgba(37,37,56,0.94) 0%, rgba(26,26,46,0.94) 100%); backdrop-filter: blur(10px); }
-    .section-accent::after { content:""; display:block; width:84px; height:3px; margin-top:.9rem; border-radius:999px; background:linear-gradient(90deg,#00d084 0%, #ffb703 100%); }
-    .hover-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; }
-    .hover-lift:hover { transform: translateY(-4px); }
-    .nav-scrolled { background: rgba(26,26,46,0.88); backdrop-filter: blur(12px); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
-    .hero-card { border: 1px solid rgba(0,208,132,.22); }
-    .stat-card { background: rgba(26,26,46,.72); border: 1px solid rgba(0,208,132,.16); }
-    .btn-primary, .btn-secondary { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease; }
+    .glass-panel {
+      background: linear-gradient(180deg, rgba(37, 37, 56, 0.94) 0%, rgba(26, 26, 46, 0.94) 100%);
+      backdrop-filter: blur(10px);
+    }
+    .section-accent::after {
+      content: ""; display: block; width: 84px; height: 3px; margin-top: 0.9rem; border-radius: 999px;
+      background: linear-gradient(90deg, #00d084 0%, #ffb703 100%);
+    }
+    .hero-backdrop {
+      position: absolute; inset: 0; left: 50%; width: 100vw; transform: translateX(-50%); pointer-events: none; overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 999px; filter: blur(22px); opacity: 0.16; animation: float-orb 9s ease-in-out infinite;
+    }
+    .hero-orb.one { width: 18rem; height: 18rem; top: 1rem; right: -5rem; background: rgba(0, 208, 132, 0.34); }
+    .hero-orb.two { width: 16rem; height: 16rem; bottom: 0; left: -4rem; background: rgba(255, 183, 3, 0.24); animation-delay: -2.8s; }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 34px 34px; mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 82%); opacity: 0.24;
+    }
+    .hero-intro { text-wrap: balance; }
+    .hero-stat, .micro-card, .detail-card, .policy-card {
+      background: rgba(26, 26, 46, 0.72); border: 1px solid rgba(0, 208, 132, 0.16); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+    .hero-stat, .micro-card, .detail-card, .policy-card, .hover-lift {
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+    .hero-stat:hover, .micro-card:hover, .detail-card:hover, .policy-card:hover, .hover-lift:hover {
+      transform: translateY(-4px); border-color: rgba(255, 183, 3, 0.34); box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28); background: rgba(26, 26, 46, 0.82);
+    }
+    .hero-stat, .micro-card, .detail-card, .policy-card { border-radius: 1rem; }
+    .service-link { display: inline-flex; align-items: center; gap: 0.45rem; text-decoration: none; }
+    .service-link .arrow { transition: transform 0.22s ease; }
+    .service-link:hover .arrow { transform: translateX(4px); }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .reveal.delayed-1 { transition-delay: 0.12s; }
+    .reveal.delayed-2 { transition-delay: 0.2s; }
+    .reveal.delayed-3 { transition-delay: 0.28s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .tutor-photo { box-shadow: 0 0 32px rgba(255, 183, 3, 0.24); transition: transform 0.35s ease, box-shadow 0.35s ease; }
+    .tutor-photo:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 45px rgba(255, 183, 3, 0.35); }
+    .btn-primary, .btn-secondary {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
     .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
     .btn-primary:hover { box-shadow: 0 14px 28px rgba(0,208,132,.22); }
     .btn-secondary:hover { box-shadow: 0 12px 26px rgba(255,183,3,.15); }
+    .step-list { display: grid; gap: 0.95rem; }
+    .step-item {
+      display: grid; grid-template-columns: 2.35rem 1fr; gap: 0.9rem; align-items: start; padding: 0.9rem 0.95rem;
+      border-radius: 1rem; border: 1px solid rgba(0, 208, 132, 0.14); background: rgba(26, 26, 46, 0.46);
+      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    }
+    .step-item:hover { transform: translateY(-2px); border-color: rgba(255, 183, 3, 0.24); background: rgba(26, 26, 46, 0.6); }
+    .step-number {
+      width: 2.35rem; height: 2.35rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 800; color: #1a1a2e; background: linear-gradient(135deg, #00d084 0%, #ffb703 100%); box-shadow: 0 8px 16px rgba(0, 208, 132, 0.18);
+    }
+    .info-list li { position: relative; padding-left: 1rem; }
+    .info-list li::before {
+      content: ""; position: absolute; left: 0; top: 0.52rem; width: 0.38rem; height: 0.38rem; border-radius: 999px; background: #00d084; opacity: 0.95;
+    }
+    .price-card { position: relative; overflow: hidden; }
+    .price-card::before {
+      content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 55%); pointer-events: none;
+    }
+    .table-wrap { overflow-x: auto; }
+    .table-wrap table { min-width: 100%; }
+    #sticky-cta {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; opacity: 0; transform: translateY(20px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    #sticky-cta.show { opacity: 1; transform: translateY(0); }
+    @keyframes float-orb { 0%,100%{transform: translate3d(0,0,0);} 50%{transform: translate3d(0,-14px,0);} }
+    @media (max-width: 767px) {
+      .step-item { grid-template-columns: 2rem 1fr; gap: 0.8rem; padding: 0.85rem 0.85rem; }
+      .step-number { width: 2rem; height: 2rem; font-size: 0.88rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-orb, .reveal, .hover-lift, .micro-card, .btn-primary, .btn-secondary, .tutor-photo, #sticky-cta { animation: none !important; transition: none !important; transform: none !important; }
+      .reveal { opacity: 1; }
+    }
   </style>
-
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
-<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
-      <div class="hidden md:flex items-center space-x-4 text-[11px] lg:text-sm">
-        <a href="index.html" class="text-brand-text-mid hover:text-white">HOME</a>
-        <a href="pricing.html" class="text-brand-text-mid hover:text-white">PRICING</a>
-        <a href="private-lessons.html" class="text-brand-accent-light">PRIVATE LESSONS</a>
-        <a href="band-night.html" class="text-brand-text-mid hover:text-white">BAND NIGHT</a>
-        <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white">SCHOOL BANDS</a>
-        <a href="make-a-song.html" class="text-brand-text-mid hover:text-white">MAKE A SONG</a>
-        <a href="contact.html" class="text-brand-text-mid hover:text-white">CONTACT</a>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50 nav-scrolled">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
+        <div class="hidden md:flex items-center gap-1 text-sm">
+          <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">HOME</a>
+          <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRICING</a>
+          <a href="private-lessons.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">PRIVATE LESSONS</a>
+          <a href="band-night.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">BAND NIGHT</a>
+          <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">SCHOOL BANDS</a>
+          <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">MAKE A SONG</a>
+          <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">CONTACT</a>
+        </div>
+        <button id="mobile-menu-button" class="md:hidden text-brand-text-light hover:text-brand-accent-light p-2" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+        </button>
       </div>
     </div>
-  </div>
-</nav>
-<main class="flex-grow pt-24 pb-20">
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">One-to-one offer</p>
-        <h1 class="font-heading text-4xl sm:text-5xl font-extrabold leading-tight mb-5">Private music lessons that feel relaxed, structured and personal.</h1>
-        <p class="text-base sm:text-lg text-brand-text-mid leading-8 mb-8">Private lessons are delivered in the student’s home and built around confidence, steady progress and enjoyment. Elliot teaches drums, bass, guitar, piano and singing, with lessons tailored to beginners and developing players alike.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8"><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">5</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Lesson instruments</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">Wed–Fri</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Usual availability</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">£10</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Intro lesson</p></div></div>
-        <div class="flex flex-wrap gap-4">
-          <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold">Enquire about private lessons</a>
-          <a href="pricing.html" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">View pricing</a>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-brand-accent-dark/30">
+      <div class="px-4 py-3 space-y-1 bg-brand-dark-bg/95 backdrop-blur text-sm">
+        <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Home</a>
+        <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Pricing</a>
+        <a href="private-lessons.html" class="block rounded-md text-brand-accent-light bg-brand-accent-light/10 px-3 py-2 font-medium">Private Lessons</a>
+        <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Band Night</a>
+        <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">School Bands</a>
+        <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Make a Song</a>
+        <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="flex-grow">
+    <section id="hero-section" class="relative overflow-hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-20">
+      <div class="hero-backdrop" aria-hidden="true">
+        <div class="hero-orb one"></div>
+        <div class="hero-orb two"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:items-start">
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-dark-bg/65 soft-border text-[11px] sm:text-xs uppercase tracking-[0.2em] text-brand-highlight mb-5">
+            <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
+            At-home lessons • Pudsey & West Leeds
+          </div>
+
+          <p class="text-xs font-semibold tracking-[0.28em] text-brand-highlight mb-4 uppercase">
+            Drums • Bass • Guitar • Piano • Singing
+          </p>
+
+          <h1 class="hero-intro font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold main-hero-shadow leading-tight mb-5">
+            Detailed private music lessons that feel <span class="text-brand-accent-light">clear, personal and well supported.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-brand-text-mid max-w-2xl mb-6">
+            Private lessons are taught in the student’s home and shaped around the individual — their age, starting point, confidence level, musical taste and goals. Whether the aim is to begin from scratch, build stronger foundations, learn favourite songs or keep progressing steadily week by week, lessons are designed to feel friendly, structured and genuinely enjoyable.
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-8 text-[11px] sm:text-xs uppercase tracking-[0.18em] text-brand-text-mid">
+            <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For beginners</span>
+            <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">For developing players</span>
+            <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Home delivery</span>
+            <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Clear pricing</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mb-8">
+            <div class="hero-stat reveal delayed-1 p-4">
+              <p class="text-2xl font-heading font-extrabold text-brand-accent-light">5</p>
+              <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Lesson instruments</p>
+            </div>
+            <div class="hero-stat reveal delayed-2 p-4">
+              <p class="text-2xl font-heading font-extrabold text-brand-highlight">Wed–Fri</p>
+              <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Usual availability</p>
+            </div>
+            <div class="hero-stat reveal delayed-3 p-4">
+              <p class="text-2xl font-heading font-extrabold text-brand-accent-light">£10</p>
+              <p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Intro lesson</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-4 mb-6">
+            <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/20">
+              <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
+              Enquire About Private Lessons
+            </a>
+            <a href="#pricing-details" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">
+              View Fees & Travel
+            </a>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-text-mid">
+            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-accent-light mr-2"></span>DBS checked & fully insured</span>
+            <span class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-1 text-brand-highlight"></i><a href="tel:07368975144" class="hover:text-white">07368 975144</a></span>
+            <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1 text-brand-accent-light"></i>Pudsey, Farsley, Calverley, Bramley, Horsforth & wider West Leeds</span>
+          </div>
+        </div>
+
+        <div class="relative reveal delayed-1">
+          <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
+            <div class="flex items-center gap-4">
+              <img src="/images/B778D2ED-6309-4D1F-B167-411BE412F09E.jpg" alt="Elliot Wardill, music tutor" class="w-32 h-40 sm:w-36 sm:h-48 rounded-2xl border border-brand-highlight/70 object-cover tutor-photo">
+              <div>
+                <p class="text-xs font-semibold tracking-[0.22em] uppercase text-brand-highlight mb-1">Private Lessons</p>
+                <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-1">Elliot Wardill</h2>
+                <p class="text-xs sm:text-sm text-brand-text-mid">Mobile music tutor delivering supportive one-to-one lessons with a calm, encouraging and structured teaching style.</p>
+                <div class="flex flex-wrap gap-2 mt-3 text-[11px] uppercase tracking-[0.14em]">
+                  <span class="px-2.5 py-1 rounded-full border border-brand-highlight/30 bg-brand-dark-bg/60 text-brand-text-light">DBS checked</span>
+                  <span class="px-2.5 py-1 rounded-full border border-brand-highlight/30 bg-brand-dark-bg/60 text-brand-text-light">Fully insured</span>
+                  <span class="px-2.5 py-1 rounded-full border border-brand-highlight/30 bg-brand-dark-bg/60 text-brand-text-light">At home</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+              <div class="micro-card p-4">
+                <p class="text-brand-accent-light font-semibold mb-1">Lesson lengths</p>
+                <p class="text-brand-text-mid">30, 60 or 90 minutes depending on age and goals.</p>
+              </div>
+              <div class="micro-card p-4">
+                <p class="text-brand-highlight font-semibold mb-1">Parents welcome</p>
+                <p class="text-brand-text-mid">Parents can stay on site and sit in if helpful.</p>
+              </div>
+              <div class="micro-card p-4">
+                <p class="text-brand-accent-light font-semibold mb-1">First lesson</p>
+                <p class="text-brand-text-mid">A £10 introduction to settle in and assess the starting point.</p>
+              </div>
+              <div class="micro-card p-4">
+                <p class="text-brand-highlight font-semibold mb-1">Teaching focus</p>
+                <p class="text-brand-text-mid">Confidence, musical skills, enjoyment and steady progress.</p>
+              </div>
+            </div>
+
+            <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4">
+              <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-2">What families usually want to know</p>
+              <p class="text-sm text-brand-text-mid">How the first lesson works, which length suits their child, whether travel is covered, how payment works and what happens if a lesson needs moving — all of that is set out clearly on this page.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        <div class="glass-panel hero-card rounded-[1.6rem] p-7 card-glow">
-<div class="flex items-center gap-5 mb-6">
-  <img src="/images/B778D2ED-6309-4D1F-B167-411BE412F09E.jpg" alt="Elliot Wardill" class="w-32 h-40 rounded-2xl object-cover border border-brand-highlight/70">
-  <div>
-    <p class="text-xs uppercase tracking-[0.18em] text-brand-highlight mb-2">At-home tuition</p>
-    <h2 class="font-heading text-2xl font-bold text-brand-accent-light mb-2">Private Lessons</h2>
-    <p class="text-sm text-brand-text-mid leading-6">Relaxed, structured mobile lessons designed around the student’s age, confidence and musical goals.</p>
-  </div>
-</div>
-<div class="grid grid-cols-2 gap-3 text-sm">
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Instruments</p><p class="text-brand-text-mid">Drums, bass, guitar, piano and singing.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Availability</p><p class="text-brand-text-mid">Usually Wednesday to Friday.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Lesson lengths</p><p class="text-brand-text-mid">30, 60 or 90 minutes.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Intro lesson</p><p class="text-brand-text-mid">£10 first lesson available.</p></div>
-</div>
-</div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="mb-8 reveal">
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">What private lessons include</p>
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">A clearer look at how lessons are delivered</h2>
+        <p class="text-sm sm:text-base text-brand-text-mid max-w-3xl">This page explains the day-to-day reality of private lessons: where they happen, what they can cover, who they suit, how pricing works and what parents can expect before booking.</p>
       </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div class="detail-card p-6 reveal">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="house" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Home-based delivery</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">Lessons happen in the student’s home, which keeps things convenient for families and helps children learn in a familiar environment. That often makes the first few sessions feel more relaxed and less pressured.</p>
+        </div>
+        <div class="detail-card p-6 reveal delayed-1">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="music-2" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Five lesson instruments</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">Private lessons are available in <strong>drums</strong>, <strong>bass</strong>, <strong>guitar</strong>, <strong>piano</strong> and <strong>singing</strong>. Lessons can stay focused on one instrument or build deeper confidence in a student’s main interest over time.</p>
+        </div>
+        <div class="detail-card p-6 reveal delayed-2">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="book-open" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Tailored lesson structure</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">Sessions are not one-size-fits-all. Elliot adjusts pacing, song choice, activities and difficulty so the lesson feels appropriate for the student’s age, confidence, attention span and musical goals.</p>
+        </div>
+        <div class="detail-card p-6 reveal">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="sparkles" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Encouraging first steps</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">Beginners can start with simple songs, rhythm work, basic coordination and easy wins that build belief quickly. The aim is to make music feel achievable from the start, not overwhelming.</p>
+        </div>
+        <div class="detail-card p-6 reveal delayed-1">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="trending-up" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Real progress over time</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">As students settle in, lessons can expand into stronger technique, musicality, coordination, listening skills, performance confidence, song learning and personal targets that feel motivating rather than forced.</p>
+        </div>
+        <div class="detail-card p-6 reveal delayed-2">
+          <div class="flex items-center gap-3 mb-3"><i data-lucide="shield-check" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Professional delivery</h3></div>
+          <p class="text-brand-text-mid text-sm leading-6">Families get a service that is clear from the first enquiry: DBS checked, insured, reliable, parent-aware and built around supportive teaching rather than just turning up and playing through exercises.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+          <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">What lessons can focus on</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div class="micro-card p-4"><p class="text-brand-highlight font-semibold mb-2">Piano</p><p class="text-brand-text-mid">Reading basics, chords, simple songs, hand coordination, musicality and confidence at the keyboard.</p></div>
+            <div class="micro-card p-4"><p class="text-brand-accent-light font-semibold mb-2">Singing</p><p class="text-brand-text-mid">Breath, pitch, vocal confidence, song interpretation and feeling comfortable using the voice clearly.</p></div>
+            <div class="micro-card p-4"><p class="text-brand-highlight font-semibold mb-2">Guitar</p><p class="text-brand-text-mid">Chord changes, rhythm playing, riffs, song-based learning and building hand coordination steadily.</p></div>
+            <div class="micro-card p-4"><p class="text-brand-accent-light font-semibold mb-2">Bass</p><p class="text-brand-text-mid">Timing, groove, note placement, simple basslines, feel and learning how bass supports real music.</p></div>
+            <div class="micro-card p-4 sm:col-span-2"><p class="text-brand-highlight font-semibold mb-2">Drums</p><p class="text-brand-text-mid">Pulse, coordination, groove, fills, structure and playing in time with music in a way that builds confidence without rushing the basics.</p></div>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal delayed-1">
+          <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">What a lesson usually feels like</h2>
+          <ul class="info-list space-y-3 text-sm text-brand-text-mid">
+            <li>A calm start so the student settles in and feels comfortable.</li>
+            <li>Warm-up or recap work that connects to the previous lesson.</li>
+            <li>Song learning, skill building or technique practice matched to the student’s current level.</li>
+            <li>Clear explanation and repetition where needed, without making the lesson feel heavy.</li>
+            <li>Encouragement that keeps students trying rather than worrying about getting things wrong.</li>
+            <li>A simple sense of progress by the end of the session, whether that is a finished section, a new skill or a clearer next step.</li>
+          </ul>
+
+          <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4 mt-6 text-sm">
+            <p class="text-brand-text-light font-semibold mb-2">Who this usually suits best</p>
+            <p class="text-brand-text-mid">Private lessons work especially well for children who want individual attention, need a comfortable home setting, or would benefit from a lesson pace that can be adjusted fully around them.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing-details" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="mb-8 reveal">
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Pricing and practical details</p>
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Clear fees, travel and payment information</h2>
+        <p class="text-sm sm:text-base text-brand-text-mid max-w-3xl">This is the part most families want upfront: how long lessons can be, how much they cost, where travel applies and how payment is usually handled.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8">
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+          <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-5">Lesson lengths and fees</h3>
+          <div class="grid sm:grid-cols-2 gap-4 mb-6">
+            <div class="price-card micro-card p-5"><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mb-2">Intro lesson</p><p class="text-3xl font-heading font-extrabold text-brand-accent-light">£10</p><p class="text-sm text-brand-text-mid mt-2">A simple first lesson to meet Elliot, settle in and start with clarity.</p></div>
+            <div class="price-card micro-card p-5"><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mb-2">30 minutes</p><p class="text-3xl font-heading font-extrabold text-brand-highlight">£15</p><p class="text-sm text-brand-text-mid mt-2">A good option for younger children, short attention spans or a focused weekly routine.</p></div>
+            <div class="price-card micro-card p-5"><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mb-2">60 minutes</p><p class="text-3xl font-heading font-extrabold text-brand-accent-light">£30</p><p class="text-sm text-brand-text-mid mt-2">More time for warm-up, skill building, songs and detailed progress in one session.</p></div>
+            <div class="price-card micro-card p-5"><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mb-2">90 minutes</p><p class="text-3xl font-heading font-extrabold text-brand-highlight">£50</p><p class="text-sm text-brand-text-mid mt-2">Best for older students, longer sessions or when deeper project-style work is helpful.</p></div>
+          </div>
+
+          <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4 text-sm text-brand-text-mid space-y-2">
+            <p><strong class="text-brand-text-light">Payment:</strong> lessons can be paid in cash at the lesson or by bank transfer in advance.</p>
+            <p><strong class="text-brand-text-light">How many families pay:</strong> some prefer to pay lesson by lesson, while others choose 4-week blocks for simplicity.</p>
+            <p><strong class="text-brand-text-light">Availability:</strong> private lessons are usually offered <strong>Wednesday to Friday</strong>, with final times confirmed directly depending on route and timetable.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal delayed-1">
+          <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-5">Travel from Pudsey</h3>
+          <p class="text-sm text-brand-text-mid mb-4">Travel is calculated from Pudsey so families can understand the full cost clearly in advance. For longer or unusual routes, Elliot can confirm the fee directly before lessons are booked.</p>
+          <div class="table-wrap rounded-xl border border-brand-accent-dark/40 overflow-hidden mb-5">
+            <table class="w-full text-sm">
+              <thead class="bg-brand-dark-bg/80 text-brand-highlight">
+                <tr>
+                  <th class="text-left px-4 py-3 font-semibold">Distance from Pudsey</th>
+                  <th class="text-left px-4 py-3 font-semibold">Travel fee</th>
+                </tr>
+              </thead>
+              <tbody class="bg-brand-dark-bg/55 text-brand-text-mid">
+                <tr class="border-t border-brand-accent-dark/20"><td class="px-4 py-3">Under 5 miles</td><td class="px-4 py-3">£0</td></tr>
+                <tr class="border-t border-brand-accent-dark/20"><td class="px-4 py-3">5–10 miles</td><td class="px-4 py-3">£5</td></tr>
+                <tr class="border-t border-brand-accent-dark/20"><td class="px-4 py-3">10–15 miles</td><td class="px-4 py-3">£10</td></tr>
+                <tr class="border-t border-brand-accent-dark/20"><td class="px-4 py-3">15+ miles</td><td class="px-4 py-3">£20 max flat rate</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="space-y-3 text-sm text-brand-text-mid">
+            <p><strong class="text-brand-text-light">Typical service area:</strong> Pudsey, Farsley, Calverley, Bramley, Horsforth and wider West Leeds.</p>
+            <p><strong class="text-brand-text-light">Outside the usual route:</strong> Elliot can still confirm whether travel is possible and what the fee would be before anything is booked.</p>
+            <p><strong class="text-brand-text-light">Useful enquiry detail:</strong> sending your postcode area and 2–3 preferred evenings makes it much easier to confirm travel and lesson options quickly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal">
+          <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">How private lessons work</h2>
+          <div class="step-list text-sm text-brand-text-mid">
+            <div class="step-item"><span class="step-number">1</span><div><p class="font-semibold text-brand-text-light mb-1">Start with an enquiry</p><p>Send a message with the student’s age, instrument, postcode area and preferred evenings so Elliot can confirm whether the lesson route and timing are realistic.</p></div></div>
+            <div class="step-item"><span class="step-number">2</span><div><p class="font-semibold text-brand-text-light mb-1">Begin with the first lesson</p><p>The intro lesson gives space to settle in, work out the starting point and begin building a lesson plan that feels achievable and encouraging.</p></div></div>
+            <div class="step-item"><span class="step-number">3</span><div><p class="font-semibold text-brand-text-light mb-1">Build a routine that suits the student</p><p>Once the best length and rhythm are clear, lessons can continue in a consistent way that gives progress without feeling rushed or heavy.</p></div></div>
+            <div class="step-item"><span class="step-number">4</span><div><p class="font-semibold text-brand-text-light mb-1">Keep moving forward clearly</p><p>That might mean learning songs, improving technique, building confidence, or simply giving the student a positive musical routine they enjoy each week.</p></div></div>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-brand-accent-dark/60 card-glow p-7 reveal delayed-1">
+          <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-5">Who private lessons are ideal for</h2>
+          <ul class="info-list space-y-3 text-sm text-brand-text-mid mb-5">
+            <li>Children who would benefit from one-to-one teaching and more individual pacing.</li>
+            <li>Families who want music lessons at home rather than travelling to a studio or venue.</li>
+            <li>Beginners who need a calm and confidence-building first step into music.</li>
+            <li>Students who want to learn favourite songs alongside stronger basic skills.</li>
+            <li>Young people who are building consistency, musical foundations and self-belief over time.</li>
+          </ul>
+          <div class="rounded-xl bg-brand-dark-bg/70 border border-brand-accent-dark/40 p-4 text-sm text-brand-text-mid">
+            <p class="font-semibold text-brand-text-light mb-2">What parents can expect</p>
+            <p>Clear communication, realistic expectations, a friendly atmosphere and sessions that aim to feel enjoyable as well as productive. Parents are welcome to remain on site and can sit in if that supports the student.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="glass-panel rounded-[1.8rem] border border-brand-accent-dark/60 card-glow p-7 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
+          <div>
+            <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">What makes the private lesson offer feel strong</h2>
+            <p class="text-sm sm:text-base text-brand-text-mid mb-6 max-w-2xl">The private lesson page should not just say what is taught — it should make families feel confident about what the experience will actually be like. The aim is to communicate structure, warmth, professionalism and a sense that the student will be supported properly from the first enquiry onward.</p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
+              <div class="micro-card p-4"><p class="text-brand-highlight font-semibold mb-1">Friendly teaching</p><p class="text-brand-text-mid">Calm, encouraging and confidence-building.</p></div>
+              <div class="micro-card p-4"><p class="text-brand-accent-light font-semibold mb-1">Clear structure</p><p class="text-brand-text-mid">Simple next steps and clear lesson options.</p></div>
+              <div class="micro-card p-4"><p class="text-brand-highlight font-semibold mb-1">Safe setup</p><p class="text-brand-text-mid">DBS checked and fully insured.</p></div>
+              <div class="micro-card p-4"><p class="text-brand-accent-light font-semibold mb-1">Mobile delivery</p><p class="text-brand-text-mid">Taught at home across West Leeds routes.</p></div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-brand-dark-bg/65 border border-brand-accent-dark/50 p-6">
+            <p class="text-[11px] uppercase tracking-[0.2em] text-brand-highlight mb-3">A strong first impression</p>
+            <div class="space-y-4 text-sm text-brand-text-mid">
+              <p>Lessons that feel organised, not vague.</p>
+              <p>Teaching that feels supportive, not intimidating.</p>
+              <p>Real progress without losing the fun of making music.</p>
+              <p>A clear service parents can trust and understand quickly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="mb-8 reveal">
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Frequently asked questions</p>
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Common private lesson questions</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="policy-card p-6 reveal"><h3 class="font-semibold text-brand-text-light mb-2">What happens in the first lesson?</h3><p class="text-sm text-brand-text-mid leading-6">The first lesson is an introduction. It gives Elliot a chance to see the student’s starting point, learn what they enjoy, get them comfortable, and suggest the best way forward without pressure.</p></div>
+        <div class="policy-card p-6 reveal delayed-1"><h3 class="font-semibold text-brand-text-light mb-2">Which lesson length is usually best?</h3><p class="text-sm text-brand-text-mid leading-6">For many younger beginners, 30 minutes is enough to keep the lesson focused and positive. Older students or those wanting more depth often benefit from 60 minutes. 90 minutes is best when a longer, more project-style session is useful.</p></div>
+        <div class="policy-card p-6 reveal"><h3 class="font-semibold text-brand-text-light mb-2">Do parents need to stay during lessons?</h3><p class="text-sm text-brand-text-mid leading-6">Parents are welcome to remain on site and can sit in if that helps. Some students prefer a parent nearby at first, while others settle better once they are comfortable with the routine.</p></div>
+        <div class="policy-card p-6 reveal delayed-1"><h3 class="font-semibold text-brand-text-light mb-2">Do you only teach complete beginners?</h3><p class="text-sm text-brand-text-mid leading-6">No. Lessons can work for complete beginners and also for students who already play a little and want more consistency, guidance, confidence or stronger foundations.</p></div>
+        <div class="policy-card p-6 reveal"><h3 class="font-semibold text-brand-text-light mb-2">Can lessons include favourite songs?</h3><p class="text-sm text-brand-text-mid leading-6">Yes. Favourite songs are often a very useful part of the learning process, especially when they help the student stay motivated. Elliot balances enjoyable material with skill-building.</p></div>
+        <div class="policy-card p-6 reveal delayed-1"><h3 class="font-semibold text-brand-text-light mb-2">What if I live outside Pudsey?</h3><p class="text-sm text-brand-text-mid leading-6">That can still be possible. Travel fees may apply depending on distance, and Elliot can confirm the practical route and cost before anything is booked.</p></div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="mb-8 reveal">
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Policies and practical rules</p>
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Private lesson policy summary</h2>
+        <p class="text-sm sm:text-base text-brand-text-mid max-w-3xl">These are the practical points families usually want made clear before committing to regular lessons.</p>
+      </div>
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="policy-card p-6 reveal"><h3 class="font-heading text-lg font-bold text-brand-text-light mb-3">Safeguarding</h3><p class="text-sm text-brand-text-mid leading-6">Elliot holds a valid DBS check for working with children. Lessons are delivered with safeguarding in mind, and parents or guardians are welcome to sit in.</p></div>
+        <div class="policy-card p-6 reveal delayed-1"><h3 class="font-heading text-lg font-bold text-brand-text-light mb-3">Cancellation</h3><p class="text-sm text-brand-text-mid leading-6">At least 24 hours’ notice is requested to cancel or reschedule a lesson. Cancellations with less than 24 hours’ notice may be charged at 50% of the lesson fee.</p></div>
+        <div class="policy-card p-6 reveal delayed-2"><h3 class="font-heading text-lg font-bold text-brand-text-light mb-3">If Elliot cancels</h3><p class="text-sm text-brand-text-mid leading-6">If Elliot ever needs to cancel, the lesson will be rearranged at no extra cost. The aim is always to keep things fair and straightforward for families.</p></div>
+        <div class="policy-card p-6 reveal delayed-3"><h3 class="font-heading text-lg font-bold text-brand-text-light mb-3">Photo & video consent</h3><p class="text-sm text-brand-text-mid leading-6">Photos or short videos are always optional. Only first names are used publicly, and consent can be withdrawn by email at any time, although previously posted media may remain online.</p></div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
+      <div class="glass-panel rounded-[1.8rem] border border-brand-accent-dark/60 card-glow p-7 reveal text-center">
+        <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Ready to take the next step?</p>
+        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4">Enquire about private lessons</h2>
+        <p class="text-sm sm:text-base text-brand-text-mid max-w-2xl mx-auto mb-6">A clear first message is enough to get started. Include the student’s age, instrument, postcode area and preferred days, and Elliot can point you towards the best lesson fit.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold shadow-lg shadow-brand-accent-light/20">Start an enquiry</a>
+          <a href="pricing.html" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">See full pricing page</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="contact.html" id="sticky-cta" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-full text-brand-dark-bg bg-brand-accent-light hover:bg-brand-accent-dark shadow-xl shadow-brand-accent-light/50">
+    <i data-lucide="mail" class="w-4 h-4 mr-1"></i> Enquire Now
+  </a>
+
+  <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
+    <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+      <p>&copy; 2026 Elliot’s Mobile Music. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">DBS checked &amp; insured. Private lesson details, travel and final scheduling are confirmed directly during booking.</p>
+      <p class="mt-2">
+        <a href="privacy.html" class="underline hover:text-white">Privacy</a>
+        <span class="mx-2">•</span>
+        <a href="cookies.html" class="underline hover:text-white">Cookies</a>
+      </p>
     </div>
-  </section>
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">What this offer includes</h2>
-    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="house" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Home-based delivery</h3></div><p class="text-brand-text-mid text-sm leading-6">Lessons take place at home, helping families avoid extra travel and giving students a comfortable, familiar learning environment.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="music" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Instrument choice</h3></div><p class="text-brand-text-mid text-sm leading-6">Students can learn drums, bass, guitar, piano or singing, with sessions adapted to ability, pace and musical interests.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="clock-3" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Simple pricing</h3></div><p class="text-brand-text-mid text-sm leading-6">Standard lesson options are 30 minutes for £15, 60 minutes for £30, and 90 minutes for £50, with a £10 intro lesson available.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="shield-check" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Professional setup</h3></div><p class="text-brand-text-mid text-sm leading-6">DBS checked, insured and structured to keep communication clear and lessons supportive from the first enquiry onwards.</p></div></div>
-  </section>
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
-    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">When are lessons available?</h3><p class="text-sm text-brand-text-mid leading-6">Private lessons are usually available Wednesday to Friday. Final times are confirmed directly with Elliot depending on location and timetable.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">What happens in a first lesson?</h3><p class="text-sm text-brand-text-mid leading-6">The first lesson is a chance to settle in, get to know the student’s starting point and begin building a plan that feels encouraging and realistic.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Do you travel outside Pudsey?</h3><p class="text-sm text-brand-text-mid leading-6">Yes, wider West Leeds and surrounding areas can be covered. Travel outside Pudsey may involve an extra fee depending on distance.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Can parents stay during lessons?</h3><p class="text-sm text-brand-text-mid leading-6">Yes — parents are welcome to remain on site and can stay involved as much or as little as feels helpful for the student.</p></div></div>
-  </section>
-</main>
-<footer class="border-t border-brand-accent-dark/40 py-8 text-center text-brand-text-mid px-4">
-  <p class="text-sm">Elliot’s Mobile Music • Pudsey, West Leeds & surrounding areas</p>
-  <p class="mt-2 text-sm"><a href="privacy.html" class="underline hover:text-white">Privacy</a> <span class="mx-2">•</span> <a href="cookies.html" class="underline hover:text-white">Cookies</a></p>
-</footer>
-<script>lucide.createIcons();</script>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton?.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      mobileMenuButton.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    const stickyCta = document.getElementById('sticky-cta');
+    const heroSection = document.getElementById('hero-section');
+    if (stickyCta && heroSection) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) stickyCta.classList.remove('show');
+        else stickyCta.classList.add('show');
+      }, { rootMargin: '0px 0px -70% 0px', threshold: 0.1 });
+      observer.observe(heroSection);
+    }
+
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealElements.forEach(el => revealObserver.observe(el));
+    }
+  </script>
 </body>
 </html>
