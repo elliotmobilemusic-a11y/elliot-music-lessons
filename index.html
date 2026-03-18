@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -531,37 +532,23 @@
 <body class="min-h-screen flex flex-col text-brand-text-light">
 <a href="#main-content" class="skip-link">Skip to content</a>
 <!-- NAVIGATION -->
-<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 nav-scrolled text-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
-
-            <div class="hidden md:flex items-center space-x-6 text-sm">
-                <a href="index.html" class="text-brand-accent-light font-semibold">HOME</a>
-                <a href="pricing.html" class="text-brand-text-mid hover:text-white">PRICING</a>
-                <a href="private-lessons.html" class="text-brand-text-mid hover:text-white">PRIVATE LESSONS</a>
-                <a href="band-night.html" class="text-brand-text-mid hover:text-white">BAND NIGHT</a>
-                <a href="school-band-programme.html" class="text-brand-text-mid hover:text-white">SCHOOL BANDS</a>
-                <a href="make-a-song.html" class="text-brand-text-mid hover:text-white">MAKE A SONG</a>
-                <a href="contact.html" class="text-brand-text-mid hover:text-white">CONTACT</a>
-            </div>
-
-            <button id="mobile-menu-button" class="md:hidden text-brand-text-light hover:text-brand-accent-light p-2" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-            </button>
-        </div>
+<nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50 nav-scrolled">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
+      <div class="hidden md:flex items-center gap-1 text-sm">
+        <a href="index.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">HOME</a> <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRICING</a> <a href="private-lessons.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRIVATE LESSONS</a> <a href="band-night.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">BAND NIGHT</a> <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">SCHOOL BANDS</a> <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">MAKE A SONG</a> <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">CONTACT</a>
+      </div>
+      <button id="mobile-menu-button" class="md:hidden text-brand-text-light hover:text-brand-accent-light p-2" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+      </button>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden nav-scrolled border-t border-brand-accent-dark/40">
-        <div class="pt-2 pb-3 space-y-1 px-3 text-sm">
-            <a href="index.html" class="block rounded-md bg-brand-accent-dark/60 text-white px-3 py-2 font-medium">HOME</a>
-            <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">PRICING</a>
-            <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">PRIVATE LESSONS</a>
-            <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">BAND NIGHT</a>
-            <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">SCHOOL BANDS</a>
-            <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">MAKE A SONG</a>
-            <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">CONTACT</a>
-        </div>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-brand-accent-dark/30">
+    <div class="px-4 py-3 space-y-1 bg-brand-dark-bg/95 backdrop-blur text-sm">
+      <a href="index.html" class="block rounded-md text-brand-accent-light bg-brand-accent-light/10 px-3 py-2 font-medium">Home</a> <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Pricing</a> <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Private Lessons</a> <a href="band-night.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Band Night</a> <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">School Bands</a> <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Make A Song</a> <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Contact</a>
     </div>
+  </div>
 </nav>
 
 
