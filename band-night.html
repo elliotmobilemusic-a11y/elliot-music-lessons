@@ -10,7 +10,7 @@
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#1a1a2e">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -98,10 +98,7 @@
     }
     .micro-card:hover { transform: translateY(-4px); border-color: rgba(255,183,3,.26); box-shadow: 0 14px 28px rgba(0,0,0,.22); }
     .micro-card:hover::before { transform: translateX(130%); }
-    .timeline-step {
-      position: relative;
-      padding-left: 4.6rem;
-    }
+    .timeline-step { position: relative; padding-left: 4.6rem; }
     .timeline-step::before {
       content: attr(data-step);
       position: absolute;
@@ -129,9 +126,29 @@
     .faq-card { transition: transform .25s ease, border-color .25s ease; }
     .faq-card:hover { transform: translateY(-3px); border-color: rgba(255,183,3,.25); }
     .float-gentle { animation: floatGentle 5.6s ease-in-out infinite; }
+    .pulse-dot { position: relative; }
+    .pulse-dot::after {
+      content:"";
+      position:absolute;
+      inset:-0.35rem;
+      border-radius:999px;
+      border:1px solid rgba(0,208,132,.35);
+      animation:pulseRing 2.8s ease-out infinite;
+    }
+    .icon-chip {
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      border:1px solid rgba(0,208,132,.18);
+      background:rgba(26,26,46,.5);
+      padding:.7rem .9rem;
+      border-radius:999px;
+      transition:transform .25s ease, border-color .25s ease;
+    }
+    .icon-chip:hover { transform: translateY(-2px); border-color: rgba(255,183,3,.28); }
     @keyframes floatGentle { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes pulseRing { 0% { transform: scale(.92); opacity:.9; } 70% { transform: scale(1.22); opacity:0; } 100% { opacity:0; } }
   </style>
-
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
 <nav class="bg-brand-dark-bg/90 backdrop-blur border-b border-brand-accent-dark/40 text-white sticky top-0 z-50 nav-scrolled">
@@ -139,7 +156,13 @@
     <div class="flex items-center justify-between h-16">
       <a href="index.html" class="font-heading text-xl font-bold text-brand-accent-light">Elliot's Mobile Music</a>
       <div class="hidden md:flex items-center gap-1 text-sm">
-        <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">HOME</a> <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRICING</a> <a href="private-lessons.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRIVATE LESSONS</a> <a href="band-night.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">BAND NIGHT</a> <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">SCHOOL BANDS</a> <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">MAKE A SONG</a> <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">CONTACT</a>
+        <a href="index.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">HOME</a>
+        <a href="pricing.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRICING</a>
+        <a href="private-lessons.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">PRIVATE LESSONS</a>
+        <a href="band-night.html" class="border-b-2 border-brand-accent-light text-brand-accent-light px-3 py-2 font-medium">BAND NIGHT</a>
+        <a href="school-band-programme.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">SCHOOL BANDS</a>
+        <a href="make-a-song.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">MAKE A SONG</a>
+        <a href="contact.html" class="border-b-2 border-transparent hover:border-brand-accent-light hover:text-white text-brand-text-mid px-3 py-2 font-medium transition-colors">CONTACT</a>
       </div>
       <button id="mobile-menu-button" class="md:hidden text-brand-text-light hover:text-brand-accent-light p-2" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
@@ -148,10 +171,17 @@
   </div>
   <div id="mobile-menu" class="hidden md:hidden border-t border-brand-accent-dark/30">
     <div class="px-4 py-3 space-y-1 bg-brand-dark-bg/95 backdrop-blur text-sm">
-      <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Home</a> <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Pricing</a> <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Private Lessons</a> <a href="band-night.html" class="block rounded-md text-brand-accent-light bg-brand-accent-light/10 px-3 py-2 font-medium">Band Night</a> <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">School Bands</a> <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Make A Song</a> <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Contact</a>
+      <a href="index.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Home</a>
+      <a href="pricing.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Pricing</a>
+      <a href="private-lessons.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Private Lessons</a>
+      <a href="band-night.html" class="block rounded-md text-brand-accent-light bg-brand-accent-light/10 px-3 py-2 font-medium">Band Night</a>
+      <a href="school-band-programme.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">School Bands</a>
+      <a href="make-a-song.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Make A Song</a>
+      <a href="contact.html" class="block rounded-md text-brand-text-mid hover:bg-brand-accent-dark/10 px-3 py-2 font-medium">Contact</a>
     </div>
   </div>
 </nav>
+
 <main class="flex-grow pt-24 pb-20">
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-10 items-center">
@@ -175,6 +205,7 @@
           <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Parents stay on site</span>
         </div>
       </div>
+
       <div class="reveal delay-1">
         <div class="glass-panel hero-card rounded-[1.6rem] p-7 card-glow float-gentle">
           <div class="flex items-start gap-4 mb-6">
@@ -193,7 +224,7 @@
           </div>
           <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-5">
             <div class="flex items-start gap-3">
-              <i data-lucide="shield-check" class="w-5 h-5 text-brand-accent-light mt-0.5"></i>
+              <div class="w-3 h-3 rounded-full bg-brand-accent-light mt-1.5 pulse-dot"></div>
               <div>
                 <h3 class="font-semibold text-brand-text-light mb-1">Clear, safe and parent-friendly</h3>
                 <p class="text-sm text-brand-text-mid leading-6">The setup is designed so families know what to expect: venue details are clear, adult supervision is non-negotiable, and the group size stays small enough to feel focused and manageable.</p>
@@ -202,11 +233,18 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="reveal">
+      <div class="flex flex-wrap gap-3 mb-8">
+        <div class="icon-chip"><i data-lucide="drum" class="w-4 h-4 text-brand-accent-light"></i><span class="text-xs uppercase tracking-[0.16em] text-brand-text-mid">Play together</span></div>
+        <div class="icon-chip"><i data-lucide="headphones" class="w-4 h-4 text-brand-accent-light"></i><span class="text-xs uppercase tracking-[0.16em] text-brand-text-mid">Listen closely</span></div>
+        <div class="icon-chip"><i data-lucide="mic-2" class="w-4 h-4 text-brand-accent-light"></i><span class="text-xs uppercase tracking-[0.16em] text-brand-text-mid">Build confidence</span></div>
+        <div class="icon-chip"><i data-lucide="badge-check" class="w-4 h-4 text-brand-accent-light"></i><span class="text-xs uppercase tracking-[0.16em] text-brand-text-mid">Small-group support</span></div>
+      </div>
       <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Why Band Night works so well</h2>
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="users" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Real band experience</h3></div><p class="text-brand-text-mid text-sm leading-6">Children learn how to listen, come in together, hold their part and play as a team instead of only focusing on individual exercises.</p></div>
@@ -217,7 +255,40 @@
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <div class="reveal">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">What students actually do in sessions</h2>
+        <div class="grid gap-4">
+          <div class="micro-card">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Learn and settle into a role</h3>
+            <p class="text-sm text-brand-text-mid leading-6">Each child takes on a part within the band, whether that is guitar, bass, drums, keys or vocals. Sessions help students feel secure in that role while understanding how it fits into the bigger sound.</p>
+          </div>
+          <div class="micro-card">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Rehearse together with purpose</h3>
+            <p class="text-sm text-brand-text-mid leading-6">The focus is not only on playing the right notes. It is also about timing, listening, cueing each other, starting and stopping together, and learning how to function as a real group.</p>
+          </div>
+          <div class="micro-card">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Build confidence week by week</h3>
+            <p class="text-sm text-brand-text-mid leading-6">The group grows more settled as the block continues. Children usually become more confident with their parts, more aware of each other, and more comfortable making music in front of others.</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal delay-1">
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow">
+          <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-5">What families can expect</h3>
+          <div class="space-y-4">
+            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">Clear start and finish</div><p class="text-sm text-brand-text-mid leading-6">The block format keeps things easy to understand. Families know the overall commitment, the weekly structure and the next step.</p></div>
+            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Small groups</div><p class="text-sm text-brand-text-mid leading-6">Keeping the bands small means children are seen, heard and supported rather than lost in a bigger group.</p></div>
+            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">A proper music atmosphere</div><p class="text-sm text-brand-text-mid leading-6">The venue feel matters. It helps the sessions feel exciting, focused and different from a standard classroom or one-to-one lesson.</p></div>
+            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">A supportive tone</div><p class="text-sm text-brand-text-mid leading-6">Band Night is meant to be energising and confidence-building, not intimidating. Children are guided clearly while still enjoying the social side of making music together.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-start">
       <div class="reveal">
         <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">How a Band Night block works</h2>
@@ -241,20 +312,20 @@
         </div>
       </div>
       <div class="reveal delay-1">
-        <div class="glass-panel rounded-[1.5rem] p-7 card-glow">
-          <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-5">What families can expect</h3>
-          <div class="space-y-4">
-            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">Clear start and finish</div><p class="text-sm text-brand-text-mid leading-6">The block format keeps things easy to understand. Families know the overall commitment, the weekly structure and the next step.</p></div>
-            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Small groups</div><p class="text-sm text-brand-text-mid leading-6">Keeping the bands small means children are seen, heard and supported rather than lost in a bigger group.</p></div>
-            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">A proper music atmosphere</div><p class="text-sm text-brand-text-mid leading-6">The venue feel matters. It helps the sessions feel exciting, focused and different from a standard classroom or one-to-one lesson.</p></div>
-            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">A supportive tone</div><p class="text-sm text-brand-text-mid leading-6">Band Night is meant to be energising and confidence-building, not intimidating. Children are guided clearly while still enjoying the social side of making music together.</p></div>
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow space-y-4">
+          <div>
+            <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-3">Songs, roles and progression</h3>
+            <p class="text-sm text-brand-text-mid leading-6">Songs are chosen with the group in mind, so they feel achievable but still exciting. The aim is to give each child a part they can grow into while the whole band develops a stronger shared sound.</p>
           </div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Beginner-friendly structure</div><p class="text-sm text-brand-text-mid leading-6">Children do not need to be advanced performers. The format works well for students who need something motivating and practical to build confidence.</p></div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Progress that feels real</div><p class="text-sm text-brand-text-mid leading-6">Because students hear their own role inside the group sound, progress tends to feel concrete. Even small improvements become noticeable week by week.</p></div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">A next step after lessons</div><p class="text-sm text-brand-text-mid leading-6">Band Night can work brilliantly alongside private lessons, giving children a place to apply what they are learning in a more social and energetic setting.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="grid lg:grid-cols-2 gap-8 items-start">
       <div class="reveal">
         <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Who Band Night is ideal for</h2>
@@ -279,7 +350,7 @@
     </div>
   </section>
 
-  <section id="pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+  <section id="pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="reveal">
       <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Pricing, deposits and booking</h2>
       <div class="grid lg:grid-cols-3 gap-6 items-start">
@@ -322,21 +393,35 @@
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
-    <div class="reveal">
-      <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Who is Band Night best for?</h3><p class="text-sm text-brand-text-mid leading-6">It is best for children who want the energy of playing with others, especially those who would enjoy rehearsing with friends or being part of a small band setup.</p></div>
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">How much does it cost?</h3><p class="text-sm text-brand-text-mid leading-6">The standard price is £90 per child for a 6-week block, with a £10 deposit used to reserve the place while groups are confirmed.</p></div>
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Do parents need to stay?</h3><p class="text-sm text-brand-text-mid leading-6">Yes. Parents must remain on site at all times during Band Night sessions, and sign-in/sign-out is used each week.</p></div>
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Can places be guaranteed straight away?</h3><p class="text-sm text-brand-text-mid leading-6">Not automatically. Final places depend on building suitable groups and times, so Elliot confirms this directly once the band setup is workable.</p></div>
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What age range is it aimed at?</h3><p class="text-sm text-brand-text-mid leading-6">The current Band Night setup is aimed roughly at ages 7–16, while still depending on the right group mix and stage of development.</p></div>
-        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What should families do next?</h3><p class="text-sm text-brand-text-mid leading-6">The best next step is to enquire, so Elliot can confirm whether there is a suitable band, age mix and time slot available.</p></div>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <div class="reveal">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Why parents often choose this over another weekly class</h2>
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow">
+          <div class="space-y-4 text-sm text-brand-text-mid leading-7">
+            <p>Band Night has a different feel from a larger general music group because the children are not passive participants. They are learning real parts, working as a unit, and becoming responsible for how the band sounds together.</p>
+            <p>That usually makes the experience feel more exciting and more memorable. It can be especially effective for children who are motivated by energy, teamwork and real-world music-making, rather than a more classroom-style setup.</p>
+            <p>It also works well for children who need a reason to practise and a clearer sense of purpose. Being part of a band often gives them that reason.</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal delay-1">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
+        <div class="grid gap-4">
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Who is Band Night best for?</h3><p class="text-sm text-brand-text-mid leading-6">It is best for children who want the energy of playing with others, especially those who would enjoy rehearsing with friends or being part of a small band setup.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">How much does it cost?</h3><p class="text-sm text-brand-text-mid leading-6">The standard price is £90 per child for a 6-week block, with a £10 deposit used to reserve the place while groups are confirmed.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Do parents need to stay?</h3><p class="text-sm text-brand-text-mid leading-6">Yes. Parents must remain on site at all times during Band Night sessions, and sign-in/sign-out is used each week.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Can places be guaranteed straight away?</h3><p class="text-sm text-brand-text-mid leading-6">Not automatically. Final places depend on building suitable groups and times, so Elliot confirms this directly once the band setup is workable.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What age range is it aimed at?</h3><p class="text-sm text-brand-text-mid leading-6">The current Band Night setup is aimed roughly at ages 7–16, while still depending on the right group mix and stage of development.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Can friends join together?</h3><p class="text-sm text-brand-text-mid leading-6">Yes, that can often work really well. Elliot still needs to confirm the final group balance and timetable, but friend groups are a great fit for Band Night.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Do children need loads of experience first?</h3><p class="text-sm text-brand-text-mid leading-6">Not necessarily. The main thing is that the child is interested, willing to join in, and suited to a small-group band environment. Elliot can advise whether it feels like the right fit.</p></div>
+          <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What should families do next?</h3><p class="text-sm text-brand-text-mid leading-6">The best next step is to enquire, so Elliot can confirm whether there is a suitable band, age mix and time slot available.</p></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="reveal glass-panel rounded-[1.7rem] p-8 sm:p-10 card-glow border border-brand-accent-dark/50">
       <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
         <div>
@@ -352,12 +437,13 @@
     </div>
   </section>
 </main>
+
 <footer class="border-t border-brand-accent-dark/40 py-8 text-center text-brand-text-mid px-4">
   <p class="text-sm">Elliot’s Mobile Music • Pudsey, West Leeds & surrounding areas</p>
   <p class="mt-2 text-sm"><a href="privacy.html" class="underline hover:text-white">Privacy</a> <span class="mx-2">•</span> <a href="cookies.html" class="underline hover:text-white">Cookies</a></p>
 </footer>
-<script>lucide.createIcons();</script>
 
+<script>lucide.createIcons();</script>
 <script>
   (() => {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -384,6 +470,5 @@
     }
   })();
 </script>
-
 </body>
 </html>
