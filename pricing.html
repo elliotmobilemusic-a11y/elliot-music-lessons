@@ -492,6 +492,62 @@
         box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
     }
 
+    .section-shell {
+        padding-top: 0.5rem;
+    }
+    .section-intro {
+        margin-bottom: 2.25rem;
+    }
+    .section-intro p:last-child {
+        max-width: 52rem;
+        line-height: 1.75;
+    }
+
+    .section-intro h2 {
+        line-height: 1.14;
+    }
+    .section-intro .section-accent {
+        margin-bottom: 0.9rem;
+    }
+    .hero-stat {
+        padding: 1.35rem 1.35rem 1.2rem;
+    }
+    .micro-card {
+        padding: 1rem 1rem 1.05rem;
+    }
+    .service-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+    .service-card p, .service-card li {
+        line-height: 1.72;
+    }
+    .service-card .service-link {
+        margin-top: auto;
+        padding-top: 0.5rem;
+    }
+    .faq-card {
+        padding: 1.35rem 1.25rem;
+    }
+    .policy-toggle {
+        padding-block: 0.2rem;
+    }
+    @media (min-width: 1024px) {
+        .section-shell {
+            padding-top: 0.75rem;
+        }
+        .hero-stat {
+            padding: 1.45rem 1.45rem 1.25rem;
+        }
+        .micro-card {
+            padding: 1.1rem 1.15rem 1.15rem;
+        }
+        .faq-card {
+            padding: 1.55rem 1.4rem;
+        }
+    }
+
 
     </style>
 
@@ -531,14 +587,14 @@
 </nav>
 
 <main id="main-content" class="flex-grow">
-    <section id="hero-section" class="relative overflow-hidden pt-28 sm:pt-32 pb-14 lg:pt-24 lg:pb-12 lg:min-h-[calc(70vh-4rem)] lg:flex lg:items-center">
+    <section id="hero-section" class="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-20 lg:pt-24 lg:pb-16 lg:min-h-[calc(74vh-4rem)] lg:flex lg:items-center">
         <div class="hero-backdrop" aria-hidden="true">
             <div class="hero-orb one"></div>
             <div class="hero-orb two"></div>
             <div class="hero-grid"></div>
         </div>
 
-        <div class="relative max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:items-start">
+        <div class="relative max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-16 items-center md:items-start">
             <div class="reveal">
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-dark-bg/65 soft-border text-[11px] sm:text-xs uppercase tracking-[0.2em] text-brand-highlight mb-5">
                     <span class="w-2 h-2 rounded-full bg-brand-accent-light"></span>
@@ -551,7 +607,7 @@
                     See private lesson fees, Band Night pricing, School Band Programme costs and Make a Song pricing in one place — with the private lesson travel calculator ready to estimate your final lesson cost.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mt-1">
                     <div class="hero-stat reveal delayed-1">
                         <div class="text-3xl font-extrabold text-brand-accent-light">4</div>
                         <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Core offers</div>
@@ -565,11 +621,11 @@
                         <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Private lesson days</div>
                     </div>
                 </div>
-                <div class="flex flex-wrap gap-3 mt-6">
+                <div class="flex flex-wrap gap-3 mt-8">
                     <a href="#offer-pricing" class="btn-primary inline-flex items-center justify-center rounded-xl bg-brand-accent-light text-brand-dark-bg font-semibold px-5 py-3">Compare offers</a>
                     <a href="#calculator" class="btn-secondary inline-flex items-center justify-center rounded-xl border border-brand-highlight text-brand-highlight font-semibold px-5 py-3">Use lesson calculator</a>
                 </div>
-                <div class="flex flex-wrap gap-2 mt-4">
+                <div class="flex flex-wrap gap-2.5 mt-5">
                     <span class="info-chip">Private lesson travel calculator</span>
                     <span class="info-chip">Policies all at the bottom</span>
                     <span class="info-chip">Clear pricing for families & schools</span>
@@ -577,7 +633,7 @@
             </div>
 
             <div class="relative reveal delayed-1 md:pt-0">
-                <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 flex flex-col gap-5">
+                <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 sm:p-8 flex flex-col gap-6">
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 rounded-2xl bg-brand-highlight/10 border border-brand-highlight/35 flex items-center justify-center text-brand-highlight text-xl font-bold">£</div>
                         <div>
@@ -616,15 +672,15 @@
     </section>
 
     
-<section id="offer-pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div class="mb-8 reveal">
+<section id="offer-pricing" class="section-shell max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-20">
+        <div class="section-intro mb-8 reveal">
             <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Choose the right route in</p>
             <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Pricing at a glance across every offer</h2>
             <p class="max-w-3xl text-brand-text-mid">This page keeps every route into Elliot’s Mobile Music clear: private lesson rates, Band Night block pricing, School Band Programme costs and the full Make a Song course price, plus the live private lesson travel calculator.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="private-lessons.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal text-inherit no-underline">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-7 lg:gap-8">
+            <a href="private-lessons.html" class="service-card bg-card-bg rounded-2xl p-7 sm:p-8 border border-brand-highlight/30 card-glow hover-lift reveal text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
                         <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">Home tuition</p>
@@ -641,7 +697,7 @@
                 <span class="service-link text-brand-highlight font-semibold">View private lessons <span class="arrow" aria-hidden="true">→</span></span>
             </a>
 
-            <a href="band-night.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
+            <a href="band-night.html" class="service-card bg-card-bg rounded-2xl p-7 sm:p-8 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
                         <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-accent-light font-semibold mb-2">Small-group venue offer</p>
@@ -658,7 +714,7 @@
                 <span class="service-link text-brand-accent-light font-semibold">View Band Night <span class="arrow" aria-hidden="true">→</span></span>
             </a>
 
-            <a href="school-band-programme.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
+            <a href="school-band-programme.html" class="service-card bg-card-bg rounded-2xl p-7 sm:p-8 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
                         <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-accent-light font-semibold mb-2">School offer</p>
@@ -675,7 +731,7 @@
                 <span class="service-link text-brand-accent-light font-semibold">View school bands <span class="arrow" aria-hidden="true">→</span></span>
             </a>
 
-            <a href="make-a-song.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal delayed-2 text-inherit no-underline">
+            <a href="make-a-song.html" class="service-card bg-card-bg rounded-2xl p-7 sm:p-8 border border-brand-highlight/30 card-glow hover-lift reveal delayed-2 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
                         <p class="text-[0.72rem] uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">Creative songwriting offer</p>
@@ -693,7 +749,7 @@
             </a>
         </div>
 
-        <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 mt-6 reveal delayed-2">
+        <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 sm:p-8 mt-8 reveal delayed-2">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div class="max-w-2xl">
                     <p class="text-xs uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">How to use this page well</p>
@@ -709,9 +765,9 @@
         </div>
     </section>
 
-    <section id="calculator" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20"> class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
-            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
+    <section id="calculator" class="section-shell max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.28fr_minmax(0,1fr)] gap-10 lg:gap-14 xl:gap-16 items-start">
+            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 sm:p-8 reveal">
                 <div class="flex items-center justify-between gap-3 mb-4">
                     <div>
                         <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-highlight flex items-center gap-2">
@@ -723,8 +779,8 @@
                     <span class="badge bg-brand-accent-light/10 text-brand-accent-light border border-brand-accent-light/40">Live map</span>
                 </div>
 
-                <div class="space-y-5 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-5">
+                <div class="space-y-6 mb-7">
+                    <div class="grid grid-cols-1 md:grid-cols-[1.3fr_minmax(0,1fr)] gap-6">
                         <div>
                             <label for="postcode-input" class="block text-xs font-semibold tracking-[0.12em] uppercase text-brand-text-mid mb-1">Outward postcode or full postcode</label>
                             <input id="postcode-input" type="text" placeholder="e.g. LS28 7**, LS13, BD17..." class="w-full p-3 rounded-lg bg-brand-dark-bg border border-brand-accent-dark/60 text-sm text-brand-text-light focus:outline-none focus:border-brand-accent-light focus:ring-2 focus:ring-brand-accent-light/40 uppercase">
@@ -760,8 +816,8 @@
                 <p class="mt-4 text-[0.7rem] text-brand-text-mid">All figures are estimates based on Google’s live and typical traffic data. Final fees will always be confirmed directly with Elliot.</p>
             </section>
 
-            <section class="space-y-6 reveal delayed-1">
-                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-4">
+            <section class="space-y-7 reveal delayed-1">
+                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-5 sm:p-6">
                     <div class="flex items-center justify-between mb-3">
                         <div>
                             <h3 class="font-heading text-lg font-bold text-brand-accent-light flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5 text-brand-highlight"></i>Route Preview</h3>
@@ -786,9 +842,9 @@
     </section>
 
     
-<section id="booking-flow" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+<section id="booking-flow" class="section-shell max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,1.05fr)] gap-10 lg:gap-12 items-start">
-            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
+            <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-7 sm:p-8 reveal">
                 <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
                     <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
                     Private Lesson Rates
@@ -920,46 +976,46 @@
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div class="mb-8 reveal">
+    <section class="section-shell max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-20">
+        <div class="section-intro mb-8 reveal">
             <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Helpful questions answered early</p>
             <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Quick answers before you reach the policies</h2>
             <p class="max-w-3xl text-brand-text-mid">This gives families and schools a simple overview before getting into the more detailed terms further down the page.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div class="faq-card reveal">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6">
+            <div class="faq-card reveal h-full">
                 <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Do all services work the same way?</p>
                 <p class="text-sm text-brand-text-mid leading-relaxed">No. Private lessons use lesson rates and travel, while Band Night, School Bands and Make a Song are usually clearer fixed block or per-session offers.</p>
             </div>
-            <div class="faq-card reveal delayed-1">
+            <div class="faq-card reveal delayed-1 h-full">
                 <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Can schools request a different setup?</p>
                 <p class="text-sm text-brand-text-mid leading-relaxed">Yes. The parent-paid model is the standard guide price, but school-funded or adapted delivery can be discussed directly with Elliot.</p>
             </div>
-            <div class="faq-card reveal delayed-2">
+            <div class="faq-card reveal delayed-2 h-full">
                 <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Is travel already included?</p>
                 <p class="text-sm text-brand-text-mid leading-relaxed">For private lessons, travel is shown separately so families can see the base lesson fee and the added travel cost clearly.</p>
             </div>
-            <div class="faq-card reveal delayed-3">
+            <div class="faq-card reveal delayed-3 h-full">
                 <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Where are the full terms?</p>
                 <p class="text-sm text-brand-text-mid leading-relaxed">All the detailed policies for every offer are grouped together at the bottom of this page for easy reference.</p>
             </div>
         </div>
     </section>
 
-    <section id="policies" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div class="mb-8 reveal">
+    <section id="policies" class="section-shell max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-28">
+        <div class="section-intro mb-8 reveal">
             <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Policies & key terms</p>
             <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Everything important in one place at the bottom</h2>
             <p class="max-w-3xl text-brand-text-mid">Pricing sits first on this page, and the detailed policies sit here so families and schools can check the practical details when they need them.</p>
         </div>
 
-        <div class="space-y-5 reveal delayed-1">
-            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+        <div class="space-y-6 reveal delayed-1">
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7 lg:p-8">
                 <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-private">
                     <span>Private lesson policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
-                <div id="policy-private" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg max-h-96 overflow-y-auto text-sm">
+                <div id="policy-private" class="hidden policy-content mt-5 p-5 sm:p-6 border border-brand-accent-dark/50 rounded-xl max-h-96 overflow-y-auto text-sm">
                     <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Private lessons</h3>
                     <p>I teach piano, singing, drums, guitar and bass in students’ homes, bringing the equipment needed for the lesson where appropriate.</p>
                     <h4>Lesson fees</h4>
@@ -975,12 +1031,12 @@
                 </div>
             </div>
 
-            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7 lg:p-8">
                 <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-band-night">
                     <span>Band Night policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
-                <div id="policy-band-night" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                <div id="policy-band-night" class="hidden policy-content mt-5 p-5 sm:p-6 border border-brand-accent-dark/50 rounded-xl text-sm">
                     <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Band Night</h3>
                     <p><strong>£90 per child</strong> for a 6-week block, with a <strong>£10 deposit</strong> securing the place. Families commit to the full block.</p>
                     <h4>Payments & missed sessions</h4>
@@ -992,12 +1048,12 @@
                 </div>
             </div>
 
-            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7 lg:p-8">
                 <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-school">
                     <span>School Band Programme policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
-                <div id="policy-school" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                <div id="policy-school" class="hidden policy-content mt-5 p-5 sm:p-6 border border-brand-accent-dark/50 rounded-xl text-sm">
                     <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">School Band Programme</h3>
                     <p>The parent-paid model is typically <strong>£15 per child per session</strong>, charged termly in advance. A standard 6-week block is normally <strong>£90 per child</strong>.</p>
                     <h4>Group structure</h4>
@@ -1009,12 +1065,12 @@
                 </div>
             </div>
 
-            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+            <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7 lg:p-8">
                 <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-song">
                     <span>Make a Song course policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
-                <div id="policy-song" class="hidden policy-content mt-4 p-4 border border-brand-accent-dark/50 rounded-lg text-sm">
+                <div id="policy-song" class="hidden policy-content mt-5 p-5 sm:p-6 border border-brand-accent-dark/50 rounded-xl text-sm">
                     <h3 class="font-heading text-xl sm:text-2xl font-bold text-brand-highlight mb-3">Make a Song</h3>
                     <p>The full 6-week course is <strong>£135</strong>, including songwriting lessons, recording / production lessons and the equipment / insurance fee.</p>
                     <h4>Course structure</h4>
