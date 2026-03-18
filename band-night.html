@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +43,7 @@
       position: relative;
       min-height: 100vh;
       color: #e0e0e0;
+      overflow-x: hidden;
     }
     body::before {
       content: "";
@@ -63,15 +63,73 @@
     .soft-border { border: 1px solid rgba(0, 208, 132, 0.18); }
     .glass-panel { background: linear-gradient(180deg, rgba(37,37,56,0.94) 0%, rgba(26,26,46,0.94) 100%); backdrop-filter: blur(10px); }
     .section-accent::after { content:""; display:block; width:84px; height:3px; margin-top:.9rem; border-radius:999px; background:linear-gradient(90deg,#00d084 0%, #ffb703 100%); }
-    .hover-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; }
-    .hover-lift:hover { transform: translateY(-4px); }
+    .hover-lift { transition: transform .32s ease, box-shadow .32s ease, border-color .28s ease, background-color .28s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(0, 208, 132, 0.16), 0 10px 24px rgba(0,0,0,.34); }
     .nav-scrolled { background: rgba(26,26,46,0.88); backdrop-filter: blur(12px); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
     .hero-card { border: 1px solid rgba(0,208,132,.22); }
-    .stat-card { background: rgba(26,26,46,.72); border: 1px solid rgba(0,208,132,.16); }
+    .stat-card { background: rgba(26,26,46,.72); border: 1px solid rgba(0,208,132,.16); transition: transform .25s ease, border-color .25s ease, background-color .25s ease; }
+    .stat-card:hover { transform: translateY(-3px); border-color: rgba(255,183,3,.32); }
     .btn-primary, .btn-secondary { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease; }
     .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
     .btn-primary:hover { box-shadow: 0 14px 28px rgba(0,208,132,.22); }
     .btn-secondary:hover { box-shadow: 0 12px 26px rgba(255,183,3,.15); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .08s; }
+    .delay-2 { transition-delay: .16s; }
+    .delay-3 { transition-delay: .24s; }
+    .micro-card {
+      position: relative;
+      overflow: hidden;
+      background: rgba(26,26,46,.62);
+      border: 1px solid rgba(0,208,132,.16);
+      border-radius: 1rem;
+      padding: 1rem;
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    }
+    .micro-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0%, transparent 45%, rgba(255,255,255,.06) 50%, transparent 55%, transparent 100%);
+      transform: translateX(-130%);
+      transition: transform .9s ease;
+      pointer-events: none;
+    }
+    .micro-card:hover { transform: translateY(-4px); border-color: rgba(255,183,3,.26); box-shadow: 0 14px 28px rgba(0,0,0,.22); }
+    .micro-card:hover::before { transform: translateX(130%); }
+    .timeline-step {
+      position: relative;
+      padding-left: 4.6rem;
+    }
+    .timeline-step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #1a1a2e;
+      background: linear-gradient(135deg, #00d084 0%, #ffb703 100%);
+      box-shadow: 0 10px 22px rgba(0,208,132,.18);
+    }
+    .timeline-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 1.45rem;
+      top: 3.35rem;
+      bottom: -1rem;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(0,208,132,.32) 0%, rgba(255,183,3,.10) 100%);
+    }
+    .faq-card { transition: transform .25s ease, border-color .25s ease; }
+    .faq-card:hover { transform: translateY(-3px); border-color: rgba(255,183,3,.25); }
+    .float-gentle { animation: floatGentle 5.6s ease-in-out infinite; }
+    @keyframes floatGentle { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   </style>
 
 </head>
@@ -97,35 +155,201 @@
 <main class="flex-grow pt-24 pb-20">
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-10 items-center">
-      <div>
+      <div class="reveal">
         <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Small-group venue offer</p>
         <h1 class="font-heading text-4xl sm:text-5xl font-extrabold leading-tight mb-5">Band Night gives young musicians the feel of a real band.</h1>
-        <p class="text-base sm:text-lg text-brand-text-mid leading-8 mb-8">Band Night is designed for children who want to play with others, rehearse real songs and enjoy the excitement of making music together. It brings the energy of a live band setup into a structured, supportive format.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8"><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">6 weeks</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Typical block</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">4–5</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Pupils per band</p></div><div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">£90</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Per child block</p></div></div>
-        <div class="flex flex-wrap gap-4">
+        <p class="text-base sm:text-lg text-brand-text-mid leading-8 mb-6">Band Night is designed for children who want more than a lesson on their own. It gives them the buzz of rehearsing with others, the structure of a clear weekly setup, and the confidence that comes from playing real songs together in a proper venue environment.</p>
+        <p class="text-sm sm:text-base text-brand-text-mid leading-7 mb-8">Instead of learning in isolation, students take on real roles in a band, listen to each other, lock into a groove, and experience what it feels like to build something as a group. It is practical, social, exciting and supportive all at once.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+          <div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">6 weeks</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Typical block</p></div>
+          <div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">4–5</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Pupils per band</p></div>
+          <div class="stat-card rounded-2xl p-4"><p class="text-2xl font-heading font-extrabold text-brand-accent-light">£90</p><p class="text-xs uppercase tracking-[0.18em] text-brand-text-mid mt-1">Per child block</p></div>
+        </div>
+        <div class="flex flex-wrap gap-4 mb-6">
           <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold">Enquire about Band Night</a>
-          <a href="index.html" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">Back to home</a>
+          <a href="#pricing" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">See pricing & rules</a>
+        </div>
+        <div class="flex flex-wrap gap-2 text-[11px] sm:text-xs uppercase tracking-[0.18em] text-brand-text-mid">
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Ages 7–16</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Pirate Studios Leeds</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Parents stay on site</span>
         </div>
       </div>
-      <div>
-        <div class="glass-panel hero-card rounded-[1.6rem] p-7 card-glow">
-<div class="grid grid-cols-2 gap-3 text-sm">
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Format</p><p class="text-brand-text-mid">Small-group band sessions in a real rehearsal setup.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Venue</p><p class="text-brand-text-mid">Usually Pirate Studios Leeds.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Band size</p><p class="text-brand-text-mid">Usually 4–5 pupils per band.</p></div>
-  <div class="stat-card rounded-2xl p-4"><p class="text-brand-highlight font-semibold mb-1">Parent rule</p><p class="text-brand-text-mid">Parents must remain on site at all times.</p></div>
-</div>
-</div>
+      <div class="reveal delay-1">
+        <div class="glass-panel hero-card rounded-[1.6rem] p-7 card-glow float-gentle">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-brand-highlight/10 border border-brand-highlight/35 flex items-center justify-center text-brand-highlight"><i data-lucide="music-4" class="w-6 h-6"></i></div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.22em] text-brand-highlight mb-1 font-semibold">At a glance</p>
+              <h2 class="font-heading text-2xl font-extrabold text-brand-accent-light">A structured, real-world band setup</h2>
+              <p class="text-brand-text-mid mt-2 text-sm leading-6">Band Night blends musical progress, teamwork and venue energy in a format that feels exciting but well managed.</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm mb-5">
+            <div class="micro-card"><p class="text-brand-highlight font-semibold mb-1">Format</p><p class="text-brand-text-mid">Small-group band sessions in a real rehearsal setup.</p></div>
+            <div class="micro-card"><p class="text-brand-highlight font-semibold mb-1">Venue</p><p class="text-brand-text-mid">Usually Pirate Studios Leeds in Kirkstall.</p></div>
+            <div class="micro-card"><p class="text-brand-highlight font-semibold mb-1">Instruments</p><p class="text-brand-text-mid">Band roles can include guitar, bass, drums, keys and vocals.</p></div>
+            <div class="micro-card"><p class="text-brand-highlight font-semibold mb-1">Supervision</p><p class="text-brand-text-mid">Parents must remain on site, with sign in and sign out each session.</p></div>
+          </div>
+          <div class="rounded-2xl border border-brand-accent-dark/50 bg-brand-dark-bg/50 p-5">
+            <div class="flex items-start gap-3">
+              <i data-lucide="shield-check" class="w-5 h-5 text-brand-accent-light mt-0.5"></i>
+              <div>
+                <h3 class="font-semibold text-brand-text-light mb-1">Clear, safe and parent-friendly</h3>
+                <p class="text-sm text-brand-text-mid leading-6">The setup is designed so families know what to expect: venue details are clear, adult supervision is non-negotiable, and the group size stays small enough to feel focused and manageable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">What this offer includes</h2>
-    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="users" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Real band experience</h3></div><p class="text-brand-text-mid text-sm leading-6">Children work as a group instead of learning in isolation, helping them build listening skills, teamwork and performance confidence.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="map-pinned" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Venue-based setup</h3></div><p class="text-brand-text-mid text-sm leading-6">Sessions are usually delivered at Pirate Studios Leeds, giving students a professional rehearsal-room feel from the start.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="calendar-range" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Simple structure</h3></div><p class="text-brand-text-mid text-sm leading-6">Band Night usually runs in 6-week blocks with 30-minute slots and a clear routine from week to week.</p></div><div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="shield" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Parent supervision</h3></div><p class="text-brand-text-mid text-sm leading-6">Parents must remain on site at all times, helping the setup stay safe, clear and easy to manage.</p></div></div>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="reveal">
+      <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Why Band Night works so well</h2>
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="users" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Real band experience</h3></div><p class="text-brand-text-mid text-sm leading-6">Children learn how to listen, come in together, hold their part and play as a team instead of only focusing on individual exercises.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="map-pinned" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Venue-based setup</h3></div><p class="text-brand-text-mid text-sm leading-6">Using a rehearsal venue gives the sessions a different energy. It feels more like being in a real band and less like a standard class.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="guitar" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Balanced musical roles</h3></div><p class="text-brand-text-mid text-sm leading-6">Students can find their place on guitar, bass, drums, keys or vocals, helping each child feel involved and important to the sound.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow hover-lift"><div class="flex items-center gap-3 mb-3"><i data-lucide="sparkles" class="w-5 h-5 text-brand-highlight"></i><h3 class="font-heading text-xl font-bold text-brand-text-light">Confidence through momentum</h3></div><p class="text-brand-text-mid text-sm leading-6">Because the band builds week by week, children can hear progress happening, which makes the sessions motivating and memorable.</p></div>
+      </div>
+    </div>
   </section>
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-    <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
-    <div class="grid md:grid-cols-2 gap-6"><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Who is Band Night best for?</h3><p class="text-sm text-brand-text-mid leading-6">It is ideal for children who want to play with friends, enjoy group music-making and are excited by the idea of being part of a band.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">How much does it cost?</h3><p class="text-sm text-brand-text-mid leading-6">The standard price is £90 per child for a 6-week block, with a £10 deposit used to secure the place.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Do parents need to stay?</h3><p class="text-sm text-brand-text-mid leading-6">Yes. Parents must remain on site at all times during Band Night sessions.</p></div><div class="glass-panel rounded-2xl p-6 card-glow"><h3 class="font-semibold text-brand-text-light mb-2">Can places be guaranteed?</h3><p class="text-sm text-brand-text-mid leading-6">Final places and groupings are confirmed directly by Elliot, so the best next step is to enquire through the contact page.</p></div></div>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-start">
+      <div class="reveal">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">How a Band Night block works</h2>
+        <div class="space-y-8">
+          <div class="timeline-step" data-step="1">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Enquire and reserve a place</h3>
+            <p class="text-brand-text-mid leading-7 text-sm sm:text-base">Families start by getting in touch. A £10 deposit is used to reserve the place while groups and time slots are being confirmed. Final placement depends on building a suitable band and timetable.</p>
+          </div>
+          <div class="timeline-step" data-step="2">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Band groups are formed</h3>
+            <p class="text-brand-text-mid leading-7 text-sm sm:text-base">Students are grouped into a small band, usually with 4–5 pupils. The aim is to create a lineup that feels balanced, enjoyable and manageable for everyone involved.</p>
+          </div>
+          <div class="timeline-step" data-step="3">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Weekly rehearsals build momentum</h3>
+            <p class="text-brand-text-mid leading-7 text-sm sm:text-base">Each 30-minute session focuses on playing together, improving timing, learning parts and building a stronger group sound from one week to the next.</p>
+          </div>
+          <div class="timeline-step" data-step="4">
+            <h3 class="font-heading text-xl font-bold text-brand-text-light mb-2">Children leave feeling part of something real</h3>
+            <p class="text-brand-text-mid leading-7 text-sm sm:text-base">The goal is not just to get through a session. It is to help young musicians feel proud, included, and excited about music by the end of the full block.</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal delay-1">
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow">
+          <h3 class="font-heading text-2xl font-bold text-brand-text-light mb-5">What families can expect</h3>
+          <div class="space-y-4">
+            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">Clear start and finish</div><p class="text-sm text-brand-text-mid leading-6">The block format keeps things easy to understand. Families know the overall commitment, the weekly structure and the next step.</p></div>
+            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Small groups</div><p class="text-sm text-brand-text-mid leading-6">Keeping the bands small means children are seen, heard and supported rather than lost in a bigger group.</p></div>
+            <div class="micro-card"><div class="text-brand-accent-light font-semibold mb-1">A proper music atmosphere</div><p class="text-sm text-brand-text-mid leading-6">The venue feel matters. It helps the sessions feel exciting, focused and different from a standard classroom or one-to-one lesson.</p></div>
+            <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">A supportive tone</div><p class="text-sm text-brand-text-mid leading-6">Band Night is meant to be energising and confidence-building, not intimidating. Children are guided clearly while still enjoying the social side of making music together.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <div class="reveal">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Who Band Night is ideal for</h2>
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow">
+          <div class="space-y-4">
+            <div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-accent-light mt-1"></i><p class="text-brand-text-mid leading-7">Children who are excited by the idea of being in a real band rather than learning completely on their own.</p></div>
+            <div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-accent-light mt-1"></i><p class="text-brand-text-mid leading-7">Friendship groups who would enjoy a shared music experience and thrive on the social, team-based side of playing together.</p></div>
+            <div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-accent-light mt-1"></i><p class="text-brand-text-mid leading-7">Young musicians who need something more energetic and motivating than a standard one-to-one format.</p></div>
+            <div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-accent-light mt-1"></i><p class="text-brand-text-mid leading-7">Families looking for a clear, structured offer that still feels exciting, modern and memorable.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal delay-1">
+        <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Venue, supervision and safeguarding</h2>
+        <div class="glass-panel rounded-[1.5rem] p-7 card-glow space-y-4">
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Venue</div><p class="text-sm text-brand-text-mid leading-6">Band Night is usually delivered at Pirate Studios Leeds, Kirkstall Industrial Estate, LS4 2AZ.</p></div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Adult on site</div><p class="text-sm text-brand-text-mid leading-6">Under-18s must attend with an adult, and parents must remain on site for the full booking. This is a core part of how the setup runs safely.</p></div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Sign in and sign out</div><p class="text-sm text-brand-text-mid leading-6">Children are signed in and signed out each week with a named adult so handover stays clear and professional.</p></div>
+          <div class="micro-card"><div class="text-brand-highlight font-semibold mb-1">Age and group size</div><p class="text-sm text-brand-text-mid leading-6">Band Night is currently aimed at roughly ages 7–16, with groups usually kept to 4–5 pupils per band.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="reveal">
+      <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Pricing, deposits and booking</h2>
+      <div class="grid lg:grid-cols-3 gap-6 items-start">
+        <div class="glass-panel rounded-2xl p-7 card-glow hover-lift lg:col-span-1">
+          <p class="text-xs uppercase tracking-[0.24em] text-brand-highlight mb-2 font-semibold">Set price</p>
+          <h3 class="font-heading text-3xl font-extrabold text-brand-accent-light mb-2">£90 per child</h3>
+          <p class="text-brand-text-mid text-sm leading-6">A standard Band Night block is 6 weeks long, with 6 x 30-minute sessions. That works out at £15 per week.</p>
+        </div>
+        <div class="glass-panel rounded-2xl p-7 card-glow hover-lift lg:col-span-1">
+          <p class="text-xs uppercase tracking-[0.24em] text-brand-highlight mb-2 font-semibold">Deposit</p>
+          <h3 class="font-heading text-3xl font-extrabold text-brand-accent-light mb-2">£10 to reserve</h3>
+          <p class="text-brand-text-mid text-sm leading-6">The deposit secures the place while the band and slot are confirmed. It comes off the final balance once the place is arranged.</p>
+        </div>
+        <div class="glass-panel rounded-2xl p-7 card-glow hover-lift lg:col-span-1">
+          <p class="text-xs uppercase tracking-[0.24em] text-brand-highlight mb-2 font-semibold">By arrangement</p>
+          <h3 class="font-heading text-3xl font-extrabold text-brand-accent-light mb-2">Weekly payments</h3>
+          <p class="text-brand-text-mid text-sm leading-6">In some cases, weekly payments may be possible by arrangement, usually with a larger upfront deposit.</p>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6 mt-6">
+        <div class="glass-panel rounded-2xl p-7 card-glow">
+          <h3 class="font-heading text-xl font-bold text-brand-text-light mb-4">Key booking points</h3>
+          <div class="space-y-3 text-sm text-brand-text-mid leading-6">
+            <p>• Families commit to the full 6-week block once the place is confirmed.</p>
+            <p>• Missed sessions are not refunded or rearranged, because the slot is reserved for the band.</p>
+            <p>• If Elliot cancels a session, a replacement session or credit will be offered where possible.</p>
+            <p>• Ongoing unsafe or disruptive behaviour may lead to a place ending to protect the group.</p>
+          </div>
+        </div>
+        <div class="glass-panel rounded-2xl p-7 card-glow">
+          <h3 class="font-heading text-xl font-bold text-brand-text-light mb-4">Venue practicalities</h3>
+          <div class="space-y-3 text-sm text-brand-text-mid leading-6">
+            <p>• Pirate Studios Leeds is self-service, so adult supervision matters throughout the booking.</p>
+            <p>• Families should plan to arrive a little early for access, setup and sign-in.</p>
+            <p>• Children should not wander the venue independently.</p>
+            <p>• Final time slots and grouping are confirmed directly once enough suitable interest is in place.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="reveal">
+      <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-8">Common questions</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Who is Band Night best for?</h3><p class="text-sm text-brand-text-mid leading-6">It is best for children who want the energy of playing with others, especially those who would enjoy rehearsing with friends or being part of a small band setup.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">How much does it cost?</h3><p class="text-sm text-brand-text-mid leading-6">The standard price is £90 per child for a 6-week block, with a £10 deposit used to reserve the place while groups are confirmed.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Do parents need to stay?</h3><p class="text-sm text-brand-text-mid leading-6">Yes. Parents must remain on site at all times during Band Night sessions, and sign-in/sign-out is used each week.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">Can places be guaranteed straight away?</h3><p class="text-sm text-brand-text-mid leading-6">Not automatically. Final places depend on building suitable groups and times, so Elliot confirms this directly once the band setup is workable.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What age range is it aimed at?</h3><p class="text-sm text-brand-text-mid leading-6">The current Band Night setup is aimed roughly at ages 7–16, while still depending on the right group mix and stage of development.</p></div>
+        <div class="glass-panel rounded-2xl p-6 card-glow faq-card soft-border"><h3 class="font-semibold text-brand-text-light mb-2">What should families do next?</h3><p class="text-sm text-brand-text-mid leading-6">The best next step is to enquire, so Elliot can confirm whether there is a suitable band, age mix and time slot available.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-20">
+    <div class="reveal glass-panel rounded-[1.7rem] p-8 sm:p-10 card-glow border border-brand-accent-dark/50">
+      <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
+        <div>
+          <p class="text-xs uppercase tracking-[0.24em] text-brand-highlight mb-3 font-semibold">Ready to ask about Band Night?</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-brand-accent-light mb-4">A clear next step for families who want something exciting, social and well organised.</h2>
+          <p class="text-brand-text-mid leading-7 max-w-2xl">If your child would love the feel of playing in a real band, Band Night could be the right fit. The next step is simply to enquire so Elliot can confirm the most suitable setup, timing and place options directly.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-stretch">
+          <a href="contact.html" class="btn-primary inline-flex items-center justify-center px-5 py-3 rounded-lg bg-brand-accent-light text-brand-dark-bg text-sm font-semibold">Enquire now</a>
+          <a href="pricing.html" class="btn-secondary inline-flex items-center justify-center px-5 py-3 rounded-lg border border-brand-highlight text-brand-highlight text-sm font-semibold hover:bg-brand-highlight/10">View all pricing</a>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 <footer class="border-t border-brand-accent-dark/40 py-8 text-center text-brand-text-mid px-4">
@@ -138,12 +362,26 @@
   (() => {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    if (!mobileMenuButton || !mobileMenu) return;
-    mobileMenuButton.addEventListener('click', () => {
-      const isHidden = mobileMenu.classList.contains('hidden');
-      mobileMenu.classList.toggle('hidden');
-      mobileMenuButton.setAttribute('aria-expanded', String(isHidden));
-    });
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        mobileMenu.classList.toggle('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', String(isHidden));
+      });
+    }
+
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.14 });
+      revealElements.forEach(el => revealObserver.observe(el));
+    }
   })();
 </script>
 
