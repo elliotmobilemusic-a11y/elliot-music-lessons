@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -393,6 +394,105 @@
         border: 1px solid rgba(160, 224, 224, 0.24);
     }
 
+    
+    .service-card {
+        transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.22s ease, background-color 0.22s ease;
+    }
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34), 0 10px 28px rgba(0, 208, 132, 0.09);
+    }
+    .service-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        letter-spacing: 0.01em;
+    }
+    .service-card:hover .service-link .arrow {
+        transform: translateX(4px);
+    }
+    .service-link .arrow {
+        transition: transform 0.22s ease;
+    }
+    .detail-list {
+        display: grid;
+        gap: 0.7rem;
+    }
+    .detail-list li {
+        position: relative;
+        padding-left: 1rem;
+        color: #a0e0e0;
+        line-height: 1.6;
+    }
+    .detail-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62rem;
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #00d084 0%, #ffb703 100%);
+        box-shadow: 0 0 10px rgba(0, 208, 132, 0.22);
+    }
+    .info-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 208, 132, 0.22);
+        background: rgba(26, 26, 46, 0.58);
+        color: #a0e0e0;
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    .process-card {
+        background: rgba(26, 26, 46, 0.72);
+        border: 1px solid rgba(0, 208, 132, 0.16);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        border-radius: 1.2rem;
+        padding: 1.1rem 1.05rem;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .process-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 183, 3, 0.32);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+    }
+    .process-number {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #1a1a2e;
+        background: linear-gradient(135deg, #00d084 0%, #ffb703 100%);
+        box-shadow: 0 0 18px rgba(0, 208, 132, 0.22);
+    }
+    .soft-divider {
+        height: 1px;
+        background: linear-gradient(90deg, rgba(0,208,132,0.25), rgba(255,183,3,0.22), rgba(0,208,132,0.08));
+    }
+    .faq-card {
+        background: rgba(26, 26, 46, 0.72);
+        border: 1px solid rgba(0, 208, 132, 0.16);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        border-radius: 1rem;
+        padding: 1rem;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .faq-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 183, 3, 0.32);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+    }
+
+
     </style>
 
     <script type="module">
@@ -465,6 +565,15 @@
                         <div class="text-[0.72rem] tracking-[0.18em] uppercase text-brand-text-mid mt-1">Private lesson days</div>
                     </div>
                 </div>
+                <div class="flex flex-wrap gap-3 mt-6">
+                    <a href="#offer-pricing" class="btn-primary inline-flex items-center justify-center rounded-xl bg-brand-accent-light text-brand-dark-bg font-semibold px-5 py-3">Compare offers</a>
+                    <a href="#calculator" class="btn-secondary inline-flex items-center justify-center rounded-xl border border-brand-highlight text-brand-highlight font-semibold px-5 py-3">Use lesson calculator</a>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="info-chip">Private lesson travel calculator</span>
+                    <span class="info-chip">Policies all at the bottom</span>
+                    <span class="info-chip">Clear pricing for families & schools</span>
+                </div>
             </div>
 
             <div class="relative reveal delayed-1 md:pt-0">
@@ -506,12 +615,14 @@
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+    
+<section id="offer-pricing" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
         <div class="mb-8 reveal">
             <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Choose the right route in</p>
             <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Pricing at a glance across every offer</h2>
-            <p class="max-w-3xl text-brand-text-mid">All prices shown here are the current guide prices based on your confirmed offers. Detailed setup, location and final logistics are still confirmed directly where needed.</p>
+            <p class="max-w-3xl text-brand-text-mid">This page keeps every route into Elliot’s Mobile Music clear: private lesson rates, Band Night block pricing, School Band Programme costs and the full Make a Song course price, plus the live private lesson travel calculator.</p>
         </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <a href="private-lessons.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
@@ -522,8 +633,14 @@
                     <span class="text-brand-highlight text-2xl">£</span>
                 </div>
                 <p class="text-brand-text-mid leading-relaxed mb-4">Intro lesson <strong>£10</strong>. Standard lesson fees are <strong>£15</strong> for 30 minutes, <strong>£30</strong> for 60 minutes and <strong>£50</strong> for 90 minutes, with travel added where needed.</p>
-                <span class="service-link text-brand-highlight font-semibold">View private lessons <span aria-hidden="true">→</span></span>
+                <ul class="detail-list text-sm mb-5">
+                    <li>Available for <strong>piano, singing, drums, guitar and bass</strong>.</li>
+                    <li>Delivered at home across Pudsey, Farsley, Calverley, Bramley, Horsforth and wider West Leeds depending on travel.</li>
+                    <li>Best for families wanting flexible, 1:1 support and steady progress week to week.</li>
+                </ul>
+                <span class="service-link text-brand-highlight font-semibold">View private lessons <span class="arrow" aria-hidden="true">→</span></span>
             </a>
+
             <a href="band-night.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
@@ -533,8 +650,14 @@
                     <span class="text-brand-accent-light text-2xl">♪</span>
                 </div>
                 <p class="text-brand-text-mid leading-relaxed mb-4"><strong>£90</strong> per child for a 6-week block, with a <strong>£10 deposit</strong> to secure a place. Venue details and final grouping are confirmed directly.</p>
-                <span class="service-link text-brand-accent-light font-semibold">View Band Night <span aria-hidden="true">→</span></span>
+                <ul class="detail-list text-sm mb-5">
+                    <li>Usually built around <strong>4–5 children per band</strong> in short, high-energy sessions.</li>
+                    <li>Parents must remain <strong>on site at all times</strong> and sign children in and out.</li>
+                    <li>Best for children who want the excitement of rehearsing and playing as a real band.</li>
+                </ul>
+                <span class="service-link text-brand-accent-light font-semibold">View Band Night <span class="arrow" aria-hidden="true">→</span></span>
             </a>
+
             <a href="school-band-programme.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-accent-light/25 card-glow hover-lift reveal delayed-1 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
@@ -544,8 +667,14 @@
                     <span class="text-brand-accent-light text-2xl">⚡</span>
                 </div>
                 <p class="text-brand-text-mid leading-relaxed mb-4">Parent-paid school bands are typically <strong>£15 per child per session</strong>, charged termly in advance. A standard 6-week block is usually <strong>£90 per child</strong>, while school-funded setups can be confirmed individually.</p>
-                <span class="service-link text-brand-accent-light font-semibold">View school bands <span aria-hidden="true">→</span></span>
+                <ul class="detail-list text-sm mb-5">
+                    <li>Usually <strong>30-minute weekly sessions</strong> with <strong>4–5 pupils</strong> per band and a minimum of 3 to run.</li>
+                    <li>Designed as a structured enrichment offer for primary schools with clear delivery and equipment included.</li>
+                    <li>Best for schools wanting confidence-building group music with a clear performance pathway.</li>
+                </ul>
+                <span class="service-link text-brand-accent-light font-semibold">View school bands <span class="arrow" aria-hidden="true">→</span></span>
             </a>
+
             <a href="make-a-song.html" class="service-card bg-card-bg rounded-2xl p-6 border border-brand-highlight/30 card-glow hover-lift reveal delayed-2 text-inherit no-underline">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div>
@@ -555,12 +684,32 @@
                     <span class="text-brand-highlight text-2xl">♫</span>
                 </div>
                 <p class="text-brand-text-mid leading-relaxed mb-4"><strong>£135 total</strong> for the 6-week course, including songwriting, recording, production and the equipment / insurance fee.</p>
-                <span class="service-link text-brand-highlight font-semibold">View Make a Song <span aria-hidden="true">→</span></span>
+                <ul class="detail-list text-sm mb-5">
+                    <li>Weeks 1–3 focus on songwriting; weeks 4–6 move into recording and production.</li>
+                    <li>For ages <strong>6+</strong>, delivered 1:1 or in a group if everyone travels to the same house.</li>
+                    <li>Best for children who want to create something original rather than only learn set pieces.</li>
+                </ul>
+                <span class="service-link text-brand-highlight font-semibold">View Make a Song <span class="arrow" aria-hidden="true">→</span></span>
             </a>
+        </div>
+
+        <div class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 mt-6 reveal delayed-2">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="max-w-2xl">
+                    <p class="text-xs uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">How to use this page well</p>
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3">Compare the offer first, then check the detail that matters</h3>
+                    <p class="text-brand-text-mid leading-relaxed">Most families start by choosing the right route into music, then use the private lesson calculator or policy section to check the practical side. Schools usually compare the School Band Programme structure and parent-paid cost first, while Band Night and Make a Song are easiest to judge by the block price.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <a href="#calculator" class="info-chip">Private lesson calculator</a>
+                    <a href="#booking-flow" class="info-chip">How booking works</a>
+                    <a href="#policies" class="info-chip">Policies & key terms</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <section id="calculator" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20"> class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div class="grid grid-cols-1 lg:grid-cols-[1.3fr_minmax(0,1fr)] gap-10 lg:gap-12 items-start">
             <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
                 <div class="flex items-center justify-between gap-3 mb-4">
@@ -636,14 +785,15 @@
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    
+<section id="booking-flow" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_minmax(0,1.05fr)] gap-10 lg:gap-12 items-start">
             <section class="glass-panel rounded-[1.6rem] border border-brand-accent-dark/60 card-glow p-6 sm:p-7 reveal">
                 <h2 class="font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
                     <i data-lucide="book-open" class="w-6 h-6 text-brand-accent-light"></i>
                     Private Lesson Rates
                 </h2>
-                <p class="text-sm text-brand-text-mid mb-5">These are the base private lesson fees before travel is added. Travel is calculated transparently using the tool above.</p>
+                <p class="text-sm text-brand-text-mid mb-5">These are the base private lesson fees before travel is added. Travel is calculated transparently using the tool above so families can see the likely final cost before enquiring.</p>
 
                 <div class="overflow-x-auto rounded-lg">
                     <table class="w-full text-left policy-table text-brand-text-light text-sm">
@@ -661,7 +811,27 @@
                         </tbody>
                     </table>
                 </div>
-                <p class="mt-4 text-xs sm:text-sm text-brand-text-mid">Payment can be made in cash at the lesson or via bank transfer in advance. Many families choose to pay in 4-week blocks.</p>
+
+                <div class="soft-divider my-5"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="micro-card">
+                        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-brand-highlight font-semibold mb-2">What the fee covers</p>
+                        <ul class="detail-list text-sm">
+                            <li>Lesson planning tailored to the student’s instrument, age and level.</li>
+                            <li>Home delivery where appropriate, keeping the process convenient for families.</li>
+                            <li>Clear structure while still keeping the sessions relaxed and encouraging.</li>
+                        </ul>
+                    </div>
+                    <div class="micro-card">
+                        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-brand-highlight font-semibold mb-2">Good to know</p>
+                        <ul class="detail-list text-sm">
+                            <li>Private lessons are currently available <strong>Wednesday to Friday</strong>.</li>
+                            <li>Parents are welcome to sit in and follow progress closely.</li>
+                            <li>Many families choose to pay in 4-week blocks by bank transfer.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             <section class="space-y-6 reveal delayed-2">
@@ -670,7 +840,7 @@
                         <span class="text-brand-highlight text-xl">🚗</span>
                         Travel fee bands
                     </h3>
-                    <p class="text-sm text-brand-text-mid mb-4">All travel is calculated from Pudsey (LS28). The calculator uses these bands based on the live road distance:</p>
+                    <p class="text-sm text-brand-text-mid mb-4">All travel is calculated from Pudsey (LS28). The calculator uses these bands based on live road distance so you can see the expected extra cost before booking.</p>
                     <table class="w-full text-left policy-table text-brand-text-light text-xs sm:text-sm">
                         <thead>
                             <tr><th class="px-4 py-2">Road distance (approx.)</th><th class="px-4 py-2">Additional travel fee</th></tr>
@@ -686,23 +856,97 @@
                 </div>
 
                 <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
-                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
-                        <span class="text-brand-highlight text-xl">📌</span>
-                        Policy overview
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-4 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-5 h-5 text-brand-highlight"></i>
+                        How booking and payment work
                     </h3>
-                    <p class="text-sm text-brand-text-mid mb-4">All detailed policies now sit together at the bottom of this page so the top half stays focused on pricing, travel and choosing the right service.</p>
-                    <ul class="list-disc ml-5 space-y-3 text-sm text-brand-text-mid">
-                        <li><strong>Private lessons:</strong> lesson fees, travel bands and cancellation terms.</li>
-                        <li><strong>Band Night:</strong> deposits, missed sessions, supervision and sign-in / sign-out.</li>
-                        <li><strong>School Bands:</strong> termly payment model, minimum numbers and school delivery notes.</li>
-                        <li><strong>Make a Song:</strong> course structure, equipment use and setup expectations.</li>
-                    </ul>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="process-card">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="process-number">1</span>
+                                <p class="font-semibold text-brand-text-light">Choose the offer</p>
+                            </div>
+                            <p class="text-sm text-brand-text-mid leading-relaxed">Start with the route that fits best: home lessons, Band Night, School Bands or Make a Song.</p>
+                        </div>
+                        <div class="process-card">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="process-number">2</span>
+                                <p class="font-semibold text-brand-text-light">Check the price</p>
+                            </div>
+                            <p class="text-sm text-brand-text-mid leading-relaxed">Use the lesson calculator for home tuition, or compare the fixed block / session prices for the other offers.</p>
+                        </div>
+                        <div class="process-card">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="process-number">3</span>
+                                <p class="font-semibold text-brand-text-light">Confirm the detail</p>
+                            </div>
+                            <p class="text-sm text-brand-text-mid leading-relaxed">Elliot confirms final availability, grouping, setup, venue or school timetable directly.</p>
+                        </div>
+                        <div class="process-card">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="process-number">4</span>
+                                <p class="font-semibold text-brand-text-light">Secure the place</p>
+                            </div>
+                            <p class="text-sm text-brand-text-mid leading-relaxed">Private lessons are then booked in, Band Night uses a deposit, and school / course places are secured through the agreed setup.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
+                    <h3 class="font-heading text-2xl font-bold text-brand-accent-light mb-3 flex items-center gap-2">
+                        <i data-lucide="star" class="w-5 h-5 text-brand-highlight"></i>
+                        What each price usually includes
+                    </h3>
+                    <div class="space-y-4 text-sm">
+                        <div>
+                            <p class="font-semibold text-brand-text-light mb-1">Private Lessons</p>
+                            <p class="text-brand-text-mid">Planning, teaching time, home delivery and clear progress support. Travel is shown separately where it applies.</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-brand-text-light mb-1">Band Night</p>
+                            <p class="text-brand-text-mid">A full 6-week band block, planning for the group, venue-based delivery and a consistent set band experience.</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-brand-text-light mb-1">School Band Programme</p>
+                            <p class="text-brand-text-mid">Weekly small-group school sessions, structured delivery, equipment use and the wider planning that lets the programme run smoothly in school.</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-brand-text-light mb-1">Make a Song</p>
+                            <p class="text-brand-text-mid">Songwriting, recording, production time and the use of professional studio equipment during the course.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="mb-8 reveal">
+            <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Helpful questions answered early</p>
+            <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Quick answers before you reach the policies</h2>
+            <p class="max-w-3xl text-brand-text-mid">This gives families and schools a simple overview before getting into the more detailed terms further down the page.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div class="faq-card reveal">
+                <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Do all services work the same way?</p>
+                <p class="text-sm text-brand-text-mid leading-relaxed">No. Private lessons use lesson rates and travel, while Band Night, School Bands and Make a Song are usually clearer fixed block or per-session offers.</p>
+            </div>
+            <div class="faq-card reveal delayed-1">
+                <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Can schools request a different setup?</p>
+                <p class="text-sm text-brand-text-mid leading-relaxed">Yes. The parent-paid model is the standard guide price, but school-funded or adapted delivery can be discussed directly with Elliot.</p>
+            </div>
+            <div class="faq-card reveal delayed-2">
+                <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Is travel already included?</p>
+                <p class="text-sm text-brand-text-mid leading-relaxed">For private lessons, travel is shown separately so families can see the base lesson fee and the added travel cost clearly.</p>
+            </div>
+            <div class="faq-card reveal delayed-3">
+                <p class="text-brand-highlight text-[0.72rem] uppercase tracking-[0.18em] font-semibold mb-2">Where are the full terms?</p>
+                <p class="text-sm text-brand-text-mid leading-relaxed">All the detailed policies for every offer are grouped together at the bottom of this page for easy reference.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="policies" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div class="mb-8 reveal">
             <p class="text-xs sm:text-sm font-semibold tracking-[0.22em] text-brand-highlight uppercase">Policies & key terms</p>
             <h2 class="section-accent font-heading text-2xl sm:text-3xl font-bold text-brand-accent-light mb-3">Everything important in one place at the bottom</h2>
@@ -711,7 +955,7 @@
 
         <div class="space-y-5 reveal delayed-1">
             <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
-                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-private">
+                <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-private">
                     <span>Private lesson policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
@@ -732,7 +976,7 @@
             </div>
 
             <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
-                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-band-night">
+                <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-band-night">
                     <span>Band Night policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
@@ -749,7 +993,7 @@
             </div>
 
             <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
-                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-school">
+                <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-school">
                     <span>School Band Programme policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
@@ -766,7 +1010,7 @@
             </div>
 
             <div class="glass-panel rounded-[1.4rem] card-glow border border-brand-accent-dark/60 p-6 sm:p-7">
-                <button class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-song">
+                <button aria-expanded="false" class="policy-toggle btn-secondary w-full text-left rounded-lg font-bold text-base sm:text-lg transition duration-300 flex justify-between items-center" data-target="policy-song">
                     <span>Make a Song course policy</span>
                     <span class="toggle-icon">▼</span>
                 </button>
@@ -783,6 +1027,10 @@
             </div>
         </div>
     </section>
+
+    <a id="sticky-cta" href="contact.html" class="btn-primary rounded-full bg-brand-accent-light text-brand-dark-bg font-semibold px-5 py-3 shadow-lg">
+        Enquire about pricing
+    </a>
 </main>
 
 <footer class="bg-gray-900 text-brand-text-mid py-7 mt-2">
@@ -834,9 +1082,24 @@
                 const icon = button.querySelector('.toggle-icon');
                 const isHidden = target.classList.contains('hidden');
                 target.classList.toggle('hidden');
+                button.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
                 if (icon) icon.textContent = isHidden ? '▲' : '▼';
             });
         });
+
+        // Sticky CTA
+        const stickyCta = document.getElementById('sticky-cta');
+        if (stickyCta) {
+            const handleStickyCta = () => {
+                if (window.scrollY > 700) {
+                    stickyCta.classList.add('show');
+                } else {
+                    stickyCta.classList.remove('show');
+                }
+            };
+            handleStickyCta();
+            window.addEventListener('scroll', handleStickyCta, { passive: true });
+        }
 
         // ========= ADVANCED MAPS / POSTCODE CALCULATOR =========
 
