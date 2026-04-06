@@ -155,7 +155,7 @@
     }
     .gallery-track {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 1rem;
     }
     .gallery-card {
@@ -446,12 +446,19 @@
 
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-16">
     <div class="reveal">
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-8">
+        <div class="max-w-2xl">
           <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Real sessions</p>
           <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white">What Band Night actually looks like</h2>
+          <p class="text-sm sm:text-base text-brand-text-mid mt-3 leading-7">A cleaner look inside the room: real pupils, clear stations, and each child taking on a genuine role inside the band.</p>
         </div>
-        <p class="text-sm sm:text-base text-brand-text-mid max-w-2xl leading-7">A quick look inside the room: headphones on, instruments ready, and each child building confidence in a proper band setup.</p>
+        <div class="flex flex-wrap gap-2 text-[11px] sm:text-xs uppercase tracking-[0.18em] text-brand-text-mid">
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Full band</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Keys</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Bass</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Drums</span>
+          <span class="px-3 py-1 rounded-full border border-brand-accent-dark/50 bg-brand-dark-bg/50">Guitar</span>
+        </div>
       </div>
 
       <div class="band-gallery-shell">
@@ -491,10 +498,20 @@
               <p class="gallery-card-copy">The setup stays parent-friendly and manageable while still feeling exciting for the child at the kit.</p>
             </div>
           </button>
+
+          <button type="button" class="gallery-card hover-lift" data-gallery-index="4" data-title="Guitar role" data-copy="Guitar gives children a visible, exciting part in the band and helps them feel connected to rhythm, chords and lead moments." data-image="images/band-night-guitar.jpeg" aria-label="Open guitar station photo">
+            <img src="images/band-night-guitar.jpeg" alt="Child seated with an electric guitar during a Band Night session.">
+            <div class="gallery-card-content">
+              <span class="gallery-kicker">Guitar</span>
+              <h3 class="gallery-card-title">A role children instantly recognise</h3>
+              <p class="gallery-card-copy">Guitar helps many pupils feel switched on straight away and gives the band shape, rhythm and excitement.</p>
+            </div>
+          </button>
         </div>
 
         <div class="gallery-dots" id="band-gallery-dots" aria-hidden="true">
           <span class="gallery-dot active"></span>
+          <span class="gallery-dot"></span>
           <span class="gallery-dot"></span>
           <span class="gallery-dot"></span>
           <span class="gallery-dot"></span>
