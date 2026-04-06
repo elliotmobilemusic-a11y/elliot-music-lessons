@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,6 +149,211 @@
     .icon-chip:hover { transform: translateY(-2px); border-color: rgba(255,183,3,.28); }
     @keyframes floatGentle { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     @keyframes pulseRing { 0% { transform: scale(.92); opacity:.9; } 70% { transform: scale(1.22); opacity:0; } 100% { opacity:0; } }
+
+    .band-gallery-shell {
+      position: relative;
+    }
+    .gallery-track {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .gallery-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(0,208,132,.18);
+      background: rgba(26,26,46,.72);
+      box-shadow: 0 12px 34px rgba(0, 208, 132, 0.10), 0 4px 16px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      isolation: isolate;
+    }
+    .gallery-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,10,20,0.02) 38%, rgba(8,10,20,0.72) 100%);
+      pointer-events: none;
+      opacity: .92;
+    }
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 4 / 5;
+      transition: transform .42s ease;
+    }
+    .gallery-card:hover img,
+    .gallery-card:focus-visible img {
+      transform: scale(1.04);
+    }
+    .gallery-card:focus-visible {
+      outline: 2px solid rgba(255,183,3,.75);
+      outline-offset: 3px;
+    }
+    .gallery-card-content {
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 1;
+      padding: 1rem;
+    }
+    .gallery-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .35rem .65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,183,3,.28);
+      background: rgba(26,26,46,.66);
+      color: #ffb703;
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: .7rem;
+    }
+    .gallery-card-title {
+      font-size: 1.05rem;
+      line-height: 1.3;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .gallery-card-copy {
+      margin-top: .35rem;
+      color: #c2ece8;
+      font-size: .86rem;
+      line-height: 1.55;
+      max-width: 18rem;
+    }
+    .gallery-dots {
+      display: none;
+      justify-content: center;
+      gap: .45rem;
+      margin-top: 1rem;
+    }
+    .gallery-dot {
+      width: .58rem;
+      height: .58rem;
+      border-radius: 999px;
+      background: rgba(160,224,224,.28);
+      transition: transform .2s ease, background-color .2s ease;
+    }
+    .gallery-dot.active {
+      background: #00d084;
+      transform: scale(1.22);
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(4, 7, 14, .84);
+      backdrop-filter: blur(10px);
+    }
+    .lightbox.open {
+      display: flex;
+    }
+    .lightbox-panel {
+      position: relative;
+      width: min(100%, 960px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(0,208,132,.18);
+      background: linear-gradient(180deg, rgba(37,37,56,.98) 0%, rgba(18,19,32,.98) 100%);
+      box-shadow: 0 28px 80px rgba(0,0,0,.42);
+      overflow: hidden;
+    }
+    .lightbox-media {
+      background: #0c0f18;
+    }
+    .lightbox-media img {
+      width: 100%;
+      max-height: min(70vh, 820px);
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+    .lightbox-copy {
+      padding: 1rem 1rem 1.15rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: .8rem;
+      right: .8rem;
+      z-index: 2;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,12,22,.72);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color .2s ease, transform .2s ease;
+    }
+    .lightbox-close:hover { background: rgba(0,208,132,.18); transform: translateY(-1px); }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,12,22,.72);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color .2s ease, transform .2s ease;
+    }
+    .lightbox-nav:hover { background: rgba(0,208,132,.18); }
+    .lightbox-prev { left: .85rem; }
+    .lightbox-next { right: .85rem; }
+    @media (max-width: 767px) {
+      .band-gallery-shell {
+        margin-inline: -1rem;
+      }
+      .gallery-track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 83%;
+        gap: .85rem;
+        overflow-x: auto;
+        padding-inline: 1rem;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+      .gallery-track::-webkit-scrollbar { display: none; }
+      .gallery-card {
+        scroll-snap-align: center;
+      }
+      .gallery-card img {
+        aspect-ratio: 4 / 5.1;
+      }
+      .gallery-dots { display: flex; }
+      .lightbox {
+        padding: .7rem;
+      }
+      .lightbox-panel {
+        border-radius: 1.15rem;
+      }
+      .lightbox-copy {
+        padding: .95rem .9rem 1rem;
+      }
+      .lightbox-nav {
+        width: 2.45rem;
+        height: 2.45rem;
+      }
+      .lightbox-prev { left: .55rem; }
+      .lightbox-next { right: .55rem; }
+    }
+
   </style>
 </head>
 <body class="min-h-screen flex flex-col text-brand-text-light">
@@ -236,6 +442,67 @@
 
     </div>
   </section>
+
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-16">
+    <div class="reveal">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+        <div>
+          <p class="text-xs font-semibold tracking-[0.24em] uppercase text-brand-highlight mb-3">Real sessions</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white">What Band Night actually looks like</h2>
+        </div>
+        <p class="text-sm sm:text-base text-brand-text-mid max-w-2xl leading-7">A quick look inside the room: headphones on, instruments ready, and each child building confidence in a proper band setup.</p>
+      </div>
+
+      <div class="band-gallery-shell">
+        <div class="gallery-track" id="band-gallery-track">
+          <button type="button" class="gallery-card hover-lift" data-gallery-index="0" data-title="Full band setup" data-copy="A proper small-group rehearsal space where children hear how their part fits into the full sound." data-image="images/band-night-full-band.jpeg" aria-label="Open full band setup photo">
+            <img src="images/band-night-full-band.jpeg" alt="Children rehearsing together in a Band Night studio session with keyboards, bass and drums.">
+            <div class="gallery-card-content">
+              <span class="gallery-kicker">Full band</span>
+              <h3 class="gallery-card-title">Playing together from the start</h3>
+              <p class="gallery-card-copy">Children rehearse in the same room and learn how to listen, join in and stay locked together.</p>
+            </div>
+          </button>
+
+          <button type="button" class="gallery-card hover-lift" data-gallery-index="1" data-title="Keys station" data-copy="Headphones and a dedicated station help pupils focus on timing, chords and confidence without feeling overwhelmed." data-image="images/band-night-keys.jpeg" aria-label="Open keyboard station photo">
+            <img src="images/band-night-keys.jpeg" alt="Child playing keyboard with headphones on during a Band Night session.">
+            <div class="gallery-card-content">
+              <span class="gallery-kicker">Keys</span>
+              <h3 class="gallery-card-title">Focused, immersive learning</h3>
+              <p class="gallery-card-copy">Each station feels exciting and professional, which helps children settle in and take their role seriously.</p>
+            </div>
+          </button>
+
+          <button type="button" class="gallery-card hover-lift" data-gallery-index="2" data-title="Bass role" data-copy="Bass gives children a strong musical job inside the group and helps them feel essential to the groove." data-image="images/band-night-bass.jpeg" aria-label="Open bass guitar photo">
+            <img src="images/band-night-bass.jpeg" alt="Child seated with a bass guitar during a Band Night rehearsal.">
+            <div class="gallery-card-content">
+              <span class="gallery-kicker">Bass</span>
+              <h3 class="gallery-card-title">Clear roles in the band</h3>
+              <p class="gallery-card-copy">Children are not just taking part — they are learning a real part that matters to the whole performance.</p>
+            </div>
+          </button>
+
+          <button type="button" class="gallery-card hover-lift" data-gallery-index="3" data-title="Drum station" data-copy="Electronic kit setup keeps things controlled while still giving pupils the feel and energy of playing drums in a band." data-image="images/band-night-drums.jpeg" aria-label="Open drum station photo">
+            <img src="images/band-night-drums.jpeg" alt="Child playing electronic drums in a Band Night session.">
+            <div class="gallery-card-content">
+              <span class="gallery-kicker">Drums</span>
+              <h3 class="gallery-card-title">Energy with structure</h3>
+              <p class="gallery-card-copy">The setup stays parent-friendly and manageable while still feeling exciting for the child at the kit.</p>
+            </div>
+          </button>
+        </div>
+
+        <div class="gallery-dots" id="band-gallery-dots" aria-hidden="true">
+          <span class="gallery-dot active"></span>
+          <span class="gallery-dot"></span>
+          <span class="gallery-dot"></span>
+          <span class="gallery-dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24">
     <div class="reveal">
@@ -438,6 +705,29 @@
   </section>
 </main>
 
+
+<div id="band-lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-panel">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close photo viewer">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <div class="lightbox-media">
+      <img id="lightbox-image" src="images/band-night-full-band.jpeg" alt="Expanded Band Night photo">
+    </div>
+    <div class="lightbox-copy">
+      <p class="text-xs uppercase tracking-[0.22em] text-brand-highlight font-semibold mb-2">Band Night gallery</p>
+      <h3 id="lightbox-title" class="font-heading text-2xl font-extrabold text-white">Full band setup</h3>
+      <p id="lightbox-copy" class="text-brand-text-mid mt-2 text-sm sm:text-base leading-7">A proper small-group rehearsal space where children hear how their part fits into the full sound.</p>
+    </div>
+  </div>
+</div>
+
 <footer class="border-t border-brand-accent-dark/40 py-8 text-center text-brand-text-mid px-4">
   <p class="text-sm">Elliot’s Mobile Music • Pudsey, West Leeds & surrounding areas</p>
   <p class="mt-2 text-sm"><a href="privacy.html" class="underline hover:text-white">Privacy</a> <span class="mx-2">•</span> <a href="cookies.html" class="underline hover:text-white">Cookies</a></p>
@@ -468,6 +758,93 @@
       }, { threshold: 0.14 });
       revealElements.forEach(el => revealObserver.observe(el));
     }
+
+    const galleryTrack = document.getElementById('band-gallery-track');
+    const galleryDots = Array.from(document.querySelectorAll('#band-gallery-dots .gallery-dot'));
+    const galleryCards = Array.from(document.querySelectorAll('.gallery-card'));
+    const lightbox = document.getElementById('band-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxCopy = document.getElementById('lightbox-copy');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    let activeGalleryIndex = 0;
+
+    const updateDots = () => {
+      if (!galleryDots.length) return;
+      galleryDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeGalleryIndex);
+      });
+    };
+
+    const syncGalleryIndexFromScroll = () => {
+      if (!galleryTrack || window.innerWidth >= 768) return;
+      const trackRect = galleryTrack.getBoundingClientRect();
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+      galleryCards.forEach((card, index) => {
+        const cardRect = card.getBoundingClientRect();
+        const distance = Math.abs((cardRect.left + cardRect.width / 2) - (trackRect.left + trackRect.width / 2));
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+      activeGalleryIndex = closestIndex;
+      updateDots();
+    };
+
+    const openLightbox = (index) => {
+      const card = galleryCards[index];
+      if (!card || !lightbox || !lightboxImage || !lightboxTitle || !lightboxCopy) return;
+      activeGalleryIndex = index;
+      lightboxImage.src = card.dataset.image || '';
+      lightboxImage.alt = card.querySelector('img')?.alt || 'Expanded Band Night photo';
+      lightboxTitle.textContent = card.dataset.title || '';
+      lightboxCopy.textContent = card.dataset.copy || '';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      updateDots();
+    };
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const stepLightbox = (direction) => {
+      const nextIndex = (activeGalleryIndex + direction + galleryCards.length) % galleryCards.length;
+      openLightbox(nextIndex);
+    };
+
+    if (galleryTrack) {
+      galleryTrack.addEventListener('scroll', () => {
+        window.requestAnimationFrame(syncGalleryIndexFromScroll);
+      }, { passive: true });
+      syncGalleryIndexFromScroll();
+    }
+
+    galleryCards.forEach((card, index) => {
+      card.addEventListener('click', () => openLightbox(index));
+    });
+
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightboxPrev?.addEventListener('click', () => stepLightbox(-1));
+    lightboxNext?.addEventListener('click', () => stepLightbox(1));
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox?.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') stepLightbox(-1);
+      if (event.key === 'ArrowRight') stepLightbox(1);
+    });
   })();
 </script>
 </body>
